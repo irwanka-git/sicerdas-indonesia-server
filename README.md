@@ -47,13 +47,13 @@ git clone git@github.com:irwanka-git/sicerdas-indonesia-server.git
 cd /home/docker/sicerdas-indonesia-server && git pull
 ```
 ```
-cd /home/docker/sicerdas-indonesia-server && docker composer build
+cd /home/docker/sicerdas-indonesia-server && docker compose build
 ```
 ```
-cd /home/docker/sicerdas-indonesia-server && docker composer up -d
+cd /home/docker/sicerdas-indonesia-server && docker compose up -d
 ```
 ```
-cd /home/docker/sicerdas-indonesia-server && docker composer down
+cd /home/docker/sicerdas-indonesia-server && docker compose down
 ```
 shell php container:
 ```
