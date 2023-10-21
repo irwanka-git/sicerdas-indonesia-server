@@ -9,24 +9,29 @@
 
 Server Lama
 ```
-cd /home/scd-id
+cd /home/scd-id/storage && tar -zcvf cover.tar.gz cover/
 ```
 ```
-cd storage && tar -zcvf cover.tar.gz cover/
+cd /home/scd-id/storage && tar -zcvf report.tar.gz report/
 ```
+```
+cd /home/scd-id/public && tar -zcvf gambar.tar.gz gambar/
+```
+```
+cd /home/scd-id/public && tar -zcvf uploads.tar.gz uploads/
+```
+
 Server Baru
 ```
 tar -zxvf cover.tar.gz -C /home/docker/php/storage
 ```
-
 ```
-tar -zcvf /home/scd-id/storage_report.tar.gz /home/scd-id/storage/report/
-```
-```
-tar -zcvf /home/scd-id/public_gambar.tar.gz /home/scd-id/public/gambar/
+tar -zxvf report.tar.gz -C /home/docker/php/storage
 ```
 ```
-tar -zcvf /home/scd-id/public_uploads.tar.gz /home/scd-id/public/uploads/
+tar -zxvf gambar.tar.gz -C /home/docker/php/public
 ```
-
-*** Extract Backup to server di server baru
+```
+tar -zxvf uploads.tar.gz -C /home/docker/php/public
+```
+ 
