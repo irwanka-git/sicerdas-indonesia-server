@@ -59,7 +59,8 @@ cd /home/docker/sicerdas-indonesia-server && docker composer down
 setup nginx proxy 
 - add include proxy path in server (/etc/nginx/conf.d)
 ```
-/home/docker/sicerdas-indonesia-server/nginx/
+/home/docker/sicerdas-indonesia-server/nginx/proxy.conf
+```
 ```
 http{
   ....
