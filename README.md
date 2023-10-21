@@ -59,6 +59,11 @@ shell php container:
 ```
 cd /home/docker/sicerdas-indonesia-server && docker compose exec php bash
 ```
+```
+composer install
+```
+
+
 shell go container:
 ```
 cd /home/docker/sicerdas-indonesia-server && docker compose exec go bash
