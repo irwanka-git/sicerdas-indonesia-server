@@ -39,6 +39,8 @@ tar -zxvf uploads.tar.gz -C /home/docker/sicerdas-indonesia-server/php/public
 # COMMAND SETUP SERVER
 ```
 cd /home/docker
+```
+```
 git clone git@github.com:irwanka-git/sicerdas-indonesia-server.git
 ```
 ```
