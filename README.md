@@ -7,10 +7,18 @@
 + gambar.tar.gz :   ../public/gambar
 + upload.tar.gz :   ../public/uploads
 
-*** Create Backup tar.gz dari server lama
+Server Lama
 ```
-tar -zcvf /home/scd-id/storage_cover.tar.gz /home/scd-id/storage/cover/
+cd /home/scd-id
 ```
+```
+cd storage && tar -zcvf cover.tar.gz cover/
+```
+Server Baru
+```
+tar -zxvf cover.tar.gz -C /home/docker/php/storage
+```
+
 ```
 tar -zcvf /home/scd-id/storage_report.tar.gz /home/scd-id/storage/report/
 ```
