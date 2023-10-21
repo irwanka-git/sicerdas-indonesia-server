@@ -1,5 +1,5 @@
 # socerdas-indonesia-server
- Versi Docker Golang API
+ Versi Docker Laravel, Nginx, Postgres Golang API
 
 # Direktori Penting (Migrasi Manual)
 + cover.tar.gz  :   ../storage/cover
@@ -35,3 +35,18 @@ tar -zxvf gambar.tar.gz -C /home/docker/sicerdas-indonesia-server/php/public
 tar -zxvf uploads.tar.gz -C /home/docker/sicerdas-indonesia-server/php/public
 ```
  
+
+# COMMAND SETUP SERVER
+```
+cd /home/docker
+git clone git@github.com:irwanka-git/sicerdas-indonesia-server.git
+```
+```
+cd /home/docker/sicerdas-indonesia-server && docker composer build
+```
+```
+cd /home/docker/sicerdas-indonesia-server && docker composer up -d
+```
+```
+cd /home/docker/sicerdas-indonesia-server && docker composer down
+```
