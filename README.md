@@ -113,7 +113,13 @@ PYTHON_CMD=python3
 NOCAPTCHA_SECRET=6LctlYUiAAAAABGE9CnClJJ561leUpSBi5uvyf6n
 NOCAPTCHA_SITEKEY=6LctlYUiAAAAAKdVThRI5nRAOn3exy5Wxywq--xW
 ```
-
+```
+chmod -R a+rw storage
+chmod -R a+rw bootstrap/cache
+chmod -R a+rw public/gambar
+chmod -R a+rw public/uploads
+chmod -R a+rw public/report 
+```
 
 shell go container:
 ```
