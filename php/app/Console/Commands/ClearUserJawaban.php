@@ -53,16 +53,7 @@ class ClearUserJawaban extends Command
     
     public function handle()
     {
-        $ada_skoring =  DB::select("select x.*, c.id_user from 
-                                    (select a.id_quiz, b.jenis, a.nama_sesi 
-                                    from quiz_sesi as a, quiz_sesi_template as b 
-                                    where a.id_quiz_template  = b.id_quiz_template and b.jenis ='quiz'
-                                    ) as x , quiz_sesi_user as c 
-                                    where x.id_quiz = c.id_quiz and c.submit = 1 and c.skoring = 0");
-        if(count($ada_skoring)==0){
-            DB::table('quiz_sesi_user_jawaban')->truncate();
-        }
-
+        DB::table('quiz_sesi_user_jawaban')->truncate();
         $clear_quiz_user= DB::select("SELECT a.id_quiz_user, b.id_quiz 
             FROM quiz_sesi_user as a left join quiz_sesi as b on a.id_quiz = b.id_quiz where b.id_quiz is null");
         foreach ($clear_quiz_user as $r){
