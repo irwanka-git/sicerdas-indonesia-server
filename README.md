@@ -55,3 +55,15 @@ cd /home/docker/sicerdas-indonesia-server && docker composer up -d
 ```
 cd /home/docker/sicerdas-indonesia-server && docker composer down
 ```
+
+setup nginx proxy 
+- add include proxy path in server (/etc/nginx/conf.d)
+```
+/home/docker/sicerdas-indonesia-server/nginx/
+```
+http{
+  ....
+  include /home/docker/sicerdas-indonesia-server/nginx/proxy.conf;  
+}
+```
+
