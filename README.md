@@ -44,6 +44,9 @@ cd /home/docker
 git clone git@github.com:irwanka-git/sicerdas-indonesia-server.git
 ```
 ```
+cd /home/docker/sicerdas-indonesia-server && git pull
+```
+```
 cd /home/docker/sicerdas-indonesia-server && docker composer build
 ```
 ```
