@@ -23,15 +23,15 @@ cd /home/scd-id/public && tar -zcvf uploads.tar.gz uploads/
 
 Server Baru
 ```
-tar -zxvf cover.tar.gz -C /home/docker/php/storage
+tar -zxvf cover.tar.gz -C /home/docker/sicerdas-indonesia-server/php/storage
 ```
 ```
-tar -zxvf report.tar.gz -C /home/docker/php/storage
+tar -zxvf report.tar.gz -C /home/docker/sicerdas-indonesia-server/php/storage
 ```
 ```
-tar -zxvf gambar.tar.gz -C /home/docker/php/public
+tar -zxvf gambar.tar.gz -C /home/docker/sicerdas-indonesia-server/php/public
 ```
 ```
-tar -zxvf uploads.tar.gz -C /home/docker/php/public
+tar -zxvf uploads.tar.gz -C /home/docker/sicerdas-indonesia-server/php/public
 ```
  
