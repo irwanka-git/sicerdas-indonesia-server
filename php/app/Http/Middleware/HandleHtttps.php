@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Crypt;
 use DB;
 
 //use Illuminate\Http\Request;
-class HandleHttps
+class HandleHttp
 {
     /**
      * Handle an incoming request.
