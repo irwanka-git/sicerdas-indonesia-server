@@ -55,6 +55,11 @@ cd /home/docker/sicerdas-indonesia-server && docker compose up -d
 ```
 cd /home/docker/sicerdas-indonesia-server && docker compose down
 ```
+```
+cd /home/docker/sicerdas-indonesia-server && docker compose down
+```
+
+
 shell php container:
 ```
 cd /home/docker/sicerdas-indonesia-server && docker compose exec php bash
