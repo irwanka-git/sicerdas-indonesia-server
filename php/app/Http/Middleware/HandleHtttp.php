@@ -3,8 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Facades\Crypt;
 use DB;
 
 //use Illuminate\Http\Request;
