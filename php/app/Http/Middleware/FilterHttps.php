@@ -21,7 +21,7 @@ class FilterHttps
     {   
          
         if ($request->root()=='http://sicerdas.web.id'){
-            URL::forceSchema("https");
+            URL::forceScheme("https");
         }
         return $next($request);
     }
