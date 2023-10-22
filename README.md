@@ -59,8 +59,7 @@ cd /home/docker/sicerdas-indonesia-server && docker compose down
 cd /home/docker/sicerdas-indonesia-server && docker compose down
 ```
 
-
-shell php container:
+- shell php container:
 ```
 cd /home/docker/sicerdas-indonesia-server && docker compose exec php bash
 ```
@@ -120,12 +119,14 @@ NOCAPTCHA_SITEKEY=6LctlYUiAAAAAKdVThRI5nRAOn3exy5Wxywq--xW
 ```
 ```
 chmod -R a+rw storage
+chmod -R a+rw storage/cover
+chmod -R a+rw storage/report
 chmod -R a+rw bootstrap/cache
 chmod -R a+rw public/gambar
 chmod -R a+rw public/uploads
 chmod -R a+rw public/report 
 ```
-
+-=-==-08
 shell go container:
 ```
 cd /home/docker/sicerdas-indonesia-server && docker compose exec go bash
