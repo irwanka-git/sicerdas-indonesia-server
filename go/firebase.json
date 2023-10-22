@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sicerdas-indonesia-030823",
+  "private_key_id": "a2906fb22f71ff7e8588014b709ff5bf57ec8825",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy3vmnC0JmWmPV\nAO7RNjcP3oZPz8GTcYUn3zYSHPE2kfrrtt3mc0EpkdBWAW2MS8vHHjpMBT6r07SN\n5pOdiyXZH7rU5iPWPztT3StaNL5VMpTVeorLD87IlBRe+ohKvOahidO31FSasqaC\n41BAwe7D4r/MI/NcLkXQCbZ8ontVIpGX6ReijzWkqQSfdBEwwalkV1cPkej8P3xk\nfc3dxh6msSIVHXwGaXPjg2BT1jfmp5HIUt29DDXaZKJMXZn/JHLMiybV61ByMWf2\nCPDHRrJTiv0qc18MnZuqNiKSzOUR93XtoeBC275hn4QudulxIScvV249mCy2qYZo\nOZ7xTlV1AgMBAAECggEABGTp6SqjpPQPg8oUE9urGp6y2f8WmFKvnL0lDOjdHCQV\n7/h8Fw85yJWmcpZyZIHwLaIWeIugcIQw6VOCyNoEQgM/ib9lnfvLr1G9oOeuzVUC\nxwPNqRNoVxEcNwEcnAlr+QfzxY5Xzb0ZzhlbfVvGS9WkNJWlgtw4JtY2P3WWZg76\nsZOV8xTUhsmdBakPIOq1/JSwwH9GQU2UDqq1W/5eFa37NUGEp8V8h2TKa5tskMiF\n7Y8hIUpfJOUE/sC6tY19AiX2I4NLUZ0znNSzms0/AVaIQFDPt0bWEBTASCa1Hmc1\nEitmsufMwYiGdIpWBwz3Psg06eRuF+ooe11m8qR5eQKBgQD7sOBg4vTJPOGQbpUw\n8sYoo/0Xo0iFD75oNB9gE2v15+KIf5nhv3+xeCaDljI/ufmwSfjDnnnzgdDJriEM\ndYocSolZDA46gU20gtOC2rtBH5AvZFRF1XKxjkvK7tZX7E3/Ds0i3annmWji7Dfn\noVLIYlZHJzuBc4GIipW+1UL2FwKBgQC17vCeypwTbDWENP3qbB6onZTePYjfifJk\nm2rTwsNoqIkh0IyFZrEbAUE5iYLeYe6kbA6fnixtE4r1l+uLlafsWXca1MQmA+Mw\nGxG+JGEtX572qaY/rlWiF6bdssCa9otWNthq+zed9sHr0n95Kfa1+e5wNudTHjoO\nKQcLq49UUwKBgFN5znFT1KwJrSYiBwk8+8vu17pHRX4cQqJ85wsOZfgg+FkdOQRO\nZyONHfj2j6PjIpT9c6wtm3TP0VeSkRN4yF2puvP1s6Jj0EnWOiBkO0bWGRQeynR+\n3pNVBn4/yIdQsG2vkwnFStytXMQmZERGlRYwxzzCHlJI5OVMUW4BfTvxAoGAbG00\ntk4l6mVpF5vFYDqDoxYXLMQbmK3L6i294uqGLw+SerahqLdlAaUjzDip6AMRiKhl\nprdL3s3w2SFrXcsZQwCmvTTkmYtjkL3xOxLPX41HXdYJoJYzruDNr/7iTvh0XjNd\nk5SYtuni9LqFAh8CS73iXro57w1qqBnHeysJxsUCgYEAjHUqg8m5rSTol0IB0kAx\ncaAa72jPbzQ3t+lGwxmrPvRATR5v8/axfNyeJrz1SEgyZ3BVzuZgVrItOtfXeqEq\nlUVY0BcBwEbihS8UyiOHJ04uW0iamIrKczYuaIqkGNHT72BxsUtu6OfGlIZ/aqK9\n5sdVLBby9q5bGG7+AaFqbCQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-4nyni@sicerdas-indonesia-030823.iam.gserviceaccount.com",
+  "client_id": "115558095457723656269",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-4nyni%40sicerdas-indonesia-030823.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
