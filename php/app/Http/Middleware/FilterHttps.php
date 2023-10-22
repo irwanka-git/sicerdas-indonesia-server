@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use DB;
+use URL;
 
 //use Illuminate\Http\Request;
 class FilterHttps
