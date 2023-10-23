@@ -45,6 +45,7 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 							<th width="15%">Metode Skoring</th>
 							<th width="5%">Mode</th>
 							<th width="5%">Jawaban</th>
+							<th width="5%">Karakter</th>
 							<th width="10%">Actions</th>
 						</tr>
 					</thead>
@@ -72,6 +73,7 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 		{{ Form::bsSelect2('Mode','mode',$list_mode,'',true,'md-8')}}
 		{{ Form::bsSelect2('Metode Skoring','metode_skoring',$list_metode_skoring,'',true,'md-8')}}
 		{{ Form::bsNumeric('Jawaban','jawaban','',true,'md-4') }}
+		{{ Form::bsNumeric('Jumlah Karakter Jawaban','panjang_jawaban','',true,'md-4') }}
 		<div class="mb-3">
 			<label class="form-label">Petunjuk Sesi  <star>*</star> </label>
 			<div  id="petunjuk_tambah"></div>
@@ -92,6 +94,7 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 		{{ Form::bsSelect2('Mode','mode',$list_mode,'',true,'md-8')}}
 		{{ Form::bsSelect2('Metode Skoring','metode_skoring',$list_metode_skoring,'',true,'md-8')}}
 		{{ Form::bsNumeric('Jawaban','jawaban','',true,'md-4') }}
+		{{ Form::bsNumeric('Jumlah Karakter Jawaban','panjang_jawaban','',true,'md-4') }}
 		<div class="mb-3">
 			<label class="form-label">Petunjuk Sesi  <star>*</star> </label>
 			<div  id="petunjuk_edit"></div>
@@ -133,6 +136,7 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 				{data: 'metode_skoring',name: "metode_skoring",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'mode',name: "mode",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'jawaban',name: "jawaban",orderable: false,searchable: false,sClass: "text-center"},
+				{data: 'panjang_jawaban',name: "panjang_jawaban",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'action',orderable: false,searchable: false,sClass: "text-center"},
 			],
 				"fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -230,6 +234,7 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 					$('#form-edit #metode_skoring').selectize()[0].selectize.setValue(respon.data.metode_skoring, false);
 					$('#form-edit #mode').selectize()[0].selectize.setValue(respon.data.mode, false);				
 					$('#form-edit #jawaban').val(respon.data.jawaban);
+					$('#form-edit #panjang_jawaban').val(respon.data.panjang_jawaban);
 					quill_petunjuk_edit.clipboard.dangerouslyPasteHTML(respon.data.petunjuk_sesi);
 					$('#form-edit #petunjuk_sesi').val(respon.data.petunjuk_sesi);
 					
