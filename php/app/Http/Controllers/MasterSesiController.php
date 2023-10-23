@@ -51,6 +51,7 @@ class MasterSesiController extends Controller
                         'metode_skoring',
                         'mode',
                         'jawaban',
+                        'panjang_jawaban',
                         'petunjuk_sesi',
                         'uuid',
                     ]);
@@ -103,6 +104,7 @@ class MasterSesiController extends Controller
                 "metode_skoring"=>trim($r->metode_skoring),
                 "mode"=>trim($r->mode),
                 "jawaban"=>(int)$r->jawaban, 
+                "panjang_jawaban"=>(int)$r->panjang_jawaban, 
                 "petunjuk_sesi"=>trim($r->petunjuk_sesi), 
 	    		"uuid"=>$uuid,
             );
@@ -130,6 +132,7 @@ class MasterSesiController extends Controller
                 "metode_skoring"=>trim($r->metode_skoring),
                 "mode"=>trim($r->mode),
                 "jawaban"=>(int)$r->jawaban, 
+                "panjang_jawaban"=>(int)$r->panjang_jawaban, 
                 "petunjuk_sesi"=>trim($r->petunjuk_sesi), 
 	    		"uuid"=>$uuid,
 
