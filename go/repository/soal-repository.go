@@ -1460,7 +1460,7 @@ func (*repo) GetSoalGayaPekerjaan(token string, demo bool) ([]*entity.SoalSessio
 					a.deskripsi, 
 					a.uuid
 				FROM
-					soal_gaya_pekerjaan as a order by random() limit 3`).Scan(&listResultSoal)
+					soal_gaya_pekerjaan as a order by random() limit 2`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 				a.nomor,
