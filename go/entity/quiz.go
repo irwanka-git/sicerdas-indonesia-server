@@ -31,15 +31,16 @@ type Quiz struct {
 }
 
 type QuizSesiMaster struct {
-	IDSesiMaster  int32  `gorm:"column:id_sesi_master;primaryKey;autoIncrement:true" json:"id_sesi_master"`
-	Kategori      string `gorm:"column:kategori" json:"kategori"`
-	NamaSesiUjian string `gorm:"column:nama_sesi_ujian" json:"nama_sesi_ujian"`
-	Soal          string `gorm:"column:soal" json:"soal"`
-	Mode          string `gorm:"column:mode" json:"mode"`
-	Jawaban       int32  `gorm:"column:jawaban;comment:Jumlah Jawaban Ynag harus diisi / dikoreksi" json:"jawaban"` // Jumlah Jawaban Ynag harus diisi / dikoreksi
-	PetunjukSesi  string `gorm:"column:petunjuk_sesi" json:"petunjuk_sesi"`
-	MetodeSkoring string `gorm:"column:metode_skoring" json:"metode_skoring"`
-	UUID          string `gorm:"column:uuid" json:"uuid"`
+	IDSesiMaster   int32  `gorm:"column:id_sesi_master;primaryKey;autoIncrement:true" json:"id_sesi_master"`
+	Kategori       string `gorm:"column:kategori" json:"kategori"`
+	NamaSesiUjian  string `gorm:"column:nama_sesi_ujian" json:"nama_sesi_ujian"`
+	Soal           string `gorm:"column:soal" json:"soal"`
+	Mode           string `gorm:"column:mode" json:"mode"`
+	Jawaban        int32  `gorm:"column:jawaban;comment:Jumlah Jawaban Ynag harus diisi / dikoreksi" json:"jawaban"` // Jumlah Jawaban Ynag harus diisi / dikoreksi
+	PetunjukSesi   string `gorm:"column:petunjuk_sesi" json:"petunjuk_sesi"`
+	MetodeSkoring  string `gorm:"column:metode_skoring" json:"metode_skoring"`
+	UUID           string `gorm:"column:uuid" json:"uuid"`
+	PanjangJawaban int32  `json:"panjang_jawaban"`
 }
 
 type QuizSesiDetil struct {
@@ -52,19 +53,20 @@ type QuizSesiDetil struct {
 }
 
 type QuizSesiInfo struct {
-	Token         string   `json:"token"`
-	Urutan        int      `json:"urutan"`
-	NamaSesiUjian string   `json:"nama_sesi_ujian"`
-	Mode          string   `json:"mode"`
-	Durasi        int      `json:"durasi"`
-	KunciWaktu    int      `json:"kunci_waktu"`
-	Kategori      string   `json:"kategori"`
-	Play          int      `json:"play"`
-	Finish        int      `json:"finish"`
-	Soal          string   `json:"soal"`
-	Jawaban       int      `json:"jawaban"`
-	PetunjukSesi  string   `json:"petunjuk_sesi"`
-	Sections      []string `json:"sections"`
+	Token          string   `json:"token"`
+	Urutan         int      `json:"urutan"`
+	NamaSesiUjian  string   `json:"nama_sesi_ujian"`
+	Mode           string   `json:"mode"`
+	Durasi         int      `json:"durasi"`
+	KunciWaktu     int      `json:"kunci_waktu"`
+	Kategori       string   `json:"kategori"`
+	Play           int      `json:"play"`
+	Finish         int      `json:"finish"`
+	Soal           string   `json:"soal"`
+	Jawaban        int      `json:"jawaban"`
+	PanjangJawaban int      `json:"panjang_jawaban"`
+	PetunjukSesi   string   `json:"petunjuk_sesi"`
+	Sections       []string `json:"sections"`
 }
 
 type QuizFirebaseStorage struct {
