@@ -8,6 +8,7 @@ import (
 type QuisService interface {
 	GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error)
 	GetlDetilQuizByToken(token string) (*entity.Quiz, error)
+	GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error)
 }
 
 var (
@@ -25,4 +26,8 @@ func (*service) GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, er
 
 func (*service) GetlDetilQuizByToken(token string) (*entity.Quiz, error) {
 	return quizrepo.GetlDetilQuizByToken(token)
+}
+
+func (*service) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) {
+	return quizrepo.GetAllSoalSessionQuiz(token)
 }

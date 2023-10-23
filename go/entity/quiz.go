@@ -1,6 +1,8 @@
 package entity
 
-import "time"
+import (
+	"time"
+)
 
 type Quiz struct {
 	IDQuiz               int32     `gorm:"column:id_quiz;primaryKey;autoIncrement:true" json:"id_quiz"`
@@ -50,20 +52,22 @@ type QuizSesiDetil struct {
 }
 
 type QuizSesiInfo struct {
-	Token         string `json:"token"`
-	Urutan        int    `json:"urutan"`
-	NamaSesiUjian string `json:"nama_sesi_ujian"`
-	Mode          string `json:"mode"`
-	Durasi        int    `json:"durasi"`
-	KunciWaktu    int    `json:"kunci_waktu"`
-	Kategori      string `json:"kategori"`
-	Play          int    `json:"play"`
-	Finish        int    `json:"finish"`
-	Soal          string `json:"soal"`
-	Jawaban       int    `json:"jawaban"`
-	PetunjukSesi  string `json:"petunjuk_sesi"`
+	Token         string   `json:"token"`
+	Urutan        int      `json:"urutan"`
+	NamaSesiUjian string   `json:"nama_sesi_ujian"`
+	Mode          string   `json:"mode"`
+	Durasi        int      `json:"durasi"`
+	KunciWaktu    int      `json:"kunci_waktu"`
+	Kategori      string   `json:"kategori"`
+	Play          int      `json:"play"`
+	Finish        int      `json:"finish"`
+	Soal          string   `json:"soal"`
+	Jawaban       int      `json:"jawaban"`
+	PetunjukSesi  string   `json:"petunjuk_sesi"`
+	Sections      []string `json:"sections"`
 }
 
 type QuizFirebaseStorage struct {
 	Session []*QuizSesiInfo `json:"session"`
+	Soal    []*SoalSession  `json:"soal"`
 }

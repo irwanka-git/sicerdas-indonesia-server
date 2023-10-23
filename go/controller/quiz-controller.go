@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"irwanka/sicerdas/entity"
 	"irwanka/sicerdas/helper"
 	"irwanka/sicerdas/repository"
 	"irwanka/sicerdas/service"
@@ -10,7 +11,6 @@ import (
 	"os"
 
 	"github.com/go-chi/chi"
-	"github.com/go-chi/jwtauth"
 )
 
 var (
@@ -52,9 +52,8 @@ func (*controller) GetListQuizSessionInfo(w http.ResponseWriter, r *http.Request
 
 func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
-	currentJWTToken := jwtauth.TokenFromHeader(r)
-	print(currentJWTToken)
-
+	// currentJWTToken := jwtauth.TokenFromHeader(r)
+	// print(currentJWTToken)
 	token := chi.URLParam(r, "token")
 	if token == "" {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -74,8 +73,18 @@ func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Reque
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
 		return
 	}
+	listSoalSesi, err := quizService.GetAllSoalSessionQuiz(token)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
 
-	jsonString, _ := json.Marshal(listInfoSesi)
+	var result = entity.QuizFirebaseStorage{}
+	result.Session = listInfoSesi
+	result.Soal = listSoalSesi
+	jsonString, _ := json.Marshal(result)
+
 	path := fmt.Sprintf("%v/%v.json", os.Getenv("PATH_JSON_SOAL"), token)
 	os.WriteFile(path, jsonString, os.ModePerm)
 	directory := fmt.Sprintf("soal/%v/%v", quiz.SkoringTabel, quiz.Tanggal.Format("2006-01-02"))
@@ -85,6 +94,7 @@ func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Reque
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
 		return
 	}
+
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Message: "Berhasil Upload Sesi ke Firebase", Data: url})
 }
