@@ -501,6 +501,38 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/delete', 'SoalPauliKraeplinController@submit_delete');
 	});
 
+	// BANK SOAL 3
+	Route::group(['prefix'=>'soal-mode-belajar'], function(){
+		Route::get('/', 'SoalModeBelajarController@index');
+		Route::get('/dt', 'SoalModeBelajarController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalModeBelajarController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalModeBelajarController@get_data');
+		Route::post('/insert', 'SoalModeBelajarController@submit_insert');
+		Route::post('/update', 'SoalModeBelajarController@submit_update');
+		Route::post('/delete', 'SoalModeBelajarController@submit_delete');
+	});
+
+	Route::group(['prefix'=>'soal-ssct-remaja'], function(){
+		Route::get('/', 'SoalSSCTRemajaController@index');
+		Route::get('/dt', 'SoalSSCTRemajaController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalSSCTRemajaController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalSSCTRemajaController@get_data');
+		Route::post('/insert', 'SoalSSCTRemajaController@submit_insert');
+		Route::post('/update', 'SoalSSCTRemajaController@submit_update');
+		Route::post('/delete', 'SoalSSCTRemajaController@submit_delete');
+	});
+
+	//soal-kesehatan-mental-indonesia
+	Route::group(['prefix'=>'soal-kesehatan-mental-indonesia'], function(){
+		Route::get('/', 'SoalKesehatanMentalIndonesiaController@index');
+		Route::get('/dt', 'SoalKesehatanMentalIndonesiaController@datatable');
+	});
+
+	Route::group(['prefix'=>'soal-kejiwaan-dewasa'], function(){
+		Route::get('/', 'SoalKejiwaanDewasaController@index');
+		Route::get('/dt', 'SoalKejiwaanDewasaController@datatable');
+	});
+
 });
 
 //ROUTER INFORMASI
