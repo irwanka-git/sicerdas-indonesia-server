@@ -111,7 +111,7 @@ function get_nama_metode_tes($model){
 					'PG'=>'Pilihan',
 					'RT'=>'Rating',
 					'TOP'=>'Rangking',
-					'PGS' => 'Pilihan Multi Section',
+					'PGS' => 'Pilihan Multi',
 					'PP'=>'Prioritas'
 				);
 	if (isset($array_ref[$model])){
