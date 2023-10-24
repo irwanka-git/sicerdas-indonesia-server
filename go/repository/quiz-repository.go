@@ -70,6 +70,8 @@ func (*repo) GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error
 		temp.KunciWaktu = listSesi[i].KunciWaktu
 		temp.Kategori = listSesi[i].Kategori
 		temp.Jawaban = int(listSesi[i].Jawaban)
+		temp.PanjangJawaban = int(listSesi[i].PanjangJawaban)
+
 		temp.Mode = listSesi[i].Mode
 		temp.Play = 0
 		temp.Token = token
