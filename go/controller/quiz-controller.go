@@ -86,7 +86,7 @@ func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Reque
 	jsonString, _ := json.Marshal(result)
 
 	path := fmt.Sprintf("%v/%v.json", os.Getenv("PATH_JSON_SOAL"), token)
-	os.WriteFile(path, jsonString, os.ModePerm)
+	os.WriteFile(path, jsonString, 0644)
 	directory := fmt.Sprintf("soal/%v/%v", quiz.SkoringTabel, quiz.Tanggal.Format("2006-01-02"))
 	url, err := uploadFirebaseService.UploadFileToFirebase(path, directory)
 	if err != nil {
@@ -94,7 +94,12 @@ func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Reque
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
 		return
 	}
-
+	err = quizService.UpdateURLFirebaseSoalQuiz(token, url)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "Gagal update firebase soal"})
+		return
+	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Message: "Berhasil Upload Sesi ke Firebase", Data: url})
 }
