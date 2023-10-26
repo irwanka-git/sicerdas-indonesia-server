@@ -299,18 +299,6 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 			currentList, _ := soalSessionRepo.GetSoalGayaBelajar(token, true)
 			listSoal = append(listSoal, currentList...)
 		}
-
-		//pola: /soal-tes-mode-belajar
-		//pola: /soal-tes-mode-belajar-demo
-		if splitSoal[1] == "soal-tes-mode-belajar" {
-			currentList, _ := soalSessionRepo.GetSoalTesModeBelajar(token, false)
-			listSoal = append(listSoal, currentList...)
-		}
-		if splitSoal[1] == "soal-tes-mode-belajar-demo" {
-			currentList, _ := soalSessionRepo.GetSoalTesModeBelajar(token, true)
-			listSoal = append(listSoal, currentList...)
-		}
-
 		//pola: /soal-tes-mode-belajar
 		//pola: /soal-tes-mode-belajar-demo
 		if splitSoal[1] == "soal-tes-mode-belajar" {
@@ -327,7 +315,7 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 			currentList, _ := soalSessionRepo.GetSoalSSCTRemaja(token, false)
 			listSoal = append(listSoal, currentList...)
 		}
-		if splitSoal[1] == "soal-ssct-remaja" {
+		if splitSoal[1] == "soal-ssct-remaja-demo" {
 			currentList, _ := soalSessionRepo.GetSoalSSCTRemaja(token, true)
 			listSoal = append(listSoal, currentList...)
 		}
@@ -339,6 +327,16 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 		}
 		if splitSoal[1] == "soal-tes-kesehatan-mental-id-demo" {
 			currentList, _ := soalSessionRepo.GetSoalKesehatanMentalID(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		////soal-tes-kejiwaan-dewasa-id
+		if splitSoal[1] == "soal-tes-kejiwaan-dewasa-id" {
+			currentList, _ := soalSessionRepo.GetSoalKejiwaanDewasaID(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-tes-kejiwaan-dewasa-id-demo" {
+			currentList, _ := soalSessionRepo.GetSoalKejiwaanDewasaID(token, true)
 			listSoal = append(listSoal, currentList...)
 		}
 
