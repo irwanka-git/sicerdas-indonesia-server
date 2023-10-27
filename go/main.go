@@ -62,7 +62,9 @@ func main() {
 		r.Get("/me", userController.GetMe)
 		r.Get("/get-list-session-quiz/{token}", quizController.GetListQuizSessionInfo)
 		r.Get("/get-list-quiz-user", quizController.GetListQuizSessionInfo)
+		r.Get("/get-detail-quiz/{token}", quizController.GetListQuizSessionInfo)
 		r.Post("/upload-quiz-to-firebase/{token}", quizController.UploadQuizJsonToFirebase)
+		r.Post("/submit-quiz/{token}", quizController.UploadQuizJsonToFirebase)
 	})
 
 	http.ListenAndServe(port, r)
