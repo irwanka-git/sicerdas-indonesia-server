@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -44,6 +45,7 @@ func (*repo) UploadFileToFirebase(src string, directory string) (string, error) 
 	wc.Metadata = map[string]string{
 		"firebaseStorageDownloadTokens": uuid.NewString(),
 	}
+	wc.ContentType = "application/json"
 	wc.PredefinedACL = "publicRead"
 
 	file, errOpen := os.Open(src)
@@ -55,7 +57,7 @@ func (*repo) UploadFileToFirebase(src string, directory string) (string, error) 
 		return "", errors.New("Gagal upload ke firebase")
 	}
 	// fmt.Println("Berhasil Upload File ke Firebase")
-	result_url := fmt.Sprintf(os.Getenv("URL_FIREBASE_PREFIX"), bucket, directory, filename)
+	result_url := strings.Trim(fmt.Sprintf(os.Getenv("URL_FIREBASE_PREFIX"), bucket, directory, filename), "")
 	// fmt.Println(result_url)
 	errRemove := os.Remove(src)
 	if errRemove != nil {

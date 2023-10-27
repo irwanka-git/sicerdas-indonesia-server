@@ -1,12 +1,12 @@
 package entity
 
 type SoalSession struct {
-	Nomor           string   `json:"nomor"`
-	Uuid            string   `json:"uuid"`
-	Token           string   `json:"token"`
-	Pernyataan      string   `json:"pernyataan"`
-	PernyataanMulti []string `json:"pernyataan_multi"`
-	Section         string   `json:"section"`
+	Nomor           string           `json:"nomor"`
+	Uuid            string           `json:"uuid"`
+	Token           string           `json:"token"`
+	Pernyataan      string           `json:"pernyataan"`
+	PernyataanMulti []*ItemSoalMulti `json:"pernyataan_multi"`
+	Section         string           `json:"section"`
 
 	Pilihan  []*PilihanJawaban `json:"pilihan"`
 	Kategori string            `json:"kategori"`
@@ -29,4 +29,9 @@ type SoalSession struct {
 type PilihanJawaban struct {
 	Text  string `json:"text"`
 	Value string `json:"value"`
+}
+
+type ItemSoalMulti struct {
+	Nomor      int    `json:"nomor"`
+	Pernyataan string `json:"pernyataan"`
 }

@@ -11,6 +11,7 @@ type QuizRepository interface {
 	GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error)
 	GetlDetilQuizByToken(token string) (*entity.Quiz, error)
 	GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error)
+	UpdateURLFirebaseSoqalQuiz(token string, url string) error
 }
 
 var (
@@ -110,10 +111,6 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 
 	for i := 0; i < len(listSesi); i++ {
 		splitSoal := strings.Split(listSesi[i].Soal, "/")
-
-		// //BAKAT DAN KARIR
-
-		// //SOAL GAYA BELAJAR
 
 		//pola : /soal-kognitif/{paket}/{bidang}
 		if splitSoal[1] == "soal-kognitif" && len(splitSoal) == 4 {
@@ -302,6 +299,46 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 			currentList, _ := soalSessionRepo.GetSoalGayaBelajar(token, true)
 			listSoal = append(listSoal, currentList...)
 		}
+		//pola: /soal-tes-mode-belajar
+		//pola: /soal-tes-mode-belajar-demo
+		if splitSoal[1] == "soal-tes-mode-belajar" {
+			currentList, _ := soalSessionRepo.GetSoalTesModeBelajar(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-tes-mode-belajar-demo" {
+			currentList, _ := soalSessionRepo.GetSoalTesModeBelajar(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		//pola: /soal-ssct-remaja
+		if splitSoal[1] == "soal-ssct-remaja" {
+			currentList, _ := soalSessionRepo.GetSoalSSCTRemaja(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-ssct-remaja-demo" {
+			currentList, _ := soalSessionRepo.GetSoalSSCTRemaja(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		///soal-tes-kesehatan-mental-id
+		if splitSoal[1] == "soal-tes-kesehatan-mental-id" {
+			currentList, _ := soalSessionRepo.GetSoalKesehatanMentalID(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-tes-kesehatan-mental-id-demo" {
+			currentList, _ := soalSessionRepo.GetSoalKesehatanMentalID(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		////soal-tes-kejiwaan-dewasa-id
+		if splitSoal[1] == "soal-tes-kejiwaan-dewasa-id" {
+			currentList, _ := soalSessionRepo.GetSoalKejiwaanDewasaID(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-tes-kejiwaan-dewasa-id-demo" {
+			currentList, _ := soalSessionRepo.GetSoalKejiwaanDewasaID(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
 
 		//pola : /soal-break
 		if splitSoal[1] == "soal-break" && len(splitSoal) == 2 {
@@ -311,4 +348,12 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 
 	}
 	return listSoal, nil
+}
+
+func (*repo) UpdateURLFirebaseSoqalQuiz(token string, url string) error {
+	result := db.Table("quiz_sesi").Where("token = ? ", token).UpdateColumn("json_url", url)
+	if result.RowsAffected == 1 {
+		return nil
+	}
+	return result.Error
 }
