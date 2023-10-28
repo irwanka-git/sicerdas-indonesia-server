@@ -8,6 +8,7 @@ import (
 type UserService interface {
 	AuthLogin(credentials *entity.Credentials) (*entity.User, error)
 	GetlUserByUuid(uuid string) (*entity.User, error)
+	GetTopTenInfoCerdas() ([]*entity.InfoCerdas, error)
 }
 
 var (
@@ -21,6 +22,10 @@ func NewUserService(repo repository.UserRepository) UserService {
 
 func (*service) AuthLogin(credentials *entity.Credentials) (*entity.User, error) {
 	return userrepo.AuthLogin(credentials)
+}
+
+func (*service) GetTopTenInfoCerdas() ([]*entity.InfoCerdas, error) {
+	return userrepo.GetTopTenInfoCerdas()
 }
 
 func (*service) GetlUserByUuid(uuid string) (*entity.User, error) {

@@ -6,8 +6,13 @@ import (
 )
 
 type QuisService interface {
-	GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error)
+	GetlListQuizByUser(id int) ([]*entity.QuizUserApi, error)
+	GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error)
+	GetSalamPembuka(token string) (string, error)
+	SubmitJawabanQuiz(jawaban string, id_quiz int32, user entity.User) error
+
 	GetlDetilQuizByToken(token string) (*entity.Quiz, error)
+	GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error)
 	GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error)
 	UpdateURLFirebaseSoalQuiz(token string, url string) error
 }
@@ -20,7 +25,21 @@ func NewQuizService(repo repository.QuizRepository) QuisService {
 	quizrepo = repo
 	return &service{}
 }
+func (*service) SubmitJawabanQuiz(jawaban string, id_quiz int32, user entity.User) error {
+	return quizrepo.SubmitJawabanQuiz(jawaban, id_quiz, user)
+}
 
+func (*service) GetSalamPembuka(token string) (string, error) {
+	return quizrepo.GetSalamPembuka(token)
+}
+
+func (*service) GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error) {
+	return quizrepo.GetStatusQuizUser(id, token)
+}
+
+func (*service) GetlListQuizByUser(id int) ([]*entity.QuizUserApi, error) {
+	return quizrepo.GetlListQuizByUser(id)
+}
 func (*service) GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error) {
 	return quizrepo.GetListInfoSessionQuiz(token)
 }

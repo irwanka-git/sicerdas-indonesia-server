@@ -55,16 +55,22 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(120 * time.Second))
 	r.Post("/login", userController.SubmitLogin)
+	r.Post("/login", userController.SubmitLogin)
 	//protected route
 	r.Group(func(r chi.Router) {
 		r.Use(jwtauth.Verifier(tokenAuth))
 		r.Use(jwtauth.Authenticator)
 		r.Get("/me", userController.GetMe)
+		r.Get("/get-list-quiz-user", quizController.GetListQuizUser)
+		r.Get("/get-detil-quiz-user/{token}", quizController.GetDetilQuizUser)
+		r.Get("/get-salam-pembuka/{token}", quizController.GetSalamPembuka)
+		r.Get("/get-list-info-cerdas", userController.GetListInfoCerdas)
+
 		r.Get("/get-list-session-quiz/{token}", quizController.GetListQuizSessionInfo)
-		r.Get("/get-list-quiz-user", quizController.GetListQuizSessionInfo)
-		r.Get("/get-detail-quiz/{token}", quizController.GetListQuizSessionInfo)
+		r.Get("/get-detail-quiz/{token}", quizController.GetQuizDetil)
 		r.Post("/upload-quiz-to-firebase/{token}", quizController.UploadQuizJsonToFirebase)
-		r.Post("/submit-quiz/{token}", quizController.UploadQuizJsonToFirebase)
+		r.Post("/submit-jawaban-quiz/{token}", quizController.SubmitJawabanQuiz)
+
 	})
 
 	http.ListenAndServe(port, r)

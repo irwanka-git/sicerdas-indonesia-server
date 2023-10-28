@@ -7,9 +7,8 @@ import (
 	"irwanka/sicerdas/helper"
 	"irwanka/sicerdas/repository"
 	"irwanka/sicerdas/service"
-	"os"
-
 	"net/http"
+	"os"
 
 	"github.com/go-chi/jwtauth"
 )
@@ -22,10 +21,23 @@ var (
 type UserController interface {
 	SubmitLogin(w http.ResponseWriter, r *http.Request)
 	GetMe(w http.ResponseWriter, r *http.Request)
+	GetListInfoCerdas(w http.ResponseWriter, r *http.Request)
 }
 
 func NewUserController() UserController {
 	return &controller{}
+}
+
+func (*controller) GetListInfoCerdas(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	list, err := userService.GetTopTenInfoCerdas()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error(), Status: false})
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Message: "", Data: list})
 }
 
 func (*controller) SubmitLogin(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +62,7 @@ func (*controller) SubmitLogin(w http.ResponseWriter, r *http.Request) {
 		expire = false
 	}
 
-	acces_token, errGenToken := helper.CreateJWTTokenLogin(userLogin, expire)
+	access_token, errGenToken := helper.CreateJWTTokenLogin(userLogin, expire)
 	if errGenToken != nil {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: errGenToken.Error()})
@@ -62,14 +74,20 @@ func (*controller) SubmitLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(helper.ResponseTokenLogin{
-		Status:       true,
-		Message:      "Login Berhasil",
-		AccessToken:  acces_token,
-		Username:     userLogin.Username,
-		NamaPengguna: userLogin.NamaPengguna,
+	json.NewEncoder(w).Encode(helper.ResponseData{
+		Status:  true,
+		Message: "Login Berhasil",
+		Data: map[string]interface{}{
+			"access_token":    access_token,
+			"username":        userLogin.Username,
+			"unit_organisasi": userLogin.UnitOrganisasi,
+			"organisasi":      userLogin.Organisasi,
+			"uuid":            userLogin.UUID,
+			"nama_pengguna":   userLogin.NamaPengguna,
+		},
 	})
 }
+
 func (*controller) GetMe(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	_, claims, _ := jwtauth.FromContext(r.Context())

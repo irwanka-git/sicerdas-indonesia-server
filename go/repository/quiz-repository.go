@@ -4,10 +4,19 @@ import (
 	"errors"
 	"fmt"
 	"irwanka/sicerdas/entity"
+	"os"
 	"strings"
+	"time"
+
+	"github.com/google/uuid"
 )
 
 type QuizRepository interface {
+	GetlListQuizByUser(id int) ([]*entity.QuizUserApi, error)
+	GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error)
+	GetSalamPembuka(token string) (string, error)
+	SubmitJawabanQuiz(jawaban string, id_quiz int32, user entity.User) error
+
 	GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error)
 	GetlDetilQuizByToken(token string) (*entity.Quiz, error)
 	GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error)
@@ -22,11 +31,92 @@ func NewQuizRepository() QuizRepository {
 	return &repo{}
 }
 
+func (*repo) SubmitJawabanQuiz(jawaban string, id_quiz int32, user entity.User) error {
+	tx1 := db.Begin()
+	type updateSubmit struct {
+		SubmitAt    time.Time `json:"submit_at"`
+		Submit      int32     `json:"submit"`
+		TokenSubmit string    `json:"token_submit"`
+		Jawaban     string    `json:"jawaban"`
+		StatusHasil int32     `json:"status_hasil"`
+		Skoring     int32     `json:"skoring"`
+	}
+
+	var data_submit = updateSubmit{}
+
+	data_submit.SubmitAt = time.Now()
+	data_submit.StatusHasil = 0
+	data_submit.Submit = 1
+	data_submit.TokenSubmit = fmt.Sprintf("%s-%s-%s", uuid.NewString(), uuid.NewString(), uuid.NewString())
+	data_submit.Jawaban = jawaban
+
+	tx1.Table("quiz_sesi_user").
+		Where("id_quiz = ?", id_quiz).
+		Where("id_user = ?", user.ID).
+		Updates(&data_submit)
+
+	if tx1.Commit().Error != nil {
+		return errors.New("gagal kirim jawaban")
+	}
+	return nil
+}
+func (*repo) GetSalamPembuka(token string) (string, error) {
+
+	var salam_pembuka string
+	db.Raw(`SELECT c.salam_pembuka FROM
+	quiz_sesi AS a , 
+	quiz_sesi_template as b , 
+	quiz_template_saran as c 
+	where a.id_quiz_template = b.id_quiz_template  and a.token = ?  and c.skoring_tabel = b.skoring_tabel `, token).Scan(&salam_pembuka)
+	if salam_pembuka == "" {
+		return "", errors.New("terjadi kesalahan hubungi admin sicerdas")
+	}
+	return salam_pembuka, nil
+}
+
+func (*repo) GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error) {
+	var quiz *entity.QuizUserApi
+	result := db.Table("quiz_sesi as a").
+		Select(`a.open, 
+				a.json_url, 
+				a.token, 
+				a.nama_sesi, 
+				a.lokasi, 
+				a.tanggal, 
+				a.gambar,
+				b.submit, 
+				b.status_hasil, 
+				b.token_submit
+				`).
+		Joins("left join quiz_sesi_user as b on a.id_quiz = b.id_quiz").
+		Where("b.id_user = ?", id).
+		Where("a.token = ?", token).First(&quiz)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("data not found")
+	}
+	quiz.UrlResult = fmt.Sprintf("%s/result/%s", os.Getenv("URL_DOWNLOAD_RESULT"), quiz.TokenSubmit)
+	return quiz, nil
+}
+
+func (*repo) GetlListQuizByUser(id int) ([]*entity.QuizUserApi, error) {
+	var quiz []*entity.QuizUserApi
+	result := db.Table("quiz_sesi as a").Select("a.token, a.nama_sesi, a.lokasi, a.tanggal, a.gambar, b.submit, b.status_hasil, a.open").
+		Joins("left join quiz_sesi_user as b on a.id_quiz = b.id_quiz").
+		Where("b.id_user = ?", id).
+		Order(" a.id_quiz desc").
+		Scan(&quiz)
+
+	if result.RowsAffected == 0 {
+		return []*entity.QuizUserApi{}, errors.New("data not found")
+	}
+	return quiz, nil
+}
+
 func (*repo) GetlDetilQuizByToken(token string) (*entity.Quiz, error) {
 	var quiz *entity.Quiz
 	result := db.Table("quiz_sesi").Where("token = ?", token).First(&quiz)
 	if result.RowsAffected == 0 {
-		return nil, errors.New("Data not found")
+		return nil, errors.New("data not found")
 	}
 	return quiz, nil
 }
@@ -55,6 +145,7 @@ func (*repo) GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error
 	for i := 0; i < len(listSesi); i++ {
 		//khusus peminatan smk jumlah jawaban tergantung kondisi SMK;
 		var temp = entity.QuizSesiInfo{}
+		temp.Jawaban = int(listSesi[i].Jawaban)
 		if listSesi[i].Kategori == "SKALA_PEMINATAN_SMK" {
 			var jumlahJawaban int64
 			if listSesi[i].NamaSesiUjian == "TES PEMINATAN SMK - DEMO" {
@@ -62,6 +153,7 @@ func (*repo) GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error
 			} else {
 				db.Table("quiz_sesi_mapping_smk").Where("id_quiz = ?", listSesi[i].IdQuiz).Count(&jumlahJawaban)
 			}
+			temp.Jawaban = int(jumlahJawaban)
 			listSesi[i].Soal = fmt.Sprintf("%v?token=%v", listSesi[i].Soal, token)
 		}
 
@@ -70,7 +162,7 @@ func (*repo) GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error
 		temp.Finish = 0
 		temp.KunciWaktu = listSesi[i].KunciWaktu
 		temp.Kategori = listSesi[i].Kategori
-		temp.Jawaban = int(listSesi[i].Jawaban)
+
 		temp.PanjangJawaban = int(listSesi[i].PanjangJawaban)
 
 		temp.Mode = listSesi[i].Mode
@@ -91,7 +183,7 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 	var quiz *entity.Quiz
 	resultQuiz := db.Table("quiz_sesi").Where("token = ?", token).First(&quiz)
 	if resultQuiz.RowsAffected == 0 {
-		return []*entity.SoalSession{}, errors.New("Data not found")
+		return []*entity.SoalSession{}, errors.New("data not found")
 	}
 
 	var listSoal = []*entity.SoalSession{}
