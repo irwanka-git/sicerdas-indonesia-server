@@ -12,6 +12,7 @@ import (
 )
 
 type SoalRepository interface {
+	//for api
 	GetSoalBreak(token string) ([]*entity.SoalSession, error)
 	GetSoalKognitif(paket string, bidang string, token string) ([]*entity.SoalSession, error)
 	GetSoalPeminatanSMK(id_quiz int32, paket string, demo bool, token string) ([]*entity.SoalSession, error)
