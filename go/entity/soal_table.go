@@ -38,3 +38,20 @@ type SoalMinatKuliahEksakta struct {
 	IDKelas          int16  `gorm:"column:id_kelas;comment:SKORING MINAT SMA V2" json:"id_kelas"`           // SKORING MINAT SMA V2
 	Gambar           string `gorm:"column:gambar;default:'default.png'" json:"gambar"`
 }
+
+type SoalMinatKuliahSosial struct {
+	IDSoal           int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
+	Urutan           int32  `gorm:"column:urutan" json:"urutan"`
+	Indikator        string `gorm:"column:indikator" json:"indikator"`
+	Minat            string `gorm:"column:minat" json:"minat"`
+	DeskripsiMinat   string `gorm:"column:deskripsi_minat" json:"deskripsi_minat"`
+	Jurusan          string `gorm:"column:jurusan" json:"jurusan"`
+	DeskripsiJurusan string `gorm:"column:deskripsi_jurusan" json:"deskripsi_jurusan"`
+	Matakuliah       string `gorm:"column:matakuliah" json:"matakuliah"`
+	PeluangKarier    string `gorm:"column:peluang_karier" json:"peluang_karier"`
+	TersediaDi       string `gorm:"column:tersedia_di" json:"tersedia_di"`
+	UUID             string `gorm:"column:uuid" json:"uuid"`
+	IDKelompok       int16  `gorm:"column:id_kelompok;comment:MINAT PSIKOTES LENGKAP" json:"id_kelompok"` // MINAT PSIKOTES LENGKAP
+	IDKelas          int16  `gorm:"column:id_kelas;comment:MINAT SMA V2" json:"id_kelas"`                 // MINAT SMA V2
+	Gambar           string `gorm:"column:gambar;default:'default.png'" json:"gambar"`
+}

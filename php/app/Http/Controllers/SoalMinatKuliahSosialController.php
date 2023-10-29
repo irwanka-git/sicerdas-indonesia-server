@@ -80,7 +80,7 @@ class SoalMinatKuliahSosialController   extends Controller
             	return "<small>".$q->deskripsi_minat."</small>";
             })
             ->editColumn('gambar', function ($q){
-                return '<img class="img img-thumbnail" width="90" height="90" src="'.url('gambar/'.$q->gambar).'">';
+                return '<img class="img img-thumbnail" width="90" height="90" src="'.($q->gambar).'">';
             })
             ->editColumn('minat', function ($q){
                 $kelompok = $q->kelompok ? $q->kelompok : '***';
