@@ -9,6 +9,7 @@ import (
 	"irwanka/sicerdas/service"
 	"net/http"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/go-chi/chi"
@@ -33,6 +34,7 @@ type QuizController interface {
 	//admin
 	UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Request)
 	GetQuizDetil(w http.ResponseWriter, r *http.Request)
+	SinkronGambarQuizWithTemplate(w http.ResponseWriter, r *http.Request)
 }
 
 func NewQuizController() QuizController {
@@ -281,4 +283,20 @@ func (*controller) GetQuizDetil(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Data: data})
+}
+
+func (*controller) SinkronGambarQuizWithTemplate(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	quiz_template, _ := quizService.GetAllQuizTemplate()
+	quiz, _ := quizService.GetAllQuizSesi()
+	for i := 0; i < len(quiz); i++ {
+		id_quiz_template := quiz[i].IDQuizTemplate
+		id_find := slices.IndexFunc(quiz_template, func(c *entity.QuizSesiTemplate) bool { return c.IDQuizTemplate == id_quiz_template })
+		if id_find >= 0 {
+			gambar := quiz_template[id_find].Gambar
+			quizService.UpdateGambarQuizSesi(quiz[i].IDQuiz, gambar)
+		}
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(helper.ResponseMessage{Status: true, Message: "Berhasin sinkron gambar quiz dengan template"})
 }
