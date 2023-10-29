@@ -21,6 +21,7 @@ var (
 type UploadController interface {
 	UploadGambarToFirebase(w http.ResponseWriter, r *http.Request)
 	SinkronGambarQuizTemplateToFirebase(w http.ResponseWriter, r *http.Request)
+	SinkronGambarInfoCerdasToFirebase(w http.ResponseWriter, r *http.Request)
 }
 
 func NewUploadController() UploadController {
@@ -98,4 +99,40 @@ func (*controller) UploadGambarToFirebase(w http.ResponseWriter, r *http.Request
 	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Message: "Berhasil Upload Gambar ke Firebase", Data: url})
+}
+
+func (*controller) SinkronGambarInfoCerdasToFirebase(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	_, claims, _ := jwtauth.FromContext(r.Context())
+
+	sub := fmt.Sprintf("%v", claims["sub"])
+	user, err := userService.GetlUserByUuid(sub)
+	if err != nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+	if user.Username != "admin" {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "akses tidak valid"})
+		return
+	}
+
+	info_cerdas, _ := userService.GetAllInfoCerdas()
+	for i := 0; i < len(info_cerdas); i++ {
+		if !strings.Contains(info_cerdas[i].Gambar, "https://storage.googleapis.com") {
+			path := fmt.Sprintf("/var/www/html/public/gambar/%v", info_cerdas[i].Gambar)
+			directory := "gambar"
+			if helper.FileExists((path)) {
+				url, errUplaod := uploadGambarService.UploadGambarToFirebase(path, directory)
+				if errUplaod == nil {
+					userService.UpdateGambarInfo(info_cerdas[i].IDInfo, url)
+				}
+			} else {
+				fmt.Println(path)
+			}
+		}
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(helper.ResponseMessage{Status: true, Message: "Berhasil Sinkron Gambar Info Cerdas ke Firebase"})
 }

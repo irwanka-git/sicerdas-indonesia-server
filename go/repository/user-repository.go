@@ -12,6 +12,8 @@ type UserRepository interface {
 	GetlUserByUuid(uuid string) (*entity.User, error)
 	GetTopTenInfoCerdas() ([]*entity.InfoCerdas, error)
 	SubmitPasswordBaru(user_id int32, password entity.PasswordChange) error
+	GetAllInfoCerdas() ([]*entity.InfoCerdas, error)
+	UpdateGambarInfo(id int32, gambar string) error
 }
 
 func NewUserRepository() UserRepository {
@@ -55,4 +57,15 @@ func (*repo) GetlUserByUuid(uuid string) (*entity.User, error) {
 		return nil, errors.New("User ID tidak ditemukan, silahkan hubungi admin")
 	}
 	return userCek, nil
+}
+
+func (*repo) GetAllInfoCerdas() ([]*entity.InfoCerdas, error) {
+	var list []*entity.InfoCerdas
+	db.Table("info_cerdas").Scan(&list)
+	return list, nil
+}
+
+func (*repo) UpdateGambarInfo(id int32, gambar string) error {
+	db.Table("info_cerdas").Where("id_info", id).UpdateColumn("gambar", gambar)
+	return nil
 }
