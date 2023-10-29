@@ -72,7 +72,7 @@ $currentURL = URL::current();
 									@else
 									<div class="badge badge-sidebar-primary badge-close">Tutup</div>
 									@endif
-								<img class="card-img-top" src="{{asset('gambar/'.$r->gambar)}}" alt="Unsplash">
+								<img class="card-img-top" src="{{$r->gambar}}" alt="Unsplash">
 								<div class="card-body px-4 pt-2">
 										{{tgl_indo_lengkap($r->tanggal)}}
 										<a href="{{url('/manajemen-sesi/detil/'.Crypt::encrypt($r->id_quiz).'?back='.$currentURL)}}"><h5 class="card-title mb-0">{{$r->nama_sesi}}</h5></a>
