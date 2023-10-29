@@ -133,6 +133,7 @@ func (*controller) SinkronGambarInfoCerdasToFirebase(w http.ResponseWriter, r *h
 			}
 		}
 	}
+
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(helper.ResponseMessage{Status: true, Message: "Berhasil Sinkron Gambar Info Cerdas ke Firebase"})
 }
