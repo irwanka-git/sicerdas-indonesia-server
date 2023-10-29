@@ -16,9 +16,10 @@ import (
 )
 
 var (
-	tokenAuth      *jwtauth.JWTAuth
-	userController controller.UserController = controller.NewUserController()
-	quizController controller.QuizController = controller.NewQuizController()
+	tokenAuth        *jwtauth.JWTAuth
+	userController   controller.UserController   = controller.NewUserController()
+	quizController   controller.QuizController   = controller.NewQuizController()
+	uploadController controller.UploadController = controller.NewUploadController()
 )
 
 func init() {
@@ -70,6 +71,10 @@ func main() {
 		r.Get("/get-list-session-quiz/{token}", quizController.GetListQuizSessionInfo)
 		r.Get("/get-detail-quiz/{token}", quizController.GetQuizDetil)
 		r.Post("/upload-quiz-to-firebase/{token}", quizController.UploadQuizJsonToFirebase)
+		r.Post("/upload-gambar-to-firebase/{filename}", uploadController.UploadGambarToFirebase)
+		//sinkrob gambar
+		r.Post("/sinkron-gambar-quiz-firebase", uploadController.SinkronGambarQuizTemplateToFirebase)
+
 		r.Post("/submit-jawaban-quiz/{token}", quizController.SubmitJawabanQuiz)
 
 	})

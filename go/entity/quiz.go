@@ -87,3 +87,12 @@ type QuizFirebaseStorage struct {
 	Session []*QuizSesiInfo `json:"session"`
 	Soal    []*SoalSession  `json:"soal"`
 }
+
+type QuizSesiTemplate struct {
+	IDQuizTemplate int32  `json:"id_quiz_template"`
+	NamaSesi       string `json:"nama_sesi"`
+	Gambar         string `json:"gambar"`
+	SkoringTabel   string `json:"skoring_tabel"`
+	UUID           string `json:"uuid"`
+	Jenis          string `json:"jenis"` // demo atao quiz
+}

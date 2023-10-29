@@ -105,11 +105,33 @@ class UploadController extends Controller
         $width  = $img->width();
         $img->fit(400,250)->save($destinationPath.'/'.$filename);
         
-        $respon = array('status'=>true,
-                'url_image'=>url('gambar/'.$filename), 
-                'filename'=>$filename, 
-                'height'=>$height, 'width'=>$width);
-        return response()->json($respon);   
+        
+        ini_set('max_execution_time', '1300');
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => env('GO_API_URL').'/upload-gambar-to-firebase/'.$filename,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTg1NTc3MDYsImlzcyI6Imh0dHBzOi8vc2ljZXJkYXMud2ViLmlkIiwianRpIjoiZGEyZWYwNTUtODYzNS00OTMyLWJmYTAtNmE0ODRiMTQ4MWU2IiwibmFtZSI6IkFkbWluaXN0cmF0b3IgU0NEIiwic3ViIjoiMjM1MzI2MjM2LTQzNzk0MzA3NTQ4IiwidXNlcm5hbWUiOiJhZG1pbiJ9.Bqb-aApPsbiOkStnt5M10-mc9pM8Ro5YSgDQhiZ5HmYOAogTuc5F9JTHoFhxVcsk2BY3bLkclH2kXoHpMJyPpA'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response);
+        return response()->json($data);
+        
+        // // $respon = array('status'=>true,
+        // //         'url_image'=>url('gambar/'.$filename), 
+        // //         'filename'=>$filename, 
+        // //         'height'=>$height, 'width'=>$width);
+        // return response()->json($respon);   
     }
 
 

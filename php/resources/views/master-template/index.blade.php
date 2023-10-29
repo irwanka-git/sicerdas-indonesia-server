@@ -186,7 +186,7 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 			 			$.alert({
 						    title: 'Gambar',
 						    columnClass: 'col-md-6',
-						    content: '<div width="100%"><center><img  width="100%" src="'+$base_url_image+'/'+$filename+'" class="img-fluid rounded-lg" ></center></div>',
+						    content: '<div width="100%"><center><img  width="100%" src="'+$filename+'" class="img-fluid rounded-lg" ></center></div>',
 						});
 				 	}
 			 });
@@ -203,7 +203,7 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 					enableButton("#"+$form_gambar +" #btn_"+$field_gambar);
 					if ($respon.status==true){
 						  $("#upload-gambar").val('');
-						  $("#"+$form_gambar +" #"+$field_gambar).val($respon.filename);
+						  $("#"+$form_gambar +" #"+$field_gambar).val($respon.data);
 					}else{
 						errorNotify($respon.message);
 					}
@@ -367,12 +367,13 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 
 			$('.btn-view-image').on('click', function(e) {
 				$filename = $(this).data('image');
-				$base_url_image = '{{url("gambar")}}';
+				// $base_url_image = '{{url("gambar")}}';
+				$base_url_image = '';
 				if($filename){
 		 			$.alert({
 					    title: 'Gambar',
 					    columnClass: 'col-md-6',
-					    content: '<div width="100%"><center><img src="'+$base_url_image+'/'+$filename+'" class="img-fluid rounded-lg" ></center></div>',
+					    content: '<div width="100%"><center><img src="'+$filename+'" class="img-fluid rounded-lg" ></center></div>',
 					});
 			 	}
 			})

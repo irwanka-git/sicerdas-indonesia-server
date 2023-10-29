@@ -613,21 +613,42 @@ class ManajemenSesiTesController extends Controller
 
     function submit_upload_soal_firebase(Request $r){
         if($this->ucu()){
-            loadHelper('format');
-            $uuid = $r->uuid;
-            ini_set('max_execution_time', '1300'); //300 seconds = 5 minutes
-            $quiz = DB::table('quiz_sesi')->where('uuid', $uuid)->first();
+            // loadHelper('format');
+            //300 seconds = 5 minutes
+            // $quiz = DB::table('quiz_sesi')->where('uuid', $uuid)->first();
              
-            $convert = QuizConverter::convert_quiz_json($quiz->token);
-            $open = DB::table('quiz_sesi')->where('uuid', $uuid)->first()->open;
-            $record_quiz = array(                                              
-                    "json_url"=>$convert->url_plaintext,
-                    "json_url_encrypt"=>"",
-                );
-            DB::table('quiz_sesi')->where('uuid', $uuid)->update($record_quiz);
-            $respon = array('status'=>true,'message'=>"Berhasil Upload Soal ke Firebase");
-            return response()->json($respon);
-           
+            // $convert = QuizConverter::convert_quiz_json($quiz->token);
+            // $open = DB::table('quiz_sesi')->where('uuid', $uuid)->first()->open;
+            // $record_quiz = array(                                              
+            //         "json_url"=>$convert->url_plaintext,
+            //         "json_url_encrypt"=>"",
+            //     );
+            // DB::table('quiz_sesi')->where('uuid', $uuid)->update($record_quiz);
+            // $respon = array('status'=>true,'message'=>"Berhasil Upload Soal ke Firebase");
+            // return response()->json($respon);
+            
+            $uuid = $r->uuid;
+            ini_set('max_execution_time', '1300');
+            $curl = curl_init();
+            $quiz = DB::table('quiz_sesi')->where('uuid', $uuid)->first();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => env('GO_API_URL').'/upload-quiz-to-firebase/'.$quiz->token,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTg1NTc3MDYsImlzcyI6Imh0dHBzOi8vc2ljZXJkYXMud2ViLmlkIiwianRpIjoiZGEyZWYwNTUtODYzNS00OTMyLWJmYTAtNmE0ODRiMTQ4MWU2IiwibmFtZSI6IkFkbWluaXN0cmF0b3IgU0NEIiwic3ViIjoiMjM1MzI2MjM2LTQzNzk0MzA3NTQ4IiwidXNlcm5hbWUiOiJhZG1pbiJ9.Bqb-aApPsbiOkStnt5M10-mc9pM8Ro5YSgDQhiZ5HmYOAogTuc5F9JTHoFhxVcsk2BY3bLkclH2kXoHpMJyPpA'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $data = json_decode($response);
+            return response()->json($data);
         }else{
             $respon = array('status'=>false,'message'=>'Akses Ditolak!');
             return response()->json($respon);
