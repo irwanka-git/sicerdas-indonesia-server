@@ -61,6 +61,7 @@ func main() {
 		r.Use(jwtauth.Verifier(tokenAuth))
 		r.Use(jwtauth.Authenticator)
 		r.Get("/me", userController.GetMe)
+		r.Post("/mobile-change-password", userController.ChangePasswordMobile)
 		r.Get("/get-list-quiz-user", quizController.GetListQuizUser)
 		r.Get("/get-detil-quiz-user/{token}", quizController.GetDetilQuizUser)
 		r.Get("/get-salam-pembuka/{token}", quizController.GetSalamPembuka)

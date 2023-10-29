@@ -21,6 +21,7 @@ var (
 type UserController interface {
 	SubmitLogin(w http.ResponseWriter, r *http.Request)
 	GetMe(w http.ResponseWriter, r *http.Request)
+	ChangePasswordMobile(w http.ResponseWriter, r *http.Request)
 	GetListInfoCerdas(w http.ResponseWriter, r *http.Request)
 }
 
@@ -38,6 +39,49 @@ func (*controller) GetListInfoCerdas(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Message: "", Data: list})
+}
+func (*controller) ChangePasswordMobile(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	var credentials entity.PasswordChange
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	sub := fmt.Sprintf("%v", claims["sub"])
+	user, errUser := userService.GetlUserByUuid(sub)
+	if errUser != nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: errUser.Error()})
+		return
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&credentials)
+	if err != nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "Password Wajib Diisi", Status: false})
+		return
+	}
+
+	if len(credentials.PasswordBaru) < 5 {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "Password Minimal 5 Karakter", Status: false})
+		return
+	}
+
+	fmt.Println(credentials)
+
+	if credentials.PasswordBaru != credentials.PasswordConfirm {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "Password Baru dan Konfirmasi Tidak Sama", Status: false})
+		return
+	}
+
+	errPassword := userService.SubmitPasswordBaru(user.ID, credentials)
+	if errPassword != nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "Gagal ubah password", Status: false})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "Password berhasil diubah", Status: true})
 }
 
 func (*controller) SubmitLogin(w http.ResponseWriter, r *http.Request) {
