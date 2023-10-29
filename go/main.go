@@ -75,6 +75,7 @@ func main() {
 		//sinkrob gambar
 		r.Post("/sinkron-gambar-quiz-firebase", uploadController.SinkronGambarQuizTemplateToFirebase)
 		r.Post("/sinkron-gambar-quiz-with-template", quizController.SinkronGambarQuizWithTemplate)
+		r.Post("/sinkron-gambar-info-cerdas", uploadController.SinkronGambarInfoCerdasToFirebase)
 
 		r.Post("/submit-jawaban-quiz/{token}", quizController.SubmitJawabanQuiz)
 

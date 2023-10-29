@@ -10,6 +10,9 @@ type UserService interface {
 	GetlUserByUuid(uuid string) (*entity.User, error)
 	GetTopTenInfoCerdas() ([]*entity.InfoCerdas, error)
 	SubmitPasswordBaru(user_id int32, password entity.PasswordChange) error
+
+	UpdateGambarInfo(id int32, gambar string) error
+	GetAllInfoCerdas() ([]*entity.InfoCerdas, error)
 }
 
 var (
@@ -19,6 +22,14 @@ var (
 func NewUserService(repo repository.UserRepository) UserService {
 	userrepo = repo
 	return &service{}
+}
+
+func (*service) GetAllInfoCerdas() ([]*entity.InfoCerdas, error) {
+	return userrepo.GetAllInfoCerdas()
+}
+
+func (*service) UpdateGambarInfo(id int32, gambar string) error {
+	return userrepo.UpdateGambarInfo(id, gambar)
 }
 
 func (*service) SubmitPasswordBaru(user_id int32, password entity.PasswordChange) error {
