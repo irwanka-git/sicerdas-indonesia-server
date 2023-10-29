@@ -14,6 +14,9 @@ type SinkronRepository interface {
 
 	GetAllSoalMinatKuliahEksakta() ([]*entity.SoalMinatKuliahEksakta, error)
 	UpdateGambarSoalMinatKuliahEksakta(id int32, url string) error
+
+	GetAllSoalMinatKuliahSosial() ([]*entity.SoalMinatKuliahEksakta, error)
+	UpdateGambarSoalMinatKuliahSosial(id int32, url string) error
 }
 
 func NewSinkronRepository() SinkronRepository {
@@ -44,5 +47,15 @@ func (*repo) GetAllSoalMinatKuliahEksakta() ([]*entity.SoalMinatKuliahEksakta, e
 
 func (*repo) UpdateGambarSoalMinatKuliahEksakta(id int32, url string) error {
 	db.Table("soal_minat_kuliah_eksakta").Where("id_soal", id).UpdateColumn("gambar", url)
+	return nil
+}
+
+func (*repo) GetAllSoalMinatKuliahSosial() ([]*entity.SoalMinatKuliahEksakta, error) {
+	var list []*entity.SoalMinatKuliahEksakta
+	db.Table("soal_minat_kuliah_sosial").Scan(&list)
+	return list, nil
+}
+func (*repo) UpdateGambarSoalMinatKuliahSosial(id int32, url string) error {
+	db.Table("soal_minat_kuliah_sosial").Where("id_soal", id).UpdateColumn("gambar", url)
 	return nil
 }
