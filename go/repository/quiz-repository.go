@@ -20,7 +20,9 @@ type QuizRepository interface {
 	GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error)
 	GetlDetilQuizByToken(token string) (*entity.Quiz, error)
 	GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error)
+	GetAllQuizTemplate() ([]*entity.QuizSesiTemplate, error)
 	UpdateURLFirebaseSoqalQuiz(token string, url string) error
+	UpdateGambarQuizTemplate(id int32, gambar string) error
 }
 
 var (
@@ -448,4 +450,18 @@ func (*repo) UpdateURLFirebaseSoqalQuiz(token string, url string) error {
 		return nil
 	}
 	return result.Error
+}
+
+func (*repo) GetAllQuizTemplate() ([]*entity.QuizSesiTemplate, error) {
+	var quiz []*entity.QuizSesiTemplate
+	resultQuiz := db.Table("quiz_sesi_template").Scan(&quiz)
+	if resultQuiz.RowsAffected == 0 {
+		return []*entity.QuizSesiTemplate{}, nil
+	}
+	return quiz, nil
+}
+
+func (*repo) UpdateGambarQuizTemplate(id int32, gambar string) error {
+	db.Table("quiz_sesi_template").Where("id_quiz_template", id).UpdateColumn("gambar", gambar)
+	return nil
 }

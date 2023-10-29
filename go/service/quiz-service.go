@@ -15,6 +15,9 @@ type QuisService interface {
 	GetListInfoSessionQuiz(token string) ([]*entity.QuizSesiInfo, error)
 	GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error)
 	UpdateURLFirebaseSoalQuiz(token string, url string) error
+
+	GetAllQuizTemplate() ([]*entity.QuizSesiTemplate, error)
+	UpdateGambarQuizTemplate(id int32, gambar string) error
 }
 
 var (
@@ -54,4 +57,12 @@ func (*service) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, erro
 
 func (*service) UpdateURLFirebaseSoalQuiz(token string, url string) error {
 	return quizrepo.UpdateURLFirebaseSoqalQuiz(token, url)
+}
+
+func (*service) GetAllQuizTemplate() ([]*entity.QuizSesiTemplate, error) {
+	return quizrepo.GetAllQuizTemplate()
+}
+
+func (*service) UpdateGambarQuizTemplate(id int32, gambar string) error {
+	return quizrepo.UpdateGambarQuizTemplate(id, gambar)
 }

@@ -84,8 +84,8 @@ class MasterTemplateTesController extends Controller
             })
             ->editColumn('gambar', function ($q) {
                 if($q->gambar){
-
-                  return '<button data-image="'.$q->gambar.'" class="btn btn-outline-secondary btn-outline btn-sm btn-view-image" type="button">'.$q->gambar.'</button>';
+                    $gambar = basename($q->gambar).PHP_EOL;
+                  return '<button data-image="'.$q->gambar.'" class="btn btn-outline-secondary btn-outline btn-sm btn-view-image" type="button">'.$gambar.'</button>';
                 }
             })
             ->editColumn('nama_sesi', function($q){

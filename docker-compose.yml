@@ -28,6 +28,7 @@ services:
       dockerfile: ./go/Dockerfile
     volumes:
       - ./go:/app/
+      - ./php:/var/www/html
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:

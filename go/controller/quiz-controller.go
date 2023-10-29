@@ -248,7 +248,7 @@ func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Reque
 	path := fmt.Sprintf("%v/%v.json", os.Getenv("PATH_JSON_SOAL"), token)
 	os.WriteFile(path, jsonString, 0644)
 	directory := fmt.Sprintf("soal/%v/%v", quiz.SkoringTabel, quiz.Tanggal.Format("2006-01-02"))
-	url, err := uploadFirebaseService.UploadFileToFirebase(path, directory)
+	url, err := uploadFirebaseService.UploadSoalQuizToFirebase(path, directory)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})

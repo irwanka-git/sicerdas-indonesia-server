@@ -5,7 +5,8 @@ import (
 )
 
 type UploadFirebaseService interface {
-	UploadFileToFirebase(src string, bucket string) (string, error)
+	UploadSoalQuizToFirebase(src string, directory string) (string, error)
+	UploadGambarToFirebase(src string, directory string) (string, error)
 }
 
 var (
@@ -16,7 +17,10 @@ func NewUploadFirebaseRepository(repo repository.UploadFirebaseRepository) Uploa
 	uploadfirebaserepo = repo
 	return &service{}
 }
+func (*service) UploadGambarToFirebase(src string, directory string) (string, error) {
+	return uploadfirebaserepo.UploadGambarToFirebase(src, directory)
+}
 
-func (*service) UploadFileToFirebase(src string, directory string) (string, error) {
-	return uploadfirebaserepo.UploadFileToFirebase(src, directory)
+func (*service) UploadSoalQuizToFirebase(src string, directory string) (string, error) {
+	return uploadfirebaserepo.UploadSoalQuizToFirebase(src, directory)
 }
