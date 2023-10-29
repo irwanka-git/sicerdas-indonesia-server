@@ -42,7 +42,7 @@ $back_url = Request::get('back');
 <div class="row">
 	<div class="col-xs-12 col-md-4 col-lg-3">
 		<div class="card">
-			<img class="card-img-top" src="{{url('gambar/'.$quiz->cover)}}" alt="Unsplash">
+			<img class="card-img-top" src="{{$quiz->cover}}" alt="Unsplash">
 			<div class="card-body">
 				<center>
 					<span class='badge bg-secondary' style="padding: 4px;"><i class="las la-sticky-note"></i> Token: {{$quiz->token}} </span>
