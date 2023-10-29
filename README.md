@@ -67,7 +67,7 @@ cd /home/docker/sicerdas-indonesia-server && docker compose exec php bash
 composer install
 ```
 ```
-vi .env
+.env for PHP
 ```
 ```
 APP_NAME=Laravel
@@ -75,6 +75,7 @@ APP_KEY=base64:2yPF8wd8dc3SoLzkSQk6i2AXxeXJJNdLgP90byo/r8U=
 APP_DEBUG=true
 APP_LOG_LEVEL=debug
 APP_URL=https://sicerdas.web.id
+GO_API_URL=http://host.docker.internal:8045
 
 DB_CONNECTION=pgsql
 DB_HOST=host.docker.internal
@@ -143,3 +144,19 @@ http{
 }
 ```
 
+.env for golang (go)
+```
+PORT=":5000"
+EMAIL_FIREBASE="sicerdas.service@gmail.com"
+FIREBASE_BUCKET="sicerdas-indonesia-service-repository"
+
+TIMEZONE="Asia/Jakarta"
+DSN_SICERDAS="host=host.docker.internal user=postgres password=@Scd2022* dbname=pgstore port=5432 sslmode=disable TimeZone=Asia/Jakarta"
+JWT_SIGN_KEY = "6YW1pZ29zLXNzby5teWxvZ2luLmNvbSIs"
+URL_ISS="https://sicerdas.web.id"
+REF_MOBILE_LOGIN="cLwx789acDEol95erTY73"
+PATH_JSON_SOAL="/app/storage/json-soal"
+URL_FIREBASE_STORAGE_PREFIX="https://storage.googleapis.com/%v/%v"
+URL_FIREBASE_PREFIX="https://storage.googleapis.com/%v/%v/%v"
+URL_SICERDAS="https://sicerdas.web.id"
+```
