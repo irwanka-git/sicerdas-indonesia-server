@@ -167,7 +167,7 @@ loadHelper('akses');
 			 			$.alert({
 						    title: 'Gambar',
 						    columnClass: 'col-md-6',
-						    content: '<div width="100%"><center><img src="'+$base_url_image+'/'+$filename+'" class="img-fluid rounded-lg" ></center></div>',
+						    content: '<div width="100%"><center><img src="'+$filename+'" class="img-fluid rounded-lg" ></center></div>',
 						});
 				 	}
 			 });
@@ -184,7 +184,7 @@ loadHelper('akses');
 					enableButton("#"+$form_gambar +" #btn_"+$field_gambar);
 					if ($respon.status==true){
 						  $("#upload-gambar").val('');
-						  $("#"+$form_gambar +" #"+$field_gambar).val($respon.filename);
+						  $("#"+$form_gambar +" #"+$field_gambar).val($respon.data);
 					}else{
 						errorNotify($respon.message);
 					}
