@@ -99,7 +99,8 @@ func (*repo) GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error
 	if result.RowsAffected == 0 {
 		return nil, errors.New("data not found")
 	}
-	quiz.UrlResult = fmt.Sprintf("%s/result/%s", os.Getenv("URL_DOWNLOAD_RESULT"), quiz.TokenSubmit)
+	sicerdas_url := os.Getenv("URL_SICERDAS")
+	quiz.UrlResult = fmt.Sprintf("%v/result/%v", sicerdas_url, quiz.TokenSubmit)
 	return quiz, nil
 }
 
