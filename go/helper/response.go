@@ -19,12 +19,14 @@ type ResponseToken struct {
 }
 
 type ResponseTokenLogin struct {
-	Status       bool   `json:"status"`
-	Message      string `json:"message"`
-	AccessToken  string `json:"accessToken"`
-	Uuid         string `json:"uuid"`
-	Username     string `json:"username"`
-	NamaPengguna string `json:"nama_pengguna"`
+	Status         bool   `json:"status"`
+	Message        string `json:"message"`
+	AccessToken    string `json:"access_token"`
+	Organisasi     string `json:"organisasi"`
+	UnitOrganisasi string `json:"unit_organisasi"`
+	Uuid           string `json:"uuid"`
+	Username       string `json:"username"`
+	NamaPengguna   string `json:"nama_pengguna"`
 }
 
 type ResponseDataInfo struct {

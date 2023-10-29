@@ -32,3 +32,8 @@ type Credentials struct {
 	Password string `json:"password"`
 	Ref      string `json:"ref"`
 }
+
+type PasswordChange struct {
+	PasswordBaru    string `json:"password_baru"`
+	PasswordConfirm string `json:"password_confirm"`
+}

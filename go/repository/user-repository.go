@@ -10,10 +10,29 @@ import (
 type UserRepository interface {
 	AuthLogin(credentials *entity.Credentials) (*entity.User, error)
 	GetlUserByUuid(uuid string) (*entity.User, error)
+	GetTopTenInfoCerdas() ([]*entity.InfoCerdas, error)
+	SubmitPasswordBaru(user_id int32, password entity.PasswordChange) error
 }
 
 func NewUserRepository() UserRepository {
 	return &repo{}
+}
+
+func (*repo) SubmitPasswordBaru(user_id int32, password entity.PasswordChange) error {
+
+	newPassword, err := bcrypt.GenerateFromPassword([]byte(password.PasswordBaru), 14)
+	if err != nil {
+		return err
+	}
+	// print(string(newPassword))
+	db.Table("users").Where("id = ?", user_id).UpdateColumn("password", string(newPassword))
+	return nil
+}
+
+func (*repo) GetTopTenInfoCerdas() ([]*entity.InfoCerdas, error) {
+	var list []*entity.InfoCerdas
+	db.Table("info_cerdas").Order("id_info asc").Limit(10).Scan(&list)
+	return list, nil
 }
 
 func (*repo) AuthLogin(credentials *entity.Credentials) (*entity.User, error) {

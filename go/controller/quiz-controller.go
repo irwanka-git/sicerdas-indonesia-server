@@ -9,8 +9,10 @@ import (
 	"irwanka/sicerdas/service"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/jwtauth"
 )
 
 var (
@@ -21,7 +23,14 @@ var (
 )
 
 type QuizController interface {
+	//peserta
 	GetListQuizSessionInfo(w http.ResponseWriter, r *http.Request)
+	GetListQuizUser(w http.ResponseWriter, r *http.Request)
+	GetSalamPembuka(w http.ResponseWriter, r *http.Request)
+	GetDetilQuizUser(w http.ResponseWriter, r *http.Request)
+	SubmitJawabanQuiz(w http.ResponseWriter, r *http.Request)
+
+	//admin
 	UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Request)
 	GetQuizDetil(w http.ResponseWriter, r *http.Request)
 }
@@ -30,9 +39,146 @@ func NewQuizController() QuizController {
 	return &controller{}
 }
 
+func (*controller) SubmitJawabanQuiz(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	_, claims, _ := jwtauth.FromContext(r.Context())
+
+	sub := fmt.Sprintf("%v", claims["sub"])
+	user, err := userService.GetlUserByUuid(sub)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+	token := helper.CleanParameterIDOnly(chi.URLParam(r, "token"))
+	if token == "" {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "request tidak valid"})
+		return
+	}
+
+	var parameter struct {
+		Jawaban string `json:"jawaban"`
+	}
+
+	err = json.NewDecoder(r.Body).Decode(&parameter)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "jawaban tidak valid", Status: false})
+		return
+	}
+	quiz, errQuiz := quizService.GetlDetilQuizByToken(token)
+	if errQuiz != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: errQuiz.Error(), Status: false})
+		return
+	}
+	errSubmit := quizService.SubmitJawabanQuiz(parameter.Jawaban, quiz.IDQuiz, *user)
+	if errSubmit != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: errSubmit.Error(), Status: false})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	var nama_panggilan = ""
+	nama := strings.Split(user.NamaPengguna, " ")
+	if len(nama) > 1 {
+		nama_panggilan = nama[0]
+		if len(nama_panggilan) <= 3 {
+			nama_panggilan = nama[1]
+		}
+	} else {
+		nama_panggilan = user.NamaPengguna
+	}
+	pesan := fmt.Sprintf("<p>Terima kasih <b>%s</b>. <br><b>Jawaban kamu berhasil</b> dikirim. Kami akan segera periksa dan hasilnya nanti dapat kamu <b>download</b> melalui aplikasi.</p>", nama_panggilan)
+	json.NewEncoder(w).Encode(helper.ResponseMessage{Status: true, Message: pesan})
+}
+
+func (*controller) GetSalamPembuka(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	_, claims, _ := jwtauth.FromContext(r.Context())
+
+	sub := fmt.Sprintf("%v", claims["sub"])
+	_, err := userService.GetlUserByUuid(sub)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+	token := helper.CleanParameterIDOnly(chi.URLParam(r, "token"))
+	if token == "" {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "request tidak valid"})
+		return
+	}
+
+	salam, err := quizService.GetSalamPembuka(token)
+	if err != nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error(), Status: false})
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(helper.ResponseMessage{Message: salam, Status: true})
+
+}
+
+func (*controller) GetDetilQuizUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	_, claims, _ := jwtauth.FromContext(r.Context())
+
+	sub := fmt.Sprintf("%v", claims["sub"])
+	user, err := userService.GetlUserByUuid(sub)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+	token := chi.URLParam(r, "token")
+	if token == "" {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "request tidak valid"})
+		return
+	}
+
+	infoQuiz, err := quizService.GetStatusQuizUser(int(user.ID), token)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+
+	listSession, err := quizService.GetListInfoSessionQuiz(token)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(helper.ResponseDataInfo{Status: true, Data: listSession, Information: infoQuiz})
+}
+
+func (*controller) GetListQuizUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	_, claims, _ := jwtauth.FromContext(r.Context())
+
+	sub := fmt.Sprintf("%v", claims["sub"])
+	user, err := userService.GetlUserByUuid(sub)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+
+	listQuiz, _ := quizService.GetlListQuizByUser(int(user.ID))
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Data: listQuiz})
+}
+
 func (*controller) GetListQuizSessionInfo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
-
 	token := chi.URLParam(r, "token")
 	if token == "" {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -52,6 +198,20 @@ func (*controller) GetListQuizSessionInfo(w http.ResponseWriter, r *http.Request
 
 func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
+	_, claims, _ := jwtauth.FromContext(r.Context())
+
+	sub := fmt.Sprintf("%v", claims["sub"])
+	user, err := userService.GetlUserByUuid(sub)
+	if err != nil {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
+	if user.Username != "admin" {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "akses tidak valid"})
+		return
+	}
 	// currentJWTToken := jwtauth.TokenFromHeader(r)
 	// print(currentJWTToken)
 	token := chi.URLParam(r, "token")
@@ -106,10 +266,9 @@ func (*controller) UploadQuizJsonToFirebase(w http.ResponseWriter, r *http.Reque
 
 func (*controller) GetQuizDetil(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
-	var token string
-	if r.URL.Query().Get("token") != "" {
-		token = helper.CleanString(r.URL.Query().Get("token"))
-	} else {
+
+	token := chi.URLParam(r, "token")
+	if token == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "token tidak valid"})
 		return
