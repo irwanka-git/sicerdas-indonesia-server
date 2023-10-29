@@ -85,55 +85,10 @@ $list_jawaban = arr_to_list(['A','B','C','D','E']);
 		</div>
 		<hr>
 		{{ Form::bsTextField('Pilihan A','pilihan_a','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_a" class="btn btn-primary btn-upload-gambar" data-field="pilihan_a_gambar" 
-					data-form="form-tambah" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_a_gambar" id="pilihan_a_gambar" class="form-control">
-				<button data-field="pilihan_a_gambar" data-form="form-tambah"  class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
-		{{ Form::bsTextField('Pilihan B','pilihan_b','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_b" class="btn btn-primary btn-upload-gambar" data-field="pilihan_b_gambar" 
-					data-form="form-tambah" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_b_gambar" id="pilihan_b_gambar" class="form-control">
-				<button data-field="pilihan_b_gambar" data-form="form-tambah" class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
-		{{ Form::bsTextField('Pilihan C','pilihan_c','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_c" class="btn btn-primary btn-upload-gambar" data-field="pilihan_c_gambar" 
-					data-form="form-tambah" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_c_gambar" id="pilihan_c_gambar" class="form-control">
-				<button data-field="pilihan_c_gambar" data-form="form-tambah"  class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
-		{{ Form::bsTextField('Pilihan D','pilihan_d','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_d" class="btn btn-primary btn-upload-gambar" data-field="pilihan_d_gambar" 
-					data-form="form-tambah" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_d_gambar" id="pilihan_d_gambar" class="form-control">
-				<button data-field="pilihan_d_gambar" data-form="form-tambah" class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
+		{{ Form::bsTextField('Pilihan B','pilihan_b','',false,'md-8') }}		 
+		{{ Form::bsTextField('Pilihan C','pilihan_c','',false,'md-8') }}		 
+		{{ Form::bsTextField('Pilihan D','pilihan_d','',false,'md-8') }}		 
 		{{ Form::bsTextField('Pilihan E','pilihan_e','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_e" class="btn btn-primary btn-upload-gambar" data-field="pilihan_e_gambar" 
-					data-form="form-tambah" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_e_gambar" id="pilihan_e_gambar" class="form-control">
-				<button data-field="pilihan_e_gambar" data-form="form-tambah"  class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		 		 
 		<hr>
 		{{ Form::bsSelect2('Jawaban','pilihan_jawaban',$list_jawaban,'',true,'md-8')}}
 	{{Html::mCloseSubmitLG('Simpan')}}
@@ -160,56 +115,10 @@ $list_jawaban = arr_to_list(['A','B','C','D','E']);
 		</div>
 		<hr>
 		{{ Form::bsTextField('Pilihan A','pilihan_a','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_a" class="btn btn-primary btn-upload-gambar" data-field="pilihan_a_gambar" 
-					data-form="form-edit" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_a_gambar" id="pilihan_a_gambar" class="form-control">
-				<button data-field="pilihan_a_gambar" data-form="form-edit"  class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
 		{{ Form::bsTextField('Pilihan B','pilihan_b','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_b" class="btn btn-primary btn-upload-gambar" data-field="pilihan_b_gambar" 
-					data-form="form-edit" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_b_gambar" id="pilihan_b_gambar" class="form-control">
-				<button data-field="pilihan_b_gambar" data-form="form-edit" class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
 		{{ Form::bsTextField('Pilihan C','pilihan_c','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_c" class="btn btn-primary btn-upload-gambar" data-field="pilihan_c_gambar" 
-					data-form="form-edit" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_c_gambar" id="pilihan_c_gambar" class="form-control">
-				<button data-field="pilihan_c_gambar" data-form="form-edit"  class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
 		{{ Form::bsTextField('Pilihan D','pilihan_d','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_d" class="btn btn-primary btn-upload-gambar" data-field="pilihan_d_gambar" 
-					data-form="form-edit" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_d_gambar" id="pilihan_d_gambar" class="form-control">
-				<button data-field="pilihan_d_gambar" data-form="form-edit" class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		<hr>
 		{{ Form::bsTextField('Pilihan E','pilihan_e','',false,'md-8') }}
-		<div class="mb-3">
-			<div class="input-group">
-				<button id="btn_pilihan_e" class="btn btn-primary btn-upload-gambar" data-field="pilihan_e_gambar" 
-					data-form="form-edit" type="button"><i class="la la-upload"></i> Upload Gambar</button>
-				<input type="text"  name="pilihan_e_gambar" id="pilihan_e_gambar" class="form-control">
-				<button data-field="pilihan_e_gambar" data-form="form-edit"  class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
-			</div>
-		</div>
-		 		 
-		<hr>
 		{{ Form::bsSelect2('Jawaban','pilihan_jawaban',$list_jawaban,'',true,'md-8')}}
 		{{ Form::bsHidden('uuid','') }}
 	{{Html::mCloseSubmitLG('Simpan')}}

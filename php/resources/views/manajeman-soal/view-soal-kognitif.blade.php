@@ -11,7 +11,7 @@
 	<p>
 		{{$soal->pertanyaan}}
 		@if($soal->pertanyaan_gambar!="")
-			<br><img src="{{url('gambar/'.$soal->pertanyaan_gambar)}}" class="img-fluid rounded-lg">
+			<br><img src="{{$soal->pertanyaan_gambar}}" class="img-fluid rounded-lg">
 		@endif
 	</p>
 	@endif
@@ -19,7 +19,7 @@
 	@if($soal->pertanyaan =="")
 	<p>
 		@if($soal->pertanyaan_gambar!="")
-			<img src="{{url('gambar/'.$soal->pertanyaan_gambar)}}" class="img-fluid rounded-lg">
+			<img src="{{$soal->pertanyaan_gambar}}" class="img-fluid rounded-lg">
 		@endif
 	</p>
 	@endif
