@@ -33,3 +33,15 @@ services:
       - "host.docker.internal:host-gateway"
     ports:
       - "8045:5000"
+  
+  cron:
+    build:
+      context: .
+      dockerfile: ./cron/Dockerfile
+    volumes:
+      - ./go:/app/
+      - ./cron:/home/
+    depends_on:
+      - go
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

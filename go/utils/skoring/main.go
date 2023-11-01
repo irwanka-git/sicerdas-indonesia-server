@@ -21,7 +21,7 @@ func main() {
 		skoringRepo.ClearTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
 		skoringRepo.GenerateTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
 		for _, kategori := range kategori_tabel {
-			fmt.Println(kategori.Tabel)
+			// fmt.Println(kategori.Tabel)
 			if kategori.Tabel == "skor_kognitif" {
 				skoringRepo.SkoringKognitif(user.IDQuiz, user.IDUser)
 			}

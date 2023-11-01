@@ -1,0 +1,1 @@
+* * * * * /home/script.sh >> /home/cronjob.log
