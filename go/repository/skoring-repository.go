@@ -457,21 +457,27 @@ func (*repo) SkoringSikapPelajaran(id_quiz int32, id_user int32) error {
 				and a.id_user = ?
 				and a.kategori = ? `, id_quiz, id_user, kategori).Scan(&skorHitung)
 
-	var skoring entity.SkorSikapPelajaran
-	skoring.IDQuiz = id_quiz
-	skoring.IDUser = id_user
+	var skoring *entity.SkorSikapPelajaran
 
-	r := reflect.ValueOf(&skoring).Elem()
+	r := reflect.ValueOf(skoring).Elem()
 	rt := r.Type()
-	rv := reflect.ValueOf(&skoring)
 	for i := 0; i < len(skorHitung); i++ {
 		for n := 0; n < rt.NumField(); n++ {
 			sikapName := rt.Field(n).Name
 			if sikapName == skorHitung[i].FieldSkoring {
-				reflect.Indirect(rv).FieldByName(sikapName).SetInt(int64(skorHitung[i].Skor))
+				r := reflect.ValueOf(skoring)
+				f := reflect.Indirect(r).FieldByName(sikapName)
+				if f.Kind() != reflect.Invalid {
+					f.SetInt(int64(skorHitung[i].Skor))
+				}
+
 				pelajaran := strings.Replace(sikapName, "Sikap", "", -1)
 				klasifikasiName := "Klasifikasi" + pelajaran
-				reflect.Indirect(rv).FieldByName(klasifikasiName).SetString(skorHitung[i].Klasifikasi)
+				k := reflect.Indirect(r).FieldByName(klasifikasiName)
+				if k.Kind() != reflect.Invalid {
+					k.SetString(skorHitung[i].Klasifikasi)
+				}
+				// reflect.Indirect(rv).FieldByName(klasifikasiName).SetString()
 			}
 		}
 	}
@@ -497,12 +503,16 @@ func (*repo) SkoringSikapPelajaran(id_quiz int32, id_user int32) error {
 		for n := 0; n < rt.NumField(); n++ {
 			kelompokName := rt.Field(n).Name
 			if kelompokName == skorHitungKelompok[i].FieldSkoring {
-				reflect.Indirect(rv).FieldByName(kelompokName).SetInt(int64(skorHitungKelompok[i].Skor))
+				r := reflect.ValueOf(skoring)
+				f := reflect.Indirect(r).FieldByName(kelompokName)
+				if f.Kind() != reflect.Invalid {
+					f.SetInt(int64(skorHitungKelompok[i].Skor))
+				}
 			}
 		}
 	}
-	db.Table("skor_sikap_pelajaran").Create(&skoring)
-	fmt.Println(skoring)
+	// db.Table("skor_sikap_pelajaran").Create(&skoring)
+	fmt.Println(&skoring)
 	//update rekomendasi
 	return nil
 }
