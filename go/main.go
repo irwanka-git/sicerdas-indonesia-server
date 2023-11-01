@@ -67,7 +67,6 @@ func main() {
 		r.Get("/get-detil-quiz-user/{token}", quizController.GetDetilQuizUser)
 		r.Get("/get-salam-pembuka/{token}", quizController.GetSalamPembuka)
 		r.Get("/get-list-info-cerdas", userController.GetListInfoCerdas)
-
 		r.Get("/get-list-session-quiz/{token}", quizController.GetListQuizSessionInfo)
 		r.Get("/get-detail-quiz/{token}", quizController.GetQuizDetil)
 		r.Post("/upload-quiz-to-firebase/{token}", quizController.UploadQuizJsonToFirebase)
@@ -76,10 +75,7 @@ func main() {
 		r.Post("/sinkron-gambar-quiz-firebase", uploadController.SinkronGambarQuizTemplateToFirebase)
 		r.Post("/sinkron-gambar-quiz-with-template", quizController.SinkronGambarQuizWithTemplate)
 		r.Post("/sinkron-gambar-info-cerdas", uploadController.SinkronGambarInfoCerdasToFirebase)
-
 		r.Post("/submit-jawaban-quiz/{token}", quizController.SubmitJawabanQuiz)
-
 	})
-
 	http.ListenAndServe(port, r)
 }

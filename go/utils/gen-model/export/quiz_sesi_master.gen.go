@@ -36,6 +36,8 @@ func newQuizSesiMaster(db *gorm.DB, opts ...gen.DOOption) quizSesiMaster {
 	_quizSesiMaster.PetunjukSesi = field.NewString(tableName, "petunjuk_sesi")
 	_quizSesiMaster.MetodeSkoring = field.NewString(tableName, "metode_skoring")
 	_quizSesiMaster.UUID = field.NewString(tableName, "uuid")
+	_quizSesiMaster.PanjangJawaban = field.NewInt16(tableName, "panjang_jawaban")
+	_quizSesiMaster.Tabel = field.NewString(tableName, "tabel")
 
 	_quizSesiMaster.fillFieldMap()
 
@@ -45,16 +47,18 @@ func newQuizSesiMaster(db *gorm.DB, opts ...gen.DOOption) quizSesiMaster {
 type quizSesiMaster struct {
 	quizSesiMasterDo quizSesiMasterDo
 
-	ALL           field.Asterisk
-	IDSesiMaster  field.Int32
-	Kategori      field.String
-	NamaSesiUjian field.String
-	Soal          field.String
-	Mode          field.String
-	Jawaban       field.Int32 // Jumlah Jawaban Ynag harus diisi / dikoreksi
-	PetunjukSesi  field.String
-	MetodeSkoring field.String
-	UUID          field.String
+	ALL            field.Asterisk
+	IDSesiMaster   field.Int32
+	Kategori       field.String
+	NamaSesiUjian  field.String
+	Soal           field.String
+	Mode           field.String
+	Jawaban        field.Int32 // Jumlah Jawaban Ynag harus diisi / dikoreksi
+	PetunjukSesi   field.String
+	MetodeSkoring  field.String
+	UUID           field.String
+	PanjangJawaban field.Int16
+	Tabel          field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -80,6 +84,8 @@ func (q *quizSesiMaster) updateTableName(table string) *quizSesiMaster {
 	q.PetunjukSesi = field.NewString(table, "petunjuk_sesi")
 	q.MetodeSkoring = field.NewString(table, "metode_skoring")
 	q.UUID = field.NewString(table, "uuid")
+	q.PanjangJawaban = field.NewInt16(table, "panjang_jawaban")
+	q.Tabel = field.NewString(table, "tabel")
 
 	q.fillFieldMap()
 
@@ -108,7 +114,7 @@ func (q *quizSesiMaster) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (q *quizSesiMaster) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 9)
+	q.fieldMap = make(map[string]field.Expr, 11)
 	q.fieldMap["id_sesi_master"] = q.IDSesiMaster
 	q.fieldMap["kategori"] = q.Kategori
 	q.fieldMap["nama_sesi_ujian"] = q.NamaSesiUjian
@@ -118,6 +124,8 @@ func (q *quizSesiMaster) fillFieldMap() {
 	q.fieldMap["petunjuk_sesi"] = q.PetunjukSesi
 	q.fieldMap["metode_skoring"] = q.MetodeSkoring
 	q.fieldMap["uuid"] = q.UUID
+	q.fieldMap["panjang_jawaban"] = q.PanjangJawaban
+	q.fieldMap["tabel"] = q.Tabel
 }
 
 func (q quizSesiMaster) clone(db *gorm.DB) quizSesiMaster {

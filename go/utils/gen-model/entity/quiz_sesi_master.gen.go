@@ -8,15 +8,17 @@ const TableNameQuizSesiMaster = "quiz_sesi_master"
 
 // QuizSesiMaster mapped from table <quiz_sesi_master>
 type QuizSesiMaster struct {
-	IDSesiMaster  int32  `gorm:"column:id_sesi_master;primaryKey;autoIncrement:true" json:"id_sesi_master"`
-	Kategori      string `gorm:"column:kategori" json:"kategori"`
-	NamaSesiUjian string `gorm:"column:nama_sesi_ujian" json:"nama_sesi_ujian"`
-	Soal          string `gorm:"column:soal" json:"soal"`
-	Mode          string `gorm:"column:mode" json:"mode"`
-	Jawaban       int32  `gorm:"column:jawaban;comment:Jumlah Jawaban Ynag harus diisi / dikoreksi" json:"jawaban"` // Jumlah Jawaban Ynag harus diisi / dikoreksi
-	PetunjukSesi  string `gorm:"column:petunjuk_sesi" json:"petunjuk_sesi"`
-	MetodeSkoring string `gorm:"column:metode_skoring" json:"metode_skoring"`
-	UUID          string `gorm:"column:uuid" json:"uuid"`
+	IDSesiMaster   int32  `gorm:"column:id_sesi_master;primaryKey;autoIncrement:true" json:"id_sesi_master"`
+	Kategori       string `gorm:"column:kategori" json:"kategori"`
+	NamaSesiUjian  string `gorm:"column:nama_sesi_ujian" json:"nama_sesi_ujian"`
+	Soal           string `gorm:"column:soal" json:"soal"`
+	Mode           string `gorm:"column:mode" json:"mode"`
+	Jawaban        int32  `gorm:"column:jawaban;comment:Jumlah Jawaban Ynag harus diisi / dikoreksi" json:"jawaban"` // Jumlah Jawaban Ynag harus diisi / dikoreksi
+	PetunjukSesi   string `gorm:"column:petunjuk_sesi" json:"petunjuk_sesi"`
+	MetodeSkoring  string `gorm:"column:metode_skoring" json:"metode_skoring"`
+	UUID           string `gorm:"column:uuid" json:"uuid"`
+	PanjangJawaban int16  `gorm:"column:panjang_jawaban" json:"panjang_jawaban"`
+	Tabel          string `gorm:"column:tabel" json:"tabel"`
 }
 
 // TableName QuizSesiMaster's table name

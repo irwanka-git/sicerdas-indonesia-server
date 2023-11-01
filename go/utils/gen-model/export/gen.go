@@ -47,6 +47,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		RefKelompokSikapPelajaran:       newRefKelompokSikapPelajaran(db, opts...),
 		RefKelompokTmi:                  newRefKelompokTmi(db, opts...),
 		RefKlasifikasiGayaKerja:         newRefKlasifikasiGayaKerja(db, opts...),
+		RefKlasifikasiKejiwaanDewasa:    newRefKlasifikasiKejiwaanDewasa(db, opts...),
+		RefKlasifikasiKesehatanMental:   newRefKlasifikasiKesehatanMental(db, opts...),
 		RefKlasifikasiMinatMan:          newRefKlasifikasiMinatMan(db, opts...),
 		RefKlasifikasiMinatSma:          newRefKlasifikasiMinatSma(db, opts...),
 		RefKlasifikasiTipologiJung:      newRefKlasifikasiTipologiJung(db, opts...),
@@ -56,6 +58,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		RefKonversiIq:                   newRefKonversiIq(db, opts...),
 		RefKonversiIq105:                newRefKonversiIq105(db, opts...),
 		RefKonversiIq90:                 newRefKonversiIq90(db, opts...),
+		RefModelKejiwaanDewasa:          newRefModelKejiwaanDewasa(db, opts...),
+		RefModelKesehatanMental:         newRefModelKesehatanMental(db, opts...),
 		RefPilihanMinatMan:              newRefPilihanMinatMan(db, opts...),
 		RefPilihanMinatSma:              newRefPilihanMinatSma(db, opts...),
 		RefRangkingTmi:                  newRefRangkingTmi(db, opts...),
@@ -83,6 +87,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		RefSkorKarakterPribadi:          newRefSkorKarakterPribadi(db, opts...),
 		RefSkoringGayaPekerjaan:         newRefSkoringGayaPekerjaan(db, opts...),
 		RefSkoringKecerdasanMajemuk:     newRefSkoringKecerdasanMajemuk(db, opts...),
+		RefSkoringKejiwaanDewasa:        newRefSkoringKejiwaanDewasa(db, opts...),
+		RefSkoringKesehatanMental:       newRefSkoringKesehatanMental(db, opts...),
 		RefSkoringKuliahDina:            newRefSkoringKuliahDina(db, opts...),
 		RefSkoringTipologiJung:          newRefSkoringTipologiJung(db, opts...),
 		Regency:                         newRegency(db, opts...),
@@ -91,6 +97,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		RunningCronjob:                  newRunningCronjob(db, opts...),
 		SeriCetakan:                     newSeriCetakan(db, opts...),
 		SeriCetakanDoc:                  newSeriCetakanDoc(db, opts...),
+		SkorGayaPekerjaan:               newSkorGayaPekerjaan(db, opts...),
+		SkorKognitif:                    newSkorKognitif(db, opts...),
+		SkorKognitifPmk:                 newSkorKognitifPmk(db, opts...),
+		SkorSikapPelajaran:              newSkorSikapPelajaran(db, opts...),
 		SkoringIqEq:                     newSkoringIqEq(db, opts...),
 		SkoringMinatLengkap:             newSkoringMinatLengkap(db, opts...),
 		SkoringMinatMan:                 newSkoringMinatMan(db, opts...),
@@ -108,6 +118,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SoalGayaPekerjaan:               newSoalGayaPekerjaan(db, opts...),
 		SoalKarakteristikPribadi:        newSoalKarakteristikPribadi(db, opts...),
 		SoalKecerdasanMajemuk:           newSoalKecerdasanMajemuk(db, opts...),
+		SoalKejiwaanDewasa:              newSoalKejiwaanDewasa(db, opts...),
+		SoalKesehatanMental:             newSoalKesehatanMental(db, opts...),
 		SoalKognitif:                    newSoalKognitif(db, opts...),
 		SoalKraeplin:                    newSoalKraeplin(db, opts...),
 		SoalMinatKuliahAgama:            newSoalMinatKuliahAgama(db, opts...),
@@ -115,14 +127,17 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SoalMinatKuliahEksaktum:         newSoalMinatKuliahEksaktum(db, opts...),
 		SoalMinatKuliahSosial:           newSoalMinatKuliahSosial(db, opts...),
 		SoalMinatKuliahSuasanaKerja:     newSoalMinatKuliahSuasanaKerja(db, opts...),
+		SoalModeBelajar:                 newSoalModeBelajar(db, opts...),
 		SoalPeminatanMan:                newSoalPeminatanMan(db, opts...),
 		SoalPeminatanSma:                newSoalPeminatanSma(db, opts...),
 		SoalPeminatanSmk:                newSoalPeminatanSmk(db, opts...),
 		SoalSikapPelajaran:              newSoalSikapPelajaran(db, opts...),
 		SoalSikapPelajaranKuliah:        newSoalSikapPelajaranKuliah(db, opts...),
+		SoalSsctRemaja:                  newSoalSsctRemaja(db, opts...),
 		SoalTipologiJung:                newSoalTipologiJung(db, opts...),
 		SoalTmi:                         newSoalTmi(db, opts...),
 		StatusCronjob:                   newStatusCronjob(db, opts...),
+		StatusSkoring:                   newStatusSkoring(db, opts...),
 		TarifPaket:                      newTarifPaket(db, opts...),
 		TarifPaketRinci:                 newTarifPaketRinci(db, opts...),
 		User:                            newUser(db, opts...),
@@ -163,6 +178,8 @@ type Query struct {
 	RefKelompokSikapPelajaran       refKelompokSikapPelajaran
 	RefKelompokTmi                  refKelompokTmi
 	RefKlasifikasiGayaKerja         refKlasifikasiGayaKerja
+	RefKlasifikasiKejiwaanDewasa    refKlasifikasiKejiwaanDewasa
+	RefKlasifikasiKesehatanMental   refKlasifikasiKesehatanMental
 	RefKlasifikasiMinatMan          refKlasifikasiMinatMan
 	RefKlasifikasiMinatSma          refKlasifikasiMinatSma
 	RefKlasifikasiTipologiJung      refKlasifikasiTipologiJung
@@ -172,6 +189,8 @@ type Query struct {
 	RefKonversiIq                   refKonversiIq
 	RefKonversiIq105                refKonversiIq105
 	RefKonversiIq90                 refKonversiIq90
+	RefModelKejiwaanDewasa          refModelKejiwaanDewasa
+	RefModelKesehatanMental         refModelKesehatanMental
 	RefPilihanMinatMan              refPilihanMinatMan
 	RefPilihanMinatSma              refPilihanMinatSma
 	RefRangkingTmi                  refRangkingTmi
@@ -199,6 +218,8 @@ type Query struct {
 	RefSkorKarakterPribadi          refSkorKarakterPribadi
 	RefSkoringGayaPekerjaan         refSkoringGayaPekerjaan
 	RefSkoringKecerdasanMajemuk     refSkoringKecerdasanMajemuk
+	RefSkoringKejiwaanDewasa        refSkoringKejiwaanDewasa
+	RefSkoringKesehatanMental       refSkoringKesehatanMental
 	RefSkoringKuliahDina            refSkoringKuliahDina
 	RefSkoringTipologiJung          refSkoringTipologiJung
 	Regency                         regency
@@ -207,6 +228,10 @@ type Query struct {
 	RunningCronjob                  runningCronjob
 	SeriCetakan                     seriCetakan
 	SeriCetakanDoc                  seriCetakanDoc
+	SkorGayaPekerjaan               skorGayaPekerjaan
+	SkorKognitif                    skorKognitif
+	SkorKognitifPmk                 skorKognitifPmk
+	SkorSikapPelajaran              skorSikapPelajaran
 	SkoringIqEq                     skoringIqEq
 	SkoringMinatLengkap             skoringMinatLengkap
 	SkoringMinatMan                 skoringMinatMan
@@ -224,6 +249,8 @@ type Query struct {
 	SoalGayaPekerjaan               soalGayaPekerjaan
 	SoalKarakteristikPribadi        soalKarakteristikPribadi
 	SoalKecerdasanMajemuk           soalKecerdasanMajemuk
+	SoalKejiwaanDewasa              soalKejiwaanDewasa
+	SoalKesehatanMental             soalKesehatanMental
 	SoalKognitif                    soalKognitif
 	SoalKraeplin                    soalKraeplin
 	SoalMinatKuliahAgama            soalMinatKuliahAgama
@@ -231,14 +258,17 @@ type Query struct {
 	SoalMinatKuliahEksaktum         soalMinatKuliahEksaktum
 	SoalMinatKuliahSosial           soalMinatKuliahSosial
 	SoalMinatKuliahSuasanaKerja     soalMinatKuliahSuasanaKerja
+	SoalModeBelajar                 soalModeBelajar
 	SoalPeminatanMan                soalPeminatanMan
 	SoalPeminatanSma                soalPeminatanSma
 	SoalPeminatanSmk                soalPeminatanSmk
 	SoalSikapPelajaran              soalSikapPelajaran
 	SoalSikapPelajaranKuliah        soalSikapPelajaranKuliah
+	SoalSsctRemaja                  soalSsctRemaja
 	SoalTipologiJung                soalTipologiJung
 	SoalTmi                         soalTmi
 	StatusCronjob                   statusCronjob
+	StatusSkoring                   statusSkoring
 	TarifPaket                      tarifPaket
 	TarifPaketRinci                 tarifPaketRinci
 	User                            user
@@ -280,6 +310,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		RefKelompokSikapPelajaran:       q.RefKelompokSikapPelajaran.clone(db),
 		RefKelompokTmi:                  q.RefKelompokTmi.clone(db),
 		RefKlasifikasiGayaKerja:         q.RefKlasifikasiGayaKerja.clone(db),
+		RefKlasifikasiKejiwaanDewasa:    q.RefKlasifikasiKejiwaanDewasa.clone(db),
+		RefKlasifikasiKesehatanMental:   q.RefKlasifikasiKesehatanMental.clone(db),
 		RefKlasifikasiMinatMan:          q.RefKlasifikasiMinatMan.clone(db),
 		RefKlasifikasiMinatSma:          q.RefKlasifikasiMinatSma.clone(db),
 		RefKlasifikasiTipologiJung:      q.RefKlasifikasiTipologiJung.clone(db),
@@ -289,6 +321,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		RefKonversiIq:                   q.RefKonversiIq.clone(db),
 		RefKonversiIq105:                q.RefKonversiIq105.clone(db),
 		RefKonversiIq90:                 q.RefKonversiIq90.clone(db),
+		RefModelKejiwaanDewasa:          q.RefModelKejiwaanDewasa.clone(db),
+		RefModelKesehatanMental:         q.RefModelKesehatanMental.clone(db),
 		RefPilihanMinatMan:              q.RefPilihanMinatMan.clone(db),
 		RefPilihanMinatSma:              q.RefPilihanMinatSma.clone(db),
 		RefRangkingTmi:                  q.RefRangkingTmi.clone(db),
@@ -316,6 +350,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		RefSkorKarakterPribadi:          q.RefSkorKarakterPribadi.clone(db),
 		RefSkoringGayaPekerjaan:         q.RefSkoringGayaPekerjaan.clone(db),
 		RefSkoringKecerdasanMajemuk:     q.RefSkoringKecerdasanMajemuk.clone(db),
+		RefSkoringKejiwaanDewasa:        q.RefSkoringKejiwaanDewasa.clone(db),
+		RefSkoringKesehatanMental:       q.RefSkoringKesehatanMental.clone(db),
 		RefSkoringKuliahDina:            q.RefSkoringKuliahDina.clone(db),
 		RefSkoringTipologiJung:          q.RefSkoringTipologiJung.clone(db),
 		Regency:                         q.Regency.clone(db),
@@ -324,6 +360,10 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		RunningCronjob:                  q.RunningCronjob.clone(db),
 		SeriCetakan:                     q.SeriCetakan.clone(db),
 		SeriCetakanDoc:                  q.SeriCetakanDoc.clone(db),
+		SkorGayaPekerjaan:               q.SkorGayaPekerjaan.clone(db),
+		SkorKognitif:                    q.SkorKognitif.clone(db),
+		SkorKognitifPmk:                 q.SkorKognitifPmk.clone(db),
+		SkorSikapPelajaran:              q.SkorSikapPelajaran.clone(db),
 		SkoringIqEq:                     q.SkoringIqEq.clone(db),
 		SkoringMinatLengkap:             q.SkoringMinatLengkap.clone(db),
 		SkoringMinatMan:                 q.SkoringMinatMan.clone(db),
@@ -341,6 +381,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SoalGayaPekerjaan:               q.SoalGayaPekerjaan.clone(db),
 		SoalKarakteristikPribadi:        q.SoalKarakteristikPribadi.clone(db),
 		SoalKecerdasanMajemuk:           q.SoalKecerdasanMajemuk.clone(db),
+		SoalKejiwaanDewasa:              q.SoalKejiwaanDewasa.clone(db),
+		SoalKesehatanMental:             q.SoalKesehatanMental.clone(db),
 		SoalKognitif:                    q.SoalKognitif.clone(db),
 		SoalKraeplin:                    q.SoalKraeplin.clone(db),
 		SoalMinatKuliahAgama:            q.SoalMinatKuliahAgama.clone(db),
@@ -348,14 +390,17 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SoalMinatKuliahEksaktum:         q.SoalMinatKuliahEksaktum.clone(db),
 		SoalMinatKuliahSosial:           q.SoalMinatKuliahSosial.clone(db),
 		SoalMinatKuliahSuasanaKerja:     q.SoalMinatKuliahSuasanaKerja.clone(db),
+		SoalModeBelajar:                 q.SoalModeBelajar.clone(db),
 		SoalPeminatanMan:                q.SoalPeminatanMan.clone(db),
 		SoalPeminatanSma:                q.SoalPeminatanSma.clone(db),
 		SoalPeminatanSmk:                q.SoalPeminatanSmk.clone(db),
 		SoalSikapPelajaran:              q.SoalSikapPelajaran.clone(db),
 		SoalSikapPelajaranKuliah:        q.SoalSikapPelajaranKuliah.clone(db),
+		SoalSsctRemaja:                  q.SoalSsctRemaja.clone(db),
 		SoalTipologiJung:                q.SoalTipologiJung.clone(db),
 		SoalTmi:                         q.SoalTmi.clone(db),
 		StatusCronjob:                   q.StatusCronjob.clone(db),
+		StatusSkoring:                   q.StatusSkoring.clone(db),
 		TarifPaket:                      q.TarifPaket.clone(db),
 		TarifPaketRinci:                 q.TarifPaketRinci.clone(db),
 		User:                            q.User.clone(db),
@@ -404,6 +449,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		RefKelompokSikapPelajaran:       q.RefKelompokSikapPelajaran.replaceDB(db),
 		RefKelompokTmi:                  q.RefKelompokTmi.replaceDB(db),
 		RefKlasifikasiGayaKerja:         q.RefKlasifikasiGayaKerja.replaceDB(db),
+		RefKlasifikasiKejiwaanDewasa:    q.RefKlasifikasiKejiwaanDewasa.replaceDB(db),
+		RefKlasifikasiKesehatanMental:   q.RefKlasifikasiKesehatanMental.replaceDB(db),
 		RefKlasifikasiMinatMan:          q.RefKlasifikasiMinatMan.replaceDB(db),
 		RefKlasifikasiMinatSma:          q.RefKlasifikasiMinatSma.replaceDB(db),
 		RefKlasifikasiTipologiJung:      q.RefKlasifikasiTipologiJung.replaceDB(db),
@@ -413,6 +460,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		RefKonversiIq:                   q.RefKonversiIq.replaceDB(db),
 		RefKonversiIq105:                q.RefKonversiIq105.replaceDB(db),
 		RefKonversiIq90:                 q.RefKonversiIq90.replaceDB(db),
+		RefModelKejiwaanDewasa:          q.RefModelKejiwaanDewasa.replaceDB(db),
+		RefModelKesehatanMental:         q.RefModelKesehatanMental.replaceDB(db),
 		RefPilihanMinatMan:              q.RefPilihanMinatMan.replaceDB(db),
 		RefPilihanMinatSma:              q.RefPilihanMinatSma.replaceDB(db),
 		RefRangkingTmi:                  q.RefRangkingTmi.replaceDB(db),
@@ -440,6 +489,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		RefSkorKarakterPribadi:          q.RefSkorKarakterPribadi.replaceDB(db),
 		RefSkoringGayaPekerjaan:         q.RefSkoringGayaPekerjaan.replaceDB(db),
 		RefSkoringKecerdasanMajemuk:     q.RefSkoringKecerdasanMajemuk.replaceDB(db),
+		RefSkoringKejiwaanDewasa:        q.RefSkoringKejiwaanDewasa.replaceDB(db),
+		RefSkoringKesehatanMental:       q.RefSkoringKesehatanMental.replaceDB(db),
 		RefSkoringKuliahDina:            q.RefSkoringKuliahDina.replaceDB(db),
 		RefSkoringTipologiJung:          q.RefSkoringTipologiJung.replaceDB(db),
 		Regency:                         q.Regency.replaceDB(db),
@@ -448,6 +499,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		RunningCronjob:                  q.RunningCronjob.replaceDB(db),
 		SeriCetakan:                     q.SeriCetakan.replaceDB(db),
 		SeriCetakanDoc:                  q.SeriCetakanDoc.replaceDB(db),
+		SkorGayaPekerjaan:               q.SkorGayaPekerjaan.replaceDB(db),
+		SkorKognitif:                    q.SkorKognitif.replaceDB(db),
+		SkorKognitifPmk:                 q.SkorKognitifPmk.replaceDB(db),
+		SkorSikapPelajaran:              q.SkorSikapPelajaran.replaceDB(db),
 		SkoringIqEq:                     q.SkoringIqEq.replaceDB(db),
 		SkoringMinatLengkap:             q.SkoringMinatLengkap.replaceDB(db),
 		SkoringMinatMan:                 q.SkoringMinatMan.replaceDB(db),
@@ -465,6 +520,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SoalGayaPekerjaan:               q.SoalGayaPekerjaan.replaceDB(db),
 		SoalKarakteristikPribadi:        q.SoalKarakteristikPribadi.replaceDB(db),
 		SoalKecerdasanMajemuk:           q.SoalKecerdasanMajemuk.replaceDB(db),
+		SoalKejiwaanDewasa:              q.SoalKejiwaanDewasa.replaceDB(db),
+		SoalKesehatanMental:             q.SoalKesehatanMental.replaceDB(db),
 		SoalKognitif:                    q.SoalKognitif.replaceDB(db),
 		SoalKraeplin:                    q.SoalKraeplin.replaceDB(db),
 		SoalMinatKuliahAgama:            q.SoalMinatKuliahAgama.replaceDB(db),
@@ -472,14 +529,17 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SoalMinatKuliahEksaktum:         q.SoalMinatKuliahEksaktum.replaceDB(db),
 		SoalMinatKuliahSosial:           q.SoalMinatKuliahSosial.replaceDB(db),
 		SoalMinatKuliahSuasanaKerja:     q.SoalMinatKuliahSuasanaKerja.replaceDB(db),
+		SoalModeBelajar:                 q.SoalModeBelajar.replaceDB(db),
 		SoalPeminatanMan:                q.SoalPeminatanMan.replaceDB(db),
 		SoalPeminatanSma:                q.SoalPeminatanSma.replaceDB(db),
 		SoalPeminatanSmk:                q.SoalPeminatanSmk.replaceDB(db),
 		SoalSikapPelajaran:              q.SoalSikapPelajaran.replaceDB(db),
 		SoalSikapPelajaranKuliah:        q.SoalSikapPelajaranKuliah.replaceDB(db),
+		SoalSsctRemaja:                  q.SoalSsctRemaja.replaceDB(db),
 		SoalTipologiJung:                q.SoalTipologiJung.replaceDB(db),
 		SoalTmi:                         q.SoalTmi.replaceDB(db),
 		StatusCronjob:                   q.StatusCronjob.replaceDB(db),
+		StatusSkoring:                   q.StatusSkoring.replaceDB(db),
 		TarifPaket:                      q.TarifPaket.replaceDB(db),
 		TarifPaketRinci:                 q.TarifPaketRinci.replaceDB(db),
 		User:                            q.User.replaceDB(db),
@@ -518,6 +578,8 @@ type queryCtx struct {
 	RefKelompokSikapPelajaran       *refKelompokSikapPelajaranDo
 	RefKelompokTmi                  *refKelompokTmiDo
 	RefKlasifikasiGayaKerja         *refKlasifikasiGayaKerjaDo
+	RefKlasifikasiKejiwaanDewasa    *refKlasifikasiKejiwaanDewasaDo
+	RefKlasifikasiKesehatanMental   *refKlasifikasiKesehatanMentalDo
 	RefKlasifikasiMinatMan          *refKlasifikasiMinatManDo
 	RefKlasifikasiMinatSma          *refKlasifikasiMinatSmaDo
 	RefKlasifikasiTipologiJung      *refKlasifikasiTipologiJungDo
@@ -527,6 +589,8 @@ type queryCtx struct {
 	RefKonversiIq                   *refKonversiIqDo
 	RefKonversiIq105                *refKonversiIq105Do
 	RefKonversiIq90                 *refKonversiIq90Do
+	RefModelKejiwaanDewasa          *refModelKejiwaanDewasaDo
+	RefModelKesehatanMental         *refModelKesehatanMentalDo
 	RefPilihanMinatMan              *refPilihanMinatManDo
 	RefPilihanMinatSma              *refPilihanMinatSmaDo
 	RefRangkingTmi                  *refRangkingTmiDo
@@ -554,6 +618,8 @@ type queryCtx struct {
 	RefSkorKarakterPribadi          *refSkorKarakterPribadiDo
 	RefSkoringGayaPekerjaan         *refSkoringGayaPekerjaanDo
 	RefSkoringKecerdasanMajemuk     *refSkoringKecerdasanMajemukDo
+	RefSkoringKejiwaanDewasa        *refSkoringKejiwaanDewasaDo
+	RefSkoringKesehatanMental       *refSkoringKesehatanMentalDo
 	RefSkoringKuliahDina            *refSkoringKuliahDinaDo
 	RefSkoringTipologiJung          *refSkoringTipologiJungDo
 	Regency                         *regencyDo
@@ -562,6 +628,10 @@ type queryCtx struct {
 	RunningCronjob                  *runningCronjobDo
 	SeriCetakan                     *seriCetakanDo
 	SeriCetakanDoc                  *seriCetakanDocDo
+	SkorGayaPekerjaan               *skorGayaPekerjaanDo
+	SkorKognitif                    *skorKognitifDo
+	SkorKognitifPmk                 *skorKognitifPmkDo
+	SkorSikapPelajaran              *skorSikapPelajaranDo
 	SkoringIqEq                     *skoringIqEqDo
 	SkoringMinatLengkap             *skoringMinatLengkapDo
 	SkoringMinatMan                 *skoringMinatManDo
@@ -579,6 +649,8 @@ type queryCtx struct {
 	SoalGayaPekerjaan               *soalGayaPekerjaanDo
 	SoalKarakteristikPribadi        *soalKarakteristikPribadiDo
 	SoalKecerdasanMajemuk           *soalKecerdasanMajemukDo
+	SoalKejiwaanDewasa              *soalKejiwaanDewasaDo
+	SoalKesehatanMental             *soalKesehatanMentalDo
 	SoalKognitif                    *soalKognitifDo
 	SoalKraeplin                    *soalKraeplinDo
 	SoalMinatKuliahAgama            *soalMinatKuliahAgamaDo
@@ -586,14 +658,17 @@ type queryCtx struct {
 	SoalMinatKuliahEksaktum         *soalMinatKuliahEksaktumDo
 	SoalMinatKuliahSosial           *soalMinatKuliahSosialDo
 	SoalMinatKuliahSuasanaKerja     *soalMinatKuliahSuasanaKerjaDo
+	SoalModeBelajar                 *soalModeBelajarDo
 	SoalPeminatanMan                *soalPeminatanManDo
 	SoalPeminatanSma                *soalPeminatanSmaDo
 	SoalPeminatanSmk                *soalPeminatanSmkDo
 	SoalSikapPelajaran              *soalSikapPelajaranDo
 	SoalSikapPelajaranKuliah        *soalSikapPelajaranKuliahDo
+	SoalSsctRemaja                  *soalSsctRemajaDo
 	SoalTipologiJung                *soalTipologiJungDo
 	SoalTmi                         *soalTmiDo
 	StatusCronjob                   *statusCronjobDo
+	StatusSkoring                   *statusSkoringDo
 	TarifPaket                      *tarifPaketDo
 	TarifPaketRinci                 *tarifPaketRinciDo
 	User                            *userDo
@@ -632,6 +707,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		RefKelompokSikapPelajaran:       q.RefKelompokSikapPelajaran.WithContext(ctx),
 		RefKelompokTmi:                  q.RefKelompokTmi.WithContext(ctx),
 		RefKlasifikasiGayaKerja:         q.RefKlasifikasiGayaKerja.WithContext(ctx),
+		RefKlasifikasiKejiwaanDewasa:    q.RefKlasifikasiKejiwaanDewasa.WithContext(ctx),
+		RefKlasifikasiKesehatanMental:   q.RefKlasifikasiKesehatanMental.WithContext(ctx),
 		RefKlasifikasiMinatMan:          q.RefKlasifikasiMinatMan.WithContext(ctx),
 		RefKlasifikasiMinatSma:          q.RefKlasifikasiMinatSma.WithContext(ctx),
 		RefKlasifikasiTipologiJung:      q.RefKlasifikasiTipologiJung.WithContext(ctx),
@@ -641,6 +718,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		RefKonversiIq:                   q.RefKonversiIq.WithContext(ctx),
 		RefKonversiIq105:                q.RefKonversiIq105.WithContext(ctx),
 		RefKonversiIq90:                 q.RefKonversiIq90.WithContext(ctx),
+		RefModelKejiwaanDewasa:          q.RefModelKejiwaanDewasa.WithContext(ctx),
+		RefModelKesehatanMental:         q.RefModelKesehatanMental.WithContext(ctx),
 		RefPilihanMinatMan:              q.RefPilihanMinatMan.WithContext(ctx),
 		RefPilihanMinatSma:              q.RefPilihanMinatSma.WithContext(ctx),
 		RefRangkingTmi:                  q.RefRangkingTmi.WithContext(ctx),
@@ -668,6 +747,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		RefSkorKarakterPribadi:          q.RefSkorKarakterPribadi.WithContext(ctx),
 		RefSkoringGayaPekerjaan:         q.RefSkoringGayaPekerjaan.WithContext(ctx),
 		RefSkoringKecerdasanMajemuk:     q.RefSkoringKecerdasanMajemuk.WithContext(ctx),
+		RefSkoringKejiwaanDewasa:        q.RefSkoringKejiwaanDewasa.WithContext(ctx),
+		RefSkoringKesehatanMental:       q.RefSkoringKesehatanMental.WithContext(ctx),
 		RefSkoringKuliahDina:            q.RefSkoringKuliahDina.WithContext(ctx),
 		RefSkoringTipologiJung:          q.RefSkoringTipologiJung.WithContext(ctx),
 		Regency:                         q.Regency.WithContext(ctx),
@@ -676,6 +757,10 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		RunningCronjob:                  q.RunningCronjob.WithContext(ctx),
 		SeriCetakan:                     q.SeriCetakan.WithContext(ctx),
 		SeriCetakanDoc:                  q.SeriCetakanDoc.WithContext(ctx),
+		SkorGayaPekerjaan:               q.SkorGayaPekerjaan.WithContext(ctx),
+		SkorKognitif:                    q.SkorKognitif.WithContext(ctx),
+		SkorKognitifPmk:                 q.SkorKognitifPmk.WithContext(ctx),
+		SkorSikapPelajaran:              q.SkorSikapPelajaran.WithContext(ctx),
 		SkoringIqEq:                     q.SkoringIqEq.WithContext(ctx),
 		SkoringMinatLengkap:             q.SkoringMinatLengkap.WithContext(ctx),
 		SkoringMinatMan:                 q.SkoringMinatMan.WithContext(ctx),
@@ -693,6 +778,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SoalGayaPekerjaan:               q.SoalGayaPekerjaan.WithContext(ctx),
 		SoalKarakteristikPribadi:        q.SoalKarakteristikPribadi.WithContext(ctx),
 		SoalKecerdasanMajemuk:           q.SoalKecerdasanMajemuk.WithContext(ctx),
+		SoalKejiwaanDewasa:              q.SoalKejiwaanDewasa.WithContext(ctx),
+		SoalKesehatanMental:             q.SoalKesehatanMental.WithContext(ctx),
 		SoalKognitif:                    q.SoalKognitif.WithContext(ctx),
 		SoalKraeplin:                    q.SoalKraeplin.WithContext(ctx),
 		SoalMinatKuliahAgama:            q.SoalMinatKuliahAgama.WithContext(ctx),
@@ -700,14 +787,17 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SoalMinatKuliahEksaktum:         q.SoalMinatKuliahEksaktum.WithContext(ctx),
 		SoalMinatKuliahSosial:           q.SoalMinatKuliahSosial.WithContext(ctx),
 		SoalMinatKuliahSuasanaKerja:     q.SoalMinatKuliahSuasanaKerja.WithContext(ctx),
+		SoalModeBelajar:                 q.SoalModeBelajar.WithContext(ctx),
 		SoalPeminatanMan:                q.SoalPeminatanMan.WithContext(ctx),
 		SoalPeminatanSma:                q.SoalPeminatanSma.WithContext(ctx),
 		SoalPeminatanSmk:                q.SoalPeminatanSmk.WithContext(ctx),
 		SoalSikapPelajaran:              q.SoalSikapPelajaran.WithContext(ctx),
 		SoalSikapPelajaranKuliah:        q.SoalSikapPelajaranKuliah.WithContext(ctx),
+		SoalSsctRemaja:                  q.SoalSsctRemaja.WithContext(ctx),
 		SoalTipologiJung:                q.SoalTipologiJung.WithContext(ctx),
 		SoalTmi:                         q.SoalTmi.WithContext(ctx),
 		StatusCronjob:                   q.StatusCronjob.WithContext(ctx),
+		StatusSkoring:                   q.StatusSkoring.WithContext(ctx),
 		TarifPaket:                      q.TarifPaket.WithContext(ctx),
 		TarifPaketRinci:                 q.TarifPaketRinci.WithContext(ctx),
 		User:                            q.User.WithContext(ctx),

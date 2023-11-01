@@ -42,7 +42,7 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 							<th width="5%">ID sesi</th>
 							<th width="5%">Kategori</th>
 							<th width="15%">Nama Sesi</th>
-							<th width="15%">Metode Skoring</th>
+							<th width="15%">Tabel Skoring</th>
 							<th width="5%">Mode</th>
 							<th width="5%">Jawaban</th>
 							<th width="5%">Karakter</th>
@@ -70,8 +70,8 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 		{{ Form::bsTextField('Kategori','kategori','',true,'md-8') }}
 		{{ Form::bsTextField('Nama Sesi','nama_sesi_ujian','',true,'md-8') }}
 		{{ Form::bsTextField('Soal URL (Route)','soal','',true,'md-8') }}
-		{{ Form::bsSelect2('Mode','mode',$list_mode,'',true,'md-8')}}
-		{{ Form::bsSelect2('Metode Skoring','metode_skoring',$list_metode_skoring,'',true,'md-8')}}
+		{{ Form::bsSelect2('Mode','mode',$list_mode,'',true,'md-8')}} 
+		{{ Form::bsTextField('Tabel (skoring)','tabel','',true,'md-8') }}
 		{{ Form::bsNumeric('Jawaban','jawaban','',true,'md-4') }}
 		{{ Form::bsNumeric('Jumlah Karakter Jawaban','panjang_jawaban','',true,'md-4') }}
 		<div class="mb-3">
@@ -91,8 +91,8 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 		{{ Form::bsTextField('Kategori','kategori','',true,'md-8') }}
 		{{ Form::bsTextField('Nama Sesi','nama_sesi_ujian','',true,'md-8') }}
 		{{ Form::bsTextField('Soal URL (Route)','soal','',true,'md-8') }}
+		{{ Form::bsTextField('Tabel (skoring)','tabel','',true,'md-8') }}
 		{{ Form::bsSelect2('Mode','mode',$list_mode,'',true,'md-8')}}
-		{{ Form::bsSelect2('Metode Skoring','metode_skoring',$list_metode_skoring,'',true,'md-8')}}
 		{{ Form::bsNumeric('Jawaban','jawaban','',true,'md-4') }}
 		{{ Form::bsNumeric('Jumlah Karakter Jawaban','panjang_jawaban','',true,'md-4') }}
 		<div class="mb-3">
@@ -133,7 +133,7 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 				{data: 'id_sesi_master',name: "id_sesi_master",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'kategori',name: "kategori",orderable: false,searchable: false,sClass: ""},
 				{data: 'nama_sesi_ujian',name: "nama_sesi_ujian",orderable: false,searchable: false,sClass: ""},
-				{data: 'metode_skoring',name: "metode_skoring",orderable: false,searchable: false,sClass: "text-center"},
+				{data: 'tabel',name: "tabel",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'mode',name: "mode",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'jawaban',name: "jawaban",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'panjang_jawaban',name: "panjang_jawaban",orderable: false,searchable: false,sClass: "text-center"},
@@ -176,7 +176,6 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 			$("#petunjuk_tambah .ql-editor").html('');
 			$("#form-tambah #petunjuk_sesi").val('');
 			$('#form-tambah #mode').selectize()[0].selectize.clear();
-			$('#form-tambah #metode_skoring').selectize()[0].selectize.clear();
 			enableButton("#form-tambah button[type=submit]")
 		});
 
@@ -223,15 +222,14 @@ $list_metode_skoring = get_list_enum_values('quiz_sesi_master', 'metode_skoring'
 			$("#form-edit").clearForm();
 			disableButton("#form-edit button[type=submit]");
 			$("#petunjuk_edit .ql-editor").html('');
-			$('#form-edit #mode').selectize()[0].selectize.clear();
-			$('#form-edit #metode_skoring').selectize()[0].selectize.clear();
+			$('#form-edit #mode').selectize()[0].selectize.clear(); 
 			$.get("{{url('master-sesi/get-data')}}/" + $uuid, function(respon) {
 				if (respon.status) {
 					
 					$('#form-edit #kategori').val(respon.data.kategori);
 					$('#form-edit #nama_sesi_ujian').val(respon.data.nama_sesi_ujian);
 					$('#form-edit #soal').val(respon.data.soal);
-					$('#form-edit #metode_skoring').selectize()[0].selectize.setValue(respon.data.metode_skoring, false);
+					$('#form-edit #tabel').val(respon.data.tabel); 
 					$('#form-edit #mode').selectize()[0].selectize.setValue(respon.data.mode, false);				
 					$('#form-edit #jawaban').val(respon.data.jawaban);
 					$('#form-edit #panjang_jawaban').val(respon.data.panjang_jawaban);
