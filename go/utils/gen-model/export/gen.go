@@ -100,7 +100,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SkorGayaPekerjaan:               newSkorGayaPekerjaan(db, opts...),
 		SkorKognitif:                    newSkorKognitif(db, opts...),
 		SkorKognitifPmk:                 newSkorKognitifPmk(db, opts...),
+		SkorPeminatanSma:                newSkorPeminatanSma(db, opts...),
+		SkorPeminatanSmk:                newSkorPeminatanSmk(db, opts...),
 		SkorSikapPelajaran:              newSkorSikapPelajaran(db, opts...),
+		SkorSikapPelajaranMk:            newSkorSikapPelajaranMk(db, opts...),
 		SkoringIqEq:                     newSkoringIqEq(db, opts...),
 		SkoringMinatLengkap:             newSkoringMinatLengkap(db, opts...),
 		SkoringMinatMan:                 newSkoringMinatMan(db, opts...),
@@ -231,7 +234,10 @@ type Query struct {
 	SkorGayaPekerjaan               skorGayaPekerjaan
 	SkorKognitif                    skorKognitif
 	SkorKognitifPmk                 skorKognitifPmk
+	SkorPeminatanSma                skorPeminatanSma
+	SkorPeminatanSmk                skorPeminatanSmk
 	SkorSikapPelajaran              skorSikapPelajaran
+	SkorSikapPelajaranMk            skorSikapPelajaranMk
 	SkoringIqEq                     skoringIqEq
 	SkoringMinatLengkap             skoringMinatLengkap
 	SkoringMinatMan                 skoringMinatMan
@@ -363,7 +369,10 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SkorGayaPekerjaan:               q.SkorGayaPekerjaan.clone(db),
 		SkorKognitif:                    q.SkorKognitif.clone(db),
 		SkorKognitifPmk:                 q.SkorKognitifPmk.clone(db),
+		SkorPeminatanSma:                q.SkorPeminatanSma.clone(db),
+		SkorPeminatanSmk:                q.SkorPeminatanSmk.clone(db),
 		SkorSikapPelajaran:              q.SkorSikapPelajaran.clone(db),
+		SkorSikapPelajaranMk:            q.SkorSikapPelajaranMk.clone(db),
 		SkoringIqEq:                     q.SkoringIqEq.clone(db),
 		SkoringMinatLengkap:             q.SkoringMinatLengkap.clone(db),
 		SkoringMinatMan:                 q.SkoringMinatMan.clone(db),
@@ -502,7 +511,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SkorGayaPekerjaan:               q.SkorGayaPekerjaan.replaceDB(db),
 		SkorKognitif:                    q.SkorKognitif.replaceDB(db),
 		SkorKognitifPmk:                 q.SkorKognitifPmk.replaceDB(db),
+		SkorPeminatanSma:                q.SkorPeminatanSma.replaceDB(db),
+		SkorPeminatanSmk:                q.SkorPeminatanSmk.replaceDB(db),
 		SkorSikapPelajaran:              q.SkorSikapPelajaran.replaceDB(db),
+		SkorSikapPelajaranMk:            q.SkorSikapPelajaranMk.replaceDB(db),
 		SkoringIqEq:                     q.SkoringIqEq.replaceDB(db),
 		SkoringMinatLengkap:             q.SkoringMinatLengkap.replaceDB(db),
 		SkoringMinatMan:                 q.SkoringMinatMan.replaceDB(db),
@@ -631,7 +643,10 @@ type queryCtx struct {
 	SkorGayaPekerjaan               *skorGayaPekerjaanDo
 	SkorKognitif                    *skorKognitifDo
 	SkorKognitifPmk                 *skorKognitifPmkDo
+	SkorPeminatanSma                *skorPeminatanSmaDo
+	SkorPeminatanSmk                *skorPeminatanSmkDo
 	SkorSikapPelajaran              *skorSikapPelajaranDo
+	SkorSikapPelajaranMk            *skorSikapPelajaranMkDo
 	SkoringIqEq                     *skoringIqEqDo
 	SkoringMinatLengkap             *skoringMinatLengkapDo
 	SkoringMinatMan                 *skoringMinatManDo
@@ -760,7 +775,10 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SkorGayaPekerjaan:               q.SkorGayaPekerjaan.WithContext(ctx),
 		SkorKognitif:                    q.SkorKognitif.WithContext(ctx),
 		SkorKognitifPmk:                 q.SkorKognitifPmk.WithContext(ctx),
+		SkorPeminatanSma:                q.SkorPeminatanSma.WithContext(ctx),
+		SkorPeminatanSmk:                q.SkorPeminatanSmk.WithContext(ctx),
 		SkorSikapPelajaran:              q.SkorSikapPelajaran.WithContext(ctx),
+		SkorSikapPelajaranMk:            q.SkorSikapPelajaranMk.WithContext(ctx),
 		SkoringIqEq:                     q.SkoringIqEq.WithContext(ctx),
 		SkoringMinatLengkap:             q.SkoringMinatLengkap.WithContext(ctx),
 		SkoringMinatMan:                 q.SkoringMinatMan.WithContext(ctx),

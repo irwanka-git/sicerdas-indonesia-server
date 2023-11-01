@@ -42,6 +42,19 @@ type QuizSesiUserJawaban struct {
 	Skor             int32  `gorm:"column:skor" json:"skor"`
 }
 
+type SkorHitungFieldKlasifikasi struct {
+	IDUser       int32  `json:"id_user"`
+	IDQuiz       int32  `json:"id_quiz"`
+	Skor         int16  `json:"skor"`
+	FieldSkoring string `json:"field_skoring"`
+	Klasifikasi  string `json:"klasifikasi"`
+}
+
+type SkorRekomendasi struct {
+	Skor        int16  `json:"skor"`
+	Rekomendasi string `json:"rekomendasi"`
+}
+
 type SkorKognitif struct {
 	ID            int64   `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	IDUser        int32   `gorm:"column:id_user" json:"id_user"`
@@ -231,4 +244,81 @@ type SkorSikapPelajaran struct {
 	SikapIlmuSosial     int32  `gorm:"column:sikap_ilmu_sosial" json:"sikap_ilmu_sosial"`
 	SikapRentang        int32  `gorm:"column:sikap_rentang" json:"sikap_rentang"`
 	RekomSikapPelajaran string `gorm:"column:rekom_sikap_pelajaran" json:"rekom_sikap_pelajaran"`
+}
+
+type SkorSikapPelajaranMk struct {
+	IDUser         int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz         int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	SikapAgm       int32  `gorm:"column:sikap_agm" json:"sikap_agm"`
+	SikapPkn       int32  `gorm:"column:sikap_pkn" json:"sikap_pkn"`
+	SikapInd       int32  `gorm:"column:sikap_ind" json:"sikap_ind"`
+	SikapEng       int32  `gorm:"column:sikap_eng" json:"sikap_eng"`
+	SikapMat       int32  `gorm:"column:sikap_mat" json:"sikap_mat"`
+	SikapFis       int32  `gorm:"column:sikap_fis" json:"sikap_fis"`
+	SikapBio       int32  `gorm:"column:sikap_bio" json:"sikap_bio"`
+	SikapKim       int32  `gorm:"column:sikap_kim" json:"sikap_kim"`
+	SikapEko       int32  `gorm:"column:sikap_eko" json:"sikap_eko"`
+	SikapSej       int32  `gorm:"column:sikap_sej" json:"sikap_sej"`
+	SikapSos       int32  `gorm:"column:sikap_sos" json:"sikap_sos"`
+	SikapGeo       int32  `gorm:"column:sikap_geo" json:"sikap_geo"`
+	SikapSbd       int32  `gorm:"column:sikap_sbd" json:"sikap_sbd"`
+	SikapOrg       int32  `gorm:"column:sikap_org" json:"sikap_org"`
+	SikapMlk       int32  `gorm:"column:sikap_mlk" json:"sikap_mlk"`
+	SikapTik       int32  `gorm:"column:sikap_tik" json:"sikap_tik"`
+	KlasifikasiAgm string `gorm:"column:klasifikasi_agm" json:"klasifikasi_agm"`
+	KlasifikasiPkn string `gorm:"column:klasifikasi_pkn" json:"klasifikasi_pkn"`
+	KlasifikasiInd string `gorm:"column:klasifikasi_ind" json:"klasifikasi_ind"`
+	KlasifikasiEng string `gorm:"column:klasifikasi_eng" json:"klasifikasi_eng"`
+	KlasifikasiMat string `gorm:"column:klasifikasi_mat" json:"klasifikasi_mat"`
+	KlasifikasiFis string `gorm:"column:klasifikasi_fis" json:"klasifikasi_fis"`
+	KlasifikasiBio string `gorm:"column:klasifikasi_bio" json:"klasifikasi_bio"`
+	KlasifikasiKim string `gorm:"column:klasifikasi_kim" json:"klasifikasi_kim"`
+	KlasifikasiEko string `gorm:"column:klasifikasi_eko" json:"klasifikasi_eko"`
+	KlasifikasiSej string `gorm:"column:klasifikasi_sej" json:"klasifikasi_sej"`
+	KlasifikasiSos string `gorm:"column:klasifikasi_sos" json:"klasifikasi_sos"`
+	KlasifikasiGeo string `gorm:"column:klasifikasi_geo" json:"klasifikasi_geo"`
+	KlasifikasiSbd string `gorm:"column:klasifikasi_sbd" json:"klasifikasi_sbd"`
+	KlasifikasiOrg string `gorm:"column:klasifikasi_org" json:"klasifikasi_org"`
+	KlasifikasiMlk string `gorm:"column:klasifikasi_mlk" json:"klasifikasi_mlk"`
+	KlasifikasiTik string `gorm:"column:klasifikasi_tik" json:"klasifikasi_tik"`
+}
+
+type SkorPeminatanSmk struct {
+	IDUser  int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz  int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	Minat1  string `gorm:"column:minat_1;default:null;" json:"minat_1"`
+	Minat2  string `gorm:"column:minat_2;default:null;" json:"minat_2"`
+	Minat3  string `gorm:"column:minat_3;default:null;" json:"minat_3"`
+	Minat4  string `gorm:"column:minat_4;default:null;" json:"minat_4"`
+	Minat5  string `gorm:"column:minat_5;default:null;" json:"minat_5"`
+	Minat6  string `gorm:"column:minat_6;default:null;" json:"minat_6"`
+	Minat7  string `gorm:"column:minat_7;default:null;" json:"minat_7"`
+	Minat8  string `gorm:"column:minat_8;default:null;" json:"minat_8"`
+	Minat9  string `gorm:"column:minat_9;default:null;" json:"minat_9"`
+	Minat10 string `gorm:"column:minat_10;default:null;" json:"minat_10"`
+	Minat11 string `gorm:"column:minat_11;default:null;" json:"minat_11"`
+	Minat12 string `gorm:"column:minat_12;default:null;" json:"minat_12"`
+	Minat13 string `gorm:"column:minat_13;default:null;" json:"minat_13"`
+	Minat14 string `gorm:"column:minat_14;default:null;" json:"minat_14"`
+	Minat15 string `gorm:"column:minat_15;default:null;" json:"minat_15"`
+}
+
+type SkorPeminatanSma struct {
+	IDUser         int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz         int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	MinatSains     int32  `gorm:"column:minat_sains" json:"minat_sains"`
+	MinatHumaniora int32  `gorm:"column:minat_humaniora" json:"minat_humaniora"`
+	MinatBahasa    int32  `gorm:"column:minat_bahasa" json:"minat_bahasa"`
+	MinatRentang   int32  `gorm:"column:minat_rentang" json:"minat_rentang"`
+	RekomMinat     string `gorm:"column:rekom_minat" json:"rekom_minat"`
+}
+
+type SkorPeminatanMan struct {
+	IDUser         int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz         int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	MinatSains     int32  `gorm:"column:minat_sains" json:"minat_sains"`
+	MinatHumaniora int32  `gorm:"column:minat_humaniora" json:"minat_humaniora"`
+	MinatBahasa    int32  `gorm:"column:minat_bahasa" json:"minat_bahasa"`
+	MinatRentang   int32  `gorm:"column:minat_rentang" json:"minat_rentang"`
+	RekomMinat     string `gorm:"column:rekom_minat" json:"rekom_minat"`
 }
