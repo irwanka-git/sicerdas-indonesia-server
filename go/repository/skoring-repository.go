@@ -24,6 +24,11 @@ type SkoringRepository interface {
 	SkoringKognitifPMK(id_quiz int32, id_user int32) error
 	SkoringGayaPekerjaan(id_quiz int32, id_user int32) error
 	SkoringSikapPelajaran(id_quiz int32, id_user int32) error
+	SkoringSikapPelajaranMK(id_quiz int32, id_user int32) error
+	SkoringPeminatanSMK(id_quiz int32, id_user int32) error
+	SkoringPeminatanSMA(id_quiz int32, id_user int32) error
+	SkoringPeminatanMAN(id_quiz int32, id_user int32) error
+	SkoringMinatKuliahKedinasan(id_quiz int32, id_user int32) error
 }
 
 func NewSkoringRepository() SkoringRepository {
@@ -63,6 +68,7 @@ func (*repo) GetUserSesiBelumSkoring() ([]*entity.QuizSesiUserSkoring, error) {
 		and b.id_quiz_template = c.id_quiz_template
 		and c.id_quiz = a.id_quiz
 		and c.jenis = 'quiz' 
+		and a.id_user = 243 and a.id_quiz = 166
 		order by a.id_quiz_user asc
 	`).Scan(&list)
 	return list, nil
@@ -457,27 +463,19 @@ func (*repo) SkoringSikapPelajaran(id_quiz int32, id_user int32) error {
 				and a.id_user = ?
 				and a.kategori = ? `, id_quiz, id_user, kategori).Scan(&skorHitung)
 
-	var skoring *entity.SkorSikapPelajaran
+	var skoring entity.SkorSikapPelajaran
 
-	r := reflect.ValueOf(skoring).Elem()
+	r := reflect.ValueOf(&skoring).Elem()
 	rt := r.Type()
+
 	for i := 0; i < len(skorHitung); i++ {
 		for n := 0; n < rt.NumField(); n++ {
-			sikapName := rt.Field(n).Name
-			if sikapName == skorHitung[i].FieldSkoring {
-				r := reflect.ValueOf(skoring)
-				f := reflect.Indirect(r).FieldByName(sikapName)
-				if f.Kind() != reflect.Invalid {
-					f.SetInt(int64(skorHitung[i].Skor))
-				}
-
+			if rt.Field(n).Tag.Get("json") == skorHitung[i].FieldSkoring {
+				sikapName := rt.Field(n).Name
 				pelajaran := strings.Replace(sikapName, "Sikap", "", -1)
 				klasifikasiName := "Klasifikasi" + pelajaran
-				k := reflect.Indirect(r).FieldByName(klasifikasiName)
-				if k.Kind() != reflect.Invalid {
-					k.SetString(skorHitung[i].Klasifikasi)
-				}
-				// reflect.Indirect(rv).FieldByName(klasifikasiName).SetString()
+				reflect.ValueOf(&skoring).Elem().FieldByName(sikapName).SetInt(int64(skorHitung[i].Skor))
+				reflect.ValueOf(&skoring).Elem().FieldByName(klasifikasiName).SetString(skorHitung[i].Klasifikasi)
 			}
 		}
 	}
@@ -501,18 +499,283 @@ func (*repo) SkoringSikapPelajaran(id_quiz int32, id_user int32) error {
 
 	for i := 0; i < len(skorHitungKelompok); i++ {
 		for n := 0; n < rt.NumField(); n++ {
-			kelompokName := rt.Field(n).Name
-			if kelompokName == skorHitungKelompok[i].FieldSkoring {
-				r := reflect.ValueOf(skoring)
-				f := reflect.Indirect(r).FieldByName(kelompokName)
-				if f.Kind() != reflect.Invalid {
-					f.SetInt(int64(skorHitungKelompok[i].Skor))
-				}
+			if rt.Field(n).Tag.Get("json") == skorHitungKelompok[i].FieldSkoring {
+				kelompokName := rt.Field(n).Name
+				reflect.ValueOf(&skoring).Elem().FieldByName(kelompokName).SetInt(int64(skorHitungKelompok[i].Skor))
 			}
 		}
 	}
-	// db.Table("skor_sikap_pelajaran").Create(&skoring)
-	fmt.Println(&skoring)
-	//update rekomendasi
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+	db.Table("skor_sikap_pelajaran").Create(&skoring)
+	var rekomSkoring *entity.SkorSikapPelajaran
+
+	//update recomendasi
+	db.Raw(`select 
+				a.id_user, 
+				a.id_quiz,
+				a.sikap_ilmu_alam -  a.sikap_ilmu_sosial as sikap_rentang,
+				b.rekomendasi as rekom_sikap_pelajaran 
+			from skor_sikap_pelajaran as a, ref_rekomendasi_sikap_pelajaran as b  
+			where 
+				a.id_quiz = ? and a.id_user = ?
+				and b.perbedaan = (a.sikap_ilmu_alam -  a.sikap_ilmu_sosial)`, id_quiz, id_user).First(&rekomSkoring)
+
+	db.Table("skor_sikap_pelajaran").
+		Where("id_quiz = ?", id_quiz).
+		Where("id_user = ?", id_user).
+		UpdateColumns(map[string]interface{}{
+			"sikap_rentang":         rekomSkoring.SikapRentang,
+			"rekom_sikap_pelajaran": rekomSkoring.RekomSikapPelajaran})
+
+	return nil
+}
+
+func (*repo) SkoringSikapPelajaranMK(id_quiz int32, id_user int32) error {
+	kategori := "SKALA_PMK_SIKAP_PELAJARAN"
+	var tabelSkoring entity.SkorSikapPelajaranMk
+	db.Table("skor_sikap_pelajaran_mk").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Delete(tabelSkoring)
+
+	db.Exec(`UPDATE  quiz_sesi_user_jawaban 
+				set skor = SUBSTR(jawaban,1,1)::INTEGER 
+				+ SUBSTR(jawaban,2,1)::INTEGER 
+				+ SUBSTR(jawaban,3,1)::INTEGER
+			where id_quiz = ? 
+				and kategori = ?`, id_quiz, kategori)
+
+	//hitung per pelajaran
+	var skorHitung []*entity.SkorHitungSikapPelajaran
+	db.Raw(`SELECT 
+				a.id_quiz, 
+				a.id_user, 
+				a.skor, 
+				b.field_skoring, 
+				c.klasifikasi
+			FROM quiz_sesi_user_jawaban as a, 
+				soal_sikap_pelajaran_kuliah as b , 
+				ref_skala_sikap_pelajaran as c
+			where 
+				a.urutan = b.urutan
+				and a.skor = c.skor
+				and a.id_quiz = ?
+				and a.id_user = ?
+				and a.kategori = ? `, id_quiz, id_user, kategori).Scan(&skorHitung)
+
+	var skoring entity.SkorSikapPelajaranMk
+
+	r := reflect.ValueOf(&skoring).Elem()
+	rt := r.Type()
+
+	for i := 0; i < len(skorHitung); i++ {
+		for n := 0; n < rt.NumField(); n++ {
+			if rt.Field(n).Tag.Get("json") == skorHitung[i].FieldSkoring {
+				sikapName := rt.Field(n).Name
+				pelajaran := strings.Replace(sikapName, "Sikap", "", -1)
+				klasifikasiName := "Klasifikasi" + pelajaran
+				reflect.ValueOf(&skoring).Elem().FieldByName(sikapName).SetInt(int64(skorHitung[i].Skor))
+				reflect.ValueOf(&skoring).Elem().FieldByName(klasifikasiName).SetString(skorHitung[i].Klasifikasi)
+			}
+		}
+	}
+
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+	db.Table("skor_sikap_pelajaran_mk").Create(&skoring)
+	return nil
+}
+
+func (*repo) SkoringPeminatanSMK(id_quiz int32, id_user int32) error {
+	tabel := "skor_peminatan_smk"
+	kategori := "SKALA_PEMINATAN_SMK"
+	var tabelSkoring entity.SkorPeminatanSmk
+
+	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Delete(tabelSkoring)
+
+	var skor_maksimal int64
+	db.Table("quiz_sesi_mapping_smk").Where("id_quiz = ?", id_quiz).Count(&skor_maksimal)
+	db.Exec(`update quiz_sesi_user_jawaban 
+				set skor = ? - urutan
+			where 
+				id_quiz = ? and id_user = ? and kategori = ?`, skor_maksimal+1, id_quiz, id_user, kategori)
+	var quizSesiUserJawaban []*entity.QuizSesiUserJawaban
+	db.Table("quiz_sesi_user_jawaban").
+		Where("id_quiz = ?", id_quiz).
+		Where("id_user = ?", id_user).
+		Where("kategori = ?", kategori).
+		Order("urutan asc").Scan(&quizSesiUserJawaban)
+
+	var skoring entity.SkorPeminatanSmk
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+	r := reflect.ValueOf(&skoring).Elem()
+	rt := r.Type()
+
+	for n := 0; n < rt.NumField(); n++ {
+		if strings.Contains(rt.Field(n).Tag.Get("json"), "minat_") {
+			reflect.ValueOf(&skoring).Elem().FieldByName(rt.Field(n).Name).SetString("")
+		}
+	}
+
+	for i := 0; i < len(quizSesiUserJawaban); i++ {
+		urutan := quizSesiUserJawaban[i].Urutan
+		jawaban := quizSesiUserJawaban[i].Jawaban
+		fieldname := fmt.Sprintf("minat_%v", urutan)
+		for n := 0; n < rt.NumField(); n++ {
+			if rt.Field(n).Tag.Get("json") == fieldname {
+				reflect.ValueOf(&skoring).Elem().FieldByName(rt.Field(n).Name).SetString(jawaban)
+			}
+		}
+	}
+	db.Table(tabel).Create(&skoring)
+	return nil
+}
+
+func (*repo) SkoringPeminatanSMA(id_quiz int32, id_user int32) error {
+	tabel := "skor_peminatan_sma"
+	kategori := "SKALA_PEMINATAN_SMA"
+	var tabelSkoring entity.SkorPeminatanSma
+	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Delete(tabelSkoring)
+
+	var skorHitung []*entity.SkorHitungFieldKlasifikasi
+	db.Raw(`select 
+				b.id_quiz, 
+				b.id_user, 
+				a.field_skoring,
+				count(b.jawaban) as skor
+				from 
+				ref_pilihan_minat_sma as a 
+				left join quiz_sesi_user_jawaban as b 
+				on a.kd_pilihan = b.jawaban
+				and b.id_quiz = ? and b.id_user = ? and b.kategori = ?
+			GROUP BY 
+				b.id_quiz, 
+				b.id_user, 
+				a.field_skoring`, id_quiz, id_user, kategori).Scan(&skorHitung)
+
+	var skoring entity.SkorPeminatanSma
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+	r := reflect.ValueOf(&skoring).Elem()
+	rt := r.Type()
+
+	for i := 0; i < len(skorHitung); i++ {
+		skor := skorHitung[i].Skor
+		fied_skoring := skorHitung[i].FieldSkoring
+		for n := 0; n < rt.NumField(); n++ {
+			if rt.Field(n).Tag.Get("json") == fied_skoring {
+				reflect.ValueOf(&skoring).Elem().FieldByName(rt.Field(n).Name).SetInt(int64(skor))
+			}
+		}
+	}
+
+	db.Table(tabel).Create(&skoring)
+
+	var skorRekomendasi *entity.SkorRekomendasi
+	db.Raw(`SELECT
+			x.minat_rentang as skor,
+			y.rekomendasi as rekomendasi
+			FROM
+			(
+				SELECT
+				id_user,
+				id_quiz,
+				minat_sains,
+				minat_bahasa,
+				minat_humaniora,
+				COALESCE ( minat_sains,0)  - 
+				COALESCE(minat_bahasa,0) - COALESCE(minat_humaniora, 0) 
+				AS minat_rentang
+				FROM
+				skor_peminatan_sma AS a
+				WHERE
+				a.id_quiz = ?
+				and a.id_user = ?
+			) AS x
+			LEFT JOIN ref_rekomendasi_minat_sma AS y ON x.minat_rentang = y.perbedaan`, id_quiz, id_user).First(&skorRekomendasi)
+
+	db.Table(tabel).
+		Where("id_quiz = ?", id_quiz).
+		Where("id_user = ?", id_user).
+		UpdateColumns(map[string]interface{}{
+			"minat_rentang": skorRekomendasi.Skor,
+			"rekom_minat":   skorRekomendasi.Rekomendasi})
+
+	return nil
+}
+
+func (*repo) SkoringPeminatanMAN(id_quiz int32, id_user int32) error {
+	tabel := "skor_peminatan_man"
+	kategori := "SKALA_PEMINATAN_MAN"
+	var tabelSkoring entity.SkorPeminatanMan
+	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Delete(tabelSkoring)
+
+	var skorHitung []*entity.SkorHitungFieldKlasifikasi
+	db.Raw(`select 
+				b.id_quiz, 
+				b.id_user, 
+				a.field_skoring,
+				count(b.jawaban) as skor
+				from 
+				ref_pilihan_minat_man as a 
+				left join quiz_sesi_user_jawaban as b 
+				on a.kd_pilihan = b.jawaban
+				and b.id_quiz = ? and b.id_user = ? and b.kategori = ?
+			GROUP BY 
+				b.id_quiz, 
+				b.id_user, 
+				a.field_skoring`, id_quiz, id_user, kategori).Scan(&skorHitung)
+
+	var skoring entity.SkorPeminatanMan
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+	r := reflect.ValueOf(&skoring).Elem()
+	rt := r.Type()
+
+	for i := 0; i < len(skorHitung); i++ {
+		skor := skorHitung[i].Skor
+		fied_skoring := skorHitung[i].FieldSkoring
+		for n := 0; n < rt.NumField(); n++ {
+			if rt.Field(n).Tag.Get("json") == fied_skoring {
+				reflect.ValueOf(&skoring).Elem().FieldByName(rt.Field(n).Name).SetInt(int64(skor))
+			}
+		}
+	}
+
+	db.Table(tabel).Create(&skoring)
+
+	var skorRekomendasi *entity.SkorRekomendasi
+	db.Raw(`SELECT
+			x.minat_rentang as skor,
+			y.rekomendasi as rekomendasi
+			FROM
+			(
+				SELECT
+				id_user,
+				id_quiz,
+				minat_sains,
+				minat_bahasa,
+				minat_humaniora,
+				COALESCE ( minat_sains,0)  - 
+				COALESCE(minat_bahasa,0) - COALESCE(minat_humaniora, 0)  - COALESCE(minat_agama, 0) 
+				AS minat_rentang
+				FROM
+				skor_peminatan_man AS a
+				WHERE
+				a.id_quiz = ?
+				and a.id_user = ?
+			) AS x
+			LEFT JOIN ref_rekomendasi_minat_man AS y ON x.minat_rentang = y.perbedaan`, id_quiz, id_user).First(&skorRekomendasi)
+
+	db.Table(tabel).
+		Where("id_quiz = ?", id_quiz).
+		Where("id_user = ?", id_user).
+		UpdateColumns(map[string]interface{}{
+			"minat_rentang": skorRekomendasi.Skor,
+			"rekom_minat":   skorRekomendasi.Rekomendasi})
+
+	return nil
+}
+
+func (*repo) SkoringMinatKuliahKedinasan(id_quiz int32, id_user int32) error {
 	return nil
 }

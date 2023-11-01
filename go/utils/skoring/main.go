@@ -22,35 +22,35 @@ func main() {
 		skoringRepo.GenerateTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
 		for _, kategori := range kategori_tabel {
 			fmt.Println(kategori.Tabel)
-			if kategori.Tabel == "skor_kognitif" {
-				skoringRepo.SkoringKognitif(user.IDQuiz, user.IDUser)
+			// if kategori.Tabel == "skor_kognitif" {
+			// 	skoringRepo.SkoringKognitif(user.IDQuiz, user.IDUser)
+			// }
+			// if kategori.Tabel == "skor_kognitif_pmk" {
+			// 	skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
+			// }
+			// if kategori.Tabel == "skor_gaya_pekerjaan" {
+			// 	skoringRepo.SkoringGayaPekerjaan(user.IDQuiz, user.IDUser)
+			// }
+			// if kategori.Tabel == "skor_sikap_pelajaran" {
+			// 	skoringRepo.SkoringSikapPelajaran(user.IDQuiz, user.IDUser)
+			// }
+			// if kategori.Tabel == "skor_sikap_pelajaran_mk" {
+			// 	skoringRepo.SkoringSikapPelajaranMK(user.IDQuiz, user.IDUser)
+			// }
+			// if kategori.Tabel == "skor_sikap_pelajaran_man" {
+			// 	skoringRepo.SkoringSikapPelajaran(user.IDQuiz, user.IDUser)
+			// }
+			// if kategori.Tabel == "skor_peminatan_smk" {
+			// 	skoringRepo.SkoringPeminatanSMK(user.IDQuiz, user.IDUser)
+			// }
+			// if kategori.Tabel == "skor_peminatan_sma" {
+			// 	skoringRepo.SkoringPeminatanSMA(user.IDQuiz, user.IDUser)
+			// }
+			if kategori.Tabel == "skor_peminatan_man" {
+				skoringRepo.SkoringPeminatanMAN(user.IDQuiz, user.IDUser)
 			}
-			if kategori.Tabel == "skor_kognitif_pmk" {
-				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "skor_gaya_pekerjaan" {
-				skoringRepo.SkoringGayaPekerjaan(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "skor_sikap_pelajaran" {
-				skoringRepo.SkoringSikapPelajaran(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "=> skor_sikap_pelajaran_mk" {
-				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "=> skor_sikap_pelajaran_man" {
-				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "=> skor_peminatan_smk" {
-				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "=> skor_peminatan_sma" {
-				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "=> skor_peminatan_man" {
-				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
-			}
-			if kategori.Tabel == "=> skor_kuliah_dinas" {
-				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
+			if kategori.Tabel == "skor_kuliah_dinas" {
+				skoringRepo.SkoringMinatKuliahKedinasan(user.IDQuiz, user.IDUser)
 			}
 			if kategori.Tabel == "=> skor_kuliah_alam" {
 				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
@@ -92,7 +92,7 @@ func main() {
 				skoringRepo.SkoringKognitifPMK(user.IDQuiz, user.IDUser)
 			}
 		}
-		skoringRepo.ClearTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
+		// skoringRepo.ClearTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
 	}
 	skoringRepo.StopRunningSkoring()
 }
