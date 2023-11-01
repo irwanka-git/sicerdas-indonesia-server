@@ -10,4 +10,3 @@ RUN go install github.com/cosmtrek/air@latest
 RUN go mod tidy 
 RUN air init 
 CMD ["air"]
-RUN go run utils/cronjob/main.go
