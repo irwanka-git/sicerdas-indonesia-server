@@ -48,7 +48,7 @@ class MasterSesiController extends Controller
                         'id_sesi_master',
                         'kategori',
                         'nama_sesi_ujian',
-                        'metode_skoring',
+                        'tabel',
                         'mode',
                         'jawaban',
                         'panjang_jawaban',
@@ -70,9 +70,6 @@ class MasterSesiController extends Controller
                     $action =  $action." ".$edit." ".$delete;
                     if ($action==""){$action='<a href="#" class="act"><i class="la la-lock"></i></a>'; }
                         return  '<div class="btn-group" role="group">'.$action.'</button>';
-            })
-             ->editColumn('metode_skoring', function($q){
-                return "<small>".$q->metode_skoring."</small>";
             })
             ->addIndexColumn()
             ->rawColumns(['action','metode_skoring'])
@@ -101,7 +98,7 @@ class MasterSesiController extends Controller
                 "kategori"=>trim($r->kategori),
                 "nama_sesi_ujian"=>trim($r->nama_sesi_ujian),
                 "soal"=>trim($r->soal),
-                "metode_skoring"=>trim($r->metode_skoring),
+                "tabel"=>trim($r->tabel),
                 "mode"=>trim($r->mode),
                 "jawaban"=>(int)$r->jawaban, 
                 "panjang_jawaban"=>(int)$r->panjang_jawaban, 
@@ -129,7 +126,7 @@ class MasterSesiController extends Controller
                 "kategori"=>trim($r->kategori),
                 "nama_sesi_ujian"=>trim($r->nama_sesi_ujian),
                 "soal"=>trim($r->soal),
-                "metode_skoring"=>trim($r->metode_skoring),
+                "tabel"=>trim($r->tabel),
                 "mode"=>trim($r->mode),
                 "jawaban"=>(int)$r->jawaban, 
                 "panjang_jawaban"=>(int)$r->panjang_jawaban, 
