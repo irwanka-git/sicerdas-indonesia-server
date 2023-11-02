@@ -2,6 +2,7 @@ package helper
 
 import (
 	"strings"
+	"unicode"
 
 	"github.com/google/uuid"
 )
@@ -35,4 +36,10 @@ func GetPilihanFromTagDot(data string, index int) string {
 		return arr[index-1]
 	}
 	return ""
+}
+
+func Capitalize(str string) string {
+	runes := []rune(str)
+	runes[0] = unicode.ToUpper(runes[0])
+	return string(runes)
 }

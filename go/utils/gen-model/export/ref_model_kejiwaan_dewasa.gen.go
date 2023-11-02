@@ -29,6 +29,7 @@ func newRefModelKejiwaanDewasa(db *gorm.DB, opts ...gen.DOOption) refModelKejiwa
 	_refModelKejiwaanDewasa.ALL = field.NewAsterisk(tableName)
 	_refModelKejiwaanDewasa.ID = field.NewInt32(tableName, "id")
 	_refModelKejiwaanDewasa.Nama = field.NewString(tableName, "nama")
+	_refModelKejiwaanDewasa.FieldSkoring = field.NewString(tableName, "field_skoring")
 
 	_refModelKejiwaanDewasa.fillFieldMap()
 
@@ -38,9 +39,10 @@ func newRefModelKejiwaanDewasa(db *gorm.DB, opts ...gen.DOOption) refModelKejiwa
 type refModelKejiwaanDewasa struct {
 	refModelKejiwaanDewasaDo refModelKejiwaanDewasaDo
 
-	ALL  field.Asterisk
-	ID   field.Int32
-	Nama field.String
+	ALL          field.Asterisk
+	ID           field.Int32
+	Nama         field.String
+	FieldSkoring field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -59,6 +61,7 @@ func (r *refModelKejiwaanDewasa) updateTableName(table string) *refModelKejiwaan
 	r.ALL = field.NewAsterisk(table)
 	r.ID = field.NewInt32(table, "id")
 	r.Nama = field.NewString(table, "nama")
+	r.FieldSkoring = field.NewString(table, "field_skoring")
 
 	r.fillFieldMap()
 
@@ -87,9 +90,10 @@ func (r *refModelKejiwaanDewasa) GetFieldByName(fieldName string) (field.OrderEx
 }
 
 func (r *refModelKejiwaanDewasa) fillFieldMap() {
-	r.fieldMap = make(map[string]field.Expr, 2)
+	r.fieldMap = make(map[string]field.Expr, 3)
 	r.fieldMap["id"] = r.ID
 	r.fieldMap["nama"] = r.Nama
+	r.fieldMap["field_skoring"] = r.FieldSkoring
 }
 
 func (r refModelKejiwaanDewasa) clone(db *gorm.DB) refModelKejiwaanDewasa {

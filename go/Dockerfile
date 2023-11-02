@@ -4,9 +4,11 @@ WORKDIR /app
 # COPY go/go.mod  ./
 # COPY go/go.mod  ./
 COPY go/ ./
+RUN chmod +x /app/entrypoint.sh
 
 ENV TZ=Asia/Jakarta
 RUN go install github.com/cosmtrek/air@latest
-RUN go mod tidy 
+RUN go mod tidy
 RUN air init 
-CMD ["air"]
+CMD ["/app/entrypoint.sh"]
+ 
