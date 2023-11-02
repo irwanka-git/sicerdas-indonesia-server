@@ -1,1 +1,1 @@
-* * * * * /home/script.sh >> /home/cronjob.log
+*/5 * * * * /home/script.sh >> /home/cronjob.log

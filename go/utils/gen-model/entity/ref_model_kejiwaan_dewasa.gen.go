@@ -8,8 +8,9 @@ const TableNameRefModelKejiwaanDewasa = "ref_model_kejiwaan_dewasa"
 
 // RefModelKejiwaanDewasa mapped from table <ref_model_kejiwaan_dewasa>
 type RefModelKejiwaanDewasa struct {
-	ID   int32  `gorm:"column:id;primaryKey" json:"id"`
-	Nama string `gorm:"column:nama" json:"nama"`
+	ID           int32  `gorm:"column:id;primaryKey" json:"id"`
+	Nama         string `gorm:"column:nama" json:"nama"`
+	FieldSkoring string `gorm:"column:field_skoring" json:"field_skoring"`
 }
 
 // TableName RefModelKejiwaanDewasa's table name

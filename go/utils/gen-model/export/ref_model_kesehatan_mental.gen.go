@@ -29,6 +29,7 @@ func newRefModelKesehatanMental(db *gorm.DB, opts ...gen.DOOption) refModelKeseh
 	_refModelKesehatanMental.ALL = field.NewAsterisk(tableName)
 	_refModelKesehatanMental.ID = field.NewInt32(tableName, "id")
 	_refModelKesehatanMental.Nama = field.NewString(tableName, "nama")
+	_refModelKesehatanMental.FieldSkoring = field.NewString(tableName, "field_skoring")
 
 	_refModelKesehatanMental.fillFieldMap()
 
@@ -38,9 +39,10 @@ func newRefModelKesehatanMental(db *gorm.DB, opts ...gen.DOOption) refModelKeseh
 type refModelKesehatanMental struct {
 	refModelKesehatanMentalDo refModelKesehatanMentalDo
 
-	ALL  field.Asterisk
-	ID   field.Int32
-	Nama field.String
+	ALL          field.Asterisk
+	ID           field.Int32
+	Nama         field.String
+	FieldSkoring field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -59,6 +61,7 @@ func (r *refModelKesehatanMental) updateTableName(table string) *refModelKesehat
 	r.ALL = field.NewAsterisk(table)
 	r.ID = field.NewInt32(table, "id")
 	r.Nama = field.NewString(table, "nama")
+	r.FieldSkoring = field.NewString(table, "field_skoring")
 
 	r.fillFieldMap()
 
@@ -87,9 +90,10 @@ func (r *refModelKesehatanMental) GetFieldByName(fieldName string) (field.OrderE
 }
 
 func (r *refModelKesehatanMental) fillFieldMap() {
-	r.fieldMap = make(map[string]field.Expr, 2)
+	r.fieldMap = make(map[string]field.Expr, 3)
 	r.fieldMap["id"] = r.ID
 	r.fieldMap["nama"] = r.Nama
+	r.fieldMap["field_skoring"] = r.FieldSkoring
 }
 
 func (r refModelKesehatanMental) clone(db *gorm.DB) refModelKesehatanMental {
