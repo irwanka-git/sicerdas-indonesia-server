@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"irwanka/sicerdas/helper"
 	"irwanka/sicerdas/repository"
+	"os"
+	"time"
 )
 
 func main() {
+	os.Setenv("TZ", "Asia/Jakarta")
 	skoringRepo := repository.NewSkoringRepository()
 	cek, _ := skoringRepo.GetStatusRunningSkoring()
 	if cek.Status == 1 {
@@ -15,8 +19,7 @@ func main() {
 	skoringRepo.StartRunningSkoring()
 	list_belum_skoring, _ := skoringRepo.GetUserSesiBelumSkoring()
 	for _, user := range list_belum_skoring {
-		text := fmt.Sprintf("ID USER : %v \t ID QUIZ : %v \t Sesi: %v (%v) \t Kota: %v", user.IDUser, user.IDQuiz, user.NamaSesi, user.IDQuizTemplate, user.Kota)
-		fmt.Println(text)
+
 		kategori_tabel, _ := skoringRepo.GetTabelSkoring(user.IDQuiz)
 		skoringRepo.ClearTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
 		skoringRepo.GenerateTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
@@ -115,7 +118,10 @@ func main() {
 			}
 		}
 		skoringRepo.ClearTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
-		skoringRepo.FinishSkoring(user.IDQuiz, user.IDUser)
+		now := helper.StringTimeYMDHIS(time.Now())
+		skoringRepo.FinishSkoring(user.IDQuiz, user.IDUser, now)
+		text := fmt.Sprintf("%v \t ID USER : %v \t ID QUIZ : %v \t Sesi: %v (%v) \t Kota: %v", now, user.IDUser, user.IDQuiz, user.NamaSesi, user.IDQuizTemplate, user.Kota)
+		fmt.Println(text)
 	}
 	skoringRepo.StopRunningSkoring()
 }
