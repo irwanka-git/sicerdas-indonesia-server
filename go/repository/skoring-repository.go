@@ -8,7 +8,6 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type SkoringRepository interface {
@@ -44,7 +43,7 @@ type SkoringRepository interface {
 	SkoringModeBelajar(id_quiz int32, id_user int32) error
 	SkoringSSCT(id_quiz int32, id_user int32) error
 
-	FinishSkoring(id_quiz int32, id_user int32) error
+	FinishSkoring(id_quiz int32, id_user int32, waktu string) error
 }
 
 func NewSkoringRepository() SkoringRepository {
@@ -1078,7 +1077,7 @@ func (*repo) SkoringMBTI(id_quiz int32, id_user int32) error {
 				// fmt.Printf(" set fieldnameJson : %v ", skorB)
 				reflect.ValueOf(&skoring).Elem().FieldByName(fieldname).SetInt(int64(skorB))
 			}
-			fmt.Println()
+			// fmt.Println()
 		}
 		tipejung_kode = fmt.Sprintf("%v%v", tipejung_kode, skorHitungMBTI[i].Kode)
 	}
@@ -1525,15 +1524,13 @@ func (*repo) SkoringSSCT(id_quiz int32, id_user int32) error {
 	return nil
 }
 
-func (*repo) FinishSkoring(id_quiz int32, id_user int32) error {
-	//cek opsional skoring
-
+func (*repo) FinishSkoring(id_quiz int32, id_user int32, waktu string) error {
 	//update status skoring
 	db.Table("quiz_sesi_user").
 		Where("id_quiz = ?", id_quiz).
 		Where("id_user = ?", id_user).
 		UpdateColumns(map[string]interface{}{
 			"skoring":    1,
-			"skoring_at": time.Now()})
+			"skoring_at": waktu})
 	return nil
 }

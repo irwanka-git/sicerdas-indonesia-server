@@ -40,6 +40,10 @@ func init() {
 
 	dbOpen, errDBOpen := gorm.Open(postgres.Open(os.Getenv("DSN_SICERDAS")), &gorm.Config{
 		Logger: loggerGorm,
+		NowFunc: func() time.Time {
+			ti, _ := time.LoadLocation("Asia/Jakarta")
+			return time.Now().In(ti)
+		},
 	})
 
 	if errDBOpen != nil {
