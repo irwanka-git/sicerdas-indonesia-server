@@ -5,3 +5,4 @@
 /cron/cronjob.log
 /go/utils/skoring/main
 /go/tmp/main
+go/tmp/main
