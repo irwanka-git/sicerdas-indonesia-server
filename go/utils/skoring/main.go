@@ -120,7 +120,7 @@ func main() {
 		skoringRepo.ClearTabelTemporaryJawabanUser(user.IDQuiz, user.IDUser)
 		now := helper.StringTimeYMDHIS(time.Now())
 		skoringRepo.FinishSkoring(user.IDQuiz, user.IDUser, now)
-		text := fmt.Sprintf("%v  => ID USER : %v   ID QUIZ : %v  Sesi: %v (%v)  Kota: %v", now, user.IDUser, user.IDQuiz, user.NamaSesi, user.IDQuizTemplate, user.Kota)
+		text := fmt.Sprintf("%v  \t ID USER : %v   ID QUIZ : %v  Sesi: %v (%v)  Kota: %v", now, user.IDUser, user.IDQuiz, user.NamaSesi, user.IDQuizTemplate, user.Kota)
 		fmt.Println(text)
 	}
 	skoringRepo.StopRunningSkoring()
