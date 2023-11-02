@@ -1,9 +1,7 @@
 .DS_Store
-.vscode
-go/tmp/main
-go/tmp/main
-go/tmp/main
-go/tmp/main
-go/tmp/main
-go/utils/skoring/main
-cron/cronjob.log
+.vscode.
+/go/tmp/main
+/go/utils/skoring/main
+/cron/cronjob.log
+/go/utils/skoring/main
+/go/tmp/main
