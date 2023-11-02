@@ -6,3 +6,4 @@ go/tmp/main
 go/tmp/main
 go/tmp/main
 go/utils/skoring/main
+cron/cronjob.log
