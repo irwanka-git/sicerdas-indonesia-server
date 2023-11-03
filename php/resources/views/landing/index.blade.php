@@ -56,7 +56,7 @@ Direkomendasikan untuk Siswa SMA, SMP maupun Mahasiswa
                                     	</p>
                                     	<hr>
                                     	<p>Belum punya aplikasi Si Cerdas Indonesia? Yuk, unduh sekarang juga.</p>
-                                         <a class="btn btn-white fw-500 me-2" href="https://play.google.com/store/apps/details?id=com.sicerdas.id">
+                                         <a class="btn btn-white fw-500 me-2" href="https://play.google.com/store/apps/details?id=sicerdas.app.id">
                                             <i class="mx-2 fa-brands fa-google-play"></i> 
                                              Play Store
                                          </a>

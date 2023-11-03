@@ -106,8 +106,9 @@ func (*repo) GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error
 
 func (*repo) GetlListQuizByUser(id int) ([]*entity.QuizUserApi, error) {
 	var quiz []*entity.QuizUserApi
-	result := db.Table("quiz_sesi as a").Select("a.token, a.nama_sesi, a.lokasi, a.tanggal, a.gambar, b.submit, b.status_hasil, a.open").
+	result := db.Table("quiz_sesi as a").Select("a.token, a.nama_sesi, c.lokasi_nama as lokasi, a.tanggal, a.gambar, b.submit, b.status_hasil, a.open").
 		Joins("left join quiz_sesi_user as b on a.id_quiz = b.id_quiz").
+		Joins("left join lokasi as c on c.id_lokasi = a.id_lokasi").
 		Where("b.id_user = ?", id).
 		Order(" a.id_quiz desc").
 		Scan(&quiz)

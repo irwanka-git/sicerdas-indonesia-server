@@ -56,7 +56,6 @@ func main() {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(120 * time.Second))
 	r.Post("/login", userController.SubmitLogin)
-	r.Post("/login", userController.SubmitLogin)
 	//protected route
 	r.Group(func(r chi.Router) {
 		r.Use(jwtauth.Verifier(tokenAuth))
