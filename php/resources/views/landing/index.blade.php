@@ -64,7 +64,7 @@ Direkomendasikan untuk Siswa SMA, SMP maupun Mahasiswa
                                             <i class="mx-2 fa-brands fa-app-store"></i> 
                                              App Store
                                          </a>
-                                        <a class="btn btn-white fw-500 me-2" href="https://s.id/scid">
+                                        <a class="btn btn-white fw-500 me-2" href="https://shorturl.at/ARWX1">
                                             <i class="mx-2 fa-brands fa-windows"></i> 
                                              Windows
                                          </a>
