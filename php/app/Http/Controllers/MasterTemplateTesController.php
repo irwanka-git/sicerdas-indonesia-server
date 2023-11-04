@@ -44,25 +44,26 @@ class MasterTemplateTesController extends Controller
             }   
         }
 
-         $sql_union = "select a.id_quiz_template, 
-            a.nama_sesi, a.skoring_tabel, a.gambar,
-            a.uuid, a.jenis,
-            count(b.id_sesi_master) as jumlah_sesi 
+         $sql_union = "select a.id_quiz_template,  a.kode,
+            a.nama_sesi, a.gambar,
+            a.uuid, a.jenis, 
+            count(b.id_sesi_master) as jumlah_sesi
             from quiz_sesi_template as a 
             left join quiz_sesi_detil_template as b 
                 on a.id_quiz_template = b.id_quiz_template
-                where a.id_quiz_template > 0 
-            $filter  group by a.id_quiz_template, 
+                where a.id_quiz_template > 0 $filter
+            group by a.id_quiz_template, 
             a.nama_sesi, a.skoring_tabel, 
-            a.uuid ";
+            a.uuid 
+        order by a.jenis  desc , a.kode asc";
         //return $sql_union;
-         $query = DB::table(DB::raw("($sql_union) as x order by jenis desc, id_quiz_template asc"))
+         $query = DB::table(DB::raw("($sql_union) as x order by jenis desc, kode asc"))
                     ->select([
                         'id_quiz_template',
-                        'nama_sesi',
-                        'skoring_tabel',
+                        'kode',
+                        'nama_sesi', 
                         'gambar',
-                        'jumlah_sesi',
+                        'jumlah_sesi', 
                         'jenis',
                         'uuid',
                     ]);
@@ -88,11 +89,15 @@ class MasterTemplateTesController extends Controller
                   return '<button data-image="'.$q->gambar.'" class="btn btn-outline-secondary btn-outline btn-sm btn-view-image" type="button">'.$gambar.'</button>';
                 }
             })
-            ->editColumn('nama_sesi', function($q){
-                return "<a href='".url('template-tes/detil/'.$q->uuid)."'>". $q->nama_sesi ."</a>";
+            ->editColumn('jumlah_sesi', function($q){
+                // return "<a href='".url('template-tes/detil/'.$q->uuid)."'>". $q->jumlah_sesi ." Sesi</a>";
+                return "<a class='btn btn-sm btn-outline-secondary' href='".url('template-tes/detil/'.$q->uuid)."'> <i class='la la-list'></i> ". $q->jumlah_sesi ." Sesi </a>";
+            })
+            ->editColumn('item_report', function($q){
+                return "<a class='btn btn-sm btn-outline-secondary' href='".url('template-tes/report/'.$q->uuid)."'> <i class='la la-cog'></i> Laporan </a>";
             })
             ->addIndexColumn()
-            ->rawColumns(['action','nama_sesi','gambar'])
+            ->rawColumns(['action','jumlah_sesi','gambar','item_report'])
             ->make(true);
     }
 
@@ -115,6 +120,7 @@ class MasterTemplateTesController extends Controller
             // $petunjuk_sesi = str_replace("</p>", "", $petunjuk_sesi);          
             // return $petunjuk_sesi;
 	    	$record = array(                                              
+                "kode"=>trim($r->kode),
                 "nama_sesi"=>trim($r->nama_sesi),
                 "gambar"=>trim($r->gambar),
                 "jenis"=>trim($r->jenis),
@@ -139,6 +145,7 @@ class MasterTemplateTesController extends Controller
             // $pernyataan = str_replace("</p>", "", $pernyataan);
             //return $pernyataan;
 	    	$record = array(
+                "kode"=>trim($r->kode),
                  "nama_sesi"=>trim($r->nama_sesi),
                   "gambar"=>trim($r->gambar),
                   "jenis"=>trim($r->jenis),
@@ -218,22 +225,15 @@ class MasterTemplateTesController extends Controller
                     $action = '';
                     if($this->ucu()){
 
-                    $edit = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Ubah Data Detil"  data-bs-toggle="modal" data-uuid="'.$query->uuid.'" data-bs-target="#modal-edit" class="btn btn-light btn-sm" type="button"><ion-icon name="create-outline" btn></ion-icon></button>';
+                    $edit = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Ubah Sesi"  data-bs-toggle="modal" data-uuid="'.$query->uuid.'" data-bs-target="#modal-edit" class="btn btn-light btn-sm" type="button"><ion-icon name="create-outline" btn></ion-icon></button>';
                     }
                     if($this->ucd()){
-                        $delete = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Hapus Data Detil"   data-uuid="'.$query->uuid.'" class="btn btn-light btn-sm btn-konfirm-delete" type="button"><ion-icon name="trash-outline" btn></ion-icon></button>';
+                        $delete = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Hapus Sesi"   data-uuid="'.$query->uuid.'" class="btn btn-light btn-sm btn-konfirm-delete" type="button"><ion-icon name="trash-outline" btn></ion-icon></button>';
                     }
                     $action =  $action." ".$edit." ".$delete;
                     if ($action==""){return '<a href="#" class="act"><i class="la la-lock"></i></a>'; }
                     return '<div class="btn-group" role="group">'.$action.'</button>';
-            })
-            ->editColumn('kunci_waktu', function($q){
-                if($q->kunci_waktu==0){
-                    return "Fleksibel";
-                }
-                return "Kaku/Flat";
-            })
-            ->addIndexColumn()
+            }) 
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -305,4 +305,179 @@ class MasterTemplateTesController extends Controller
         }
     }
 
+    ///
+    function index_report($uuid){
+        $pagetitle = "Master Template Tes";
+        $smalltitle = "Data Report - Template Tes";
+        $template = DB::table('quiz_sesi_template')->where('uuid', $uuid)->first();
+        $id_quiz_template = $template->id_quiz_template;
+        $sesi = DB::select("select 
+                                a.id_quiz_sesi_template,
+                                b.kategori, 
+                                b.tabel,
+                                b.nama_sesi_ujian, 
+                                a.urutan,
+                                a.uuid
+                            FROM
+                                quiz_sesi_detil_template AS a,
+                                quiz_sesi_master AS b 
+                            WHERE
+                                a.id_sesi_master = b.id_sesi_master 
+                                AND a.id_quiz_template =  $id_quiz_template");
+        return view('master-template.index-report', compact('pagetitle','smalltitle','template','sesi'));
+    }
+
+    function datatable_report($uuid){
+        $template = DB::table('quiz_sesi_template')->where('uuid', $uuid)->first();
+        $id_quiz_template = $template->id_quiz_template;
+        $filter = "";
+        if (request()->has('search')) {
+            $search = request('search');
+            $keyword = $search['value'];
+            if(strlen($keyword)>=2){
+                $keyword = strtolower($keyword);
+                $filter = " and (  lower(a.nama_report) like '%$keyword%' ) ";
+            }   
+        }
+
+         $sql_union = "select 
+                            b.urutan,
+                            a.nama_report,
+                            b.uuid
+                        FROM
+                            quiz_sesi_template_report AS b,
+                            quiz_sesi_report AS a 
+                        WHERE
+                            a.id_report = b.id_report 
+                            AND b.id_quiz_template =  $id_quiz_template $filter ";
+        //return $sql_union;
+         $query = DB::table(DB::raw("($sql_union) as x order by urutan"))
+                    ->select([
+                        'urutan',
+                        'nama_report',
+                        'uuid',
+                    ]);
+
+         return Datatables::of($query)
+            ->addColumn('action', function ($query) {
+                    $edit = ""; $delete = "";
+                    $action = '';
+                     
+                    if($this->ucd()){
+                        $delete = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Hapus Report"   data-uuid="'.$query->uuid.'" class="btn btn-light btn-sm btn-konfirm-delete" type="button"><ion-icon name="trash-outline" btn></ion-icon></button>';
+                    }
+                    $action =  $action." ".$edit." ".$delete;
+                    if ($action==""){return '<a href="#" class="act"><i class="la la-lock"></i></a>'; }
+                    return '<div class="btn-group" role="group">'.$action.'</button>';
+            })
+            ->addIndexColumn()
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    function submit_insert_report(Request $r){
+        if($this->ucc()){
+            loadHelper('format');
+            $uuid = $this->genUUID();
+            $id_quiz_template = $r->id_quiz_template;
+            $id_report = (int)($r->id_report);
+            $tabel_referensi = DB::table('quiz_sesi_report')->where('id_report', $id_report)->first()->tabel_referensi;
+            if($tabel_referensi!="-"){
+                $exist = DB::table('quiz_sesi_template_report')
+                    ->where('id_quiz_template', $id_quiz_template)
+                    ->where('id_report',$id_report)
+                    ->count();
+                if($exist){
+                    $respon = array('status'=>false,'message'=>'Komponen sudah ada!');
+                    return response()->json($respon);
+                }
+            }
+           
+            $jumlah = DB::select(
+                "select 
+                count(*) as jumlah
+                FROM
+                    quiz_sesi_template_report AS b,
+                    quiz_sesi_report AS a 
+                WHERE
+                    a.id_report = b.id_report 
+                    AND b.id_quiz_template =  $id_quiz_template"
+            );
+            $urutan = $jumlah[0]->jumlah + 1;
+            $record = array( 
+                "id_quiz_template"=>$r->id_quiz_template,                                        
+                "urutan"=>(int)($urutan),
+                "id_report"=>$id_report,
+                "uuid"=>$uuid,
+            );
+            DB::table('quiz_sesi_template_report')->insert($record);
+            $respon = array('status'=>true,'message'=>'Komponen Berhasil Ditambahkan!');
+            return response()->json($respon);
+        }else{
+            $respon = array('status'=>false,'message'=>'Akses Ditolak!');
+            return response()->json($respon);
+        }
+    }
+
+
+    function get_data_report($uuid){
+        $data = DB::table('quiz_sesi_template_report')->where('uuid', $uuid)->first();
+        if($data){
+            $report = DB::table('quiz_sesi_report')->where('id_report', $data->id_report)->first();
+            $respon = array('status'=>true,'data'=>$data, 
+                'informasi'=>'Komponen : '.$report->nama_report);
+            return response()->json($respon);
+        }
+        $respon = array('status'=>false,'message'=>'Data Tidak Ditemukan');
+        return response()->json($respon); 
+    }
+
+    function submit_delete_report(Request $r){
+        if($this->ucu()){
+            //loadHelper('format');
+            $id_quiz_template = DB::table('quiz_sesi_template_report')->where('uuid', $r->uuid)->first()->id_quiz_template;
+            DB::table('quiz_sesi_template_report')->where('uuid', $r->uuid)->delete();
+            $listbaru = DB::table('quiz_sesi_template_report')
+                            ->where('id_quiz_template', $id_quiz_template)
+                            ->orderby("urutan")->get();
+            $urutan = 1;
+            foreach ($listbaru as $r){
+                $uuid = $r->uuid;
+                DB::table('quiz_sesi_template_report')->where('uuid', $uuid)->update(["urutan"=>$urutan]);
+                $urutan++;
+            }
+            $respon = array('status'=>true,'message'=>'Komponen Berhasil Dihapus!');
+            return response()->json($respon);
+        }else{
+            $respon = array('status'=>false,'message'=>'Akses Ditolak!');
+            return response()->json($respon);
+        }
+    }
+
+    function get_list_komponen_report($id_quiz_template){
+        $list = DB::select("select a.nama_report, b.uuid ,
+                 b.urutan, a.tabel_referensi 
+                        from quiz_sesi_report as a, 
+                            quiz_sesi_template_report as b where a.jenis = 1 
+                                and a.id_report = b.id_report 
+                                    and b.id_quiz_template = $id_quiz_template order by b.urutan asc");
+        return view('master-template.drag-report', compact('list'));
+    }
+
+    function submit_update_urutan(Request $r){
+        if($this->ucc()){
+            $urutan_string =  $r->urutan_list;
+            $urutan_list = explode(",", $urutan_string);
+            $urutan = 1;
+            foreach ($urutan_list as $r){
+                if ($r != null && $r != ""){
+                    $uuid = $r;
+                    DB::table('quiz_sesi_template_report')->where('uuid', $uuid)->update(["urutan"=>$urutan]);
+                    $urutan++;
+                }
+            }
+            $respon = array('status'=>true,'message'=>'Urutan Berhasil Diperbarui!');
+            return response()->json($respon);
+        }
+    }
 }

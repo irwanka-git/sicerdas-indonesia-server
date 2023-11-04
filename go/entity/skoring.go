@@ -32,6 +32,16 @@ type JawabanMapping struct {
 	JawabanArray []string `json:"jawaban_array"`
 }
 
+type JawabanQuiz struct {
+	Kategori string   `json:"kategori"`
+	Jawaban  []string `json:"jawaban"`
+}
+
+type JawabanString struct {
+	Kategori string `json:"kategori"`
+	Jawaban  string `json:"jawaban"`
+}
+
 type QuizSesiUserJawaban struct {
 	IDJawabanPeserta int32  `gorm:"column:id_jawaban_peserta;primaryKey;autoIncrement:true" json:"id_jawaban_peserta"`
 	IDQuiz           int32  `gorm:"column:id_quiz" json:"id_quiz"`

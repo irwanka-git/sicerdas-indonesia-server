@@ -255,13 +255,13 @@ func (*repo) GetSoalPeminatanSMK(id_quiz int32, paket string, demo bool, token s
 		pertanyaan = strings.ReplaceAll(pertanyaan, "<span>", "")
 		pertanyaan = strings.ReplaceAll(pertanyaan, "<span >", "")
 
-		if listResultSoal[i].ImageBase64 != "" {
-			var typeImage = "data:image/jpeg;base64"
-			if listResultSoal[i].TypeImage == "image/png" {
-				typeImage = "data:image/png;base64"
-			}
-			gambar = fmt.Sprintf("%s,%s", typeImage, listResultSoal[i].ImageBase64)
-		}
+		// if listResultSoal[i].ImageBase64 != "" {
+		// 	var typeImage = "data:image/jpeg;base64"
+		// 	if listResultSoal[i].TypeImage == "image/png" {
+		// 		typeImage = "data:image/png;base64"
+		// 	}
+		// 	gambar = fmt.Sprintf("%s,%s", typeImage, listResultSoal[i].ImageBase64)
+		// }
 
 		var soal = entity.SoalSession{}
 		soal.Token = token
@@ -1012,6 +1012,7 @@ func (*repo) GetSoalMinatKuliahDinas(token string, demo bool) ([]*entity.SoalSes
 	var listResultSoal []struct {
 		Nomor       string `json:"nomor"`
 		Uuid        string `json:"uuid"`
+		Deskripsi   string `json:"deskripsi"`
 		PernyataanA string `json:"pernyataan_a"`
 		PernyataanB string `json:"pernyataan_b"`
 		PernyataanC string `json:"pernyataan_c"`
@@ -1026,7 +1027,7 @@ func (*repo) GetSoalMinatKuliahDinas(token string, demo bool) ([]*entity.SoalSes
 		PernyataanL string `json:"pernyataan_l"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					*
 				FROM
@@ -1040,7 +1041,7 @@ func (*repo) GetSoalMinatKuliahDinas(token string, demo bool) ([]*entity.SoalSes
 					order by nomor`).Scan(&listResultSoal)
 	}
 	for i := 0; i < len(listResultSoal); i++ {
-		var pertanyaan = ""
+		var pertanyaan = listResultSoal[i].Deskripsi
 		var pilihan = []*entity.PilihanJawaban{}
 
 		if listResultSoal[i].PernyataanA != "" {

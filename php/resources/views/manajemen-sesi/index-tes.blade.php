@@ -66,24 +66,24 @@ $currentURL = URL::current();
 						@foreach($list_tes as $r)
 						
 							<div class="col-12 col-md-6 col-lg-3">
+								
 								<div class="card">
 									@if($r->open==1)
 									<div class="badge badge-sidebar-primary badge-open">Buka</div>
 									@else
 									<div class="badge badge-sidebar-primary badge-close">Tutup</div>
 									@endif
+									
 								<img class="card-img-top" src="{{$r->gambar}}" alt="Unsplash">
+								<small style="background-color: black; text-align:center; color:white">{{$r->kode}}-{{$r->id_quiz_template}}-{{$r->token}}</small>
 								<div class="card-body px-4 pt-2">
-										{{tgl_indo_lengkap($r->tanggal)}}
+									{{tgl_indo_lengkap($r->tanggal)}}
 										<a href="{{url('/manajemen-sesi/detil/'.Crypt::encrypt($r->id_quiz).'?back='.$currentURL)}}"><h5 class="card-title mb-0">{{$r->nama_sesi}}</h5></a>
-									 
-										<span class="mb-2 fw-bold"><i class="las la-tag"></i> {{$r->jenis_tes}}</span>
-									 <p class="pt-2">
+										<span class="mb-2 fw-bold"><i class="las la-tag"></i>{{$r->jenis_tes}}</span>
+									 <div class="pt-2">
 										<span class="mb-2 fw-bold"><i class="las la-user-alt"></i> Peserta <span class="float-end">{{$r->peserta}}</span></span><br>
 										<span class="mb-2 fw-bold"><i class="las la-list-ol"></i> Jumlah Sesi <span class="float-end">{{$r->jumlah_sesi}}</span></span>
-										
-
-									</p>
+									</div>
 								</div>
 								</div>
 							</div>

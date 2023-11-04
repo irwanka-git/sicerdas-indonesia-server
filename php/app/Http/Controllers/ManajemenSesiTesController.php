@@ -40,7 +40,7 @@ class ManajemenSesiTesController extends Controller
         $smalltitle = "Data Manajemen Tes";
         $list_tahun = DB::select("SELECT date_part( 'year', tanggal ) as tahun, 
             count(*) as jumlah_sesi 
-            FROM quiz_sesi where id_quiz > 0 $filter and jenis ='quiz'
+            FROM quiz_sesi where arsip = 0 $filter and jenis ='quiz'
             GROUP BY date_part( 'year', tanggal )");
         return view('manajemen-sesi.index-tahun', compact('pagetitle','smalltitle', 'list_tahun'));
     }
@@ -58,7 +58,7 @@ class ManajemenSesiTesController extends Controller
         $pagetitle = "Manajemen Tes";
         $smalltitle = "Data Manajemen Tes";
         $total_tahun = DB::select("select count(*) as jumlah 
-                        from quiz_sesi where date_part( 'year', tanggal ) = '$tahun' and jenis = 'quiz'  ");
+                        from quiz_sesi where arsip = 0 and date_part( 'year', tanggal ) = '$tahun' and jenis = 'quiz'  ");
 
         $data_tahun['jumlah_tes'] = $total_tahun[0]->jumlah;
         $data_tahun['tahun'] = $tahun;
@@ -112,7 +112,7 @@ class ManajemenSesiTesController extends Controller
         $id_user_biro = $biro->id;
 
         $total_biro = DB::select("select count(*) as jumlah 
-                        from quiz_sesi where date_part( 'year', tanggal ) = '$tahun' and id_user_biro = $id_user_biro 
+                        from quiz_sesi where arsip = 0 and date_part( 'year', tanggal ) = '$tahun' and id_user_biro = $id_user_biro 
                         and jenis = 'quiz'  ");
         $data_biro['jumlah_tes'] = $total_biro[0]->jumlah;
         $data_biro['id_user_biro'] = $biro->uuid;
@@ -156,7 +156,7 @@ class ManajemenSesiTesController extends Controller
         }
         $id_user_biro = $biro->id;
         $total_biro = DB::select("select count(*) as jumlah 
-                        from quiz_sesi where date_part( 'year', tanggal ) = '$tahun' and id_user_biro = $id_user_biro 
+                        from quiz_sesi where arsip = 0 and date_part( 'year', tanggal ) = '$tahun' and id_user_biro = $id_user_biro 
                         and jenis = 'quiz'  ");
 
         $data_biro['id_user_biro'] = $biro->uuid;
@@ -168,7 +168,7 @@ class ManajemenSesiTesController extends Controller
             return redirect('manajemen-sesi');
         }
         $total_provinsi = DB::select("select count(*) as jumlah from quiz_sesi as a, lokasi as b 
-                        where a.id_lokasi = b.id_lokasi and b.kode_provinsi = '$provinsi'
+                        where a.arsip = 0 and  a.id_lokasi = b.id_lokasi and b.kode_provinsi = '$provinsi'
                         and a.id_user_biro = '$id_user_biro' and date_part('year',a.tanggal) = '$tahun' 
                         and a.jenis = 'quiz' ");
         
@@ -182,7 +182,8 @@ class ManajemenSesiTesController extends Controller
                                         quiz_sesi AS A,
                                         lokasi AS b,
                                         regencies AS C
-                                    WHERE
+                                    WHERE 
+                                        A.arsip = 0 and 
                                         A.id_user_biro = '$id_user_biro' 
                                         AND b.kode_provinsi  = '$provinsi'
                                         AND date_part( 'year', A.tanggal ) = '$tahun' 
@@ -224,7 +225,7 @@ class ManajemenSesiTesController extends Controller
         $data_biro['id_user_biro'] = $biro->uuid;
         
         $total_biro = DB::select("select count(*) as jumlah 
-                        from quiz_sesi where date_part( 'year', tanggal ) = '$tahun' and id_user_biro = $id_user_biro 
+                        from quiz_sesi where arsip = 0 and date_part( 'year', tanggal ) = '$tahun' and id_user_biro = $id_user_biro 
                         and jenis = 'quiz'  ");
         $data_biro['nama_biro'] = $biro->nama_pengguna;
         $data_biro['jumlah_tes'] = $total_biro[0]->jumlah;
@@ -234,7 +235,7 @@ class ManajemenSesiTesController extends Controller
             return redirect('manajemen-sesi');
         }
         $total_provinsi = DB::select("select count(*) as jumlah from quiz_sesi as a, lokasi as b 
-                        where a.id_lokasi = b.id_lokasi and b.kode_provinsi = '$provinsi'
+                        where a.arsip = 0 and  a.id_lokasi = b.id_lokasi and b.kode_provinsi = '$provinsi'
                         and a.id_user_biro = '$id_user_biro' and date_part('year',a.tanggal) = '$tahun'
                         and a.jenis = 'quiz' 
                           ");
@@ -263,14 +264,17 @@ class ManajemenSesiTesController extends Controller
                     A.tanggal,
                     A.kota,
                     A.nama_asesor,
+                    A.token,
                     b.nama_lokasi,
                     C.nama_sesi AS jenis_tes,
+                    C.id_quiz_template as id_quiz_template,
+                    C.kode,
                     C.gambar 
                 FROM
                     quiz_sesi AS A,
                     lokasi AS b,
                     quiz_sesi_template AS C 
-                WHERE
+                WHERE A.arsip = 0 and 
                     A.id_user_biro = '$id_user_biro' 
                     AND b.kode_provinsi = '$provinsi' 
                     AND date_part( 'year', A.tanggal ) = '$tahun' 
@@ -293,6 +297,9 @@ class ManajemenSesiTesController extends Controller
                 sesi.kota,
                 sesi.nama_asesor,
                 sesi.nama_lokasi,
+                sesi.id_quiz_template,
+                sesi.kode,
+                sesi.token,
                 sesi.jenis_tes,
                 sesi.gambar,
                 sesi_detil.jumlah_sesi
@@ -359,7 +366,7 @@ class ManajemenSesiTesController extends Controller
                             quiz_sesi AS a  
                             left join quiz_sesi_user as b on a.id_quiz = b.id_quiz 
                             left join users as c on a.id_user_biro = c.id 
-                            where a.id_quiz > 0 $filter
+                            where a.arsip = 0 and a.id_quiz > 0  $filter
                         group by a.id_quiz, c.nama_pengguna) as x 
                         left join quiz_sesi_detil as y 
                         on x.id_quiz = y.id_quiz
@@ -697,7 +704,7 @@ class ManajemenSesiTesController extends Controller
         $id_quiz = Crypt::decrypt($crypt_id);
         //$quiz = DB::table('quiz_sesi')->where('id_quiz', $id_quiz)->first();
         $quiz = DB::select("select 
-                    a.*, b.gambar as cover, c.nama_lokasi, d.name as kabupaten , b.nama_sesi as jenis_tes
+                    a.*, b.gambar as cover, b.id_quiz_template, b.kode,  c.nama_lokasi, d.name as kabupaten , b.nama_sesi as jenis_tes
                     from 
                     quiz_sesi as a, 
                     quiz_sesi_template as b ,
@@ -719,6 +726,7 @@ class ManajemenSesiTesController extends Controller
                                 b.durasi,
                                 b.kunci_waktu, 
                                 c.mode, 
+                                c.tabel,
                                 b.id_quiz_sesi
                             FROM
                                 quiz_sesi AS a,

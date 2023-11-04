@@ -355,7 +355,7 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/update', 'MasterSesiController@submit_update');
 		Route::post('/delete', 'MasterSesiController@submit_delete');
 	});
-
+ 
 	//KELOLA TES > MASTER SESI
 	//jenis-tes
 	Route::group(['prefix'=>'template-tes'], function(){
@@ -374,6 +374,16 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/insert-detil', 'MasterTemplateTesController@submit_insert_detil');
 		Route::post('/update-detil', 'MasterTemplateTesController@submit_update_detil');
 		Route::post('/delete-detil', 'MasterTemplateTesController@submit_delete_detil');
+
+		//repot
+		Route::get('/report/{uuid}', 'MasterTemplateTesController@index_report');
+		Route::get('/dt-report/{uuid}', 'MasterTemplateTesController@datatable_report');
+		Route::get('/get-data-report/{uuid}', 'MasterTemplateTesController@get_data_report');
+		Route::post('/insert-report', 'MasterTemplateTesController@submit_insert_report'); 
+		Route::post('/delete-report', 'MasterTemplateTesController@submit_delete_report');
+		Route::post('/update-urutan-report', 'MasterTemplateTesController@submit_update_urutan');
+
+		Route::get('/komponen-report/{id}', 'MasterTemplateTesController@get_list_komponen_report');
 	});
 	//TARIF PAKET TES
 	Route::group(['prefix'=>'tarif-paket'], function(){

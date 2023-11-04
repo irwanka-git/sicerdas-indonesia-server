@@ -44,9 +44,8 @@ $back_url = Request::get('back');
 		<div class="card">
 			<img class="card-img-top" src="{{$quiz->cover}}" alt="Unsplash">
 			<div class="card-body">
-				<center>
-					<span class='badge bg-secondary' style="padding: 4px;"><i class="las la-sticky-note"></i> Token: {{$quiz->token}} </span>
-
+				 
+				
 					@if($quiz->open==1)
 					<span class='badge bg-success' style="padding: 4px;"><i class="las la-play"></i> Sesi Tes Dibuka</span>
 					@else
@@ -60,12 +59,13 @@ $back_url = Request::get('back');
 						<i class="las la-calendar"></i> {{tgl_indo_lengkap($quiz->tanggal) ? tgl_indo_lengkap($quiz->tanggal) : ' Tidak Ada Jadwal' }}
 						<br>
 						<i class="las la-tag"></i> {{$quiz->jenis_tes}}<br>
+						<i class="las la-code"></i> {{$quiz->kode}}-{{$quiz->id_quiz_template}}-{{$quiz->token}}<br>
 						@if($quiz->nama_asesor)
 						<hr> Asesor: <br><b>{{$quiz->nama_asesor}}</b><br>
 						<small>SIPP: {{$quiz->nomor_sipp}}</small>
 						@endif
 					</p>
-				</center>
+				 
 				<div class="d-grid gap-2">
 					@if($quiz->nama_asesor=="")
 						<span class="bg-danger p-1">
@@ -90,7 +90,15 @@ $back_url = Request::get('back');
 						<button class="nav-link " id="sesi-tab" data-bs-toggle="tab" data-bs-target="#daftar-sesi" type="button" role="tab" aria-controls="daftar-sesi" aria-selected="true">Informasi Sesi</button>
 					</li>
 					<!-- TAMBAHAN KHUSUS -->
-					@if($quiz->skoring_tabel=='skoring_minat_smk' || $quiz->skoring_tabel=='skoring_minat_smk_v2' || $quiz->skoring_tabel=='non_skoring_smk_cancel')
+					<?php 
+					$is_smk = false;
+					 foreach($quiz_sesi as $r){
+						if ($r->tabel =="skor_peminatan_smk"){
+							$is_smk = true;
+						}
+					 }
+					?>
+					@if($is_smk)
 					<li class="nav-item" role="presentation">
 						<button class="nav-link " id="sesi-tab" data-bs-toggle="tab" data-bs-target="#addons-pilihan-smk" type="button" role="tab" aria-controls="daftar-sesi" aria-selected="true">Pilihan SMK</button>
 					</li>
@@ -221,7 +229,7 @@ $back_url = Request::get('back');
 						</table>
 					</div>
 
-					@if($quiz->skoring_tabel=='skoring_minat_smk' || $quiz->skoring_tabel=='skoring_minat_smk_v2' || $quiz->skoring_tabel=='non_skoring_smk_cancel')
+					@if($is_smk)
 						<div class="tab-pane p-1 pt-4 fade " id="addons-pilihan-smk" role="tabpanel" aria-labelledby="sesi-tab">
 						</div>
 					@endif
@@ -1393,7 +1401,7 @@ $back_url = Request::get('back');
 			@endif
 
 
-			@if($quiz->skoring_tabel=='skoring_minat_smk' || $quiz->skoring_tabel=='skoring_minat_smk_v2' || $quiz->skoring_tabel=='non_skoring_smk_cancel' )
+			@if($is_smk)
 				$.get('{{url($main_path."/page-mapping-smk/".$quiz->uuid)}}', function(respon){
 					$("#addons-pilihan-smk").html(respon);
 				});
