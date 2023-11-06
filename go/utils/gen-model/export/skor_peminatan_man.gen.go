@@ -35,6 +35,10 @@ func newSkorPeminatanMan(db *gorm.DB, opts ...gen.DOOption) skorPeminatanMan {
 	_skorPeminatanMan.MinatRentang = field.NewInt32(tableName, "minat_rentang")
 	_skorPeminatanMan.RekomMinat = field.NewString(tableName, "rekom_minat")
 	_skorPeminatanMan.MinatAgama = field.NewInt32(tableName, "minat_agama")
+	_skorPeminatanMan.KlasifikasiMinatSains = field.NewString(tableName, "klasifikasi_minat_sains")
+	_skorPeminatanMan.KlasifikasiMinatHumaniora = field.NewString(tableName, "klasifikasi_minat_humaniora")
+	_skorPeminatanMan.KlasifikasiMinatBahasa = field.NewString(tableName, "klasifikasi_minat_bahasa")
+	_skorPeminatanMan.KlasifikasiMinatAgama = field.NewString(tableName, "klasifikasi_minat_agama")
 
 	_skorPeminatanMan.fillFieldMap()
 
@@ -44,15 +48,19 @@ func newSkorPeminatanMan(db *gorm.DB, opts ...gen.DOOption) skorPeminatanMan {
 type skorPeminatanMan struct {
 	skorPeminatanManDo skorPeminatanManDo
 
-	ALL            field.Asterisk
-	IDUser         field.Int32
-	IDQuiz         field.Int32
-	MinatSains     field.Int32
-	MinatHumaniora field.Int32
-	MinatBahasa    field.Int32
-	MinatRentang   field.Int32
-	RekomMinat     field.String
-	MinatAgama     field.Int32
+	ALL                       field.Asterisk
+	IDUser                    field.Int32
+	IDQuiz                    field.Int32
+	MinatSains                field.Int32
+	MinatHumaniora            field.Int32
+	MinatBahasa               field.Int32
+	MinatRentang              field.Int32
+	RekomMinat                field.String
+	MinatAgama                field.Int32
+	KlasifikasiMinatSains     field.String
+	KlasifikasiMinatHumaniora field.String
+	KlasifikasiMinatBahasa    field.String
+	KlasifikasiMinatAgama     field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -77,6 +85,10 @@ func (s *skorPeminatanMan) updateTableName(table string) *skorPeminatanMan {
 	s.MinatRentang = field.NewInt32(table, "minat_rentang")
 	s.RekomMinat = field.NewString(table, "rekom_minat")
 	s.MinatAgama = field.NewInt32(table, "minat_agama")
+	s.KlasifikasiMinatSains = field.NewString(table, "klasifikasi_minat_sains")
+	s.KlasifikasiMinatHumaniora = field.NewString(table, "klasifikasi_minat_humaniora")
+	s.KlasifikasiMinatBahasa = field.NewString(table, "klasifikasi_minat_bahasa")
+	s.KlasifikasiMinatAgama = field.NewString(table, "klasifikasi_minat_agama")
 
 	s.fillFieldMap()
 
@@ -105,7 +117,7 @@ func (s *skorPeminatanMan) GetFieldByName(fieldName string) (field.OrderExpr, bo
 }
 
 func (s *skorPeminatanMan) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 8)
+	s.fieldMap = make(map[string]field.Expr, 12)
 	s.fieldMap["id_user"] = s.IDUser
 	s.fieldMap["id_quiz"] = s.IDQuiz
 	s.fieldMap["minat_sains"] = s.MinatSains
@@ -114,6 +126,10 @@ func (s *skorPeminatanMan) fillFieldMap() {
 	s.fieldMap["minat_rentang"] = s.MinatRentang
 	s.fieldMap["rekom_minat"] = s.RekomMinat
 	s.fieldMap["minat_agama"] = s.MinatAgama
+	s.fieldMap["klasifikasi_minat_sains"] = s.KlasifikasiMinatSains
+	s.fieldMap["klasifikasi_minat_humaniora"] = s.KlasifikasiMinatHumaniora
+	s.fieldMap["klasifikasi_minat_bahasa"] = s.KlasifikasiMinatBahasa
+	s.fieldMap["klasifikasi_minat_agama"] = s.KlasifikasiMinatAgama
 }
 
 func (s skorPeminatanMan) clone(db *gorm.DB) skorPeminatanMan {

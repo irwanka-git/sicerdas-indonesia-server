@@ -8,13 +8,16 @@ const TableNameSkorPeminatanSma = "skor_peminatan_sma"
 
 // SkorPeminatanSma mapped from table <skor_peminatan_sma>
 type SkorPeminatanSma struct {
-	IDUser         int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
-	IDQuiz         int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
-	MinatSains     int32  `gorm:"column:minat_sains" json:"minat_sains"`
-	MinatHumaniora int32  `gorm:"column:minat_humaniora" json:"minat_humaniora"`
-	MinatBahasa    int32  `gorm:"column:minat_bahasa" json:"minat_bahasa"`
-	MinatRentang   int32  `gorm:"column:minat_rentang" json:"minat_rentang"`
-	RekomMinat     string `gorm:"column:rekom_minat" json:"rekom_minat"`
+	IDUser                    int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz                    int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	MinatSains                int32  `gorm:"column:minat_sains" json:"minat_sains"`
+	MinatHumaniora            int32  `gorm:"column:minat_humaniora" json:"minat_humaniora"`
+	MinatBahasa               int32  `gorm:"column:minat_bahasa" json:"minat_bahasa"`
+	MinatRentang              int32  `gorm:"column:minat_rentang" json:"minat_rentang"`
+	RekomMinat                string `gorm:"column:rekom_minat" json:"rekom_minat"`
+	KlasifikasiMinatSains     string `gorm:"column:klasifikasi_minat_sains" json:"klasifikasi_minat_sains"`
+	KlasifikasiMinatHumaniora string `gorm:"column:klasifikasi_minat_humaniora" json:"klasifikasi_minat_humaniora"`
+	KlasifikasiMinatBahasa    string `gorm:"column:klasifikasi_minat_bahasa" json:"klasifikasi_minat_bahasa"`
 }
 
 // TableName SkorPeminatanSma's table name
