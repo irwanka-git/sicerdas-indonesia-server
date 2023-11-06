@@ -55,8 +55,14 @@
                         <div><small>{{$r->nama_report}}</small></div>
                     @endif
                 </div>
-                <div class="col-md-3 d-flex flex-row-reverse  float-right">
-                    <button type="button" data-uuid="{{$r->uuid}}" class="btn btn-konfirm-delete  btn-outline-danger btn-sm"><i class="la la-times"></i></button> 
+                <div class="col-md-3 d-flex flex-row-reverse ">
+                      <button type="button" data-uuid="{{$r->uuid}}" 
+                        class="btn btn-konfirm-delete  btn-outline-danger btn-sm"><i class="la la-times"></i></button> 
+                    @if($r->tabel_referensi != "-")
+                        &nbsp;&nbsp;
+                        <button type="button" data-uuid="{{$r->uuid}}" 
+                          class="btn btn-preview-komponen  btn-outline-secondary btn-sm"><i class="la la-search-plus"></i></button> 
+                    @endif
                 </div>
             </div> 
         </li>

@@ -14,7 +14,7 @@ func main() {
 	os.Setenv("TZ", "Asia/Jakarta")
 	dummyRepo := repository.NewDummyQuizUserRepository()
 	skoringRepo := repository.NewSkoringRepository()
-	quiz, err := dummyRepo.CekDummyQuizUser(22)
+	quiz, err := dummyRepo.CekDummyQuizUser(100)
 	if err != nil {
 		fmt.Println("Belum ada sesi dummy untuk template ini..")
 		return
@@ -46,6 +46,7 @@ func main() {
 	skoringRepo.ClearTabelTemporaryJawabanUser(id_quiz, 100)
 	skoringRepo.GenerateTabelTemporaryJawabanUser(id_quiz, 100)
 	for _, kategori := range kategori_tabel {
+		// print(kategori.Tabel)
 		//1
 		if kategori.Tabel == "skor_kognitif" {
 			skoringRepo.SkoringKognitif(id_quiz, 100)

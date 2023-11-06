@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.nama_komponen}}</title>
+    <link rel="stylesheet" href="/static/css/print.css" type="text/css"/>
+</head>
+<body>  
+  {{if eq .blade "kognitif_kelas_10" }} {{template "kognitif_kelas_10.html" . }} {{end}}
+  {{if eq .blade "kognitif_kelas_12" }} {{template "kognitif_kelas_12.html" . }} {{end}}
+  {{if eq .blade "kuliah_dinas" }} {{template "kuliah_dinas.html" . }} {{end}}
+  {{if eq .blade "kuliah_alam" }} {{template "kuliah_alam.html" . }} {{end}}
+  {{if eq .blade "kuliah_sosial" }} {{template "kuliah_sosial.html" . }} {{end}}
+  {{if eq .blade "kuliah_agama" }} {{template "kuliah_agama.html" . }} {{end}}
+  {{if eq .blade "suasana_kerja" }} {{template "suasana_kerja.html" . }} {{end}}
+  {{if eq .blade "sikap_pelajaran_pmk" }} {{template "sikap_pelajaran_pmk.html" . }} {{end}}
+  {{if eq .blade "sikap_pelajaran" }} {{template "sikap_pelajaran.html" . }} {{end}}
+</body>
+</html>

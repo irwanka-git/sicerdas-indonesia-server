@@ -50,6 +50,7 @@ func newQuizSesi(db *gorm.DB, opts ...gen.DOOption) quizSesi {
 	_quizSesi.CoverTemplate = field.NewString(tableName, "cover_template")
 	_quizSesi.FilenameReportZipDoc = field.NewString(tableName, "filename_report_zip_doc")
 	_quizSesi.ModelReport = field.NewString(tableName, "model_report")
+	_quizSesi.Arsip = field.NewInt16(tableName, "arsip")
 
 	_quizSesi.fillFieldMap()
 
@@ -83,6 +84,7 @@ type quizSesi struct {
 	CoverTemplate        field.String
 	FilenameReportZipDoc field.String
 	ModelReport          field.String
+	Arsip                field.Int16
 
 	fieldMap map[string]field.Expr
 }
@@ -122,6 +124,7 @@ func (q *quizSesi) updateTableName(table string) *quizSesi {
 	q.CoverTemplate = field.NewString(table, "cover_template")
 	q.FilenameReportZipDoc = field.NewString(table, "filename_report_zip_doc")
 	q.ModelReport = field.NewString(table, "model_report")
+	q.Arsip = field.NewInt16(table, "arsip")
 
 	q.fillFieldMap()
 
@@ -146,7 +149,7 @@ func (q *quizSesi) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (q *quizSesi) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 23)
+	q.fieldMap = make(map[string]field.Expr, 24)
 	q.fieldMap["id_quiz"] = q.IDQuiz
 	q.fieldMap["token"] = q.Token
 	q.fieldMap["nama_sesi"] = q.NamaSesi
@@ -170,6 +173,7 @@ func (q *quizSesi) fillFieldMap() {
 	q.fieldMap["cover_template"] = q.CoverTemplate
 	q.fieldMap["filename_report_zip_doc"] = q.FilenameReportZipDoc
 	q.fieldMap["model_report"] = q.ModelReport
+	q.fieldMap["arsip"] = q.Arsip
 }
 
 func (q quizSesi) clone(db *gorm.DB) quizSesi {

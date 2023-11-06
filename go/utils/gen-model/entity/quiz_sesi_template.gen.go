@@ -14,6 +14,7 @@ type QuizSesiTemplate struct {
 	SkoringTabel   string `gorm:"column:skoring_tabel" json:"skoring_tabel"`
 	UUID           string `gorm:"column:uuid" json:"uuid"`
 	Jenis          string `gorm:"column:jenis;comment:demo atao quiz" json:"jenis"` // demo atao quiz
+	Kode           string `gorm:"column:kode" json:"kode"`
 }
 
 // TableName QuizSesiTemplate's table name

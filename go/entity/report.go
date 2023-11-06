@@ -1,0 +1,96 @@
+package entity
+
+type QuizSesiReport struct {
+	IDReport       int32  `gorm:"column:id_report;not null" json:"id_report"`
+	NamaReport     string `gorm:"column:nama_report" json:"nama_report"`
+	TabelReferensi string `gorm:"column:tabel_referensi" json:"tabel_referensi"`
+	Blade          string `gorm:"column:blade" json:"blade"`
+	TabelTerkait   string `gorm:"column:tabel_terkait" json:"tabel_terkait"`
+	Jenis          int32  `gorm:"column:jenis;comment:1=> utama, 2=> lampiran" json:"jenis"` // 1=> utama, 2=> lampiran
+}
+
+type QuizSesiReportAndTemplate struct {
+	IDReport       int32  `json:"id_report"`
+	NamaReport     string `json:"nama_report"`
+	TabelReferensi string `json:"tabel_referensi"`
+	Blade          string `json:"blade"`
+	TabelTerkait   string `json:"tabel_terkait"`
+	Jenis          int32  `json:"jenis"`
+	IDQuizTemplate int32  `json:"id_quiz_template"`
+}
+
+type RefKuliahAlam struct {
+	IDSoal           int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
+	Urutan           int32  `gorm:"column:urutan" json:"urutan"`
+	Indikator        string `gorm:"column:indikator" json:"indikator"`
+	Minat            string `gorm:"column:minat" json:"minat"`
+	DeskripsiMinat   string `gorm:"column:deskripsi_minat" json:"deskripsi_minat"`
+	Jurusan          string `gorm:"column:jurusan" json:"jurusan"`
+	DeskripsiJurusan string `gorm:"column:deskripsi_jurusan" json:"deskripsi_jurusan"`
+	Matakuliah       string `gorm:"column:matakuliah" json:"matakuliah"`
+	PeluangKarier    string `gorm:"column:peluang_karier" json:"peluang_karier"`
+	TersediaDi       string `gorm:"column:tersedia_di" json:"tersedia_di"`
+	UUID             string `gorm:"column:uuid" json:"uuid"`
+	IDKelompok       int16  `gorm:"column:id_kelompok;comment:SKORING PSIKOTES LENGKAP" json:"id_kelompok"` // SKORING PSIKOTES LENGKAP
+	IDKelas          int16  `gorm:"column:id_kelas;comment:SKORING MINAT SMA V2" json:"id_kelas"`           // SKORING MINAT SMA V2
+	Gambar           string `gorm:"column:gambar;default:'default.png'" json:"gambar"`
+}
+
+type RefKuliahSosial struct {
+	IDSoal           int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
+	Urutan           int32  `gorm:"column:urutan" json:"urutan"`
+	Indikator        string `gorm:"column:indikator" json:"indikator"`
+	Minat            string `gorm:"column:minat" json:"minat"`
+	DeskripsiMinat   string `gorm:"column:deskripsi_minat" json:"deskripsi_minat"`
+	Jurusan          string `gorm:"column:jurusan" json:"jurusan"`
+	DeskripsiJurusan string `gorm:"column:deskripsi_jurusan" json:"deskripsi_jurusan"`
+	Matakuliah       string `gorm:"column:matakuliah" json:"matakuliah"`
+	PeluangKarier    string `gorm:"column:peluang_karier" json:"peluang_karier"`
+	TersediaDi       string `gorm:"column:tersedia_di" json:"tersedia_di"`
+	UUID             string `gorm:"column:uuid" json:"uuid"`
+	IDKelompok       int16  `gorm:"column:id_kelompok;comment:MINAT PSIKOTES LENGKAP" json:"id_kelompok"` // MINAT PSIKOTES LENGKAP
+	IDKelas          int16  `gorm:"column:id_kelas;comment:MINAT SMA V2" json:"id_kelas"`                 // MINAT SMA V2
+	Gambar           string `gorm:"column:gambar;default:'default.png'" json:"gambar"`
+}
+
+type RefKuliahAgama struct {
+	IDSoal    int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
+	Urutan    int32  `gorm:"column:urutan" json:"urutan"`
+	Indikator string `gorm:"column:indikator" json:"indikator"`
+	Jurusan   string `gorm:"column:jurusan" json:"jurusan"`
+	UUID      string `gorm:"column:uuid" json:"uuid"`
+	Gambar    string `gorm:"column:gambar;default:'default.png'" json:"gambar"`
+}
+
+type RefSuasanaKerja struct {
+	IDKegiatan int32  `gorm:"column:id_kegiatan;primaryKey;autoIncrement:true" json:"id_kegiatan"`
+	Nomor      string `gorm:"column:nomor" json:"nomor"`
+	Kegiatan   string `gorm:"column:kegiatan" json:"kegiatan"`
+	Gambar     string `gorm:"column:gambar" json:"gambar"`
+	Keterangan string `gorm:"column:keterangan" json:"keterangan"`
+	Deskripsi  string `gorm:"column:deskripsi" json:"deskripsi"`
+	UUID       string `gorm:"column:uuid" json:"uuid"`
+}
+
+type RefSikapPelajaranMK struct {
+	IDSoal        int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
+	Urutan        int32  `gorm:"column:urutan" json:"urutan"`
+	Pelajaran     string `gorm:"column:pelajaran" json:"pelajaran"`
+	Kode          string `gorm:"column:kode" json:"kode"`
+	SikapNegatif1 string `gorm:"column:sikap_negatif1" json:"sikap_negatif1"`
+	SikapPositif1 string `gorm:"column:sikap_positif1" json:"sikap_positif1"`
+	SikapNegatif2 string `gorm:"column:sikap_negatif2" json:"sikap_negatif2"`
+	SikapPositif2 string `gorm:"column:sikap_positif2" json:"sikap_positif2"`
+	SikapNegatif3 string `gorm:"column:sikap_negatif3" json:"sikap_negatif3"`
+	SikapPositif3 string `gorm:"column:sikap_positif3" json:"sikap_positif3"`
+	Kelompok      string `gorm:"column:kelompok" json:"kelompok"`
+	FieldSkoring  string `gorm:"column:field_skoring" json:"field_skoring"`
+	UUID          string `gorm:"column:uuid" json:"uuid"`
+}
+
+type ResultSikapPelajaranMK struct {
+	Urutan      int32  `gorm:"column:urutan" json:"urutan"`
+	Pelajaran   string `gorm:"column:pelajaran" json:"pelajaran"`
+	Klasifikasi string `json:"klasifikasi"`
+	Kelompok    string `json:"kelompok"`
+}

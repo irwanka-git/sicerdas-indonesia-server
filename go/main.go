@@ -20,6 +20,7 @@ var (
 	userController   controller.UserController   = controller.NewUserController()
 	quizController   controller.QuizController   = controller.NewQuizController()
 	uploadController controller.UploadController = controller.NewUploadController()
+	reportController controller.ReportController = controller.NewReportController()
 )
 
 func init() {
@@ -29,6 +30,7 @@ func init() {
 	}
 	signKey := os.Getenv("JWT_SIGN_KEY")
 	tokenAuth = jwtauth.New("HS512", []byte(signKey), nil)
+
 }
 
 func main() {
@@ -76,5 +78,12 @@ func main() {
 		r.Post("/sinkron-gambar-info-cerdas", uploadController.SinkronGambarInfoCerdasToFirebase)
 		r.Post("/submit-jawaban-quiz/{token}", quizController.SubmitJawabanQuiz)
 	})
+
+	//render
+	//report
+	// r.Get("/static/{filename}")
+	fileServer := http.FileServer(http.Dir("./templates/assets/"))
+	r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
+	r.Get("/preview-report-dummy/{uuid}", reportController.PreviewKomponenReportDummy)
 	http.ListenAndServe(port, r)
 }

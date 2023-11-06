@@ -36,7 +36,7 @@ func (*repo) CekDummyQuizUser(id_quiz_template int) (*entity.QuizSesiUser, error
 			quiz_sesi as b, quiz_sesi_template as c 
 				where a.id_quiz = b.id_quiz 
 				and b.id_quiz_template = c.id_quiz_template 
-				and c.id_quiz_template = ? and a.id_user = ? `,
+				and c.id_quiz_template = ? and a.id_user = ? order by b.id_quiz desc limit 1`,
 		id_quiz_template, ID_USER_DUMMY).First(&quizUser)
 	if quizUser.IDQuiz == 0 {
 		return nil, errors.New("belum ada data dummy untuk template ini")

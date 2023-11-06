@@ -35,6 +35,7 @@ type QuizSesi struct {
 	CoverTemplate        string    `gorm:"column:cover_template;default:'default.pdf'" json:"cover_template"`
 	FilenameReportZipDoc string    `gorm:"column:filename_report_zip_doc" json:"filename_report_zip_doc"`
 	ModelReport          string    `gorm:"column:model_report" json:"model_report"`
+	Arsip                int16     `gorm:"column:arsip" json:"arsip"`
 }
 
 // TableName QuizSesi's table name

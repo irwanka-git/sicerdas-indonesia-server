@@ -29,11 +29,14 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PetunjukSoal:                    newPetunjukSoal(db, opts...),
 		Province:                        newProvince(db, opts...),
 		QuizSesi:                        newQuizSesi(db, opts...),
+		QuizSesiAdditionalSkoring:       newQuizSesiAdditionalSkoring(db, opts...),
 		QuizSesiDetil:                   newQuizSesiDetil(db, opts...),
 		QuizSesiDetilTemplate:           newQuizSesiDetilTemplate(db, opts...),
 		QuizSesiMappingSmk:              newQuizSesiMappingSmk(db, opts...),
 		QuizSesiMaster:                  newQuizSesiMaster(db, opts...),
+		QuizSesiReport:                  newQuizSesiReport(db, opts...),
 		QuizSesiTemplate:                newQuizSesiTemplate(db, opts...),
+		QuizSesiTemplateReport:          newQuizSesiTemplateReport(db, opts...),
 		QuizSesiTtd:                     newQuizSesiTtd(db, opts...),
 		QuizSesiUser:                    newQuizSesiUser(db, opts...),
 		QuizSesiUserJawaban:             newQuizSesiUserJawaban(db, opts...),
@@ -179,11 +182,14 @@ type Query struct {
 	PetunjukSoal                    petunjukSoal
 	Province                        province
 	QuizSesi                        quizSesi
+	QuizSesiAdditionalSkoring       quizSesiAdditionalSkoring
 	QuizSesiDetil                   quizSesiDetil
 	QuizSesiDetilTemplate           quizSesiDetilTemplate
 	QuizSesiMappingSmk              quizSesiMappingSmk
 	QuizSesiMaster                  quizSesiMaster
+	QuizSesiReport                  quizSesiReport
 	QuizSesiTemplate                quizSesiTemplate
+	QuizSesiTemplateReport          quizSesiTemplateReport
 	QuizSesiTtd                     quizSesiTtd
 	QuizSesiUser                    quizSesiUser
 	QuizSesiUserJawaban             quizSesiUserJawaban
@@ -330,11 +336,14 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PetunjukSoal:                    q.PetunjukSoal.clone(db),
 		Province:                        q.Province.clone(db),
 		QuizSesi:                        q.QuizSesi.clone(db),
+		QuizSesiAdditionalSkoring:       q.QuizSesiAdditionalSkoring.clone(db),
 		QuizSesiDetil:                   q.QuizSesiDetil.clone(db),
 		QuizSesiDetilTemplate:           q.QuizSesiDetilTemplate.clone(db),
 		QuizSesiMappingSmk:              q.QuizSesiMappingSmk.clone(db),
 		QuizSesiMaster:                  q.QuizSesiMaster.clone(db),
+		QuizSesiReport:                  q.QuizSesiReport.clone(db),
 		QuizSesiTemplate:                q.QuizSesiTemplate.clone(db),
+		QuizSesiTemplateReport:          q.QuizSesiTemplateReport.clone(db),
 		QuizSesiTtd:                     q.QuizSesiTtd.clone(db),
 		QuizSesiUser:                    q.QuizSesiUser.clone(db),
 		QuizSesiUserJawaban:             q.QuizSesiUserJawaban.clone(db),
@@ -488,11 +497,14 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PetunjukSoal:                    q.PetunjukSoal.replaceDB(db),
 		Province:                        q.Province.replaceDB(db),
 		QuizSesi:                        q.QuizSesi.replaceDB(db),
+		QuizSesiAdditionalSkoring:       q.QuizSesiAdditionalSkoring.replaceDB(db),
 		QuizSesiDetil:                   q.QuizSesiDetil.replaceDB(db),
 		QuizSesiDetilTemplate:           q.QuizSesiDetilTemplate.replaceDB(db),
 		QuizSesiMappingSmk:              q.QuizSesiMappingSmk.replaceDB(db),
 		QuizSesiMaster:                  q.QuizSesiMaster.replaceDB(db),
+		QuizSesiReport:                  q.QuizSesiReport.replaceDB(db),
 		QuizSesiTemplate:                q.QuizSesiTemplate.replaceDB(db),
+		QuizSesiTemplateReport:          q.QuizSesiTemplateReport.replaceDB(db),
 		QuizSesiTtd:                     q.QuizSesiTtd.replaceDB(db),
 		QuizSesiUser:                    q.QuizSesiUser.replaceDB(db),
 		QuizSesiUserJawaban:             q.QuizSesiUserJawaban.replaceDB(db),
@@ -636,11 +648,14 @@ type queryCtx struct {
 	PetunjukSoal                    *petunjukSoalDo
 	Province                        *provinceDo
 	QuizSesi                        *quizSesiDo
+	QuizSesiAdditionalSkoring       *quizSesiAdditionalSkoringDo
 	QuizSesiDetil                   *quizSesiDetilDo
 	QuizSesiDetilTemplate           *quizSesiDetilTemplateDo
 	QuizSesiMappingSmk              *quizSesiMappingSmkDo
 	QuizSesiMaster                  *quizSesiMasterDo
+	QuizSesiReport                  *quizSesiReportDo
 	QuizSesiTemplate                *quizSesiTemplateDo
+	QuizSesiTemplateReport          *quizSesiTemplateReportDo
 	QuizSesiTtd                     *quizSesiTtdDo
 	QuizSesiUser                    *quizSesiUserDo
 	QuizSesiUserJawaban             *quizSesiUserJawabanDo
@@ -784,11 +799,14 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PetunjukSoal:                    q.PetunjukSoal.WithContext(ctx),
 		Province:                        q.Province.WithContext(ctx),
 		QuizSesi:                        q.QuizSesi.WithContext(ctx),
+		QuizSesiAdditionalSkoring:       q.QuizSesiAdditionalSkoring.WithContext(ctx),
 		QuizSesiDetil:                   q.QuizSesiDetil.WithContext(ctx),
 		QuizSesiDetilTemplate:           q.QuizSesiDetilTemplate.WithContext(ctx),
 		QuizSesiMappingSmk:              q.QuizSesiMappingSmk.WithContext(ctx),
 		QuizSesiMaster:                  q.QuizSesiMaster.WithContext(ctx),
+		QuizSesiReport:                  q.QuizSesiReport.WithContext(ctx),
 		QuizSesiTemplate:                q.QuizSesiTemplate.WithContext(ctx),
+		QuizSesiTemplateReport:          q.QuizSesiTemplateReport.WithContext(ctx),
 		QuizSesiTtd:                     q.QuizSesiTtd.WithContext(ctx),
 		QuizSesiUser:                    q.QuizSesiUser.WithContext(ctx),
 		QuizSesiUserJawaban:             q.QuizSesiUserJawaban.WithContext(ctx),

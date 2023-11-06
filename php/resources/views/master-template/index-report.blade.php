@@ -98,7 +98,11 @@ $list_report = json_decode(json_encode($list_report));
 {{ Form::bsClose()}}
 @endif
 
-
+{{Html::mOpenLG('modal-preview','Preview Komponen')}}
+	<div >
+		<iframe id="preview" src="url"  height="400px" width="100%" title="Preview Komponen"></iframe>
+	</div>
+{{Html::mCloseLG()}}
 @endsection
 
 @section("js")
@@ -120,6 +124,7 @@ $list_report = json_decode(json_encode($list_report));
                     }
                 }).disableSelection();
                 initKonfirmDelete();
+                initPreview();
             })
         }
         reloadKomponen();
@@ -213,6 +218,14 @@ $list_report = json_decode(json_encode($list_report));
 						errorNotify(respon.message);
 					}
 				})
+			})
+		}
+
+		var initPreview = function(){
+			$('.btn-preview-komponen').on('click', function(e) {
+				$uuid = $(this).data('uuid')
+				$("#preview").attr('src',"{{env('GO_URL').'/preview-report-dummy'}}/" + $uuid)
+				$('#modal-preview').modal('show'); 
 			})
 		}
 		@endif

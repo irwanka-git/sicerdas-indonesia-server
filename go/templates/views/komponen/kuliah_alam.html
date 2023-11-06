@@ -1,0 +1,17 @@
+ <h4>MINAT JURUSAN KULIAH SAINS TEKNOLOGI</h4>
+<table class="table-x">
+    <thead>
+        <tr class="thead-primary">
+            <th class="text-center" width="10%">Urutan</th>
+            <th width="90%">Deskripsi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $index,$minat := .skoring }}
+        <tr>
+            <td class="text-center">{{inc $index}}</td>
+            <td><b>{{$minat.Minat}}</b> - {{$minat.DeskripsiMinat}} </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>

@@ -33,6 +33,7 @@ func newQuizSesiTemplate(db *gorm.DB, opts ...gen.DOOption) quizSesiTemplate {
 	_quizSesiTemplate.SkoringTabel = field.NewString(tableName, "skoring_tabel")
 	_quizSesiTemplate.UUID = field.NewString(tableName, "uuid")
 	_quizSesiTemplate.Jenis = field.NewString(tableName, "jenis")
+	_quizSesiTemplate.Kode = field.NewString(tableName, "kode")
 
 	_quizSesiTemplate.fillFieldMap()
 
@@ -49,6 +50,7 @@ type quizSesiTemplate struct {
 	SkoringTabel   field.String
 	UUID           field.String
 	Jenis          field.String // demo atao quiz
+	Kode           field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -71,6 +73,7 @@ func (q *quizSesiTemplate) updateTableName(table string) *quizSesiTemplate {
 	q.SkoringTabel = field.NewString(table, "skoring_tabel")
 	q.UUID = field.NewString(table, "uuid")
 	q.Jenis = field.NewString(table, "jenis")
+	q.Kode = field.NewString(table, "kode")
 
 	q.fillFieldMap()
 
@@ -99,13 +102,14 @@ func (q *quizSesiTemplate) GetFieldByName(fieldName string) (field.OrderExpr, bo
 }
 
 func (q *quizSesiTemplate) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 6)
+	q.fieldMap = make(map[string]field.Expr, 7)
 	q.fieldMap["id_quiz_template"] = q.IDQuizTemplate
 	q.fieldMap["nama_sesi"] = q.NamaSesi
 	q.fieldMap["gambar"] = q.Gambar
 	q.fieldMap["skoring_tabel"] = q.SkoringTabel
 	q.fieldMap["uuid"] = q.UUID
 	q.fieldMap["jenis"] = q.Jenis
+	q.fieldMap["kode"] = q.Kode
 }
 
 func (q quizSesiTemplate) clone(db *gorm.DB) quizSesiTemplate {
