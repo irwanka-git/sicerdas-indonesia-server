@@ -49,6 +49,7 @@ type SkoringRepository interface {
 func NewSkoringRepository() SkoringRepository {
 	return &repo{}
 }
+
 func (*repo) GetStatusRunningSkoring() (*entity.StatusRunningSkoring, error) {
 	var cek *entity.StatusRunningSkoring
 	db.Table("status_skoring").First(&cek)

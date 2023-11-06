@@ -31,8 +31,13 @@ type ReportRepository interface {
 	GetReferensiSuasanaKerja() ([]*entity.RefSuasanaKerja, error)
 	GetSkoringSuasanaKerja(id_quiz int, id_user int) (*entity.SkorSuasanaKerja, error)
 
+	GetReferensiSikapPelajaran() ([]*entity.RefSikapPelajaran, error)
+	GetSkoringSikapPelajaran(id_quiz int, id_user int) (*entity.SkorSikapPelajaran, error)
 	GetReferensiSikapPelajaranMK() ([]*entity.RefSikapPelajaranMK, error)
 	GetSkoringSikapPelajaranMK(id_quiz int, id_user int) (*entity.SkorSikapPelajaranMk, error)
+
+	GetReferensiMinatSMA() ([]*entity.RefPilihanMinatSma, error)
+	GetSkoringPeminatanSMA(id_quiz int, id_user int) (*entity.SkorPeminatanSma, error)
 }
 
 func NewReportRepository() ReportRepository {
@@ -133,5 +138,27 @@ func (*repo) GetReferensiSikapPelajaranMK() ([]*entity.RefSikapPelajaranMK, erro
 func (*repo) GetSkoringSikapPelajaranMK(id_quiz int, id_user int) (*entity.SkorSikapPelajaranMk, error) {
 	var data *entity.SkorSikapPelajaranMk
 	db.Table("skor_sikap_pelajaran_mk").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
+	return data, nil
+}
+
+func (*repo) GetReferensiSikapPelajaran() ([]*entity.RefSikapPelajaran, error) {
+	var data []*entity.RefSikapPelajaran
+	db.Table("soal_sikap_pelajaran").Scan(&data)
+	return data, nil
+}
+func (*repo) GetSkoringSikapPelajaran(id_quiz int, id_user int) (*entity.SkorSikapPelajaran, error) {
+	var data *entity.SkorSikapPelajaran
+	db.Table("skor_sikap_pelajaran").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
+	return data, nil
+}
+
+func (*repo) GetReferensiMinatSMA() ([]*entity.RefPilihanMinatSma, error) {
+	var data []*entity.RefPilihanMinatSma
+	db.Table("ref_pilihan_minat_sma").Scan(&data)
+	return data, nil
+}
+func (*repo) GetSkoringPeminatanSMA(id_quiz int, id_user int) (*entity.SkorPeminatanSma, error) {
+	var data *entity.SkorPeminatanSma
+	db.Table("skor_peminatan_sma").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
 	return data, nil
 }

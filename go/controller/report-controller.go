@@ -56,6 +56,10 @@ func (*controller) PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Req
 			stripped := strip.StripTags(original)
 			return stripped
 		},
+		"replaceStrip": func(original string) string {
+			stripped := strings.ReplaceAll(original, "_", " ")
+			return stripped
+		},
 	}
 
 	var listTemplate = []string{}
@@ -290,19 +294,31 @@ func (*controller) PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Req
 			json.NewEncoder(w).Encode(helper.ResponseMessage{Message: errSkoring.Error()})
 			return
 		}
-		var sikap = []entity.ResultSikapPelajaranMK{}
+		var sikap = []entity.ResultSikapPelajaran{}
+		var currentKelompok = ""
+		var countKelompok = map[string]int{}
 		for i := 0; i < len(refSikap); i++ {
 			rv := reflect.ValueOf(skoringCek)
-			var temp = entity.ResultSikapPelajaranMK{}
+			var temp = entity.ResultSikapPelajaran{}
 			temp.Urutan = int32(i) + 1
 			temp.Kelompok = refSikap[i].Kelompok
+
+			if currentKelompok != temp.Kelompok {
+				currentKelompok = temp.Kelompok
+				countKelompok[currentKelompok] = 1
+			} else {
+				countKelompok[currentKelompok] = countKelompok[currentKelompok] + 1
+			}
 			temp.Pelajaran = refSikap[i].Pelajaran
 			kode := helper.Capitalize(strings.ToLower(refSikap[i].Kode))
 			klasifikasiName := "Klasifikasi" + kode
 			temp.Klasifikasi = reflect.Indirect(rv).FieldByName(klasifikasiName).String()
 			sikap = append(sikap, temp)
 		}
-		skoring = sikap
+		skoring = map[string]interface{}{
+			"data":  sikap,
+			"group": countKelompok,
+		}
 	}
 
 	if report.TabelReferensi == "skor_sikap_pelajaran_mk" {
@@ -326,6 +342,29 @@ func (*controller) PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Req
 			sikap = append(sikap, temp)
 		}
 		skoring = sikap
+	}
+
+	if report.TabelReferensi == "skor_peminatan_sma" {
+		// refMinat, _ := reportRepository.GetReferensiMinatSMA()
+		// skoringCek, errSkoring := reportRepository.GetSkoringPeminatanSMA(int(quizUser.IDQuiz), int(quizUser.IDUser))
+		// if errSkoring != nil {
+		// 	w.WriteHeader(http.StatusInternalServerError)
+		// 	json.NewEncoder(w).Encode(helper.ResponseMessage{Message: errSkoring.Error()})
+		// 	return
+		// }
+		// var minat = []entity.ResultPeminatanSMA{}
+		// for i := 0; i < len(refSikap); i++ {
+		// 	rv := reflect.ValueOf(skoringCek)
+		// 	var temp = entity.ResultPeminatanSMA{}
+		// 	temp.Urutan = int32(i) + 1
+		// 	temp.Kelompok = refSikap[i].Kelompok
+		// 	temp.Pelajaran = refSikap[i].Pelajaran
+		// 	kode := helper.Capitalize(strings.ToLower(refSikap[i].Kode))
+		// 	klasifikasiName := "Klasifikasi" + kode
+		// 	temp.Klasifikasi = reflect.Indirect(rv).FieldByName(klasifikasiName).String()
+		// 	sikap = append(sikap, temp)
+		// }
+		// skoring = sikap
 	}
 
 	data := map[string]interface{}{

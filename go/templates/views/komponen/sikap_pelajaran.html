@@ -15,12 +15,21 @@
         </tr>
     </thead>
     <tbody>
-        {{$current_kelompok:=""}}
-        {{range $index,$sikap := .skoring }}
+        {{$current_kelompok :=""}}
+        {{$countKelompok :=.skoring.group}}
+        {{range $index,$sikap := .skoring.data }}
         {{$kelompok := $sikap.Kelompok}}
         <tr>
             {{if ne $kelompok $current_kelompok}}
-            <td class="text-center" rowspan="4">{{$sikap.Kelompok}}</td>
+                {{if eq $kelompok "ILMU_UMUM"}}
+                    <td class="text-center" rowspan="{{$countKelompok.ILMU_UMUM}}">{{replaceStrip $sikap.Kelompok}}</td>
+                {{end}}
+                {{if eq $kelompok "ILMU_ALAM"}}
+                    <td class="text-center" rowspan="{{$countKelompok.ILMU_ALAM}}">{{replaceStrip $sikap.Kelompok}}</td>
+                {{end}}
+                {{if eq $kelompok "ILMU_SOSIAL"}}
+                    <td class="text-center" rowspan="{{$countKelompok.ILMU_SOSIAL}}">{{replaceStrip $sikap.Kelompok}}</td>
+                {{end}}
             {{end}}
             <td class="text-left" >{{$sikap.Pelajaran}}</td>
             <td class="text-center">{{ if eq $sikap.Klasifikasi "Sangat Negatif"}} <i class="fa-check"></i> {{end}} </td>

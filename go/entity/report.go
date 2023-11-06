@@ -72,6 +72,29 @@ type RefSuasanaKerja struct {
 	UUID       string `gorm:"column:uuid" json:"uuid"`
 }
 
+type RefSikapPelajaran struct {
+	IDSoal        int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
+	Urutan        int32  `gorm:"column:urutan" json:"urutan"`
+	Pelajaran     string `gorm:"column:pelajaran" json:"pelajaran"`
+	Kode          string `gorm:"column:kode" json:"kode"`
+	SikapNegatif1 string `gorm:"column:sikap_negatif1" json:"sikap_negatif1"`
+	SikapPositif1 string `gorm:"column:sikap_positif1" json:"sikap_positif1"`
+	SikapNegatif2 string `gorm:"column:sikap_negatif2" json:"sikap_negatif2"`
+	SikapPositif2 string `gorm:"column:sikap_positif2" json:"sikap_positif2"`
+	SikapNegatif3 string `gorm:"column:sikap_negatif3" json:"sikap_negatif3"`
+	SikapPositif3 string `gorm:"column:sikap_positif3" json:"sikap_positif3"`
+	Kelompok      string `gorm:"column:kelompok" json:"kelompok"`
+	FieldSkoring  string `gorm:"column:field_skoring" json:"field_skoring"`
+	UUID          string `gorm:"column:uuid" json:"uuid"`
+}
+
+type ResultSikapPelajaran struct {
+	Urutan      int32  `gorm:"column:urutan" json:"urutan"`
+	Pelajaran   string `gorm:"column:pelajaran" json:"pelajaran"`
+	Klasifikasi string `json:"klasifikasi"`
+	Kelompok    string `json:"kelompok"`
+}
+
 type RefSikapPelajaranMK struct {
 	IDSoal        int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
 	Urutan        int32  `gorm:"column:urutan" json:"urutan"`
@@ -93,4 +116,20 @@ type ResultSikapPelajaranMK struct {
 	Pelajaran   string `gorm:"column:pelajaran" json:"pelajaran"`
 	Klasifikasi string `json:"klasifikasi"`
 	Kelompok    string `json:"kelompok"`
+}
+
+type RefPilihanMinatSma struct {
+	ID           int32  `json:"id"`
+	KdPilihan    string `json:"kd_pilihan"`
+	NamaPilihan  string `json:"nama_pilihan"`
+	FieldSkoring string `json:"field_skoring"`
+	Keterangan   string `json:"keterangan"`
+	Gambar       string `json:"gambar"`
+}
+
+type ResultPeminatanSMA struct {
+	Urutan      int32  `json:"urutan"`
+	Klasifikasi string `json:"klasifikasi"`
+	Pilihan     string `json:"pilihan"`
+	Keterangan  string `json:"keterangan"`
 }
