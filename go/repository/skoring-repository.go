@@ -685,6 +685,23 @@ func (*repo) SkoringPeminatanSMA(id_quiz int32, id_user int32) error {
 
 	db.Table(tabel).Create(&skoring)
 
+	var refKlasifikasi []*entity.RefKlasifikasiPeminatanSMA
+	db.Table("ref_klasifikasi_minat_sma").Scan(&refKlasifikasi)
+	var klasifikasi_minat_sains = ""
+	var klasifikasi_minat_bahasa = ""
+	var klasifikasi_minat_humaniora = ""
+	for i := 0; i < len(refKlasifikasi); i++ {
+		if refKlasifikasi[i].Skor == skoring.MinatSains {
+			klasifikasi_minat_sains = refKlasifikasi[i].Klasifikasi
+		}
+		if refKlasifikasi[i].Skor == skoring.MinatHumaniora {
+			klasifikasi_minat_humaniora = refKlasifikasi[i].Klasifikasi
+		}
+		if refKlasifikasi[i].Skor == skoring.MinatBahasa {
+			klasifikasi_minat_bahasa = refKlasifikasi[i].Klasifikasi
+		}
+	}
+
 	var skorRekomendasi *entity.SkorRekomendasi
 	db.Raw(`SELECT
 			x.minat_rentang as skor,
@@ -712,8 +729,11 @@ func (*repo) SkoringPeminatanSMA(id_quiz int32, id_user int32) error {
 		Where("id_quiz = ?", id_quiz).
 		Where("id_user = ?", id_user).
 		UpdateColumns(map[string]interface{}{
-			"minat_rentang": skorRekomendasi.Skor,
-			"rekom_minat":   skorRekomendasi.Rekomendasi})
+			"minat_rentang":               skorRekomendasi.Skor,
+			"klasifikasi_minat_sains":     klasifikasi_minat_sains,
+			"klasifikasi_minat_humaniora": klasifikasi_minat_humaniora,
+			"klasifikasi_minat_bahasa":    klasifikasi_minat_bahasa,
+			"rekom_minat":                 skorRekomendasi.Rekomendasi})
 
 	return nil
 }
@@ -758,6 +778,28 @@ func (*repo) SkoringPeminatanMAN(id_quiz int32, id_user int32) error {
 
 	db.Table(tabel).Create(&skoring)
 
+	var refKlasifikasi []*entity.RefKlasifikasiPeminatanMAN
+	db.Table("ref_klasifikasi_minat_man").Scan(&refKlasifikasi)
+	var klasifikasi_minat_sains = ""
+	var klasifikasi_minat_bahasa = ""
+	var klasifikasi_minat_humaniora = ""
+	var klasifikasi_minat_agama = ""
+
+	for i := 0; i < len(refKlasifikasi); i++ {
+		if refKlasifikasi[i].Skor == skoring.MinatSains {
+			klasifikasi_minat_sains = refKlasifikasi[i].Klasifikasi
+		}
+		if refKlasifikasi[i].Skor == skoring.MinatHumaniora {
+			klasifikasi_minat_humaniora = refKlasifikasi[i].Klasifikasi
+		}
+		if refKlasifikasi[i].Skor == skoring.MinatBahasa {
+			klasifikasi_minat_bahasa = refKlasifikasi[i].Klasifikasi
+		}
+		if refKlasifikasi[i].Skor == skoring.MinatAgama {
+			klasifikasi_minat_agama = refKlasifikasi[i].Klasifikasi
+		}
+	}
+
 	var skorRekomendasi *entity.SkorRekomendasi
 	db.Raw(`SELECT
 			x.minat_rentang as skor,
@@ -785,8 +827,12 @@ func (*repo) SkoringPeminatanMAN(id_quiz int32, id_user int32) error {
 		Where("id_quiz = ?", id_quiz).
 		Where("id_user = ?", id_user).
 		UpdateColumns(map[string]interface{}{
-			"minat_rentang": skorRekomendasi.Skor,
-			"rekom_minat":   skorRekomendasi.Rekomendasi})
+			"minat_rentang":               skorRekomendasi.Skor,
+			"klasifikasi_minat_sains":     klasifikasi_minat_sains,
+			"klasifikasi_minat_humaniora": klasifikasi_minat_humaniora,
+			"klasifikasi_minat_bahasa":    klasifikasi_minat_bahasa,
+			"klasifikasi_minat_agama":     klasifikasi_minat_agama,
+			"rekom_minat":                 skorRekomendasi.Rekomendasi})
 
 	return nil
 }
@@ -1184,6 +1230,19 @@ func (*repo) SkoringTesMinatIndonesia(id_quiz int32, id_user int32) error {
 			}
 		}
 	}
+	var urutanMinat []*entity.QuizSesiUserJawaban
+	db.Table("quiz_sesi_user_jawaban").
+		Where("id_quiz = ?", id_quiz).
+		Where("id_user = ?", id_user).Where("kategori = ?", kategori).Order("skor desc").
+		Scan(&urutanMinat)
+	var urutan = 1
+	for i := 0; i < len(urutanMinat); i++ {
+		jawaban, _ := strconv.Atoi(urutanMinat[i].Jawaban)
+		fieldMinat := fmt.Sprintf("Minat%v", urutan)
+		reflect.ValueOf(&skoring).Elem().FieldByName(fieldMinat).SetInt(int64(jawaban))
+		urutan++
+	}
+
 	db.Table(tabel).Create(&skoring)
 
 	var skorRekomendasi []*entity.SkorRekomendasi

@@ -127,9 +127,84 @@ type RefPilihanMinatSma struct {
 	Gambar       string `json:"gambar"`
 }
 
-type ResultPeminatanSMA struct {
-	Urutan      int32  `json:"urutan"`
-	Klasifikasi string `json:"klasifikasi"`
-	Pilihan     string `json:"pilihan"`
-	Keterangan  string `json:"keterangan"`
+type RefPilihanMinatMan struct {
+	ID           int32  `json:"id"`
+	KdPilihan    string `json:"kd_pilihan"`
+	NamaPilihan  string `json:"nama_pilihan"`
+	FieldSkoring string `json:"field_skoring"`
+	Keterangan   string `json:"keterangan"`
+	Gambar       string `json:"gambar"`
+}
+
+type RefPilihanMinatTMI struct {
+	IDSoal     int32  `gorm:"column:id_soal;primaryKey;autoIncrement:true" json:"id_soal"`
+	Urutan     int32  `gorm:"column:urutan" json:"urutan"`
+	Pernyataan string `gorm:"column:pernyataan" json:"pernyataan"`
+	Kelompok   string `gorm:"column:kelompok" json:"kelompok"`
+	Minat      string `gorm:"column:minat" json:"minat"`
+	Keterangan string `gorm:"column:keterangan" json:"keterangan"`
+	UUID       string `gorm:"column:uuid" json:"uuid"`
+}
+
+type ResultMinatTMI struct {
+	Minat      string `gorm:"column:minat" json:"minat"`
+	Keterangan string `gorm:"column:keterangan" json:"keterangan"`
+}
+
+type InterprestasiTipologiJung struct {
+	IDInterprestasi int32  `gorm:"column:id_interprestasi;primaryKey;autoIncrement:true" json:"id_interprestasi"`
+	Urutan          int32  `gorm:"column:urutan" json:"urutan"`
+	Kode            string `gorm:"column:kode" json:"kode"`
+	Nama            string `gorm:"column:nama" json:"nama"`
+	Keterangan      string `gorm:"column:keterangan" json:"keterangan"`
+	Deskripsi       string `gorm:"column:deskripsi" json:"deskripsi"`
+	UUID            string `gorm:"column:uuid" json:"uuid"`
+}
+
+type RefKomponenKarakteristikPribadi struct {
+	IDKomponen   int32  `gorm:"column:id_komponen;primaryKey;autoIncrement:true" json:"id_komponen"`
+	NamaKomponen string `gorm:"column:nama_komponen" json:"nama_komponen"`
+	Keterangan   string `gorm:"column:keterangan" json:"keterangan"`
+	FieldSkoring string `gorm:"column:field_skoring" json:"field_skoring"`
+	UUID         string `gorm:"column:uuid" json:"uuid"`
+	Icon         string `gorm:"column:icon" json:"icon"`
+}
+
+type ResultKarakteristikPribadi struct {
+	Urutan       int32  `json:"urutan"`
+	NamaKomponen string `json:"nama_komponen"`
+	Keterangan   string `json:"keterangan"`
+	Klasifikasi  string `json:"klasifikasi"`
+	Icon         string `gorm:"column:icon" json:"icon"`
+}
+
+type ResultGayaPekerjaan struct {
+	ID            int32  `json:"id"`
+	Rangking      int32  `json:"rangking"`
+	Kode          string `json:"kode"`
+	NamaKomponen  string `json:"nama_komponen"`
+	CetakKomponen string `json:"cetak_komponen"`
+	Skor          int    `json:"skor"`
+	Klasifikasi   string `json:"klasifikasi"`
+	Deskripsi     string `json:"deskripsi"`
+	Pekerjaan     string `json:"pekerjaan"`
+}
+
+type ResultGayaBelajar struct {
+	Kode            string `json:"kode"`
+	Nama            string `json:"nama"`
+	Skor            int    `json:"skor"`
+	Klasifikasi     string `json:"klasifikasi"`
+	Deskripsi       string `json:"deskripsi"`
+	Gambar          string `json:"gambar"`
+	FieldName       string `json:"field_name"`
+	KlasifikasiName string `json:"klasifikasi_name"`
+}
+
+type ResultPeminatanSMK struct {
+	Urutan     int    `json:"urutan"`
+	Nomor      string `json:"nomor"`
+	Keterangan string `json:"keterangan"`
+	Deskripsi  string `json:"deskripsi"`
+	Gambar     string `json:"gambar"`
 }

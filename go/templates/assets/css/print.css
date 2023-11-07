@@ -16,6 +16,10 @@ body{
     text-align: center;
 }
 
+.text-right{
+    text-align: right;
+}
+
 .table-x {  
     width: 100%;
     border-collapse: collapse; 

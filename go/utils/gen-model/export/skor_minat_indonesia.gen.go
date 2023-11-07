@@ -33,6 +33,13 @@ func newSkorMinatIndonesium(db *gorm.DB, opts ...gen.DOOption) skorMinatIndonesi
 	_skorMinatIndonesium.TmiIlmuSosial = field.NewInt32(tableName, "tmi_ilmu_sosial")
 	_skorMinatIndonesium.TmiRentang = field.NewInt32(tableName, "tmi_rentang")
 	_skorMinatIndonesium.RekomTmi = field.NewString(tableName, "rekom_tmi")
+	_skorMinatIndonesium.Minat1 = field.NewInt32(tableName, "minat1")
+	_skorMinatIndonesium.Minat2 = field.NewInt32(tableName, "minat2")
+	_skorMinatIndonesium.Minat3 = field.NewInt32(tableName, "minat3")
+	_skorMinatIndonesium.Minat4 = field.NewInt32(tableName, "minat4")
+	_skorMinatIndonesium.Minat5 = field.NewInt32(tableName, "minat5")
+	_skorMinatIndonesium.Minat6 = field.NewInt32(tableName, "minat6")
+	_skorMinatIndonesium.Minat7 = field.NewInt32(tableName, "minat7")
 
 	_skorMinatIndonesium.fillFieldMap()
 
@@ -49,6 +56,13 @@ type skorMinatIndonesium struct {
 	TmiIlmuSosial field.Int32
 	TmiRentang    field.Int32
 	RekomTmi      field.String
+	Minat1        field.Int32
+	Minat2        field.Int32
+	Minat3        field.Int32
+	Minat4        field.Int32
+	Minat5        field.Int32
+	Minat6        field.Int32
+	Minat7        field.Int32
 
 	fieldMap map[string]field.Expr
 }
@@ -71,6 +85,13 @@ func (s *skorMinatIndonesium) updateTableName(table string) *skorMinatIndonesium
 	s.TmiIlmuSosial = field.NewInt32(table, "tmi_ilmu_sosial")
 	s.TmiRentang = field.NewInt32(table, "tmi_rentang")
 	s.RekomTmi = field.NewString(table, "rekom_tmi")
+	s.Minat1 = field.NewInt32(table, "minat1")
+	s.Minat2 = field.NewInt32(table, "minat2")
+	s.Minat3 = field.NewInt32(table, "minat3")
+	s.Minat4 = field.NewInt32(table, "minat4")
+	s.Minat5 = field.NewInt32(table, "minat5")
+	s.Minat6 = field.NewInt32(table, "minat6")
+	s.Minat7 = field.NewInt32(table, "minat7")
 
 	s.fillFieldMap()
 
@@ -99,13 +120,20 @@ func (s *skorMinatIndonesium) GetFieldByName(fieldName string) (field.OrderExpr,
 }
 
 func (s *skorMinatIndonesium) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 6)
+	s.fieldMap = make(map[string]field.Expr, 13)
 	s.fieldMap["id_user"] = s.IDUser
 	s.fieldMap["id_quiz"] = s.IDQuiz
 	s.fieldMap["tmi_ilmu_alam"] = s.TmiIlmuAlam
 	s.fieldMap["tmi_ilmu_sosial"] = s.TmiIlmuSosial
 	s.fieldMap["tmi_rentang"] = s.TmiRentang
 	s.fieldMap["rekom_tmi"] = s.RekomTmi
+	s.fieldMap["minat1"] = s.Minat1
+	s.fieldMap["minat2"] = s.Minat2
+	s.fieldMap["minat3"] = s.Minat3
+	s.fieldMap["minat4"] = s.Minat4
+	s.fieldMap["minat5"] = s.Minat5
+	s.fieldMap["minat6"] = s.Minat6
+	s.fieldMap["minat7"] = s.Minat7
 }
 
 func (s skorMinatIndonesium) clone(db *gorm.DB) skorMinatIndonesium {

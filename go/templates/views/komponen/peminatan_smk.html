@@ -1,4 +1,4 @@
-<h4>MINAT JURUSAN KULIAH SOSIAL HUMANIORA</h4>
+<h4>SKALA PEMINATAN SMK</h4>
 <table class="table-x">
     <thead>
         <tr class="thead-primary">
@@ -9,8 +9,8 @@
     <tbody>
         {{range $index,$minat := .skoring }}
         <tr>
-            <td class="text-center">{{inc $index}}</td>
-            <td><b>{{$minat.Minat}}</b> - {{$minat.DeskripsiMinat}} </td>
+            <td class="text-center">{{$minat.Urutan}}</td>
+            <td><b>{{$minat.Keterangan}}</b> - {{stripTags $minat.Deskripsi}} </td>
         </tr>
         {{end}}
     </tbody>

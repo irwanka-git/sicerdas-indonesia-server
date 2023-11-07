@@ -210,7 +210,7 @@ func (*repo) GetSoalPeminatanSMK(id_quiz int32, paket string, demo bool, token s
 				from soal_peminatan_smk as a   
 				) as x 
 				LEFT JOIN gambar AS c ON x.gambar = c.filename
-				order by random() limit 3`).Scan(&listResultSoal)
+				order by x.urutan limit 3`).Scan(&listResultSoal)
 	} else {
 		if paket == "" {
 			db.Raw(`select x.*, 
@@ -306,7 +306,7 @@ func (*repo) GetSoalSikapPelajaran(token string, demo bool) ([]*entity.SoalSessi
 		Kelompok      string `json:"kelompok"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					urutan,
 					uuid,
@@ -320,7 +320,7 @@ func (*repo) GetSoalSikapPelajaran(token string, demo bool) ([]*entity.SoalSessi
 					kelompok
 				FROM
 					soal_sikap_pelajaran
-					order by random() limit 3 `).Scan(&listResultSoal)
+					order by urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					urutan,
@@ -387,7 +387,7 @@ func (*repo) GetSoalSikapPelajaranKuliah(token string, demo bool) ([]*entity.Soa
 		Kelompok      string `json:"kelompok"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					urutan,
 					uuid,
@@ -400,8 +400,8 @@ func (*repo) GetSoalSikapPelajaranKuliah(token string, demo bool) ([]*entity.Soa
 					sikap_positif3,
 					kelompok
 				FROM
-					soal_sikap_pelajaran
-					order by random() limit 3 `).Scan(&listResultSoal)
+					soal_sikap_pelajaran_kuliah
+					order by urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					urutan,
@@ -460,13 +460,13 @@ func (*repo) GetSoalTesMinatIndonesia(token string, demo bool) ([]*entity.SoalSe
 		Pernyataan string `json:"pernyataan"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					a.urutan,
 					a.uuid,
 					a.pernyataan
 				FROM
-					soal_tmi as a order by random() limit 3 `).Scan(&listResultSoal)
+					soal_tmi as a order by a.urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 				a.urutan,
@@ -518,7 +518,7 @@ func (*repo) GetSoalTipologiJung(token string, demo bool) ([]*entity.SoalSession
 		PilihanB   string `json:"pilihan_b"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					a.urutan,
 					a.uuid,
@@ -526,7 +526,7 @@ func (*repo) GetSoalTipologiJung(token string, demo bool) ([]*entity.SoalSession
 					a.pilihan_a,			
 					a.pilihan_b
 				FROM
-					soal_tipologi_jung as a order by random() limit 3 `).Scan(&listResultSoal)
+					soal_tipologi_jung as a order by a.urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					a.urutan,
@@ -597,7 +597,7 @@ func (*repo) GetSoalKarakteristikPribadi(token string, demo bool) ([]*entity.Soa
 		Pilihan_4  string `json:"pilihan_4"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT a.urutan,
 				a.uuid,
 				a.pernyataan,
@@ -606,7 +606,7 @@ func (*repo) GetSoalKarakteristikPribadi(token string, demo bool) ([]*entity.Soa
 				a.pilihan_3,
 				a.pilihan_4
 				FROM
-					soal_karakteristik_pribadi as a order by random() limit 3 `).Scan(&listResultSoal)
+					soal_karakteristik_pribadi as a order by a.urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT a.urutan,
 					a.uuid,
@@ -689,7 +689,7 @@ func (*repo) GetSoalSkalaPeminatanSMA(token string, demo bool) ([]*entity.SoalSe
 		PilihanC   string `json:"pilihan_c"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					urutan,
 					uuid,
@@ -699,7 +699,7 @@ func (*repo) GetSoalSkalaPeminatanSMA(token string, demo bool) ([]*entity.SoalSe
 					pilihan_c
 				FROM
 					soal_peminatan_sma 
-					order by random() limit 3 `).Scan(&listResultSoal)
+					order by urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					urutan,
@@ -777,7 +777,7 @@ func (*repo) GetSoalSkalaPeminatanMAN(token string, demo bool) ([]*entity.SoalSe
 		PilihanD   string `json:"pilihan_d"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					urutan,
 					uuid,
@@ -788,7 +788,7 @@ func (*repo) GetSoalSkalaPeminatanMAN(token string, demo bool) ([]*entity.SoalSe
 					pilihan_d
 				FROM
 					soal_peminatan_man 
-					order by random() limit 3 `).Scan(&listResultSoal)
+					order by urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					urutan,
@@ -879,7 +879,7 @@ func (*repo) GetSoalMinatKuliahEksakta(token string, demo bool) ([]*entity.SoalS
 					a.minat
 				FROM
 					soal_minat_kuliah_eksakta as a 
-							order by random() limit 3`).Scan(&listResultSoal)
+							order by a.urutan limit 3`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					a.urutan,
@@ -952,7 +952,7 @@ func (*repo) GetSoalMinatKuliahSosial(token string, demo bool) ([]*entity.SoalSe
 					a.minat
 				FROM
 				soal_minat_kuliah_sosial as a 
-							order by random() limit 3`).Scan(&listResultSoal)
+							order by a.urutan limit 3`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					a.urutan,
@@ -1032,7 +1032,7 @@ func (*repo) GetSoalMinatKuliahDinas(token string, demo bool) ([]*entity.SoalSes
 					*
 				FROM
 					soal_minat_kuliah_dinas 
-					order by random() limit 1 `).Scan(&listResultSoal)
+					order by nomor limit 1 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					*
@@ -1174,7 +1174,7 @@ func (*repo) GetSoalMinatKuliahAgama(token string, demo bool) ([]*entity.SoalSes
 					a.jurusan
 				FROM
 					soal_minat_kuliah_agama as a
-							order by random() limit 3`).Scan(&listResultSoal)
+							order by urutan limit 3`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					a.urutan,
@@ -1249,7 +1249,7 @@ func (*repo) GetSoalSuasanaKerja(token string, demo bool) ([]*entity.SoalSession
 				from soal_minat_kuliah_suasana_kerja as a
 				) as x 
 				LEFT JOIN gambar AS c ON x.gambar = c.filename
-				order by random() limit 3`).Scan(&listResultSoal)
+				order by x.urutan limit 3`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`select x.*, 
 				c.image_base64,
@@ -1326,12 +1326,12 @@ func (*repo) GetSoalKecerdasanMajemuk(token string, demo bool) ([]*entity.SoalSe
 		PernyataanL string `json:"pernyataan_l"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					*
 				FROM
 					soal_kecerdasan_majemuk 
-					order by random() limit 1 `).Scan(&listResultSoal)
+					order by nomor limit 1 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					*
@@ -1463,13 +1463,13 @@ func (*repo) GetSoalGayaPekerjaan(token string, demo bool) ([]*entity.SoalSessio
 		Deskripsi string `json:"pernyataan"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					a.nomor,
 					a.deskripsi, 
 					a.uuid
 				FROM
-					soal_gaya_pekerjaan as a order by random() limit 2`).Scan(&listResultSoal)
+					soal_gaya_pekerjaan as a order by a.nomor limit 2`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 				a.nomor,
@@ -1493,7 +1493,7 @@ func (*repo) GetSoalGayaPekerjaan(token string, demo bool) ([]*entity.SoalSessio
 
 	var pilihan = []*entity.PilihanJawaban{}
 	for i := 0; i < len(listPilihanJawaban); i++ {
-		pilihan = append(pilihan)
+		// pilihan = append(pilihan)
 		var tmp = entity.PilihanJawaban{}
 		tmp.Text = listPilihanJawaban[i].Respon
 		tmp.Value = listPilihanJawaban[i].Jawaban
@@ -1544,7 +1544,7 @@ func (*repo) GetSoalGayaBelajar(token string, demo bool) ([]*entity.SoalSession,
 		PilihanC   string `json:"pilihan_c"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`SELECT
 					urutan,
 					uuid,
@@ -1554,7 +1554,7 @@ func (*repo) GetSoalGayaBelajar(token string, demo bool) ([]*entity.SoalSession,
 					pilihan_c
 				FROM
 				soal_gaya_belajar 
-					order by random() limit 3 `).Scan(&listResultSoal)
+					order by urutan limit 3 `).Scan(&listResultSoal)
 	} else {
 		db.Raw(`SELECT
 					urutan,
@@ -1634,7 +1634,7 @@ func (*repo) GetSoalTesModeBelajar(token string, demo bool) ([]*entity.SoalSessi
 		PilihanE string `json:"pilihan_e"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`select 
 				a.urutan,
 				a.soal, 
@@ -1645,7 +1645,7 @@ func (*repo) GetSoalTesModeBelajar(token string, demo bool) ([]*entity.SoalSessi
 				a.pilihan_d, 
 				a.pilihan_e
 				from soal_mode_belajar as a 
-				order by random() limit 3`).Scan(&listResultSoal)
+				order by urutan limit 3`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`select 
 					a.urutan,
@@ -1739,7 +1739,7 @@ func (*repo) GetSoalSSCTRemaja(token string, demo bool) ([]*entity.SoalSession, 
 		SikapPositif3   string `json:"sikap_positif3"`
 	}
 
-	if demo == true {
+	if demo {
 		db.Raw(`select 
 				urutan, 
 				subjek_penilaian,
@@ -1751,7 +1751,7 @@ func (*repo) GetSoalSSCTRemaja(token string, demo bool) ([]*entity.SoalSession, 
 				sikap_positif3,
 				uuid
 		 		from soal_ssct_remaja as a  
-					order by random() limit 3`).Scan(&listResultSoal)
+					order by urutan limit 3`).Scan(&listResultSoal)
 	} else {
 		db.Raw(`select 
 				urutan, 
@@ -1806,12 +1806,12 @@ func (*repo) GetSoalKesehatanMentalID(token string, demo bool) ([]*entity.SoalSe
 	var listModel []struct {
 		IdModel int32 `json:"id_model"`
 	}
-	if demo == true {
+	if demo {
 		db.Raw(`select a.id_model from 
 			soal_kesehatan_mental as a, ref_model_kesehatan_mental as b 
 			where a.id_model = b.id
 			GROUP BY a.id_model, b.nama , b.id 
-			order by random() limit 1`).Scan(&listModel)
+			order by a.id_model limit 1`).Scan(&listModel)
 	} else {
 		db.Raw(`select a.id_model from 
 			soal_kesehatan_mental as a, ref_model_kesehatan_mental as b 
@@ -1840,9 +1840,9 @@ func (*repo) GetSoalKesehatanMentalID(token string, demo bool) ([]*entity.SoalSe
 			Unsur string `json:"unsur"`
 		}
 		var pertanyaan_multi = []*entity.ItemSoalMulti{}
-		if demo == true {
+		if demo {
 			db.Raw(`select a.unsur from soal_kesehatan_mental as a 
-					where a.id_model = ? random() limit 2`, id_model).Scan(&listMultiSoal)
+					where a.id_model = ? order by a.urutan `, id_model).Scan(&listMultiSoal)
 		} else {
 			db.Raw(`select a.unsur from soal_kesehatan_mental as a 
 					where a.id_model = ? order by a.urutan`, id_model).Scan(&listMultiSoal)
@@ -1889,12 +1889,12 @@ func (*repo) GetSoalKejiwaanDewasaID(token string, demo bool) ([]*entity.SoalSes
 	var listModel []struct {
 		IdModel int32 `json:"id_model"`
 	}
-	if demo == true {
+	if demo {
 		db.Raw(`select a.id_model from 
 				soal_kejiwaan_dewasa as a, ref_model_kejiwaan_dewasa as b 
 				where a.id_model = b.id
 				GROUP BY a.id_model, b.nama , b.id 
-			order by random() limit 1`).Scan(&listModel)
+			order by a.id_model limit 1`).Scan(&listModel)
 	} else {
 		db.Raw(`select a.id_model from 
 		soal_kejiwaan_dewasa as a, ref_model_kejiwaan_dewasa as b 
@@ -1923,9 +1923,9 @@ func (*repo) GetSoalKejiwaanDewasaID(token string, demo bool) ([]*entity.SoalSes
 			Unsur string `json:"unsur"`
 		}
 		var pertanyaan_multi = []*entity.ItemSoalMulti{}
-		if demo == true {
+		if demo {
 			db.Raw(`select a.unsur from soal_kejiwaan_dewasa as a 
-					where a.id_model = ? random() limit 2`, id_model).Scan(&listMultiSoal)
+					where a.id_model = ? order by a.urutan`, id_model).Scan(&listMultiSoal)
 		} else {
 			db.Raw(`select a.unsur from soal_kejiwaan_dewasa as a 
 					where a.id_model = ? order by a.urutan`, id_model).Scan(&listMultiSoal)

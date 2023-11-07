@@ -14,6 +14,13 @@ type SkorMinatIndonesium struct {
 	TmiIlmuSosial int32  `gorm:"column:tmi_ilmu_sosial" json:"tmi_ilmu_sosial"`
 	TmiRentang    int32  `gorm:"column:tmi_rentang" json:"tmi_rentang"`
 	RekomTmi      string `gorm:"column:rekom_tmi" json:"rekom_tmi"`
+	Minat1        int32  `gorm:"column:minat1" json:"minat1"`
+	Minat2        int32  `gorm:"column:minat2" json:"minat2"`
+	Minat3        int32  `gorm:"column:minat3" json:"minat3"`
+	Minat4        int32  `gorm:"column:minat4" json:"minat4"`
+	Minat5        int32  `gorm:"column:minat5" json:"minat5"`
+	Minat6        int32  `gorm:"column:minat6" json:"minat6"`
+	Minat7        int32  `gorm:"column:minat7" json:"minat7"`
 }
 
 // TableName SkorMinatIndonesium's table name

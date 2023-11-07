@@ -323,7 +323,7 @@ class MasterTemplateTesController extends Controller
                                 quiz_sesi_master AS b 
                             WHERE
                                 a.id_sesi_master = b.id_sesi_master 
-                                AND a.id_quiz_template =  $id_quiz_template");
+                                AND a.id_quiz_template =  $id_quiz_template order by a.urutan asc");
         return view('master-template.index-report', compact('pagetitle','smalltitle','template','sesi'));
     }
 

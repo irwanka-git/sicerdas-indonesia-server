@@ -313,6 +313,12 @@ type SkorPeminatanSmk struct {
 	Minat15 string `gorm:"column:minat_15;default:null;" json:"minat_15"`
 }
 
+type RefKlasifikasiPeminatanSMA struct {
+	ID          int32  `json:"id"`
+	Skor        int32  `json:"skor"`
+	Klasifikasi string `json:"klasifikasi"`
+}
+
 type SkorPeminatanSma struct {
 	IDUser                    int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
 	IDQuiz                    int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
@@ -324,6 +330,12 @@ type SkorPeminatanSma struct {
 	KlasifikasiMinatSains     string `gorm:"column:klasifikasi_minat_sains" json:"klasifikasi_minat_sains"`
 	KlasifikasiMinatHumaniora string `gorm:"column:klasifikasi_minat_humaniora" json:"klasifikasi_minat_humaniora"`
 	KlasifikasiMinatBahasa    string `gorm:"column:klasifikasi_minat_bahasa" json:"klasifikasi_minat_bahasa"`
+}
+
+type RefKlasifikasiPeminatanMAN struct {
+	ID          int32  `json:"id"`
+	Skor        int32  `json:"skor"`
+	Klasifikasi string `json:"klasifikasi"`
 }
 
 type SkorPeminatanMan struct {
@@ -470,6 +482,13 @@ type SkorMinatIndonesium struct {
 	TmiIlmuSosial int32  `gorm:"column:tmi_ilmu_sosial" json:"tmi_ilmu_sosial"`
 	TmiRentang    int32  `gorm:"column:tmi_rentang" json:"tmi_rentang"`
 	RekomTmi      string `gorm:"column:rekom_tmi" json:"rekom_tmi"`
+	Minat1        int32  `gorm:"column:minat1" json:"minat1"`
+	Minat2        int32  `gorm:"column:minat2" json:"minat2"`
+	Minat3        int32  `gorm:"column:minat3" json:"minat3"`
+	Minat4        int32  `gorm:"column:minat4" json:"minat4"`
+	Minat5        int32  `gorm:"column:minat5" json:"minat5"`
+	Minat6        int32  `gorm:"column:minat6" json:"minat6"`
+	Minat7        int32  `gorm:"column:minat7" json:"minat7"`
 }
 
 type RefKecerdasanMajemuk struct {

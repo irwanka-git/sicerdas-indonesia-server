@@ -2,7 +2,7 @@
 <table class="table-x">
     <thead>
         <tr class="thead-primary">
-            <th class="text-center" width="40%" rowspan="2">Peminatan SMA</th>
+            <th class="text-center" width="40%" rowspan="2">Peminatan MAN</th>
             <th class="text-center"  colspan="5">Klasifikasi</th>
         </tr>
         <tr class="thead-primary"> 
@@ -17,6 +17,7 @@
         {{$klasifikasiMinatSains := .skoring.data.KlasifikasiMinatSains}}
         {{$klasifikasiMinatBahasa := .skoring.data.KlasifikasiMinatBahasa}}
         {{$klasifikasiMinatHumaniora := .skoring.data.KlasifikasiMinatHumaniora}}
+        {{$klasifikasiMinatAgama:= .skoring.data.KlasifikasiMinatAgama}}
         {{range $index,$minat := .skoring.ref }}
             {{if eq $minat.NamaPilihan "ILMU_ALAM"}}
                 <tr>
@@ -46,6 +47,16 @@
                     <td class="text-center">{{ if eq $klasifikasiMinatBahasa "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
                     <td class="text-center">{{ if eq $klasifikasiMinatBahasa "TINGGI"}} <i class="fa-check"></i> {{end}} </td>
                     <td class="text-center">{{ if eq $klasifikasiMinatBahasa "SANGAT_TINGGI"}} <i class="fa-check"></i> {{end}} </td>
+                </tr>
+            {{end}}
+            {{if eq $minat.NamaPilihan "ILMU_AGAMA"}}
+                <tr>
+                    <td><b>{{replaceStrip $minat.NamaPilihan}}</b><br>{{$minat.Keterangan}}</td>
+                    <td class="text-center">{{ if eq $klasifikasiMinatAgama "SANGAT_RENDAH"}} <i class="fa-check"></i> {{end}} </td>
+                    <td class="text-center">{{ if eq $klasifikasiMinatAgama "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
+                    <td class="text-center">{{ if eq $klasifikasiMinatAgama "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
+                    <td class="text-center">{{ if eq $klasifikasiMinatAgama "TINGGI"}} <i class="fa-check"></i> {{end}} </td>
+                    <td class="text-center">{{ if eq $klasifikasiMinatAgama "SANGAT_TINGGI"}} <i class="fa-check"></i> {{end}} </td>
                 </tr>
             {{end}}
         {{end}}

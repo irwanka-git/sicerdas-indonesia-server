@@ -17,7 +17,7 @@ func main() {
 	skoringRepo := repository.NewSkoringRepository()
 	skoringService := service.NewSkoringService(skoringRepo)
 
-	quiz, err := dummyRepo.CekDummyQuizUser(100)
+	quiz, err := dummyRepo.CekDummyQuizUser(34)
 	if err != nil {
 		fmt.Println("Belum ada sesi dummy untuk template ini..")
 		return

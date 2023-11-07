@@ -8,7 +8,7 @@
 
 $main_path = Request::segment(1);
 loadHelper('akses,function');
-$list_report_query = DB::select("select nama_report as text, id_report as value , tabel_referensi from quiz_sesi_report");
+$list_report_query = DB::select("select nama_report as text, id_report as value , tabel_referensi from quiz_sesi_report order by tabel_referensi ");
 $tabel_sesi = array();
 foreach($sesi as $r){
     array_push($tabel_sesi, $r->tabel);
@@ -41,6 +41,7 @@ $list_report = json_decode(json_encode($list_report));
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
+				<b class="pull-right">Kode : {{$template->kode}}-{{$template->id_quiz_template}} </b>
 				<h5 class="card-title"><b>{{$template->nama_sesi}}</b></h5>
 				<h6 class="card-subtitle text-muted">Fitur Ini Digunakan Untuk Manajemen Report Template Tes </h6>
 			</div>
