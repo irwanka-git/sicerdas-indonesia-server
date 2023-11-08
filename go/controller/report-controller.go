@@ -115,7 +115,7 @@ func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Requ
 	for i := 0; i < len(listExportLampiran); i++ {
 		listPDF = append(listPDF, listExportLampiran[i])
 	}
-	path_export_report := fmt.Sprintf("/app/export/pdf/%v-%v-%v.pdf", quiz.Token, helper.CleanParameterIDOnly(user.NamaPengguna), model.Direktori)
+	path_export_report := fmt.Sprintf("/app/export/pdf/%v-%v.pdf", helper.CleanNamaFileOnly(user.NamaPengguna), nomor_seri)
 	listPDF = append(listPDF, path_export_report)
 	exMergePDF := exec.Command("pdfunite", listPDF...)
 	_, err5 := exMergePDF.Output()
@@ -126,9 +126,21 @@ func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Requ
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: result})
 		return
 	}
-	//update nomor seri cetak
-	reportRepository.UpdateNomorSeriCetak(id_quiz, id_user, nomor_seri)
-	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Message: "Berhasil", Data: path_export_report})
+	directory := fmt.Sprintf("report-individu/%v/%v", quiz.Token, model.Direktori)
+	url_firebase_result, err := uploadFirebaseService.UploadReportPDFToFirebase(path_export_report, directory)
+	if err != nil {
+		fmt.Println(err3)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err.Error()})
+		return
+	}
+
+	for i := 0; i < len(listPDF); i++ {
+		os.Remove(listPDF[i])
+	}
+	os.Remove(fmt.Sprintf("templates/assets/qrcode/%v.png", nomor_seri))
+	//update no_seri
+	reportRepository.UpdateNomorSeriCetak(id_quiz, id_user, nomor_seri, url_firebase_result)
+	json.NewEncoder(w).Encode(helper.ResponseData{Status: true, Message: "Berhasil", Data: url_firebase_result})
 }
 
 func (*controller) RenderReportUtama(w http.ResponseWriter, r *http.Request) {

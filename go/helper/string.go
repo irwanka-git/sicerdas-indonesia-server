@@ -30,6 +30,33 @@ func CleanParameterIDOnly(data string) string {
 	return data
 }
 
+func CleanNamaFileOnly(data string) string {
+	data = strings.ReplaceAll(data, "  ", " ")
+	data = strings.ReplaceAll(data, " ", "-")
+	data = strings.ReplaceAll(data, "'", "")
+	data = strings.ReplaceAll(data, ".", "")
+	data = strings.ReplaceAll(data, "*", "")
+	data = strings.ReplaceAll(data, "^", "")
+	data = strings.ReplaceAll(data, "`", "")
+	data = strings.ReplaceAll(data, ",", "")
+	data = strings.ReplaceAll(data, "&", "")
+	data = strings.ReplaceAll(data, "@", "")
+	data = strings.ReplaceAll(data, "!", "")
+	data = strings.ReplaceAll(data, "$", "")
+	data = strings.ReplaceAll(data, ":", "")
+	data = strings.ReplaceAll(data, "\"", "")
+	data = strings.ReplaceAll(data, "?", "")
+	data = strings.ReplaceAll(data, ">", "")
+	data = strings.ReplaceAll(data, ")", "")
+	data = strings.ReplaceAll(data, "(", "")
+	data = strings.ReplaceAll(data, "}", "")
+	data = strings.ReplaceAll(data, "{", "")
+	data = strings.ReplaceAll(data, "=", "")
+	data = strings.ReplaceAll(data, "+", "")
+	data = strings.ReplaceAll(data, "_", "")
+	return data
+}
+
 func GetPilihanFromTagDot(data string, index int) string {
 	arr := strings.Split(data, ":")
 	if len(arr) >= index {

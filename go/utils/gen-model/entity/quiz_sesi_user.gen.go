@@ -12,21 +12,22 @@ const TableNameQuizSesiUser = "quiz_sesi_user"
 
 // QuizSesiUser mapped from table <quiz_sesi_user>
 type QuizSesiUser struct {
-	IDQuizUser     int32     `gorm:"column:id_quiz_user;primaryKey;default:nextval('sequence_quiz_sesi_user'" json:"id_quiz_user"`
-	IDUser         int32     `gorm:"column:id_user" json:"id_user"`
-	IDQuiz         int32     `gorm:"column:id_quiz" json:"id_quiz"`
-	StartAt        time.Time `gorm:"column:start_at" json:"start_at"`
-	Submit         int32     `gorm:"column:submit" json:"submit"`
-	SubmitAt       time.Time `gorm:"column:submit_at" json:"submit_at"`
-	TokenSubmit    string    `gorm:"column:token_submit" json:"token_submit"`
-	Jawaban        string    `gorm:"column:jawaban;comment:berisi JSON jawaban quiz" json:"jawaban"`                     // berisi JSON jawaban quiz
-	StatusHasil    int32     `gorm:"column:status_hasil;comment:1=>Sudah Publish, 0=>Belum Publish" json:"status_hasil"` // 1=>Sudah Publish, 0=>Belum Publish
-	SkoringAt      time.Time `gorm:"column:skoring_at" json:"skoring_at"`
-	Skoring        int32     `gorm:"column:skoring;comment:1=>sudah skoring, 0=>Belum Skoring" json:"skoring"`                                 // 1=>sudah skoring, 0=>Belum Skoring
-	JawabanSkoring string    `gorm:"column:jawaban_skoring;comment:Konversi Data Tabel quiz_user_sesi_jawaban ke JSON" json:"jawaban_skoring"` // Konversi Data Tabel quiz_user_sesi_jawaban ke JSON
-	Saran          string    `gorm:"column:saran;comment:Ambil Dari Template Berdasarkan Nama Tabel Skoring" json:"saran"`                     // Ambil Dari Template Berdasarkan Nama Tabel Skoring
-	UUID           string    `gorm:"column:uuid" json:"uuid"`
-	NoSeri         string    `gorm:"column:no_seri" json:"no_seri"`
+	IDQuizUser        int32     `gorm:"column:id_quiz_user;primaryKey;default:nextval('sequence_quiz_sesi_user'" json:"id_quiz_user"`
+	IDUser            int32     `gorm:"column:id_user" json:"id_user"`
+	IDQuiz            int32     `gorm:"column:id_quiz" json:"id_quiz"`
+	StartAt           time.Time `gorm:"column:start_at" json:"start_at"`
+	Submit            int32     `gorm:"column:submit" json:"submit"`
+	SubmitAt          time.Time `gorm:"column:submit_at" json:"submit_at"`
+	TokenSubmit       string    `gorm:"column:token_submit" json:"token_submit"`
+	Jawaban           string    `gorm:"column:jawaban;comment:berisi JSON jawaban quiz" json:"jawaban"`                     // berisi JSON jawaban quiz
+	StatusHasil       int32     `gorm:"column:status_hasil;comment:1=>Sudah Publish, 0=>Belum Publish" json:"status_hasil"` // 1=>Sudah Publish, 0=>Belum Publish
+	SkoringAt         time.Time `gorm:"column:skoring_at" json:"skoring_at"`
+	Skoring           int32     `gorm:"column:skoring;comment:1=>sudah skoring, 0=>Belum Skoring" json:"skoring"`                                 // 1=>sudah skoring, 0=>Belum Skoring
+	JawabanSkoring    string    `gorm:"column:jawaban_skoring;comment:Konversi Data Tabel quiz_user_sesi_jawaban ke JSON" json:"jawaban_skoring"` // Konversi Data Tabel quiz_user_sesi_jawaban ke JSON
+	Saran             string    `gorm:"column:saran;comment:Ambil Dari Template Berdasarkan Nama Tabel Skoring" json:"saran"`                     // Ambil Dari Template Berdasarkan Nama Tabel Skoring
+	UUID              string    `gorm:"column:uuid" json:"uuid"`
+	NoSeri            string    `gorm:"column:no_seri" json:"no_seri"`
+	FirebaseURLReport string    `gorm:"column:firebase_url_report" json:"firebase_url_report"`
 }
 
 // TableName QuizSesiUser's table name

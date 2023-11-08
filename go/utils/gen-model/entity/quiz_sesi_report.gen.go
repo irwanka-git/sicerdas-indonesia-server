@@ -14,6 +14,7 @@ type QuizSesiReport struct {
 	Blade          string `gorm:"column:blade" json:"blade"`
 	TabelTerkait   string `gorm:"column:tabel_terkait" json:"tabel_terkait"`
 	Jenis          int32  `gorm:"column:jenis;comment:1=> utama, 2=> lampiran" json:"jenis"` // 1=> utama, 2=> lampiran
+	Orientasi      string `gorm:"column:orientasi" json:"orientasi"`
 }
 
 // TableName QuizSesiReport's table name

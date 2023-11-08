@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"image/color"
 	"irwanka/sicerdas/entity"
+	"irwanka/sicerdas/helper"
 	"math/rand"
 	"os"
 	"reflect"
 	"strconv"
+	"time"
 
 	"github.com/skip2/go-qrcode"
 )
@@ -25,7 +27,7 @@ type ReportRepository interface {
 	GetDetilQuizCetak(id_quiz int) (*entity.QuizSesi, error)
 	GetDetilQuizSesiUserCetak(id_quiz int, id_user int) entity.QuizSesiUser
 	GenerateQRCodeNomorSeriCetak() string
-	UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string) error
+	UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string, firebase_url string) error
 	GetDetilQuizTemplate(id_quiz_template int) (*entity.QuizSesiTemplate, error)
 	GetListLampiranReport(id_quiz_template int) []*entity.QuizSesiReport
 	GetDetailReport(id_report int) *entity.QuizSesiReport
@@ -133,13 +135,18 @@ func (*repo) GenerateQRCodeNomorSeriCetak() string {
 		}
 	}
 	filenameQrcode := fmt.Sprintf("templates/assets/qrcode/%v.png", token)
-	link := fmt.Sprintf("%v/download-report/%v.pdf", os.Getenv("URL_SICERDAS"), token)
+	link := fmt.Sprintf("%v/verify-report/%v", os.Getenv("URL_SICERDAS"), token)
 	qrcode.WriteColorFile(link, qrcode.Medium, 128, color.White, color.Black, filenameQrcode)
 	return token
 }
 
-func (*repo) UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string) error {
-	db.Table("quiz_sesi_user").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Update("no_seri", nomor_seri)
+func (*repo) UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string, firebase_url string) error {
+	db.Table("quiz_sesi_user").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).
+		UpdateColumns(map[string]interface{}{
+			"no_seri":             nomor_seri,
+			"status_hasil":        1,
+			"report_at":           helper.StringTimeYMDHIS(time.Now()),
+			"firebase_url_report": firebase_url})
 	return nil
 }
 

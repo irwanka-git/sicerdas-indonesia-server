@@ -8,8 +8,10 @@ const TableNameQuizSesiTemplateLampiran = "quiz_sesi_template_lampiran"
 
 // QuizSesiTemplateLampiran mapped from table <quiz_sesi_template_lampiran>
 type QuizSesiTemplateLampiran struct {
-	IDQuizTemplate int64 `gorm:"column:id_quiz_template;primaryKey" json:"id_quiz_template"`
-	IDReport       int64 `gorm:"column:id_report;primaryKey" json:"id_report"`
+	IDQuizTemplate int64  `gorm:"column:id_quiz_template;primaryKey" json:"id_quiz_template"`
+	IDReport       int64  `gorm:"column:id_report;primaryKey" json:"id_report"`
+	Urutan         int32  `gorm:"column:urutan" json:"urutan"`
+	UUID           string `gorm:"column:uuid" json:"uuid"`
 }
 
 // TableName QuizSesiTemplateLampiran's table name

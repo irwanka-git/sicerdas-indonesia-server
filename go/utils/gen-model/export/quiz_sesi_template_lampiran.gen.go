@@ -29,6 +29,8 @@ func newQuizSesiTemplateLampiran(db *gorm.DB, opts ...gen.DOOption) quizSesiTemp
 	_quizSesiTemplateLampiran.ALL = field.NewAsterisk(tableName)
 	_quizSesiTemplateLampiran.IDQuizTemplate = field.NewInt64(tableName, "id_quiz_template")
 	_quizSesiTemplateLampiran.IDReport = field.NewInt64(tableName, "id_report")
+	_quizSesiTemplateLampiran.Urutan = field.NewInt32(tableName, "urutan")
+	_quizSesiTemplateLampiran.UUID = field.NewString(tableName, "uuid")
 
 	_quizSesiTemplateLampiran.fillFieldMap()
 
@@ -41,6 +43,8 @@ type quizSesiTemplateLampiran struct {
 	ALL            field.Asterisk
 	IDQuizTemplate field.Int64
 	IDReport       field.Int64
+	Urutan         field.Int32
+	UUID           field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -59,6 +63,8 @@ func (q *quizSesiTemplateLampiran) updateTableName(table string) *quizSesiTempla
 	q.ALL = field.NewAsterisk(table)
 	q.IDQuizTemplate = field.NewInt64(table, "id_quiz_template")
 	q.IDReport = field.NewInt64(table, "id_report")
+	q.Urutan = field.NewInt32(table, "urutan")
+	q.UUID = field.NewString(table, "uuid")
 
 	q.fillFieldMap()
 
@@ -87,9 +93,11 @@ func (q *quizSesiTemplateLampiran) GetFieldByName(fieldName string) (field.Order
 }
 
 func (q *quizSesiTemplateLampiran) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 2)
+	q.fieldMap = make(map[string]field.Expr, 4)
 	q.fieldMap["id_quiz_template"] = q.IDQuizTemplate
 	q.fieldMap["id_report"] = q.IDReport
+	q.fieldMap["urutan"] = q.Urutan
+	q.fieldMap["uuid"] = q.UUID
 }
 
 func (q quizSesiTemplateLampiran) clone(db *gorm.DB) quizSesiTemplateLampiran {

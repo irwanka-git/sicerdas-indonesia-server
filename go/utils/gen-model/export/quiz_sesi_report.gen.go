@@ -33,6 +33,7 @@ func newQuizSesiReport(db *gorm.DB, opts ...gen.DOOption) quizSesiReport {
 	_quizSesiReport.Blade = field.NewString(tableName, "blade")
 	_quizSesiReport.TabelTerkait = field.NewString(tableName, "tabel_terkait")
 	_quizSesiReport.Jenis = field.NewInt32(tableName, "jenis")
+	_quizSesiReport.Orientasi = field.NewString(tableName, "orientasi")
 
 	_quizSesiReport.fillFieldMap()
 
@@ -49,6 +50,7 @@ type quizSesiReport struct {
 	Blade          field.String
 	TabelTerkait   field.String
 	Jenis          field.Int32 // 1=> utama, 2=> lampiran
+	Orientasi      field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -71,6 +73,7 @@ func (q *quizSesiReport) updateTableName(table string) *quizSesiReport {
 	q.Blade = field.NewString(table, "blade")
 	q.TabelTerkait = field.NewString(table, "tabel_terkait")
 	q.Jenis = field.NewInt32(table, "jenis")
+	q.Orientasi = field.NewString(table, "orientasi")
 
 	q.fillFieldMap()
 
@@ -99,13 +102,14 @@ func (q *quizSesiReport) GetFieldByName(fieldName string) (field.OrderExpr, bool
 }
 
 func (q *quizSesiReport) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 6)
+	q.fieldMap = make(map[string]field.Expr, 7)
 	q.fieldMap["id_report"] = q.IDReport
 	q.fieldMap["nama_report"] = q.NamaReport
 	q.fieldMap["tabel_referensi"] = q.TabelReferensi
 	q.fieldMap["blade"] = q.Blade
 	q.fieldMap["tabel_terkait"] = q.TabelTerkait
 	q.fieldMap["jenis"] = q.Jenis
+	q.fieldMap["orientasi"] = q.Orientasi
 }
 
 func (q quizSesiReport) clone(db *gorm.DB) quizSesiReport {

@@ -42,6 +42,7 @@ func newQuizSesiUser(db *gorm.DB, opts ...gen.DOOption) quizSesiUser {
 	_quizSesiUser.Saran = field.NewString(tableName, "saran")
 	_quizSesiUser.UUID = field.NewString(tableName, "uuid")
 	_quizSesiUser.NoSeri = field.NewString(tableName, "no_seri")
+	_quizSesiUser.FirebaseURLReport = field.NewString(tableName, "firebase_url_report")
 
 	_quizSesiUser.fillFieldMap()
 
@@ -51,22 +52,23 @@ func newQuizSesiUser(db *gorm.DB, opts ...gen.DOOption) quizSesiUser {
 type quizSesiUser struct {
 	quizSesiUserDo quizSesiUserDo
 
-	ALL            field.Asterisk
-	IDQuizUser     field.Int32
-	IDUser         field.Int32
-	IDQuiz         field.Int32
-	StartAt        field.Time
-	Submit         field.Int32
-	SubmitAt       field.Time
-	TokenSubmit    field.String
-	Jawaban        field.String // berisi JSON jawaban quiz
-	StatusHasil    field.Int32  // 1=>Sudah Publish, 0=>Belum Publish
-	SkoringAt      field.Time
-	Skoring        field.Int32  // 1=>sudah skoring, 0=>Belum Skoring
-	JawabanSkoring field.String // Konversi Data Tabel quiz_user_sesi_jawaban ke JSON
-	Saran          field.String // Ambil Dari Template Berdasarkan Nama Tabel Skoring
-	UUID           field.String
-	NoSeri         field.String
+	ALL               field.Asterisk
+	IDQuizUser        field.Int32
+	IDUser            field.Int32
+	IDQuiz            field.Int32
+	StartAt           field.Time
+	Submit            field.Int32
+	SubmitAt          field.Time
+	TokenSubmit       field.String
+	Jawaban           field.String // berisi JSON jawaban quiz
+	StatusHasil       field.Int32  // 1=>Sudah Publish, 0=>Belum Publish
+	SkoringAt         field.Time
+	Skoring           field.Int32  // 1=>sudah skoring, 0=>Belum Skoring
+	JawabanSkoring    field.String // Konversi Data Tabel quiz_user_sesi_jawaban ke JSON
+	Saran             field.String // Ambil Dari Template Berdasarkan Nama Tabel Skoring
+	UUID              field.String
+	NoSeri            field.String
+	FirebaseURLReport field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -98,6 +100,7 @@ func (q *quizSesiUser) updateTableName(table string) *quizSesiUser {
 	q.Saran = field.NewString(table, "saran")
 	q.UUID = field.NewString(table, "uuid")
 	q.NoSeri = field.NewString(table, "no_seri")
+	q.FirebaseURLReport = field.NewString(table, "firebase_url_report")
 
 	q.fillFieldMap()
 
@@ -126,7 +129,7 @@ func (q *quizSesiUser) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (q *quizSesiUser) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 15)
+	q.fieldMap = make(map[string]field.Expr, 16)
 	q.fieldMap["id_quiz_user"] = q.IDQuizUser
 	q.fieldMap["id_user"] = q.IDUser
 	q.fieldMap["id_quiz"] = q.IDQuiz
@@ -142,6 +145,7 @@ func (q *quizSesiUser) fillFieldMap() {
 	q.fieldMap["saran"] = q.Saran
 	q.fieldMap["uuid"] = q.UUID
 	q.fieldMap["no_seri"] = q.NoSeri
+	q.fieldMap["firebase_url_report"] = q.FirebaseURLReport
 }
 
 func (q quizSesiUser) clone(db *gorm.DB) quizSesiUser {

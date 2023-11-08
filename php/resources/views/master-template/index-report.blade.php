@@ -307,7 +307,11 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
 			beforeSubmit: function() {
 			},
 			success: function(respon) {
-				 console.log(respon)
+				//  console.log(respon)
+				if (respon.status == true){
+					successNotify("Berhasil Buat Laporan Baru");
+					window.open(respon.data, "_blank");
+				}
 			},
 			error: function() {
 			}
