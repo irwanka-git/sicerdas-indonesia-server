@@ -1,0 +1,19 @@
+<p class="p10"><b>{{.urutan}}. TIPOLOGI KEPRIBADIAN</b><p>
+<table class="table-x">
+    <thead>
+        <tr class="thead-primary">
+            <th class="text-center" width="100%">Tipologi Kepribadian</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <p class="p10"><b>{{.urutan}}. {{ .skoring.tipologi.Urutan }} - {{ .skoring.tipologi.Kode }} - {{ .skoring.tipologi.Nama }} -  <i>{{ .skoring.tipologi.Keterangan }}</i></b></p>
+                <p style="text-align: justify">{{ .skoring.tipologi.Deskripsi  }}</p>
+                <p>Informasi lebih lanjut bisa dilihat di internet :
+                    <a href="https://www.google.com/search?q={{ .skoring.tipologi.Keterangan }}">{{ .skoring.tipologi.Keterangan}}</a>
+                </p>
+            </td>
+        </tr>
+    </tbody>
+</table> 

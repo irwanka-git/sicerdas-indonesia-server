@@ -34,6 +34,10 @@ func newQuizSesiTemplate(db *gorm.DB, opts ...gen.DOOption) quizSesiTemplate {
 	_quizSesiTemplate.UUID = field.NewString(tableName, "uuid")
 	_quizSesiTemplate.Jenis = field.NewString(tableName, "jenis")
 	_quizSesiTemplate.Kode = field.NewString(tableName, "kode")
+	_quizSesiTemplate.Pendahuluan = field.NewString(tableName, "pendahuluan")
+	_quizSesiTemplate.IsiSaran = field.NewString(tableName, "isi_saran")
+	_quizSesiTemplate.JudulSaran = field.NewString(tableName, "judul_saran")
+	_quizSesiTemplate.Kertas = field.NewString(tableName, "kertas")
 
 	_quizSesiTemplate.fillFieldMap()
 
@@ -51,6 +55,10 @@ type quizSesiTemplate struct {
 	UUID           field.String
 	Jenis          field.String // demo atao quiz
 	Kode           field.String
+	Pendahuluan    field.String
+	IsiSaran       field.String
+	JudulSaran     field.String
+	Kertas         field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -74,6 +82,10 @@ func (q *quizSesiTemplate) updateTableName(table string) *quizSesiTemplate {
 	q.UUID = field.NewString(table, "uuid")
 	q.Jenis = field.NewString(table, "jenis")
 	q.Kode = field.NewString(table, "kode")
+	q.Pendahuluan = field.NewString(table, "pendahuluan")
+	q.IsiSaran = field.NewString(table, "isi_saran")
+	q.JudulSaran = field.NewString(table, "judul_saran")
+	q.Kertas = field.NewString(table, "kertas")
 
 	q.fillFieldMap()
 
@@ -102,7 +114,7 @@ func (q *quizSesiTemplate) GetFieldByName(fieldName string) (field.OrderExpr, bo
 }
 
 func (q *quizSesiTemplate) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 7)
+	q.fieldMap = make(map[string]field.Expr, 11)
 	q.fieldMap["id_quiz_template"] = q.IDQuizTemplate
 	q.fieldMap["nama_sesi"] = q.NamaSesi
 	q.fieldMap["gambar"] = q.Gambar
@@ -110,6 +122,10 @@ func (q *quizSesiTemplate) fillFieldMap() {
 	q.fieldMap["uuid"] = q.UUID
 	q.fieldMap["jenis"] = q.Jenis
 	q.fieldMap["kode"] = q.Kode
+	q.fieldMap["pendahuluan"] = q.Pendahuluan
+	q.fieldMap["isi_saran"] = q.IsiSaran
+	q.fieldMap["judul_saran"] = q.JudulSaran
+	q.fieldMap["kertas"] = q.Kertas
 }
 
 func (q quizSesiTemplate) clone(db *gorm.DB) quizSesiTemplate {

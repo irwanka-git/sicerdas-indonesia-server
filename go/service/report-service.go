@@ -10,6 +10,7 @@ import (
 
 type ReportService interface {
 	GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz int, id_user int) (any, error)
+	GetDataSkoringLampiranFromReportTabel(tabel_referensi string, id_quiz int, id_user int) (any, error)
 }
 
 var (
@@ -19,6 +20,95 @@ var (
 func NewReporService(repo repository.ReportRepository) ReportService {
 	reportRepository = repo
 	return &service{}
+}
+
+func (*service) GetDataSkoringLampiranFromReportTabel(tabel_referensi string, id_quiz int, id_user int) (any, error) {
+	var skoring any
+	if tabel_referensi == "skor_kuliah_alam" {
+		refMinatKuliah, _ := reportRepository.GetReferensiKuliahIlmuAlam()
+		skoringCek, errSkoring := reportRepository.GetSkoringKuliahAlam(id_quiz, id_user)
+		if errSkoring != nil {
+			return nil, errSkoring
+		}
+		var minatKuliah = []entity.RefKuliahAlam{}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIpa1 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIpa2 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIpa3 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIpa4 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIpa5 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		skoring = minatKuliah
+	}
+	if tabel_referensi == "skor_kuliah_sosial" {
+		refMinatKuliah, _ := reportRepository.GetReferensiKuliahIlmuSosial()
+		skoringCek, errSkoring := reportRepository.GetSkoringKuliahSosial(id_quiz, id_user)
+		if errSkoring != nil {
+			return nil, errSkoring
+		}
+		var minatKuliah = []entity.RefKuliahSosial{}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIps1 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIps2 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIps3 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIps4 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		for i := 0; i < len(refMinatKuliah); i++ {
+			if refMinatKuliah[i].Urutan == skoringCek.MinatIps5 {
+				minatKuliah = append(minatKuliah, *refMinatKuliah[i])
+			}
+		}
+
+		skoring = minatKuliah
+	}
+	if tabel_referensi == "skor_gaya_pekerjaan" {
+		result, _ := reportRepository.GetResultGayaPekerjaan(id_quiz, id_user)
+		skoring = result
+	}
+	return skoring, nil
 }
 
 func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz int, id_user int) (any, error) {
@@ -289,8 +379,8 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 	}
 
 	if tabel_referensi == "skor_peminatan_man" {
-		refMinat, _ := reportRepository.GetReferensiMinatSMA()
-		skoringCek, errSkoring := reportRepository.GetSkoringPeminatanSMA(id_quiz, id_user)
+		refMinat, _ := reportRepository.GetReferensiMinatMAN()
+		skoringCek, errSkoring := reportRepository.GetSkoringPeminatanMAN(id_quiz, id_user)
 		if errSkoring != nil {
 			return nil, errSkoring
 		}
@@ -396,6 +486,46 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 	if tabel_referensi == "skor_gaya_belajar" {
 		result, _ := reportRepository.GetResultGayaBelajar(id_quiz, id_user)
 		skoring = result
+	}
+
+	if tabel_referensi == "skor_kecerdasan_majemuk" {
+		refKecerdasan, _ := reportRepository.GetReferensiKecerdasanMajemuk()
+		skoringCek, errSkoring := reportRepository.GetSkoringKecerdasanMajemuk(id_quiz, id_user)
+		if errSkoring != nil {
+			return nil, errSkoring
+		}
+		var skala = []entity.RefKecerdasanMajemuk{}
+
+		for i := 0; i < len(refKecerdasan); i++ {
+			if refKecerdasan[i].No == skoringCek.Km1 {
+				skala = append(skala, *refKecerdasan[i])
+			}
+		}
+
+		for i := 0; i < len(refKecerdasan); i++ {
+			if refKecerdasan[i].No == skoringCek.Km2 {
+				skala = append(skala, *refKecerdasan[i])
+			}
+		}
+
+		for i := 0; i < len(refKecerdasan); i++ {
+			if refKecerdasan[i].No == skoringCek.Km3 {
+				skala = append(skala, *refKecerdasan[i])
+			}
+		}
+
+		for i := 0; i < len(refKecerdasan); i++ {
+			if refKecerdasan[i].No == skoringCek.Km4 {
+				skala = append(skala, *refKecerdasan[i])
+			}
+		}
+
+		for i := 0; i < len(refKecerdasan); i++ {
+			if refKecerdasan[i].No == skoringCek.Km5 {
+				skala = append(skala, *refKecerdasan[i])
+			}
+		}
+		skoring = skala
 	}
 
 	return skoring, nil

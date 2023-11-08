@@ -21,6 +21,7 @@ var (
 	quizController   controller.QuizController   = controller.NewQuizController()
 	uploadController controller.UploadController = controller.NewUploadController()
 	reportController controller.ReportController = controller.NewReportController()
+	dummyController  controller.DummyController  = controller.NewDummyController()
 )
 
 func init() {
@@ -77,13 +78,23 @@ func main() {
 		r.Post("/sinkron-gambar-quiz-with-template", quizController.SinkronGambarQuizWithTemplate)
 		r.Post("/sinkron-gambar-info-cerdas", uploadController.SinkronGambarInfoCerdasToFirebase)
 		r.Post("/submit-jawaban-quiz/{token}", quizController.SubmitJawabanQuiz)
+
+		//dummy generate
+		r.Post("/cek-dummy-template/{id}", dummyController.CekExistDummyForTemplate)
+		r.Post("/create-dummy-template/{id}", dummyController.CreateDummyForTemplate)
+		r.Post("/export-report-peserta/{id_quiz}/{id_user}/{id_model}", reportController.ExportReportPDFToFirebase)
 	})
 
 	//render
 	//report
-	// r.Get("/static/{filename}")
-	fileServer := http.FileServer(http.Dir("./templates/assets/"))
-	r.Handle("/static/*", http.StripPrefix("/static/", fileServer))
+	fileAsset := http.FileServer(http.Dir("./templates/assets/"))
+	r.Handle("/static/*", http.StripPrefix("/static/", fileAsset))
+	fileKop := http.FileServer(http.Dir("/var/www/html/public/kop/"))
+	r.Handle("/kop/*", http.StripPrefix("/kop/", fileKop))
+
 	r.Get("/preview-report-dummy/{uuid}", reportController.PreviewKomponenReportDummy)
+	r.Get("/preview-lampiran-dummy/{uuid}", reportController.PreviewLampiranReportDummy)
+	r.Get("/render-report-utama/{id_quiz}/{id_user}/{id_model}/{nomor_seri}", reportController.RenderReportUtama)
+	r.Get("/render-report-lampiran/{id_quiz}/{id_user}/{id_report}/{nomor_seri}", reportController.RenderReportLampiran)
 	http.ListenAndServe(port, r)
 }

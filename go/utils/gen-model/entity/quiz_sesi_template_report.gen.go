@@ -13,6 +13,7 @@ type QuizSesiTemplateReport struct {
 	Urutan               int32  `gorm:"column:urutan" json:"urutan"`
 	IDReport             int32  `gorm:"column:id_report" json:"id_report"`
 	UUID                 string `gorm:"column:uuid" json:"uuid"`
+	Model                string `gorm:"column:model" json:"model"`
 }
 
 // TableName QuizSesiTemplateReport's table name

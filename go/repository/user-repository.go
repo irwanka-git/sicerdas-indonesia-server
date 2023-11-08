@@ -14,6 +14,7 @@ type UserRepository interface {
 	SubmitPasswordBaru(user_id int32, password entity.PasswordChange) error
 	GetAllInfoCerdas() ([]*entity.InfoCerdas, error)
 	UpdateGambarInfo(id int32, gambar string) error
+	GetDataUserById(id int) (*entity.User, error)
 }
 
 func NewUserRepository() UserRepository {
@@ -54,7 +55,16 @@ func (*repo) GetlUserByUuid(uuid string) (*entity.User, error) {
 	var userCek *entity.User
 	result := db.Table("users").Where("uuid = ?", uuid).First(&userCek)
 	if result.RowsAffected == 0 {
-		return nil, errors.New("User ID tidak ditemukan, silahkan hubungi admin")
+		return nil, errors.New("user ID tidak ditemukan, silahkan hubungi admin")
+	}
+	return userCek, nil
+}
+
+func (*repo) GetDataUserById(id int) (*entity.User, error) {
+	var userCek *entity.User
+	result := db.Table("users").Where("id = ?", id).First(&userCek)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("user ID tidak ditemukan, silahkan hubungi admin")
 	}
 	return userCek, nil
 }

@@ -59,7 +59,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/joho/godotenv v1.5.1
-	github.com/robfig/cron v1.2.0
+	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	gorm.io/driver/mysql v1.5.2 // indirect
 	gorm.io/driver/postgres v1.5.3
 	gorm.io/gen v0.3.23

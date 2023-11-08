@@ -79,6 +79,11 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 				<button data-field="gambar" data-form="form-tambah" class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
 			</div>
 		</div>
+		<div class="mb-3">
+			<label class="form-label">Pendahuluan <star>*</star> </label>
+			<div  id="pendahuluan_tambah"></div>
+			<textarea style="display: none;" name="pendahuluan" id="pendahuluan"  required="required"></textarea>
+		</div>
 	{{Html::mCloseSubmitLG('Simpan')}}
 {{ Form::bsClose()}}
 @endif
@@ -100,6 +105,11 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 					name="gambar" id="gambar" class="form-control">
 				<button data-field="gambar" data-form="form-edit" class="btn btn-secondary btn-lihat-gambar" type="button"><i class="la la-eye"></i> Lihat</button>
 			</div>
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Pendahuluan <star>*</star> </label>
+			<div  id="pendahuluan_edit"></div>
+			<textarea style="display: none;" name="pendahuluan" id="pendahuluan"  required="required"></textarea>
 		</div>
 		{{ Form::bsHidden('uuid','') }}
 	{{Html::mCloseSubmitLG('Simpan')}}
@@ -127,7 +137,7 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 <script type="text/javascript">
 	$(function() {
 		$(".select2").selectize();
-		//var toolbarOptions = [['bold', 'italic'],['link', 'image']];
+		var toolbarOptions = [['bold', 'italic']];
 		var $tabel1 = $('#datatable').DataTable({
 			processing: true,
 			responsive: true,
@@ -214,16 +224,18 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 
 		@if(ucc())
 
-		// var quill_petunjuk_tambah = new Quill('#petunjuk_tambah', {
-		// 	placeholder: 'Tulis Isi Petunjuk.....',
-		// 	theme: 'snow',
-		// 	modules: {
-		// 		toolbar: toolbarOptions
-		// 	}
-		// });
-		// quill_petunjuk_tambah.on('text-change', function(delta, oldDelta, source) {
-		// 	$("#form-tambah #petunjuk_sesi").val($("#petunjuk_tambah .ql-editor").html());
-		// });
+		var quill_pendahuluan_tambah = new Quill('#pendahuluan_tambah', {
+			placeholder: 'Tulis Salam Pembuka / Pendahuluan.....',
+			theme: 'snow',
+			modules: {
+				toolbar: toolbarOptions
+			}
+		});
+		quill_pendahuluan_tambah.on('text-change', function(delta, oldDelta, source) {
+			$("#form-tambah #pendahuluan").val($("#pendahuluan_tambah .ql-editor").html());
+		});
+
+		
 
 		$validator_form_tambah = $("#form-tambah").validate();
 		$("#modal-tambah").on('show.bs.modal', function(e) {
@@ -260,16 +272,16 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 
 		@if(ucu())
 
-		// var quill_petunjuk_edit = new Quill('#petunjuk_edit', {
-		// 	placeholder: 'Tulis Isi Petunjuk Sesi.....',
-		// 	theme: 'snow',
-		// 	modules: {
-		// 		toolbar: toolbarOptions
-		// 	}
-		// });
-		// quill_petunjuk_edit.on('text-change', function(delta, oldDelta, source) {
-		// 	$("#form-edit #petunjuk_sesi").val($("#petunjuk_edit .ql-editor").html());
-		// });
+		var quill_pendahuluan_edit = new Quill('#pendahuluan_edit', {
+			placeholder: 'Tulis Salam Pembuka / Pendahuluan.....',
+			theme: 'snow',
+			modules: {
+				toolbar: toolbarOptions
+			}
+		});
+		quill_pendahuluan_edit.on('text-change', function(delta, oldDelta, source) {
+			$("#form-edit #pendahuluan").val($("#pendahuluan_edit .ql-editor").html());
+		});
 
 		$validator_form_edit = $("#form-edit").validate();
 		$("#modal-edit").on('show.bs.modal', function(e) {
@@ -277,7 +289,7 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 			$validator_form_edit.resetForm();
 			$("#form-edit").clearForm();
 			disableButton("#form-edit button[type=submit]");
-			//$("#petunjuk_edit .ql-editor").html('');
+			$("#pendahuluan_edit .ql-editor").html('');
 			$('#form-edit #jenis').selectize()[0].selectize.clear();
 			$.get("{{url($main_path.'/get-data')}}/" + $uuid, function(respon) {
 				if (respon.status) {
@@ -286,6 +298,8 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 					$('#form-edit #jenis').selectize()[0].selectize.setValue(respon.data.jenis, false);		
 					$('#form-edit #gambar').val(respon.data.gambar);
 					$('#form-edit #uuid').val(respon.data.uuid);
+					quill_pendahuluan_edit.clipboard.dangerouslyPasteHTML(respon.data.pendahuluan);
+					$('#form-edit #pendahuluan').val(respon.data.pendahuluan);
 					enableButton("#form-edit button[type=submit]");
 				} else {
 					errorNotify(respon.message);

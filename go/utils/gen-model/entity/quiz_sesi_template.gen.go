@@ -15,6 +15,10 @@ type QuizSesiTemplate struct {
 	UUID           string `gorm:"column:uuid" json:"uuid"`
 	Jenis          string `gorm:"column:jenis;comment:demo atao quiz" json:"jenis"` // demo atao quiz
 	Kode           string `gorm:"column:kode" json:"kode"`
+	Pendahuluan    string `gorm:"column:pendahuluan" json:"pendahuluan"`
+	IsiSaran       string `gorm:"column:isi_saran" json:"isi_saran"`
+	JudulSaran     string `gorm:"column:judul_saran" json:"judul_saran"`
+	Kertas         string `gorm:"column:kertas" json:"kertas"`
 }
 
 // TableName QuizSesiTemplate's table name

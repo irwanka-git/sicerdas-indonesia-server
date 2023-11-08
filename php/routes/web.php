@@ -364,8 +364,13 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::get('/get-data/{uuid}', 'MasterTemplateTesController@get_data');
 		Route::post('/insert', 'MasterTemplateTesController@submit_insert');
 		Route::post('/update', 'MasterTemplateTesController@submit_update');
+		Route::post('/update-saran', 'MasterTemplateTesController@submit_update_saran');
 		Route::post('/delete', 'MasterTemplateTesController@submit_delete');
 		Route::post('/upload-gambar', 'UploadController@upload_gambar_400_250');
+		Route::post('/cek-dummy-template/{id}', 'MasterTemplateTesController@cek_dummy_template');
+		Route::post('/create-dummy-template/{id}', 'MasterTemplateTesController@create_dummy_sesi');
+		Route::post('/export-report-sample', 'MasterTemplateTesController@export_report_sample');
+		Route::post('/update-kertas', 'MasterTemplateTesController@update_kertas');
 
 		//detil
 		Route::get('/detil/{uuid}', 'MasterTemplateTesController@index_detil');
@@ -377,13 +382,21 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 
 		//repot
 		Route::get('/report/{uuid}', 'MasterTemplateTesController@index_report');
+		Route::get('/report/{uuid}/preview-pdf/{model}', 'MasterTemplateTesController@generate_preview_template_pdf');
 		Route::get('/dt-report/{uuid}', 'MasterTemplateTesController@datatable_report');
 		Route::get('/get-data-report/{uuid}', 'MasterTemplateTesController@get_data_report');
+		Route::get('/get-data-lampiran/{uuid}', 'MasterTemplateTesController@get_data_lampiran');
+
 		Route::post('/insert-report', 'MasterTemplateTesController@submit_insert_report'); 
 		Route::post('/delete-report', 'MasterTemplateTesController@submit_delete_report');
 		Route::post('/update-urutan-report', 'MasterTemplateTesController@submit_update_urutan');
 
-		Route::get('/komponen-report/{id}', 'MasterTemplateTesController@get_list_komponen_report');
+		Route::post('/insert-lampiran', 'MasterTemplateTesController@submit_insert_lampiran'); 
+		Route::post('/delete-lampiran', 'MasterTemplateTesController@submit_delete_lampiran');
+		Route::post('/update-urutan-lampiran', 'MasterTemplateTesController@submit_update_lampiran');
+
+		Route::get('/komponen-report/{id}/{model}', 'MasterTemplateTesController@get_list_komponen_report');
+		Route::get('/lampiran-report/{id}', 'MasterTemplateTesController@get_list_lampiran_report');
 	});
 	//TARIF PAKET TES
 	Route::group(['prefix'=>'tarif-paket'], function(){

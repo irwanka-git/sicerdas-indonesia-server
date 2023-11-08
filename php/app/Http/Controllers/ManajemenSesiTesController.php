@@ -1342,7 +1342,7 @@ class ManajemenSesiTesController extends Controller
 
          $filePath = storage_path("/cover/".$template);
          $id_user_biro = $data[0]->id_user_biro;
-         $user_biro = DB::table('users') ->select('cover_biro')->where('id', $id_user_biro)->first();
+         $user_biro = DB::table('users')->select('cover_biro')->where('id', $id_user_biro)->first();
 
          if($user_biro->cover_biro !=""){
             $filePath = public_path("/cover/".$user_biro->cover_biro);

@@ -7,6 +7,32 @@ type QuizSesiReport struct {
 	Blade          string `gorm:"column:blade" json:"blade"`
 	TabelTerkait   string `gorm:"column:tabel_terkait" json:"tabel_terkait"`
 	Jenis          int32  `gorm:"column:jenis;comment:1=> utama, 2=> lampiran" json:"jenis"` // 1=> utama, 2=> lampiran
+	Orientasi      string `json:"orientasi"`
+	Urutan         int    `json:"urutan"`
+}
+
+type ModelReport struct {
+	ID        string `gorm:"column:id;primaryKey" json:"id"`
+	Nama      string `gorm:"column:nama" json:"nama"`
+	Direktori string `gorm:"column:direktori" json:"direktori"`
+}
+
+type QuizReportKomponenUtama struct {
+	TabelReferensi string `json:"tabel_referensi"`
+	Blade          string `json:"blade"`
+	Urutan         int    `json:"urutan"`
+}
+
+type QuizReportRender struct {
+	TabelReferensi string
+	Blade          string
+	Urutan         int
+	Skoring        any
+}
+
+type SaranReport struct {
+	JudulSaran string `json:"judul_saran"`
+	IsiSaran   string `json:"isi_saran"`
 }
 
 type QuizSesiReportAndTemplate struct {
@@ -16,7 +42,9 @@ type QuizSesiReportAndTemplate struct {
 	Blade          string `json:"blade"`
 	TabelTerkait   string `json:"tabel_terkait"`
 	Jenis          int32  `json:"jenis"`
+	Model          string `json:"model"`
 	IDQuizTemplate int32  `json:"id_quiz_template"`
+	Urutan         int    `json:"urutan"`
 }
 
 type RefKuliahAlam struct {

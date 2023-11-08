@@ -36,6 +36,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		QuizSesiMaster:                  newQuizSesiMaster(db, opts...),
 		QuizSesiReport:                  newQuizSesiReport(db, opts...),
 		QuizSesiTemplate:                newQuizSesiTemplate(db, opts...),
+		QuizSesiTemplateLampiran:        newQuizSesiTemplateLampiran(db, opts...),
 		QuizSesiTemplateReport:          newQuizSesiTemplateReport(db, opts...),
 		QuizSesiTtd:                     newQuizSesiTtd(db, opts...),
 		QuizSesiUser:                    newQuizSesiUser(db, opts...),
@@ -189,6 +190,7 @@ type Query struct {
 	QuizSesiMaster                  quizSesiMaster
 	QuizSesiReport                  quizSesiReport
 	QuizSesiTemplate                quizSesiTemplate
+	QuizSesiTemplateLampiran        quizSesiTemplateLampiran
 	QuizSesiTemplateReport          quizSesiTemplateReport
 	QuizSesiTtd                     quizSesiTtd
 	QuizSesiUser                    quizSesiUser
@@ -343,6 +345,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		QuizSesiMaster:                  q.QuizSesiMaster.clone(db),
 		QuizSesiReport:                  q.QuizSesiReport.clone(db),
 		QuizSesiTemplate:                q.QuizSesiTemplate.clone(db),
+		QuizSesiTemplateLampiran:        q.QuizSesiTemplateLampiran.clone(db),
 		QuizSesiTemplateReport:          q.QuizSesiTemplateReport.clone(db),
 		QuizSesiTtd:                     q.QuizSesiTtd.clone(db),
 		QuizSesiUser:                    q.QuizSesiUser.clone(db),
@@ -504,6 +507,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		QuizSesiMaster:                  q.QuizSesiMaster.replaceDB(db),
 		QuizSesiReport:                  q.QuizSesiReport.replaceDB(db),
 		QuizSesiTemplate:                q.QuizSesiTemplate.replaceDB(db),
+		QuizSesiTemplateLampiran:        q.QuizSesiTemplateLampiran.replaceDB(db),
 		QuizSesiTemplateReport:          q.QuizSesiTemplateReport.replaceDB(db),
 		QuizSesiTtd:                     q.QuizSesiTtd.replaceDB(db),
 		QuizSesiUser:                    q.QuizSesiUser.replaceDB(db),
@@ -655,6 +659,7 @@ type queryCtx struct {
 	QuizSesiMaster                  *quizSesiMasterDo
 	QuizSesiReport                  *quizSesiReportDo
 	QuizSesiTemplate                *quizSesiTemplateDo
+	QuizSesiTemplateLampiran        *quizSesiTemplateLampiranDo
 	QuizSesiTemplateReport          *quizSesiTemplateReportDo
 	QuizSesiTtd                     *quizSesiTtdDo
 	QuizSesiUser                    *quizSesiUserDo
@@ -806,6 +811,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		QuizSesiMaster:                  q.QuizSesiMaster.WithContext(ctx),
 		QuizSesiReport:                  q.QuizSesiReport.WithContext(ctx),
 		QuizSesiTemplate:                q.QuizSesiTemplate.WithContext(ctx),
+		QuizSesiTemplateLampiran:        q.QuizSesiTemplateLampiran.WithContext(ctx),
 		QuizSesiTemplateReport:          q.QuizSesiTemplateReport.WithContext(ctx),
 		QuizSesiTtd:                     q.QuizSesiTtd.WithContext(ctx),
 		QuizSesiUser:                    q.QuizSesiUser.WithContext(ctx),

@@ -1,0 +1,17 @@
+<p class="p10"><b>{{.urutan}}. SKALA PEMINATAN SMK</b><p>
+<table class="table-x">
+    <thead>
+        <tr class="thead-primary">
+            <th class="text-center" width="10%">Urutan</th>
+            <th width="90%">Keterangan</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $index,$minat := .skoring }}
+        <tr>
+            <td class="text-center">{{$minat.Urutan}}</td>
+            <td class="text-justify"><b>{{$minat.Keterangan}}</b> - {{stripTags $minat.Deskripsi}} </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>

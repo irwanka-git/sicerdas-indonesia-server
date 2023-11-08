@@ -1,0 +1,26 @@
+<p class="p10 text-center"><b>LAMPIRAN {{.urutan}}. DESKRIPSI JURUSAN KULIAH ILMU SOSIAL HUMANIORA</b><p>
+<table class="table-x">
+    <thead>
+        <tr class="thead-primary">
+            <th width="5%" class="text-center">URUTAN</th>
+            <th width="15%" class="text-center">JURUSAN</th>
+            <th width="20%" class="text-center">DESKRIPSI</th>
+            <th width="20%" class="text-center">MATA KULIAH</th>
+            <th width="20%" class="text-center">PELUANG KARIER</th>
+            <th width="20%" class="text-center">TERSEDIA DI</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $index,$minat := .skoring }}
+        <tr>
+            <td class="text-center">{{inc $index}}</td>
+            <td class="text-center">{{$minat.Jurusan}} </td>
+            <td class="text-justify">{{$minat.DeskripsiJurusan}} </td>
+            <td class="text-justify">{{$minat.Matakuliah}} </td>
+            <td class="text-justify">{{$minat.PeluangKarier}} </td>
+            <td class="text-justify">{{$minat.TersediaDi}} </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+     

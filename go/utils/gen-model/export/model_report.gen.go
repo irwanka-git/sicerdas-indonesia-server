@@ -29,6 +29,7 @@ func newModelReport(db *gorm.DB, opts ...gen.DOOption) modelReport {
 	_modelReport.ALL = field.NewAsterisk(tableName)
 	_modelReport.ID = field.NewString(tableName, "id")
 	_modelReport.Nama = field.NewString(tableName, "nama")
+	_modelReport.Direktori = field.NewString(tableName, "direktori")
 
 	_modelReport.fillFieldMap()
 
@@ -38,9 +39,10 @@ func newModelReport(db *gorm.DB, opts ...gen.DOOption) modelReport {
 type modelReport struct {
 	modelReportDo modelReportDo
 
-	ALL  field.Asterisk
-	ID   field.String
-	Nama field.String
+	ALL       field.Asterisk
+	ID        field.String
+	Nama      field.String
+	Direktori field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -59,6 +61,7 @@ func (m *modelReport) updateTableName(table string) *modelReport {
 	m.ALL = field.NewAsterisk(table)
 	m.ID = field.NewString(table, "id")
 	m.Nama = field.NewString(table, "nama")
+	m.Direktori = field.NewString(table, "direktori")
 
 	m.fillFieldMap()
 
@@ -85,9 +88,10 @@ func (m *modelReport) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *modelReport) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 2)
+	m.fieldMap = make(map[string]field.Expr, 3)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["nama"] = m.Nama
+	m.fieldMap["direktori"] = m.Direktori
 }
 
 func (m modelReport) clone(db *gorm.DB) modelReport {

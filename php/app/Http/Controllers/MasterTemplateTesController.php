@@ -8,6 +8,10 @@ use Session;
 use Datatables;
 use Crypt;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;  
+use setasign\Fpdi\Fpdi;
+
 class MasterTemplateTesController extends Controller
 {
      
@@ -94,6 +98,7 @@ class MasterTemplateTesController extends Controller
                 return "<a class='btn btn-sm btn-outline-secondary' href='".url('template-tes/detil/'.$q->uuid)."'> <i class='la la-list'></i> ". $q->jumlah_sesi ." Sesi </a>";
             })
             ->editColumn('item_report', function($q){
+                if ($q->jenis=="quiz") 
                 return "<a class='btn btn-sm btn-outline-secondary' href='".url('template-tes/report/'.$q->uuid)."'> <i class='la la-cog'></i> Laporan </a>";
             })
             ->addIndexColumn()
@@ -124,7 +129,9 @@ class MasterTemplateTesController extends Controller
                 "nama_sesi"=>trim($r->nama_sesi),
                 "gambar"=>trim($r->gambar),
                 "jenis"=>trim($r->jenis),
-                "skoring_tabel"=>trim($r->skoring_tabel),
+                // "skoring_tabel"=>trim($r->skoring_tabel),
+                "pendahuluan"=>trim($r->pendahuluan),
+                "kertas"=>"Folio",
 	    		"uuid"=>$uuid,
             );
 
@@ -149,11 +156,47 @@ class MasterTemplateTesController extends Controller
                  "nama_sesi"=>trim($r->nama_sesi),
                   "gambar"=>trim($r->gambar),
                   "jenis"=>trim($r->jenis),
-                "skoring_tabel"=>trim($r->skoring_tabel)
+                  "pendahuluan"=>trim($r->pendahuluan),
+                // "skoring_tabel"=>trim($r->skoring_tabel)
             );
 
 	    	DB::table('quiz_sesi_template')->where('uuid', $uuid)->update($record);
 	    	$respon = array('status'=>true,'message'=>'Data Berhasil Disimpan!');
+        	return response()->json($respon);
+    	}else{
+    		$respon = array('status'=>false,'message'=>'Akses Ditolak!');
+        	return response()->json($respon);
+    	}
+    }
+
+    function update_kertas(Request $r){
+        if($this->ucu()){
+	    	loadHelper('format');
+	    	$id_quiz_template = $r->id_quiz_template;
+	    	$record = array(
+                  "kertas"=>trim($r->kertas),
+            );
+	    	DB::table('quiz_sesi_template')->where('id_quiz_template', $id_quiz_template)->update($record);
+	    	$respon = array('status'=>true,'message'=>'Ukuran Kertas Berhasil Disimpan!');
+        	return response()->json($respon);
+    	}else{
+    		$respon = array('status'=>false,'message'=>'Akses Ditolak!');
+        	return response()->json($respon);
+    	}
+    }
+
+    
+    function submit_update_saran(Request $r){
+    	if($this->ucu()){
+	    	loadHelper('format');
+	    	$id = $r->id_quiz_template;
+            $isi_saran = trim ($r->isi_saran);
+	    	$record = array(
+                  "isi_saran"=>trim($r->isi_saran),
+                  "judul_saran"=>trim($r->judul_saran),
+            );
+	    	DB::table('quiz_sesi_template')->where('id_quiz_template', $id)->update($record);
+	    	$respon = array('status'=>true,'message'=>'Saran Berhasil Disimpan!');
         	return response()->json($respon);
     	}else{
     		$respon = array('status'=>false,'message'=>'Akses Ditolak!');
@@ -379,12 +422,14 @@ class MasterTemplateTesController extends Controller
         if($this->ucc()){
             loadHelper('format');
             $uuid = $this->genUUID();
+            $model = trim($r->model);
             $id_quiz_template = $r->id_quiz_template;
             $id_report = (int)($r->id_report);
             $tabel_referensi = DB::table('quiz_sesi_report')->where('id_report', $id_report)->first()->tabel_referensi;
             if($tabel_referensi!="-"){
                 $exist = DB::table('quiz_sesi_template_report')
                     ->where('id_quiz_template', $id_quiz_template)
+                    ->where('model', $model)
                     ->where('id_report',$id_report)
                     ->count();
                 if($exist){
@@ -408,6 +453,7 @@ class MasterTemplateTesController extends Controller
                 "id_quiz_template"=>$r->id_quiz_template,                                        
                 "urutan"=>(int)($urutan),
                 "id_report"=>$id_report,
+                "model"=>$model,
                 "uuid"=>$uuid,
             );
             DB::table('quiz_sesi_template_report')->insert($record);
@@ -454,12 +500,13 @@ class MasterTemplateTesController extends Controller
         }
     }
 
-    function get_list_komponen_report($id_quiz_template){
+    function get_list_komponen_report($id_quiz_template, $model){
+        
         $list = DB::select("select a.nama_report, b.uuid ,
                  b.urutan, a.tabel_referensi 
                         from quiz_sesi_report as a, 
                             quiz_sesi_template_report as b where a.jenis = 1 
-                                and a.id_report = b.id_report 
+                                and a.id_report = b.id_report and b.model = '$model'
                                     and b.id_quiz_template = $id_quiz_template order by b.urutan asc");
         return view('master-template.drag-report', compact('list'));
     }
@@ -476,8 +523,196 @@ class MasterTemplateTesController extends Controller
                     $urutan++;
                 }
             }
-            $respon = array('status'=>true,'message'=>'Urutan Berhasil Diperbarui!');
+            $respon = array('status'=>true,'message'=>'Urutan Komponen Berhasil Diperbarui!');
             return response()->json($respon);
         }
+    }
+
+    
+    function get_data_lampiran($uuid){
+        $data = DB::table('quiz_sesi_template_lampiran')->where('uuid', $uuid)->first();
+        if($data){
+            $report = DB::table('quiz_sesi_report')->where('id_report', $data->id_report)->first();
+            $respon = array('status'=>true,'data'=>$data, 
+                'informasi'=>'Lampiran : '.$report->nama_report);
+            return response()->json($respon);
+        }
+        $respon = array('status'=>false,'message'=>'Data Tidak Ditemukan');
+        return response()->json($respon); 
+    }
+
+    function submit_insert_lampiran(Request $r){
+        if($this->ucc()){
+            loadHelper('format');
+            $uuid = $this->genUUID(); 
+            $id_quiz_template = $r->id_quiz_template;
+            $id_report = (int)($r->id_report);
+            $tabel_referensi = DB::table('quiz_sesi_report')->where('id_report', $id_report)->first()->tabel_referensi;
+            if($tabel_referensi!="-"){
+                $exist = DB::table('quiz_sesi_template_lampiran')
+                    ->where('id_quiz_template', $id_quiz_template)
+                    ->where('id_report',$id_report)
+                    ->count();
+                if($exist){
+                    $respon = array('status'=>false,'message'=>'Lampiran sudah ada!');
+                    return response()->json($respon);
+                }
+            }           
+            $jumlah = DB::select(
+                "select 
+                count(*) as jumlah
+                FROM
+                    quiz_sesi_template_lampiran AS b,
+                    quiz_sesi_report AS a 
+                WHERE
+                    a.id_report = b.id_report 
+                    AND b.id_quiz_template =  $id_quiz_template"
+            );
+            $urutan = $jumlah[0]->jumlah + 1;
+            $record = array( 
+                "id_quiz_template"=>$r->id_quiz_template,                                        
+                "urutan"=>(int)($urutan),
+                "id_report"=>$id_report, 
+                "uuid"=>$uuid,
+            );
+            DB::table('quiz_sesi_template_lampiran')->insert($record);
+            $respon = array('status'=>true,'message'=>'Lampiran Berhasil Ditambahkan!');
+            return response()->json($respon);
+        }else{
+            $respon = array('status'=>false,'message'=>'Akses Ditolak!');
+            return response()->json($respon);
+        }
+    }
+
+
+    function submit_delete_lampiran(Request $r){
+        if($this->ucu()){
+            //loadHelper('format');
+            $id_quiz_template = DB::table('quiz_sesi_template_lampiran')->where('uuid', $r->uuid)->first()->id_quiz_template;
+            DB::table('quiz_sesi_template_lampiran')->where('uuid', $r->uuid)->delete();
+            $listbaru = DB::table('quiz_sesi_template_lampiran')
+                            ->where('id_quiz_template', $id_quiz_template)
+                            ->orderby("urutan")->get();
+            $urutan = 1;
+            foreach ($listbaru as $r){
+                $uuid = $r->uuid;
+                DB::table('quiz_sesi_template_report')->where('uuid', $uuid)->update(["urutan"=>$urutan]);
+                $urutan++;
+            }
+            $respon = array('status'=>true,'message'=>'Lampiran Berhasil Dihapus!');
+            return response()->json($respon);
+        }else{
+            $respon = array('status'=>false,'message'=>'Akses Ditolak!');
+            return response()->json($respon);
+        }
+    }
+
+    function get_list_lampiran_report($id_quiz_template){
+        
+        $list = DB::select("select a.nama_report, b.uuid ,
+                 b.urutan, a.tabel_referensi 
+                        from quiz_sesi_report as a, 
+                            quiz_sesi_template_lampiran as b where a.jenis = 2 
+                                and a.id_report = b.id_report 
+                                    and b.id_quiz_template = $id_quiz_template order by b.urutan asc");
+        return view('master-template.drag-lampiran', compact('list'));
+    }
+
+    function submit_update_lampiran(Request $r){
+        if($this->ucc()){
+            $urutan_string =  $r->urutan_list;
+            $urutan_list = explode(",", $urutan_string);
+            $urutan = 1;
+            foreach ($urutan_list as $r){
+                if ($r != null && $r != ""){
+                    $uuid = $r;
+                    DB::table('quiz_sesi_template_lampiran')->where('uuid', $uuid)->update(["urutan"=>$urutan]);
+                    $urutan++;
+                }
+            }
+            $respon = array('status'=>true,'message'=>'Urutan Lampiran Berhasil Diperbarui!');
+            return response()->json($respon);
+        }
+    }
+
+    function cek_dummy_template($id){
+        ini_set('max_execution_time', '1300');
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => env('GO_API_URL').'/cek-dummy-template/'.$id,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTg1NTc3MDYsImlzcyI6Imh0dHBzOi8vc2ljZXJkYXMud2ViLmlkIiwianRpIjoiZGEyZWYwNTUtODYzNS00OTMyLWJmYTAtNmE0ODRiMTQ4MWU2IiwibmFtZSI6IkFkbWluaXN0cmF0b3IgU0NEIiwic3ViIjoiMjM1MzI2MjM2LTQzNzk0MzA3NTQ4IiwidXNlcm5hbWUiOiJhZG1pbiJ9.Bqb-aApPsbiOkStnt5M10-mc9pM8Ro5YSgDQhiZ5HmYOAogTuc5F9JTHoFhxVcsk2BY3bLkclH2kXoHpMJyPpA'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response);
+        return response()->json($data);
+    }
+
+    function create_dummy_sesi($id){
+        ini_set('max_execution_time', '1300');
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => env('GO_API_URL').'/create-dummy-template/'.$id,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTg1NTc3MDYsImlzcyI6Imh0dHBzOi8vc2ljZXJkYXMud2ViLmlkIiwianRpIjoiZGEyZWYwNTUtODYzNS00OTMyLWJmYTAtNmE0ODRiMTQ4MWU2IiwibmFtZSI6IkFkbWluaXN0cmF0b3IgU0NEIiwic3ViIjoiMjM1MzI2MjM2LTQzNzk0MzA3NTQ4IiwidXNlcm5hbWUiOiJhZG1pbiJ9.Bqb-aApPsbiOkStnt5M10-mc9pM8Ro5YSgDQhiZ5HmYOAogTuc5F9JTHoFhxVcsk2BY3bLkclH2kXoHpMJyPpA'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response);
+        return response()->json($data);
+    }
+
+    function export_report_sample(Request $r){
+        $id_quiz = $r->id_quiz;
+        $id_user = $r->id_user;
+        $id_model = $r->id_model;
+        ini_set('max_execution_time', '1300');
+        // export-report-peserta/{id_quiz}/{id_user}/{id_model}
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => env('GO_API_URL').'/export-report-peserta/'.$id_quiz .'/'.$id_user.'/'.$id_model,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTg1NTc3MDYsImlzcyI6Imh0dHBzOi8vc2ljZXJkYXMud2ViLmlkIiwianRpIjoiZGEyZWYwNTUtODYzNS00OTMyLWJmYTAtNmE0ODRiMTQ4MWU2IiwibmFtZSI6IkFkbWluaXN0cmF0b3IgU0NEIiwic3ViIjoiMjM1MzI2MjM2LTQzNzk0MzA3NTQ4IiwidXNlcm5hbWUiOiJhZG1pbiJ9.Bqb-aApPsbiOkStnt5M10-mc9pM8Ro5YSgDQhiZ5HmYOAogTuc5F9JTHoFhxVcsk2BY3bLkclH2kXoHpMJyPpA'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response);
+        return response()->json($data);
+    }
+
+    function generate_preview_template_pdf($uuid, $model){
+        $url = env('GO_API_URL').'/preview-report-template/'.$uuid.'/'.$model;
+        $path = env('PATH_REPORT_BARU'); 
+        $filename = $uuid.'.pdf';
+
+        $command = env('WKHTML').' --footer-spacing 3 -L 10 -R 10 -T 20  -B 20 --footer-left "Si Cerdas Indonesia"  --footer-font-size 9 --footer-center [page]/[topage] -O Portrait  -s A4 '.$url.' '.$path.$filename;
+        echo $command;
+        $process = new Process($command);
+        $process->run();
     }
 }

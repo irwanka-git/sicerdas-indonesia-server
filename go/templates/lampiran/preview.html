@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.nama_komponen}}</title>
+    <link rel="stylesheet" href="/static/css/standar.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/quill.css" type="text/css"/>
+</head>
+<style>
+  .table-x > tbody > tr >td {
+    padding-left: 5px !important;
+    padding-right: 5px !important; 
+    padding-top: 3px !important; 
+    padding-bottom: 3px !important; 
+    border: 1px solid rgb(41, 38, 38) !important; 
+    vertical-align: top !important;
+ }
+</style>
+<body>   
+  {{if eq .blade "lampiran_kuliah_alam" }} {{template "lampiran_kuliah_alam.html" . }} {{end}}
+  {{if eq .blade "lampiran_kuliah_sosial" }} {{template "lampiran_kuliah_sosial.html" . }} {{end}}
+  {{if eq .blade "lampiran_gaya_pekerjaan" }} {{template "lampiran_gaya_pekerjaan.html" . }} {{end}}
+</body>
+</html>

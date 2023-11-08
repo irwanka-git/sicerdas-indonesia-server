@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{.user.NamaPengguna}} - {{.user.Organisasi}}  | {{.user.UnitOrganisasi}}</title>
+    <link rel="stylesheet" href="/static/css/standar.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/quill.css" type="text/css"/>
+</head>
+<body class="report">  
+  <img height="80" src="/kop/{{.userBiro.KopBiro}}">
+  <img width="80" style="position: absolute; right: 0px; top: 0px;" src="/static/qrcode/{{.nomorSeri}}.png">
+  <p>&nbsp;</p>
+  <p style="text-align: center !important; line-height: 1.8em;">
+    <b style="font-size: 18px;">P S I K O G R A M</b><br>
+    <b>{{.quiz.NamaSesi}}</b>
+  </p>
+  <p>&nbsp;</p>
+  {{template "peserta.html" . }}
+  {{range $index,$komponen := .komponen }}
+        {{$blade :=$komponen.Blade}}
+        {{$skoring :=$komponen.Skoring}}
+        {{if eq $blade "kognitif_kelas_10" }} {{template "kognitif_kelas_10.html" $skoring }} {{end}}
+        {{if eq $blade "kognitif_kelas_12" }} {{template "kognitif_kelas_12.html" $skoring }} {{end}}
+        {{if eq $blade "kuliah_dinas" }} {{template "kuliah_dinas.html" $skoring }} {{end}}
+        {{if eq $blade "kuliah_alam" }} {{template "kuliah_alam.html" $skoring }} {{end}}
+        {{if eq $blade "kuliah_sosial" }} {{template "kuliah_sosial.html" $skoring }} {{end}}
+        {{if eq $blade "kuliah_agama" }} {{template "kuliah_agama.html" $skoring }} {{end}}
+        {{if eq $blade "suasana_kerja" }} {{template "suasana_kerja.html" $skoring }} {{end}}
+        {{if eq $blade "sikap_pelajaran_pmk" }} {{template "sikap_pelajaran_pmk.html" $skoring }} {{end}}
+        {{if eq $blade "sikap_pelajaran" }} {{template "sikap_pelajaran.html" $skoring }} {{end}}
+        {{if eq $blade "peminatan_sma" }} {{template "peminatan_sma.html" $skoring }} {{end}}
+        {{if eq $blade "peminatan_smk" }} {{template "peminatan_smk.html" $skoring }} {{end}}
+        {{if eq $blade "peminatan_man" }} {{template "peminatan_man.html" $skoring }} {{end}}
+        {{if eq $blade "tmi" }} {{template "tmi.html" $skoring }} {{end}}
+        {{if eq $blade "mbti" }} {{template "mbti.html" $skoring }} {{end}}
+        {{if eq $blade "karakteristik_pribadi" }} {{template "karakteristik_pribadi.html" $skoring }} {{end}}
+        {{if eq $blade "gaya_pekerjaan" }} {{template "gaya_pekerjaan.html" $skoring }} {{end}}
+        {{if eq $blade "gaya_belajar" }} {{template "gaya_belajar.html" $skoring }} {{end}}
+        {{if eq $blade "kecerdasan_majemuk" }} {{template "kecerdasan_majemuk.html" $skoring }} {{end}}
+        {{if eq $blade "newline" }} {{template "newline.html" $skoring }} {{end}}
+        {{if eq $blade "newpage" }} {{template "newpage.html" $skoring }} {{end}}
+        {{if eq $blade "saran" }} {{template "saran.html" $skoring }} {{end}}
+        {{if eq $blade "ttd" }} {{template "ttd.html" $skoring }} {{end}}
+  {{end}}
+
+</body>
+</html>

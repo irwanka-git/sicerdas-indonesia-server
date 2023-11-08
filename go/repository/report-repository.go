@@ -3,8 +3,14 @@ package repository
 import (
 	"errors"
 	"fmt"
+	"image/color"
 	"irwanka/sicerdas/entity"
+	"math/rand"
+	"os"
 	"reflect"
+	"strconv"
+
+	"github.com/skip2/go-qrcode"
 )
 
 var (
@@ -12,9 +18,21 @@ var (
 )
 
 type ReportRepository interface {
+	GetModelReport(id string) (*entity.ModelReport, error)
 	GetKomponenReportTemplate(uuid string) (*entity.QuizSesiReportAndTemplate, error)
+	GetLampiranReportTemplate(uuid string) (*entity.QuizSesiReportAndTemplate, error)
+	GetListKomponenUtama(id_quiz_template int, model string) ([]*entity.QuizReportKomponenUtama, error)
+	GetDetilQuizCetak(id_quiz int) (*entity.QuizSesi, error)
+	GetDetilQuizSesiUserCetak(id_quiz int, id_user int) entity.QuizSesiUser
+	GenerateQRCodeNomorSeriCetak() string
+	UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string) error
+	GetDetilQuizTemplate(id_quiz_template int) (*entity.QuizSesiTemplate, error)
+	GetListLampiranReport(id_quiz_template int) []*entity.QuizSesiReport
+	GetDetailReport(id_report int) *entity.QuizSesiReport
+	GetDetailReportLampiran(id_report int, id_quiz_template int) *entity.QuizSesiReport
 	GetQuizUserDummyFromTemplate(id_quiz_template int32) (*entity.QuizSesiUser, error)
-	//data skoring
+	GetQuizUserDummyFromTemplateByUUID(uuid string) (*entity.QuizSesiUser, error)
+
 	GetSkoringKognitif(id_quiz int, id_user int) (*entity.SkorKognitif, error)
 	GetSkoringKognitifPMK(id_quiz int, id_user int) (*entity.SkorKognitif, error)
 
@@ -60,15 +78,111 @@ type ReportRepository interface {
 	GetResultGayaBelajar(id_quiz int, id_user int) ([]*entity.ResultGayaBelajar, error)
 
 	GetResultPeminatanSMK(id_quiz int, id_user int) ([]*entity.ResultPeminatanSMK, error)
+
+	GetReferensiKecerdasanMajemuk() ([]*entity.RefKecerdasanMajemuk, error)
+	GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error)
 }
 
 func NewReportRepository() ReportRepository {
 	return &repo{}
 }
 
+func (*repo) GetDetailReport(id_report int) *entity.QuizSesiReport {
+	var result *entity.QuizSesiReport
+	db.Raw(`select * from quiz_sesi_report where  id_report = ?`, id_report).First(&result)
+	return result
+}
+
+func (*repo) GetDetailReportLampiran(id_report int, id_quiz_template int) *entity.QuizSesiReport {
+	var result *entity.QuizSesiReport
+	db.Raw(`select a.*, b.urutan 
+			from quiz_sesi_report as a, 
+				quiz_sesi_template_lampiran as b 
+				where a.id_report = b.id_report and a.id_report = ? and b.id_quiz_template = ?`, id_report, id_quiz_template).First(&result)
+	return result
+}
+
+func (*repo) GetListLampiranReport(id_quiz_template int) []*entity.QuizSesiReport {
+	var result []*entity.QuizSesiReport
+	db.Raw(`select a.*, b.urutan from quiz_sesi_report as a, quiz_sesi_template_lampiran as b 
+	where a.id_report  = b.id_report  and b.id_quiz_template = ? order by b.urutan asc`, id_quiz_template).Scan(&result)
+	return result
+}
+
+func (*repo) GetDetilQuizTemplate(id_quiz_template int) (*entity.QuizSesiTemplate, error) {
+	var result *entity.QuizSesiTemplate
+	db.Table("quiz_sesi_template").Where("id_quiz_template =?", id_quiz_template).First(&result)
+	return result, nil
+}
+
+func (*repo) GetDetilQuizSesiUserCetak(id_quiz int, id_user int) entity.QuizSesiUser {
+	var quizUser entity.QuizSesiUser
+	db.Table("quiz_sesi_user").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&quizUser)
+	return quizUser
+}
+
+func (*repo) GenerateQRCodeNomorSeriCetak() string {
+	tokenInt := rand.Intn(9999999999-1111111111) + 1111111111
+	token := strconv.Itoa(tokenInt)
+	var keepRunning = true
+	var exist = int64(0)
+	for keepRunning {
+		db.Table("quiz_sesi_user").Where("no_seri = ?", token).Count(&exist)
+		if exist == 0 {
+			break
+		}
+	}
+	filenameQrcode := fmt.Sprintf("templates/assets/qrcode/%v.png", token)
+	link := fmt.Sprintf("%v/download-report/%v.pdf", os.Getenv("URL_SICERDAS"), token)
+	qrcode.WriteColorFile(link, qrcode.Medium, 128, color.White, color.Black, filenameQrcode)
+	return token
+}
+
+func (*repo) UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string) error {
+	db.Table("quiz_sesi_user").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Update("no_seri", nomor_seri)
+	return nil
+}
+
+func (*repo) GetDetilQuizCetak(id_quiz int) (*entity.QuizSesi, error) {
+	var quiz *entity.QuizSesi
+	db.Table("quiz_sesi as a").Select("a.token, a.id_quiz, a.nama_asesor, a.kota, a.nomor_sipp,  a.id_user_biro,  a.nama_sesi, a.id_quiz_template,  c.nama_lokasi as lokasi, a.tanggal").
+		Joins("left join lokasi as c on c.id_lokasi = a.id_lokasi").
+		Where("a.id_quiz = ?", id_quiz).
+		First(&quiz)
+	return quiz, nil
+}
+
+func (*repo) GetListKomponenUtama(id_quiz_template int, model string) ([]*entity.QuizReportKomponenUtama, error) {
+
+	var listKomponen []*entity.QuizReportKomponenUtama
+	db.Raw(`select a.urutan , 
+			b.blade , 
+			b.tabel_referensi
+			from quiz_sesi_template_report as a, quiz_sesi_report as b  
+			where a.model = ? and a.id_quiz_template  = ? and a.id_report  = b.id_report 
+			order by a.urutan`, model, id_quiz_template).Scan(&listKomponen)
+	return listKomponen, nil
+}
+
+func (*repo) GetModelReport(id string) (*entity.ModelReport, error) {
+	var model *entity.ModelReport
+	db.Table("model_report").Where("id = ?", id).First(&model)
+	return model, nil
+}
+
 func (*repo) GetKomponenReportTemplate(uuid string) (*entity.QuizSesiReportAndTemplate, error) {
 	var report *entity.QuizSesiReportAndTemplate
-	result := db.Raw(`select b.*, a.id_quiz_template from quiz_sesi_template_report as a , quiz_sesi_report as b 
+	result := db.Raw(`select b.*, a.id_quiz_template, a.model from quiz_sesi_template_report as a , quiz_sesi_report as b 
+	where a.id_report  = b.id_report  and a.uuid  =? `, uuid).First(&report)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("not found template report")
+	}
+	return report, nil
+}
+
+func (*repo) GetLampiranReportTemplate(uuid string) (*entity.QuizSesiReportAndTemplate, error) {
+	var report *entity.QuizSesiReportAndTemplate
+	result := db.Raw(`select b.*, a.id_quiz_template, a.urutan from quiz_sesi_template_lampiran as a , quiz_sesi_report as b 
 	where a.id_report  = b.id_report  and a.uuid  =? `, uuid).First(&report)
 	if result.RowsAffected == 0 {
 		return nil, errors.New("not found template report")
@@ -78,6 +192,11 @@ func (*repo) GetKomponenReportTemplate(uuid string) (*entity.QuizSesiReportAndTe
 
 func (*repo) GetQuizUserDummyFromTemplate(id_quiz_template int32) (*entity.QuizSesiUser, error) {
 	return dummyDataRepo.CekDummyQuizUser(int(id_quiz_template))
+}
+func (*repo) GetQuizUserDummyFromTemplateByUUID(uuid string) (*entity.QuizSesiUser, error) {
+	var quizTemplate *entity.QuizSesiTemplate
+	db.Table("quiz_sesi_template").Where("uuid = ?", uuid).First(&quizTemplate)
+	return dummyDataRepo.CekDummyQuizUser(int(quizTemplate.IDQuizTemplate))
 }
 
 func (*repo) GetSkoringKognitif(id_quiz int, id_user int) (*entity.SkorKognitif, error) {
@@ -187,7 +306,7 @@ func (*repo) GetSkoringPeminatanSMA(id_quiz int, id_user int) (*entity.SkorPemin
 
 func (*repo) GetReferensiMinatMAN() ([]*entity.RefPilihanMinatMan, error) {
 	var data []*entity.RefPilihanMinatMan
-	db.Table("ref_pilihan_minat_sma").Scan(&data)
+	db.Table("ref_pilihan_minat_man").Scan(&data)
 	return data, nil
 }
 func (*repo) GetSkoringPeminatanMAN(id_quiz int, id_user int) (*entity.SkorPeminatanMan, error) {
@@ -321,4 +440,16 @@ func (*repo) GetResultPeminatanSMK(id_quiz int, id_user int) ([]*entity.ResultPe
 		}
 	}
 	return result, nil
+}
+
+func (*repo) GetReferensiKecerdasanMajemuk() ([]*entity.RefKecerdasanMajemuk, error) {
+	var data []*entity.RefKecerdasanMajemuk
+	db.Table("ref_kecerdasan_majemuk").Scan(&data)
+	return data, nil
+}
+
+func (*repo) GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error) {
+	var data *entity.SkorKecerdasanMajemuk
+	db.Table("skor_kecerdasan_majemuk").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
+	return data, nil
 }

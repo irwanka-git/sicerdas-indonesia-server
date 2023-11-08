@@ -1,7 +1,6 @@
 package helper
 
 import (
-	"log"
 	"os"
 )
 
@@ -17,7 +16,8 @@ func GetArrFilename(direktory string) []string {
 	var list []string
 	files, err := os.ReadDir(direktory)
 	if err != nil {
-		log.Fatal(err)
+
+		return list
 	}
 
 	for _, file := range files {

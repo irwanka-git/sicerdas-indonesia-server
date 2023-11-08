@@ -45,12 +45,18 @@
     <p class="facet" style="padding: 10px;">Belum ada komponen laporan</p>
     @endif
     <ul id="list-report" class="facet-list">
+      <?php $urutan = 0;?>
         @foreach($list as $r)
+        <?php 
+        if ($r->tabel_referensi != "-"){
+          $urutan++;
+        }
+        ?>
         <li class="facet" style=" @if($r->tabel_referensi != "-") background:#fff !important;  @endif" id="{{$r->uuid}}">
             <div class="row">
                 <div class="col-md-9">
                     @if($r->tabel_referensi != "-")
-                        <div>{{$r->nama_report}}</div>
+                        <div>{{$urutan}}. {{$r->nama_report}}</div>
                     @else 
                         <div><small>{{$r->nama_report}}</small></div>
                     @endif

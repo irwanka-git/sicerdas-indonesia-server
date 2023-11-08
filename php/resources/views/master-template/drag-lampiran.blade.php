@@ -42,21 +42,33 @@
   <body>
     @if(count($list)==0)
     <br>
-    <p class="facet" style="padding: 10px;">Belum ada komponen laporan</p>
+    <p class="facet" style="padding: 10px;">Belum ada Lampiran</p>
     @endif
-    <ul id="list-report" class="facet-list">
+    <ul id="list-lampiran" class="facet-list">
+        <?php $urutan = 0;?>
         @foreach($list as $r)
+        <?php 
+        if ($r->tabel_referensi != "-"){
+          $urutan++;
+        }
+        ?>
         <li class="facet" style=" @if($r->tabel_referensi != "-") background:#fff !important;  @endif" id="{{$r->uuid}}">
             <div class="row">
                 <div class="col-md-9">
                     @if($r->tabel_referensi != "-")
-                        <div>{{$r->nama_report}}</div>
+                        <div>{{$urutan}}. {{$r->nama_report}}</div>
                     @else 
                         <div><small>{{$r->nama_report}}</small></div>
                     @endif
                 </div>
-                <div class="col-md-3 d-flex flex-row-reverse  float-right">
-                    <button type="button" data-uuid="{{$r->uuid}}" class="btn btn-konfirm-delete  btn-outline-danger btn-sm"><i class="la la-times"></i></button> 
+                <div class="col-md-3 d-flex flex-row-reverse ">
+                      <button type="button" data-uuid="{{$r->uuid}}" 
+                        class="btn btn-konfirm-delete-lampiran  btn-outline-danger btn-sm"><i class="la la-times"></i></button> 
+                    @if($r->tabel_referensi != "-")
+                        &nbsp;&nbsp;
+                        <button type="button" data-uuid="{{$r->uuid}}" 
+                          class="btn btn-preview-lampiran  btn-outline-secondary btn-sm"><i class="la la-search-plus"></i></button> 
+                    @endif
                 </div>
             </div> 
         </li>

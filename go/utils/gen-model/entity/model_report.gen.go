@@ -8,8 +8,9 @@ const TableNameModelReport = "model_report"
 
 // ModelReport mapped from table <model_report>
 type ModelReport struct {
-	ID   string `gorm:"column:id;primaryKey" json:"id"`
-	Nama string `gorm:"column:nama" json:"nama"`
+	ID        string `gorm:"column:id;primaryKey" json:"id"`
+	Nama      string `gorm:"column:nama" json:"nama"`
+	Direktori string `gorm:"column:direktori" json:"direktori"`
 }
 
 // TableName ModelReport's table name
