@@ -91,10 +91,13 @@ func main() {
 	r.Handle("/static/*", http.StripPrefix("/static/", fileAsset))
 	fileKop := http.FileServer(http.Dir("/var/www/html/public/kop/"))
 	r.Handle("/kop/*", http.StripPrefix("/kop/", fileKop))
+	fileCover := http.FileServer(http.Dir("/var/www/html/public/cover/"))
+	r.Handle("/cover/*", http.StripPrefix("/cover/", fileCover))
 
 	r.Get("/preview-report-dummy/{uuid}", reportController.PreviewKomponenReportDummy)
 	r.Get("/preview-lampiran-dummy/{uuid}", reportController.PreviewLampiranReportDummy)
 	r.Get("/render-report-utama/{id_quiz}/{id_user}/{id_model}/{nomor_seri}", reportController.RenderReportUtama)
 	r.Get("/render-report-lampiran/{id_quiz}/{id_user}/{id_report}/{nomor_seri}", reportController.RenderReportLampiran)
+	r.Get("/render-cover/{id_quiz}/{id_user}", reportController.RenderCoverReport)
 	http.ListenAndServe(port, r)
 }

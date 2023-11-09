@@ -31,6 +31,7 @@ var (
 type ReportController interface {
 	PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Request)
 	PreviewLampiranReportDummy(w http.ResponseWriter, r *http.Request)
+	RenderCoverReport(w http.ResponseWriter, r *http.Request)
 	RenderReportUtama(w http.ResponseWriter, r *http.Request)
 	RenderReportLampiran(w http.ResponseWriter, r *http.Request)
 	ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Request)
@@ -38,6 +39,36 @@ type ReportController interface {
 
 func NewReportController() ReportController {
 	return &controller{}
+}
+
+func (*controller) RenderCoverReport(w http.ResponseWriter, r *http.Request) {
+	id_quiz, _ := strconv.Atoi(chi.URLParam(r, "id_quiz"))
+	id_user, _ := strconv.Atoi(chi.URLParam(r, "id_user"))
+	quiz, _ := reportRepository.GetDetilQuizCetak(id_quiz)
+	user, _ := userRepository.GetDataUserById(id_user)
+	biro, _ := userRepository.GetDataUserById(int(quiz.IDUserBiro))
+	var listTemplate = []string{}
+	listTemplateLampiran := helper.GetArrFilename("templates/cover/")
+	if len(listTemplateLampiran) == 0 {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: "Template tidak ditemukan"})
+		return
+	}
+	listTemplate = append(listTemplate, listTemplateLampiran...)
+	t := template.Must(template.New("report.html").ParseFiles(listTemplate...))
+
+	data := map[string]interface{}{
+		"user":    user,
+		"quiz":    quiz,
+		"tanggal": helper.StringTimeTglIndo(quiz.Tanggal),
+		"biro":    biro,
+	}
+	err := t.Execute(w, data)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Message: err.Error()})
+		return
+	}
 }
 
 func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Request) {

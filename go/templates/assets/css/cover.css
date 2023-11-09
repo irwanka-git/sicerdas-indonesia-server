@@ -1,0 +1,25 @@
+@font-face {
+    font-family: Reguler;
+    src: url(../fonts/GlacialIndifference-Regular.otf);
+}
+@page {margin: 0mm; }
+body {
+    background: white;
+    margin: 0;
+    font-family: Reguler;
+    height: 100vh;
+}
+
+html, body { height: 100%; }
+
+.container { 
+    width: 100%;
+    height: 100%;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.child {  
+    text-align: center !important;
+    color: rgb(48, 6, 88);
+}   
