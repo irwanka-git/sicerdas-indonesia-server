@@ -2,7 +2,9 @@ package service
 
 import (
 	"irwanka/sicerdas/entity"
+	"irwanka/sicerdas/helper"
 	"irwanka/sicerdas/repository"
+	"strings"
 )
 
 type SkoringService interface {
@@ -19,7 +21,9 @@ func NewSkoringService(repo repository.SkoringRepository) SkoringService {
 }
 
 func (*service) SkoringAllKategori(kategori_tabel []*entity.KategoriTabel, id_quiz int32, id_user int32) error {
+	var listTabelSkoring = []string{}
 	for _, kategori := range kategori_tabel {
+		listTabelSkoring = append(listTabelSkoring, kategori.Tabel)
 		//1
 		if kategori.Tabel == "skor_kognitif" {
 			skoringRepoService.SkoringKognitif(id_quiz, id_user)
@@ -113,5 +117,34 @@ func (*service) SkoringAllKategori(kategori_tabel []*entity.KategoriTabel, id_qu
 			skoringRepoService.SkoringSSCT(id_quiz, id_user)
 		}
 	}
+
+	//cek skoring gabungan lihat di tabel quiz_sesi_report
+	//skoring gabungan adalah tabel_referensi != tabel_terkait
+	listGabungan, _ := skoringRepoService.GetListSkoringGabungan()
+	for i := 0; i < len(listGabungan); i++ {
+		tabelTerkaitSlice := strings.Split(listGabungan[i].TabelTerkait, ",")
+		var terkait = 0
+		for n := 0; n < len(tabelTerkaitSlice); n++ {
+			if helper.IsContainsInArrayString(listTabelSkoring, tabelTerkaitSlice[n]) {
+				terkait = terkait + 1
+			}
+		}
+		if len(tabelTerkaitSlice) == terkait {
+			// fmt.Println(listGabungan[i].TabelReferensi)
+			if listGabungan[i].TabelReferensi == "skor_rekom_kuliah_a" {
+				skoringRepoService.SkoringRekomKuliahA(id_quiz, id_user)
+			}
+
+			if listGabungan[i].TabelReferensi == "skor_rekom_kuliah_b" {
+				skoringRepoService.SkoringRekomKuliahB(id_quiz, id_user)
+			}
+
+			if listGabungan[i].TabelReferensi == "skor_rekom_peminatan_sma" {
+				skoringRepoService.SkoringRekomPeminatanSMA(id_quiz, id_user)
+			}
+		}
+
+	}
+
 	return nil
 }

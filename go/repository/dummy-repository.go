@@ -82,6 +82,22 @@ func (*repo) CreateDummySesiTemplate(id_quiz_template int) entity.QuizSesi {
 		temp.KunciWaktu = sesi_template[i].KunciWaktu
 		temp.IDSesiMaster = sesi_template[i].IDSesiMaster
 		db.Table("quiz_sesi_detil").Create(&temp)
+
+		//KHUSUS SKALA_PEMINATAN_SMK
+		if sesi_template[i].IDSesiMaster == 13 {
+			//genearte random mappping pilihan smk
+			var random []*entity.ResultPeminatanSMK
+			db.Raw(`select nomor , max(id_kegiatan) as urutan   from soal_peminatan_smk 
+					group by nomor 
+					order by random() limit 5 `).Scan(&random)
+			for n := 0; n < len(random); n++ {
+				var temp = entity.QuizSesiMappingSmk{}
+				temp.IDQuiz = id_quiz
+				temp.IDKegiatan = int32(random[n].Urutan)
+				temp.UUID = uuid.NewString()
+				db.Table("quiz_sesi_mapping_smk").Create(&temp)
+			}
+		}
 	}
 
 	var quiz_user = entity.QuizSesiUserCreate{}

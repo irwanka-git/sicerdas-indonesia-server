@@ -68,6 +68,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		RefPilihanMinatSma:              newRefPilihanMinatSma(db, opts...),
 		RefRangkingTmi:                  newRefRangkingTmi(db, opts...),
 		RefRekomendasiAkhirMan:          newRefRekomendasiAkhirMan(db, opts...),
+		RefRekomendasiAkhirPeminatanSma: newRefRekomendasiAkhirPeminatanSma(db, opts...),
 		RefRekomendasiAkhirSma:          newRefRekomendasiAkhirSma(db, opts...),
 		RefRekomendasiAkhirSmaV2:        newRefRekomendasiAkhirSmaV2(db, opts...),
 		RefRekomendasiAkhirSmaV3:        newRefRekomendasiAkhirSmaV3(db, opts...),
@@ -120,6 +121,9 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SkorPeminatanMan:                newSkorPeminatanMan(db, opts...),
 		SkorPeminatanSma:                newSkorPeminatanSma(db, opts...),
 		SkorPeminatanSmk:                newSkorPeminatanSmk(db, opts...),
+		SkorRekomKuliahA:                newSkorRekomKuliahA(db, opts...),
+		SkorRekomKuliahB:                newSkorRekomKuliahB(db, opts...),
+		SkorRekomPeminatanSma:           newSkorRekomPeminatanSma(db, opts...),
 		SkorSikapPelajaran:              newSkorSikapPelajaran(db, opts...),
 		SkorSikapPelajaranMk:            newSkorSikapPelajaranMk(db, opts...),
 		SkorSsct:                        newSkorSsct(db, opts...),
@@ -222,6 +226,7 @@ type Query struct {
 	RefPilihanMinatSma              refPilihanMinatSma
 	RefRangkingTmi                  refRangkingTmi
 	RefRekomendasiAkhirMan          refRekomendasiAkhirMan
+	RefRekomendasiAkhirPeminatanSma refRekomendasiAkhirPeminatanSma
 	RefRekomendasiAkhirSma          refRekomendasiAkhirSma
 	RefRekomendasiAkhirSmaV2        refRekomendasiAkhirSmaV2
 	RefRekomendasiAkhirSmaV3        refRekomendasiAkhirSmaV3
@@ -274,6 +279,9 @@ type Query struct {
 	SkorPeminatanMan                skorPeminatanMan
 	SkorPeminatanSma                skorPeminatanSma
 	SkorPeminatanSmk                skorPeminatanSmk
+	SkorRekomKuliahA                skorRekomKuliahA
+	SkorRekomKuliahB                skorRekomKuliahB
+	SkorRekomPeminatanSma           skorRekomPeminatanSma
 	SkorSikapPelajaran              skorSikapPelajaran
 	SkorSikapPelajaranMk            skorSikapPelajaranMk
 	SkorSsct                        skorSsct
@@ -377,6 +385,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		RefPilihanMinatSma:              q.RefPilihanMinatSma.clone(db),
 		RefRangkingTmi:                  q.RefRangkingTmi.clone(db),
 		RefRekomendasiAkhirMan:          q.RefRekomendasiAkhirMan.clone(db),
+		RefRekomendasiAkhirPeminatanSma: q.RefRekomendasiAkhirPeminatanSma.clone(db),
 		RefRekomendasiAkhirSma:          q.RefRekomendasiAkhirSma.clone(db),
 		RefRekomendasiAkhirSmaV2:        q.RefRekomendasiAkhirSmaV2.clone(db),
 		RefRekomendasiAkhirSmaV3:        q.RefRekomendasiAkhirSmaV3.clone(db),
@@ -429,6 +438,9 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SkorPeminatanMan:                q.SkorPeminatanMan.clone(db),
 		SkorPeminatanSma:                q.SkorPeminatanSma.clone(db),
 		SkorPeminatanSmk:                q.SkorPeminatanSmk.clone(db),
+		SkorRekomKuliahA:                q.SkorRekomKuliahA.clone(db),
+		SkorRekomKuliahB:                q.SkorRekomKuliahB.clone(db),
+		SkorRekomPeminatanSma:           q.SkorRekomPeminatanSma.clone(db),
 		SkorSikapPelajaran:              q.SkorSikapPelajaran.clone(db),
 		SkorSikapPelajaranMk:            q.SkorSikapPelajaranMk.clone(db),
 		SkorSsct:                        q.SkorSsct.clone(db),
@@ -539,6 +551,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		RefPilihanMinatSma:              q.RefPilihanMinatSma.replaceDB(db),
 		RefRangkingTmi:                  q.RefRangkingTmi.replaceDB(db),
 		RefRekomendasiAkhirMan:          q.RefRekomendasiAkhirMan.replaceDB(db),
+		RefRekomendasiAkhirPeminatanSma: q.RefRekomendasiAkhirPeminatanSma.replaceDB(db),
 		RefRekomendasiAkhirSma:          q.RefRekomendasiAkhirSma.replaceDB(db),
 		RefRekomendasiAkhirSmaV2:        q.RefRekomendasiAkhirSmaV2.replaceDB(db),
 		RefRekomendasiAkhirSmaV3:        q.RefRekomendasiAkhirSmaV3.replaceDB(db),
@@ -591,6 +604,9 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SkorPeminatanMan:                q.SkorPeminatanMan.replaceDB(db),
 		SkorPeminatanSma:                q.SkorPeminatanSma.replaceDB(db),
 		SkorPeminatanSmk:                q.SkorPeminatanSmk.replaceDB(db),
+		SkorRekomKuliahA:                q.SkorRekomKuliahA.replaceDB(db),
+		SkorRekomKuliahB:                q.SkorRekomKuliahB.replaceDB(db),
+		SkorRekomPeminatanSma:           q.SkorRekomPeminatanSma.replaceDB(db),
 		SkorSikapPelajaran:              q.SkorSikapPelajaran.replaceDB(db),
 		SkorSikapPelajaranMk:            q.SkorSikapPelajaranMk.replaceDB(db),
 		SkorSsct:                        q.SkorSsct.replaceDB(db),
@@ -691,6 +707,7 @@ type queryCtx struct {
 	RefPilihanMinatSma              *refPilihanMinatSmaDo
 	RefRangkingTmi                  *refRangkingTmiDo
 	RefRekomendasiAkhirMan          *refRekomendasiAkhirManDo
+	RefRekomendasiAkhirPeminatanSma *refRekomendasiAkhirPeminatanSmaDo
 	RefRekomendasiAkhirSma          *refRekomendasiAkhirSmaDo
 	RefRekomendasiAkhirSmaV2        *refRekomendasiAkhirSmaV2Do
 	RefRekomendasiAkhirSmaV3        *refRekomendasiAkhirSmaV3Do
@@ -743,6 +760,9 @@ type queryCtx struct {
 	SkorPeminatanMan                *skorPeminatanManDo
 	SkorPeminatanSma                *skorPeminatanSmaDo
 	SkorPeminatanSmk                *skorPeminatanSmkDo
+	SkorRekomKuliahA                *skorRekomKuliahADo
+	SkorRekomKuliahB                *skorRekomKuliahBDo
+	SkorRekomPeminatanSma           *skorRekomPeminatanSmaDo
 	SkorSikapPelajaran              *skorSikapPelajaranDo
 	SkorSikapPelajaranMk            *skorSikapPelajaranMkDo
 	SkorSsct                        *skorSsctDo
@@ -843,6 +863,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		RefPilihanMinatSma:              q.RefPilihanMinatSma.WithContext(ctx),
 		RefRangkingTmi:                  q.RefRangkingTmi.WithContext(ctx),
 		RefRekomendasiAkhirMan:          q.RefRekomendasiAkhirMan.WithContext(ctx),
+		RefRekomendasiAkhirPeminatanSma: q.RefRekomendasiAkhirPeminatanSma.WithContext(ctx),
 		RefRekomendasiAkhirSma:          q.RefRekomendasiAkhirSma.WithContext(ctx),
 		RefRekomendasiAkhirSmaV2:        q.RefRekomendasiAkhirSmaV2.WithContext(ctx),
 		RefRekomendasiAkhirSmaV3:        q.RefRekomendasiAkhirSmaV3.WithContext(ctx),
@@ -895,6 +916,9 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SkorPeminatanMan:                q.SkorPeminatanMan.WithContext(ctx),
 		SkorPeminatanSma:                q.SkorPeminatanSma.WithContext(ctx),
 		SkorPeminatanSmk:                q.SkorPeminatanSmk.WithContext(ctx),
+		SkorRekomKuliahA:                q.SkorRekomKuliahA.WithContext(ctx),
+		SkorRekomKuliahB:                q.SkorRekomKuliahB.WithContext(ctx),
+		SkorRekomPeminatanSma:           q.SkorRekomPeminatanSma.WithContext(ctx),
 		SkorSikapPelajaran:              q.SkorSikapPelajaran.WithContext(ctx),
 		SkorSikapPelajaranMk:            q.SkorSikapPelajaranMk.WithContext(ctx),
 		SkorSsct:                        q.SkorSsct.WithContext(ctx),

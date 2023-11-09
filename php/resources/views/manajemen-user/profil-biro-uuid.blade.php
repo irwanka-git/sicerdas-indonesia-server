@@ -28,8 +28,11 @@ $user = DB::table('users')->where('uuid', $uuid)->first();
 							</div>
 							<div class="col-md-6">
 								<p>Kop Biro<br>
-		                    	<small>Ukuran Gambar yang Disarankan adalah 800 x 90 Pixel</small><br>
-		                    	<button id="btn_gambar" class="btn btn-secondary btn-upload-gambar" type="button">
+		                    	<small>
+									Ukuran Gambar yang Disarankan adalah 800 x 90 Pixels |
+								<a href="https://www.canva.com/design/DAFzp7SUnNs/NkDtRV9GAQw6YAqD0zX8Jw/edit?utm_content=DAFzp7SUnNs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Gunakan Template Canva</a>
+								</small><br>
+							<button id="btn_gambar" class="btn btn-secondary btn-upload-gambar" type="button">
 		                    		<i class="la la-upload"></i> Upload Kop</button> 
 		                    	</p>
 		                    	{{ Form::bsHidden('kop_biro',$user->kop_biro) }}
@@ -39,7 +42,7 @@ $user = DB::table('users')->where('uuid', $uuid)->first();
 		                    		@endif
 		                    	</p>
 		                    	<p>Cover Biro<br>
-		                    	<small>File Sesuai Template (<a target="_blank" href="https://docs.google.com/document/d/1_8IzxLI0UVkaURLlbCRthhOalBO9QjP5/edit?usp=sharing&ouid=113639986592277865781&rtpof=true&sd=true">Download Template</a>)</small><br>
+								<small>Ukuran Gambar yang Disarankan adalah 1273 × 2000 Pixels | <a target="_blank" href="https://www.canva.com/design/DAFzprxvUGU/t9Gow8CZuZUrzP6w1Irh6Q/edit?utm_content=DAFzprxvUGU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Gunakan Template Canva</a></small><br>
 		                    	<button id="btn_cover" class="btn btn-secondary btn-upload-gambar" type="button">
 		                    		<i class="la la-upload"></i> Upload Cover</button> 
 		                    	</p>

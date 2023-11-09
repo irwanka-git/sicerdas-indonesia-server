@@ -28,6 +28,7 @@ type QuizSesiUser struct {
 	UUID              string    `gorm:"column:uuid" json:"uuid"`
 	NoSeri            string    `gorm:"column:no_seri" json:"no_seri"`
 	FirebaseURLReport string    `gorm:"column:firebase_url_report" json:"firebase_url_report"`
+	ReportAt          time.Time `gorm:"column:report_at" json:"report_at"`
 }
 
 // TableName QuizSesiUser's table name

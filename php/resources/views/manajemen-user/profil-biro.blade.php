@@ -39,7 +39,7 @@ $user = Auth::user();
 		                    		@endif
 		                    	</p>
 		                    	<p>Cover Biro<br>
-		                    	<small>File Sesuai Template (<a target="_blank" href="https://docs.google.com/document/d/1_8IzxLI0UVkaURLlbCRthhOalBO9QjP5/edit?usp=sharing&ouid=113639986592277865781&rtpof=true&sd=true">Download Template</a>)</small><br>
+		                    	<small>File Sesuai Template Canva (<a target="_blank" href="https://www.canva.com/design/DAFzprxvUGU/t9Gow8CZuZUrzP6w1Irh6Q/edit?utm_content=DAFzprxvUGU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Gunakan Template</a>)</small><br>
 		                    	<button id="btn_cover" class="btn btn-secondary btn-upload-gambar" type="button">
 		                    		<i class="la la-upload"></i> Upload Cover</button> 
 		                    	</p>

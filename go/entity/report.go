@@ -236,3 +236,9 @@ type ResultPeminatanSMK struct {
 	Deskripsi  string `json:"deskripsi"`
 	Gambar     string `json:"gambar"`
 }
+
+type QuizSesiMappingSmk struct {
+	IDQuiz     int32  `gorm:"column:id_quiz" json:"id_quiz"`
+	IDKegiatan int32  `gorm:"column:id_kegiatan;" json:"id_kegiatan"`
+	UUID       string `gorm:"column:uuid" json:"uuid"`
+}

@@ -20,6 +20,9 @@ type SkoringRepository interface {
 	GetKategoriTabelSkoring(id_quiz int32) ([]*entity.KategoriTabel, error)
 	GetTabelSkoring(id_quiz int32) ([]*entity.KategoriTabel, error)
 
+	GetListSkoringGabungan() ([]*entity.QuizSesiReport, error)
+
+	//SKORING SESI
 	SkoringKognitif(id_quiz int32, id_user int32) error
 	SkoringKognitifPMK(id_quiz int32, id_user int32) error
 	SkoringGayaPekerjaan(id_quiz int32, id_user int32) error
@@ -43,11 +46,22 @@ type SkoringRepository interface {
 	SkoringModeBelajar(id_quiz int32, id_user int32) error
 	SkoringSSCT(id_quiz int32, id_user int32) error
 
+	//SKORING GABUNGAN
+	SkoringRekomKuliahA(id_quiz int32, id_user int32) error
+	SkoringRekomKuliahB(id_quiz int32, id_user int32) error
+	SkoringRekomPeminatanSMA(id_quiz int32, id_user int32) error
+
 	FinishSkoring(id_quiz int32, id_user int32, waktu string) error
 }
 
 func NewSkoringRepository() SkoringRepository {
 	return &repo{}
+}
+
+func (*repo) GetListSkoringGabungan() ([]*entity.QuizSesiReport, error) {
+	var result []*entity.QuizSesiReport
+	db.Raw(`select * from quiz_sesi_report where jenis = 1 and tabel_referensi != tabel_terkait`).Scan(&result)
+	return result, nil
 }
 
 func (*repo) GetStatusRunningSkoring() (*entity.StatusRunningSkoring, error) {
@@ -1579,6 +1593,222 @@ func (*repo) SkoringSSCT(id_quiz int32, id_user int32) error {
 		skoring.Klasifikasi = skorHitung[i].Klasifikasi
 		db.Table(tabel).Create(&skoring)
 	}
+
+	return nil
+}
+
+// SKORING GABUNGAN
+func (*repo) SkoringRekomKuliahA(id_quiz int32, id_user int32) error {
+	//tabel referensi: skor_rekom_kuliah_a
+	//tabel terkait: skor_kuliah_alam,skor_kuliah_sosial,skor_kuliah_dinas
+	var skoring_rekom = entity.SkorRekomKuliahA{}
+	db.Table("skor_rekom_kuliah_a").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Delete(&skoring_rekom)
+
+	var refKuliahAlam []*entity.RefKuliahAlam
+	db.Table("soal_minat_kuliah_eksakta").Scan(&refKuliahAlam)
+	var skoringAlam *entity.SkorKuliahAlam
+	db.Table("skor_kuliah_alam").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringAlam)
+	var listMinatAlam = []string{"", "", "", "", ""}
+	for i := 0; i < len(refKuliahAlam); i++ {
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa1 {
+			listMinatAlam[0] = fmt.Sprintf("%v. %v", 1, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa2 {
+			listMinatAlam[1] = fmt.Sprintf("%v. %v", 2, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa3 {
+			listMinatAlam[2] = fmt.Sprintf("%v. %v", 3, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa4 {
+			listMinatAlam[3] = fmt.Sprintf("%v. %v", 4, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa5 {
+			listMinatAlam[4] = fmt.Sprintf("%v. %v", 5, refKuliahAlam[i].Jurusan)
+		}
+
+	}
+
+	var refKuliahSosial []*entity.RefKuliahSosial
+	db.Table("soal_minat_kuliah_sosial").Scan(&refKuliahSosial)
+	var skoringSosial *entity.SkorKuliahSosial
+	db.Table("skor_kuliah_sosial").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringSosial)
+	var listMinatSosial = []string{"", "", "", "", ""}
+	for i := 0; i < len(refKuliahSosial); i++ {
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps1 {
+			listMinatSosial[0] = fmt.Sprintf("%v. %v", 1, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps2 {
+			listMinatSosial[1] = fmt.Sprintf("%v. %v", 2, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps3 {
+			listMinatSosial[2] = fmt.Sprintf("%v. %v", 3, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps4 {
+			listMinatSosial[3] = fmt.Sprintf("%v. %v", 4, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps5 {
+			listMinatSosial[4] = fmt.Sprintf("%v. %v", 5, refKuliahSosial[i].Jurusan)
+		}
+
+	}
+
+	var refKuliahDinas []*entity.RefSekolahDinas
+	db.Table("ref_sekolah_dinas").Scan(&refKuliahDinas)
+	var skoringDinas *entity.SkorKuliahDinas
+	db.Table("skor_kuliah_dinas").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringDinas)
+	var listMinatDinas = []string{"", "", ""}
+	for i := 0; i < len(refKuliahDinas); i++ {
+		if refKuliahDinas[i].No == skoringDinas.MinatDinas1 {
+			listMinatDinas[0] = fmt.Sprintf("%v. %v - %v", 1, refKuliahDinas[i].Akronim, refKuliahDinas[i].NamaSekolahDinas)
+		}
+		if refKuliahDinas[i].No == skoringDinas.MinatDinas2 {
+			listMinatDinas[1] = fmt.Sprintf("%v. %v - %v", 2, refKuliahDinas[i].Akronim, refKuliahDinas[i].NamaSekolahDinas)
+		}
+		if refKuliahDinas[i].No == skoringDinas.MinatDinas3 {
+			listMinatDinas[2] = fmt.Sprintf("%v. %v - %v", 3, refKuliahDinas[i].Akronim, refKuliahDinas[i].NamaSekolahDinas)
+		}
+	}
+
+	skoring_rekom.IDQuiz = id_quiz
+	skoring_rekom.IDUser = id_user
+	skoring_rekom.RekomKuliahAlam = strings.Join(listMinatAlam, ";")
+	skoring_rekom.RekomKuliahSosial = strings.Join(listMinatSosial, ";")
+	skoring_rekom.RekomKuliahDinas = strings.Join(listMinatDinas, ";")
+
+	db.Table("skor_rekom_kuliah_a").Create(&skoring_rekom)
+
+	return nil
+}
+
+func (*repo) SkoringRekomKuliahB(id_quiz int32, id_user int32) error {
+	//tabel referensi: skor_rekom_kuliah_b
+	//tabel terkait: skor_kuliah_alam,skor_kuliah_sosial,skor_kuliah_dinas,skor_kuliah_agama
+
+	var skoring_rekom = entity.SkorRekomKuliahB{}
+	db.Table("skor_rekom_kuliah_b").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Delete(&skoring_rekom)
+
+	var refKuliahAlam []*entity.RefKuliahAlam
+	db.Table("soal_minat_kuliah_eksakta").Scan(&refKuliahAlam)
+	var skoringAlam *entity.SkorKuliahAlam
+	db.Table("skor_kuliah_alam").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringAlam)
+	var listMinatAlam = []string{"", "", "", "", ""}
+	for i := 0; i < len(refKuliahAlam); i++ {
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa1 {
+			listMinatAlam[0] = fmt.Sprintf("%v. %v", 1, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa2 {
+			listMinatAlam[1] = fmt.Sprintf("%v. %v", 2, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa3 {
+			listMinatAlam[2] = fmt.Sprintf("%v. %v", 3, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa4 {
+			listMinatAlam[3] = fmt.Sprintf("%v. %v", 4, refKuliahAlam[i].Jurusan)
+		}
+		if refKuliahAlam[i].Urutan == skoringAlam.MinatIpa5 {
+			listMinatAlam[4] = fmt.Sprintf("%v. %v", 5, refKuliahAlam[i].Jurusan)
+		}
+
+	}
+
+	var refKuliahSosial []*entity.RefKuliahSosial
+	db.Table("soal_minat_kuliah_sosial").Scan(&refKuliahSosial)
+	var skoringSosial *entity.SkorKuliahSosial
+	db.Table("skor_kuliah_sosial").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringSosial)
+	var listMinatSosial = []string{"", "", "", "", ""}
+	for i := 0; i < len(refKuliahSosial); i++ {
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps1 {
+			listMinatSosial[0] = fmt.Sprintf("%v. %v", 1, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps2 {
+			listMinatSosial[1] = fmt.Sprintf("%v. %v", 2, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps3 {
+			listMinatSosial[2] = fmt.Sprintf("%v. %v", 3, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps4 {
+			listMinatSosial[3] = fmt.Sprintf("%v. %v", 4, refKuliahSosial[i].Jurusan)
+		}
+		if refKuliahSosial[i].Urutan == skoringSosial.MinatIps5 {
+			listMinatSosial[4] = fmt.Sprintf("%v. %v", 5, refKuliahSosial[i].Jurusan)
+		}
+
+	}
+
+	var refKuliahDinas []*entity.RefSekolahDinas
+	db.Table("ref_sekolah_dinas").Scan(&refKuliahDinas)
+	var skoringDinas *entity.SkorKuliahDinas
+	db.Table("skor_kuliah_dinas").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringDinas)
+	var listMinatDinas = []string{"", "", ""}
+	for i := 0; i < len(refKuliahDinas); i++ {
+		if refKuliahDinas[i].No == skoringDinas.MinatDinas1 {
+			listMinatDinas[0] = fmt.Sprintf("%v. %v - %v", 1, refKuliahDinas[i].Akronim, refKuliahDinas[i].NamaSekolahDinas)
+		}
+		if refKuliahDinas[i].No == skoringDinas.MinatDinas2 {
+			listMinatDinas[1] = fmt.Sprintf("%v. %v - %v", 2, refKuliahDinas[i].Akronim, refKuliahDinas[i].NamaSekolahDinas)
+		}
+		if refKuliahDinas[i].No == skoringDinas.MinatDinas3 {
+			listMinatDinas[2] = fmt.Sprintf("%v. %v - %v", 3, refKuliahDinas[i].Akronim, refKuliahDinas[i].NamaSekolahDinas)
+		}
+	}
+
+	var refKuliahAgama []*entity.RefKuliahAgama
+	db.Table("soal_minat_kuliah_agama").Scan(&refKuliahAgama)
+	var skoringAgama *entity.SkorKuliahAgama
+	db.Table("skor_kuliah_agama").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringAgama)
+	var listMinatAgama = []string{"", "", "", "", ""}
+	for i := 0; i < len(refKuliahAgama); i++ {
+		if refKuliahAgama[i].Urutan == skoringAgama.MinatAgm1 {
+			listMinatAgama[0] = fmt.Sprintf("%v. %v", 1, refKuliahAgama[i].Jurusan)
+		}
+		if refKuliahAgama[i].Urutan == skoringAgama.MinatAgm2 {
+			listMinatAgama[1] = fmt.Sprintf("%v. %v", 2, refKuliahAgama[i].Jurusan)
+		}
+		if refKuliahAgama[i].Urutan == skoringAgama.MinatAgm3 {
+			listMinatAgama[2] = fmt.Sprintf("%v. %v", 3, refKuliahAgama[i].Jurusan)
+		}
+		if refKuliahAgama[i].Urutan == skoringAgama.MinatAgm4 {
+			listMinatAgama[3] = fmt.Sprintf("%v. %v", 4, refKuliahAgama[i].Jurusan)
+		}
+		if refKuliahAgama[i].Urutan == skoringAgama.MinatAgm5 {
+			listMinatAgama[4] = fmt.Sprintf("%v. %v", 5, refKuliahAgama[i].Jurusan)
+		}
+	}
+
+	skoring_rekom.IDQuiz = id_quiz
+	skoring_rekom.IDUser = id_user
+	skoring_rekom.RekomKuliahAlam = strings.Join(listMinatAlam, ";")
+	skoring_rekom.RekomKuliahSosial = strings.Join(listMinatSosial, ";")
+	skoring_rekom.RekomKuliahDinas = strings.Join(listMinatDinas, ";")
+	skoring_rekom.RekomKuliahAgama = strings.Join(listMinatAgama, ";")
+	db.Table("skor_rekom_kuliah_b").Create(&skoring_rekom)
+
+	return nil
+}
+
+func (*repo) SkoringRekomPeminatanSMA(id_quiz int32, id_user int32) error {
+	//tabel referensi: skor_rekom_peminatan_sma
+	//tabel terkait: skor_peminatan_sma,skor_sikap_pelajaran
+	var skoring_minat = entity.SkorRekomPeminatanSma{}
+	db.Table("skor_rekom_peminatan_sma").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).Delete(&skoring_minat)
+	var skoringMinatSMA *entity.SkorPeminatanSma
+	db.Table("skor_peminatan_sma").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringMinatSMA)
+
+	var skoringSikapPelajaran *entity.SkorSikapPelajaran
+	db.Table("skor_sikap_pelajaran").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&skoringSikapPelajaran)
+
+	var refRekomendasiAkhirPeminatanSma *entity.RefRekomendasiAkhirPeminatanSma
+	db.Table("ref_rekomendasi_akhir_peminatan_sma").Where("rekom_minat = ?", skoringMinatSMA.RekomMinat).
+		Where("rekom_sikap_pelajaran = ?", skoringSikapPelajaran.RekomSikapPelajaran).
+		First(&refRekomendasiAkhirPeminatanSma)
+
+	skoring_minat.IDQuiz = id_quiz
+	skoring_minat.IDUser = id_user
+	skoring_minat.RekomMinat = skoringMinatSMA.RekomMinat
+	skoring_minat.RekomSikapPelajaran = skoringSikapPelajaran.RekomSikapPelajaran
+	skoring_minat.RekomMapel = refRekomendasiAkhirPeminatanSma.RekomAkhir
+
+	db.Table("skor_rekom_peminatan_sma").Create(&skoring_minat)
 
 	return nil
 }

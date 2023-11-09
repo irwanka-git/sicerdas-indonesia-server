@@ -9,14 +9,13 @@
     <link rel="stylesheet" href="/static/css/quill.css" type="text/css"/>
 </head>
 <body class="report">  
-  <img height="80" src="/kop/{{.userBiro.KopBiro}}">
+  <img height="90" src="/kop/{{.userBiro.KopBiro}}">
   <img width="120" style="position: absolute; right: 0px; top: 0px;" src="/static/qrcode/{{.nomorSeri}}.png">
   <p>&nbsp;</p>
   <p style="text-align: center !important; line-height: 1.8em;">
     <b style="font-size: 18px;">P S I K O G R A M</b><br>
     <b>{{.quiz.NamaSesi}}</b>
   </p>
-  <p>&nbsp;</p>
   {{template "peserta.html" . }}
   {{range $index,$komponen := .komponen }}
         {{$blade :=$komponen.Blade}}
@@ -39,10 +38,15 @@
         {{if eq $blade "gaya_pekerjaan" }} {{template "gaya_pekerjaan.html" $skoring }} {{end}}
         {{if eq $blade "gaya_belajar" }} {{template "gaya_belajar.html" $skoring }} {{end}}
         {{if eq $blade "kecerdasan_majemuk" }} {{template "kecerdasan_majemuk.html" $skoring }} {{end}}
+
         {{if eq $blade "newline" }} {{template "newline.html" $skoring }} {{end}}
         {{if eq $blade "newpage" }} {{template "newpage.html" $skoring }} {{end}}
         {{if eq $blade "saran" }} {{template "saran.html" $skoring }} {{end}}
         {{if eq $blade "ttd" }} {{template "ttd.html" $skoring }} {{end}}
+
+        {{if eq $blade "rekom_peminatan_sma" }} {{template "rekom_peminatan_sma.html" $skoring }} {{end}}
+        {{if eq $blade "rekom_kuliah_a" }} {{template "rekom_kuliah_a.html" $skoring }} {{end}}
+        {{if eq $blade "rekom_kuliah_b" }} {{template "rekom_kuliah_b.html" $skoring }} {{end}}
   {{end}}
 
 </body>

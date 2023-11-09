@@ -1,6 +1,6 @@
 @font-face {
     font-family: Reguler;
-    src: url(../fonts/ARIALN.TTF);
+    src: url(../fonts/arial-mt-condensed.ttf);
 }
 
 body{
@@ -9,11 +9,13 @@ body{
 }
 
 body.report{
-    font-size: 1.25em !important;
+    font-size: 1em !important;
 }
 
 p.p10{
-    padding-top: 20px !important;
+    padding-top: 15px !important;
+    line-height: 0.5em !important;
+    padding-bottom: 0px !important; 
 }
 
 .new-page {
@@ -31,19 +33,17 @@ p.p10{
 .table-x {  
     width: 100%;
     border-collapse: collapse; 
+    border: 1px solid rgb(117, 100, 160)!important;
 }
 .table-x > thead > tr >th {
    font-weight: bold !important;
-   font-size: 11pt; 
-   padding: 5px; 
-   border: 1px solid rgb(41, 38, 38) !important; 
+   padding: 3px; 
+   border: 1px solid rgb(117, 100, 160)!important;
+   text-transform: uppercase;
 }  
 .table-x > tbody > tr >td {
-    padding-left: 5px !important;
-    padding-right: 5px !important; 
-    padding-top: 3px !important; 
-    padding-bottom: 3px !important; 
-    border: 1px solid rgb(41, 38, 38) !important; 
+    padding: 4px;
+    border: 1px solid rgb(117, 100, 160)!important;
  }
  .table-x > thead > tr.thead-primary > th{
     color:rgb(12, 12, 12);

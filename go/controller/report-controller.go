@@ -47,6 +47,10 @@ func (*controller) RenderCoverReport(w http.ResponseWriter, r *http.Request) {
 	quiz, _ := reportRepository.GetDetilQuizCetak(id_quiz)
 	user, _ := userRepository.GetDataUserById(id_user)
 	biro, _ := userRepository.GetDataUserById(int(quiz.IDUserBiro))
+	var cover = "default.png"
+	if biro.CoverBiro != "" {
+		cover = biro.CoverBiro
+	}
 	var listTemplate = []string{}
 	listTemplateLampiran := helper.GetArrFilename("templates/cover/")
 	if len(listTemplateLampiran) == 0 {
@@ -61,7 +65,7 @@ func (*controller) RenderCoverReport(w http.ResponseWriter, r *http.Request) {
 		"user":    user,
 		"quiz":    quiz,
 		"tanggal": helper.StringTimeTglIndo(quiz.Tanggal),
-		"biro":    biro,
+		"cover":   cover,
 	}
 	err := t.Execute(w, data)
 	if err != nil {
@@ -92,36 +96,40 @@ func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Requ
 	id_user, _ := strconv.Atoi(chi.URLParam(r, "id_user"))
 	id_model := chi.URLParam(r, "id_model")
 	model, _ := reportRepository.GetModelReport(id_model)
-	// fmt.Println(id_quiz)
-	// fmt.Println(id_user)
-	// fmt.Println(id_model)
 
 	url_docker := os.Getenv("URL_HOST_DOCKER")
-
-	//export report utama
 	quiz, _ := reportRepository.GetDetilQuizCetak(id_quiz)
 	nomor_seri := reportRepository.GenerateQRCodeNomorSeriCetak()
-	url_render := fmt.Sprintf("%v/render-report-utama/%v/%v/%v/%v", url_docker, id_quiz, id_user, id_model, nomor_seri)
 	user, _ := userRepository.GetDataUserById(id_user)
-	path_export_utama := fmt.Sprintf("/app/export/pdf/%v.%v.%v.pdf", user.ID, quiz.Token, model.Direktori)
-	// command := fmt.Sprintf("/app/export.sh %v %v", url_render, path_export)
-	// command2 := fmt.Sprintf("go version")
-	//fmt.Println(command)
 	quizTemplate, _ := reportRepository.GetDetilQuizTemplate(int(quiz.IDQuizTemplate))
-	ex := exec.Command("/app/export.sh", url_render, path_export_utama, "Portrait", quizTemplate.Kertas, nomor_seri, "utama")
+
+	//render cover
+	path_export_cover := fmt.Sprintf("/app/export/pdf/%v.%v.cover.pdf", user.ID, quiz.Token)
+	url_render_cover := fmt.Sprintf("%v/render-cover/%v/%v", url_docker, id_quiz, id_user)
+	exCover := exec.Command("/app/export.sh", url_render_cover, path_export_cover, "Portrait", quizTemplate.Kertas, nomor_seri, "cover")
+
+	_, err2 := exCover.Output()
+	// fmt.Println(string(out))
+	if err2 != nil {
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err2.Error()})
+		return
+	}
+	//render repot utama
+	url_render_utama := fmt.Sprintf("%v/render-report-utama/%v/%v/%v/%v", url_docker, id_quiz, id_user, id_model, nomor_seri)
+	fmt.Println(url_render_utama)
+	path_export_utama := fmt.Sprintf("/app/export/pdf/%v.%v.%v.pdf", user.ID, quiz.Token, model.Direktori)
+	ex := exec.Command("/app/export.sh", url_render_utama, path_export_utama, "Portrait", quizTemplate.Kertas, nomor_seri, "utama")
 	// fmt.Println(ex.Args)
-	var result = ""
+
 	_, err3 := ex.Output()
 	// fmt.Println(string(out))
 	if err3 != nil {
-		fmt.Println(err3)
-		result = fmt.Sprintln("could not run command: ", err3)
 		//fmt.Println(err3.Error())
-		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: result})
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err3.Error()})
 		return
 	}
-	// reader, err := pdfModel.NewPdfReaderFromFile("file1.pdf", nil)
 
+	//render lampiran
 	listLampiran := reportRepository.GetListLampiranReport(int(quizTemplate.IDQuizTemplate))
 	var listExportLampiran = []string{}
 	for i := 0; i < len(listLampiran); i++ {
@@ -133,32 +141,34 @@ func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Requ
 		// fmt.Println(ex.Args)
 		_, err4 := exLampiran.Output()
 		if err4 != nil {
-			fmt.Println(err3)
-			result = fmt.Sprintln("could not run command: ", err4)
 			//fmt.Println(err3.Error())
-			json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: result})
+			json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err4.Error()})
 			return
 		}
 	}
-	// fmt.Println(listExportLampiran)
+
+	//buat list pdf untuk pasing ke pdfunite
 	var listPDF = []string{}
+	listPDF = append(listPDF, path_export_cover)
 	listPDF = append(listPDF, path_export_utama)
 	for i := 0; i < len(listExportLampiran); i++ {
 		listPDF = append(listPDF, listExportLampiran[i])
 	}
-	path_export_report := fmt.Sprintf("/app/export/pdf/%v-%v.pdf", helper.CleanNamaFileOnly(user.NamaPengguna), nomor_seri)
-	listPDF = append(listPDF, path_export_report)
+
+	//merge cover + utama + lampiran => final;
+	path_export_report_final := fmt.Sprintf("/app/export/pdf/%v-%v.pdf", helper.CleanNamaFileOnly(user.NamaPengguna), nomor_seri)
+	listPDF = append(listPDF, path_export_report_final)
 	exMergePDF := exec.Command("pdfunite", listPDF...)
 	_, err5 := exMergePDF.Output()
 	if err5 != nil {
-		fmt.Println(err3)
-		result = fmt.Sprintln("could not run command: ", err5)
 		//fmt.Println(err3.Error())
-		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: result})
+		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err5.Error()})
 		return
 	}
+
+	//upload firebase
 	directory := fmt.Sprintf("report-individu/%v/%v", quiz.Token, model.Direktori)
-	url_firebase_result, err := uploadFirebaseService.UploadReportPDFToFirebase(path_export_report, directory)
+	url_firebase_result, err := uploadFirebaseService.UploadReportPDFToFirebase(path_export_report_final, directory)
 	if err != nil {
 		fmt.Println(err3)
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err.Error()})

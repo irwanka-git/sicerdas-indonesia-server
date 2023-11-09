@@ -17,12 +17,12 @@ echo "jenis: $jenis"
 
 if [ "$jenis" = "$utama" ]; then
     echo "Cetak Utama."
-    wkhtmltopdf --footer-spacing 3 -L 10 -R 10 -T 15 -B 15 --footer-left "Si Cerdas Indonesia" --footer-right $nomorseri --footer-font-size 8 --footer-center [page]/[topage] -O $orientation -s $size $url $path
+    wkhtmltopdf --footer-spacing 3 -L 10 -R 10 -T 15 -B 15 --footer-left "Si Cerdas Indonesia" --footer-right $nomorseri --footer-font-size 6 --footer-center [page]/[topage] -O $orientation -s $size $url $path
 fi
 
 if [ "$jenis" = "$lampiran" ]; then
     echo "Cetak Lampiran."
-    wkhtmltopdf --footer-spacing 3 -L 15 -R 15 -T 10 -B 10 --footer-left "Lampiran" --footer-right $nomorseri --footer-font-size 8 -O $orientation -s $size $url $path
+    wkhtmltopdf --footer-spacing 3 -L 15 -R 15 -T 10 -B 10 --footer-left "Lampiran" --footer-right $nomorseri --footer-font-size 6 -O $orientation -s $size $url $path
 fi
 
 if [ "$jenis" = "$cover" ]; then

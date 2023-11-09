@@ -1,0 +1,28 @@
+<p class="p10"><b>{{.urutan}}. REKOMENDASI JURUSAN KULIAH</b><p></p>
+<table class="table-x">
+    <thead>
+        <tr class="thead-primary">
+            <th class="text-center" colspan="2" width="100%">Rekomendasi Jurusan Kuliah</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-center"><b>KELOMPOK ILMU SAINS DAN TEKNOLOGI</b></td>
+            <td class="text-center"><b>KELOMPOK ILMU SOSIAL DAN HUMANIORA</b></td>
+        </tr>
+        <tr>
+            <td>
+                {{unscapeHTML .skoring.KuliahSains}}
+            </td>
+            <td>
+                {{unscapeHTML .skoring.KuliahSosial}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <b>SEKOLAH KEDINASAN :</b><br>
+                {{unscapeHTML .skoring.KuliahDinas}}
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -22,6 +22,7 @@ func NewReporService(repo repository.ReportRepository) ReportService {
 	return &service{}
 }
 
+// LAMPIRAN
 func (*service) GetDataSkoringLampiranFromReportTabel(tabel_referensi string, id_quiz int, id_user int) (any, error) {
 	var skoring any
 	if tabel_referensi == "skor_kuliah_alam" {
@@ -111,6 +112,7 @@ func (*service) GetDataSkoringLampiranFromReportTabel(tabel_referensi string, id
 	return skoring, nil
 }
 
+// KOMPONEN UTAMA
 func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz int, id_user int) (any, error) {
 	var skoring any
 	if tabel_referensi == "skor_kognitif" {
@@ -526,6 +528,42 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 			}
 		}
 		skoring = skala
+	}
+
+	//skor gabungan
+	if tabel_referensi == "skor_rekom_peminatan_sma" {
+		skorPeminatan, _ := reportRepository.GetSkorRekomPeminatanSMA(id_quiz, id_user)
+		skoring = skorPeminatan
+	}
+
+	if tabel_referensi == "skor_rekom_kuliah_a" {
+		skorRekom, _ := reportRepository.GetSkorRekomKuliahA(id_quiz, id_user)
+		listKuliahAlam := strings.Split(skorRekom.RekomKuliahAlam, ";")
+		listKuliahSosial := strings.Split(skorRekom.RekomKuliahSosial, ";")
+		listKuliahKedinasan := strings.Split(skorRekom.RekomKuliahDinas, ";")
+		var data = map[string]interface{}{
+			"KuliahSains":  strings.Join(listKuliahAlam, "<br>"),
+			"KuliahSosial": strings.Join(listKuliahSosial, "<br>"),
+			"KuliahDinas":  strings.Join(listKuliahKedinasan, "<br>"),
+		}
+
+		skoring = data
+	}
+
+	if tabel_referensi == "skor_rekom_kuliah_b" {
+		skorRekom, _ := reportRepository.GetSkorRekomKuliahB(id_quiz, id_user)
+		listKuliahAlam := strings.Split(skorRekom.RekomKuliahAlam, ";")
+		listKuliahSosial := strings.Split(skorRekom.RekomKuliahSosial, ";")
+		listKuliahKedinasan := strings.Split(skorRekom.RekomKuliahDinas, ";")
+		listKuliahAgama := strings.Split(skorRekom.RekomKuliahAgama, ";")
+
+		var data = map[string]interface{}{
+			"KuliahSains":  strings.Join(listKuliahAlam, "<br>"),
+			"KuliahSosial": strings.Join(listKuliahSosial, "<br>"),
+			"KuliahDinas":  strings.Join(listKuliahKedinasan, "<br>"),
+			"KuliahAgama":  strings.Join(listKuliahAgama, "<br>"),
+		}
+		skoring = data
 	}
 
 	return skoring, nil

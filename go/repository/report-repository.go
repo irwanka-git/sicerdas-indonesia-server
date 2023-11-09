@@ -83,6 +83,11 @@ type ReportRepository interface {
 
 	GetReferensiKecerdasanMajemuk() ([]*entity.RefKecerdasanMajemuk, error)
 	GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error)
+
+	//skoring gabungan
+	GetSkorRekomPeminatanSMA(id_quiz int, id_user int) (*entity.SkorRekomPeminatanSma, error)
+	GetSkorRekomKuliahA(id_quiz int, id_user int) (*entity.SkorRekomKuliahA, error)
+	GetSkorRekomKuliahB(id_quiz int, id_user int) (*entity.SkorRekomKuliahB, error)
 }
 
 func NewReportRepository() ReportRepository {
@@ -458,5 +463,22 @@ func (*repo) GetReferensiKecerdasanMajemuk() ([]*entity.RefKecerdasanMajemuk, er
 func (*repo) GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error) {
 	var data *entity.SkorKecerdasanMajemuk
 	db.Table("skor_kecerdasan_majemuk").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
+	return data, nil
+}
+
+// skoring gabungan
+func (*repo) GetSkorRekomPeminatanSMA(id_quiz int, id_user int) (*entity.SkorRekomPeminatanSma, error) {
+	var data *entity.SkorRekomPeminatanSma
+	db.Table("skor_rekom_peminatan_sma").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
+	return data, nil
+}
+func (*repo) GetSkorRekomKuliahA(id_quiz int, id_user int) (*entity.SkorRekomKuliahA, error) {
+	var data *entity.SkorRekomKuliahA
+	db.Table("skor_rekom_kuliah_a").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
+	return data, nil
+}
+func (*repo) GetSkorRekomKuliahB(id_quiz int, id_user int) (*entity.SkorRekomKuliahB, error) {
+	var data *entity.SkorRekomKuliahB
+	db.Table("skor_rekom_kuliah_b").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
 	return data, nil
 }

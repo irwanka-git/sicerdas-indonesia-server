@@ -204,13 +204,14 @@ func (*repo) GetSoalPeminatanSMK(id_quiz int32, paket string, demo bool, token s
 				c.image_base64,
 				c.type as type_image from (select 
 				a.nomor as urutan,
+				a.id_kegiatan,
 				a.uuid,
 				a.kegiatan,					
 				a.gambar
 				from soal_peminatan_smk as a   
 				) as x 
 				LEFT JOIN gambar AS c ON x.gambar = c.filename
-				order by x.urutan limit 3`).Scan(&listResultSoal)
+				order by x.id_kegiatan limit 3`).Scan(&listResultSoal)
 	} else {
 		if paket == "" {
 			db.Raw(`select x.*, 

@@ -43,6 +43,7 @@ func newQuizSesiUser(db *gorm.DB, opts ...gen.DOOption) quizSesiUser {
 	_quizSesiUser.UUID = field.NewString(tableName, "uuid")
 	_quizSesiUser.NoSeri = field.NewString(tableName, "no_seri")
 	_quizSesiUser.FirebaseURLReport = field.NewString(tableName, "firebase_url_report")
+	_quizSesiUser.ReportAt = field.NewTime(tableName, "report_at")
 
 	_quizSesiUser.fillFieldMap()
 
@@ -69,6 +70,7 @@ type quizSesiUser struct {
 	UUID              field.String
 	NoSeri            field.String
 	FirebaseURLReport field.String
+	ReportAt          field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -101,6 +103,7 @@ func (q *quizSesiUser) updateTableName(table string) *quizSesiUser {
 	q.UUID = field.NewString(table, "uuid")
 	q.NoSeri = field.NewString(table, "no_seri")
 	q.FirebaseURLReport = field.NewString(table, "firebase_url_report")
+	q.ReportAt = field.NewTime(table, "report_at")
 
 	q.fillFieldMap()
 
@@ -129,7 +132,7 @@ func (q *quizSesiUser) GetFieldByName(fieldName string) (field.OrderExpr, bool) 
 }
 
 func (q *quizSesiUser) fillFieldMap() {
-	q.fieldMap = make(map[string]field.Expr, 16)
+	q.fieldMap = make(map[string]field.Expr, 17)
 	q.fieldMap["id_quiz_user"] = q.IDQuizUser
 	q.fieldMap["id_user"] = q.IDUser
 	q.fieldMap["id_quiz"] = q.IDQuiz
@@ -146,6 +149,7 @@ func (q *quizSesiUser) fillFieldMap() {
 	q.fieldMap["uuid"] = q.UUID
 	q.fieldMap["no_seri"] = q.NoSeri
 	q.fieldMap["firebase_url_report"] = q.FirebaseURLReport
+	q.fieldMap["report_at"] = q.ReportAt
 }
 
 func (q quizSesiUser) clone(db *gorm.DB) quizSesiUser {

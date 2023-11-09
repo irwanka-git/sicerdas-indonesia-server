@@ -621,3 +621,35 @@ type SkorSsct struct {
 	Skor        int32  `gorm:"column:skor" json:"skor"`
 	Klasifikasi string `gorm:"column:klasifikasi" json:"klasifikasi"`
 }
+
+type SkorRekomKuliahA struct {
+	IDQuiz            int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	IDUser            int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	RekomKuliahAlam   string `gorm:"column:rekom_kuliah_alam" json:"rekom_kuliah_alam"`
+	RekomKuliahSosial string `gorm:"column:rekom_kuliah_sosial" json:"rekom_kuliah_sosial"`
+	RekomKuliahDinas  string `gorm:"column:rekom_kuliah_dinas" json:"rekom_kuliah_dinas"`
+}
+
+type SkorRekomKuliahB struct {
+	IDQuiz            int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	IDUser            int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	RekomKuliahAlam   string `gorm:"column:rekom_kuliah_alam" json:"rekom_kuliah_alam"`
+	RekomKuliahSosial string `gorm:"column:rekom_kuliah_sosial" json:"rekom_kuliah_sosial"`
+	RekomKuliahDinas  string `gorm:"column:rekom_kuliah_dinas" json:"rekom_kuliah_dinas"`
+	RekomKuliahAgama  string `gorm:"column:rekom_kuliah_agama" json:"rekom_kuliah_agama"`
+}
+
+type SkorRekomPeminatanSma struct {
+	IDUser              int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz              int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	RekomMinat          string `gorm:"column:rekom_minat" json:"rekom_minat"`
+	RekomSikapPelajaran string `gorm:"column:rekom_sikap_pelajaran" json:"rekom_sikap_pelajaran"`
+	RekomMapel          string `gorm:"column:rekom_mapel" json:"rekom_mapel"`
+}
+
+type RefRekomendasiAkhirPeminatanSma struct {
+	ID                  int32  `gorm:"column:id;primaryKey" json:"id"`
+	RekomMinat          string `gorm:"column:rekom_minat" json:"rekom_minat"`
+	RekomSikapPelajaran string `gorm:"column:rekom_sikap_pelajaran" json:"rekom_sikap_pelajaran"`
+	RekomAkhir          string `gorm:"column:rekom_akhir" json:"rekom_akhir"`
+}

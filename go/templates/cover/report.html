@@ -4,19 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Cover REport</title>
+    <title>Cover Report</title>
     <link rel="stylesheet" href="/static/css/cover.css" type="text/css"/>
 </head>
-<body style="background-image: url('/cover/default.png'); background-size: cover;  background-repeat: no-repeat; background-position: center;">  
+<body style="background-image: url('/cover/{{.cover}}'); background-size: cover;  background-repeat: no-repeat; background-position: center;">  
     <div class="container">
-        <div class="child">
-            <b style="font-size: 16pt;">HASIL PEMERIKSAAN PSIKOLOGIS</b>
-            <p style="line-height: 1.15em !important; font-size: 13pt;">
-            <b style="font-size: 14pt;">{{.user.NamaPengguna}}</b><br>
+        <div class="child" style="position: relative!important; top: 600px;">
+            <b style="font-size: 20pt;">HASIL PEMERIKSAAN PSIKOLOGIS</b>
+            <p style="line-height: 1.2em !important; font-size: 16pt;">
+            <b style="font-size: 18pt;">{{.user.NamaPengguna}}</b><br>
             {{.user.Organisasi}}<br>
             <small>{{.user.UnitOrganisasi}}</small>
             </p>
-            <p style="line-height: 1.15em !important;font-size: 13pt;">
+            <p style="line-height: 1.2em !important;font-size: 16pt;">
                 {{.quiz.NamaSesi}}<br>
                 <small>{{.tanggal}}</small>
             </p>
