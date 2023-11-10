@@ -28,44 +28,26 @@ $user = DB::table('users')->where('uuid', $uuid)->first();
 							</div>
 							<div class="col-md-6">
 								<p>Kop Biro<br>
-		                    	<small>
-									Ukuran Gambar yang Disarankan adalah 800 x 90 Pixels |
-								<a target="_blank" href="https://www.canva.com/design/DAFzp7SUnNs/NkDtRV9GAQw6YAqD0zX8Jw/edit?utm_content=DAFzp7SUnNs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Gunakan Template Canva</a>
-								</small><br>
-									<button id="btn_gambar" class="btn btn-secondary btn-upload-gambar" type="button">
+		                    	<small>Ukuran Gambar yang Disarankan adalah 800 x 90 Pixel</small><br>
+		                    	<button id="btn_gambar" class="btn btn-secondary btn-upload-gambar" type="button">
 		                    		<i class="la la-upload"></i> Upload Kop</button> 
 		                    	</p>
-								
 		                    	{{ Form::bsHidden('kop_biro',$user->kop_biro) }}
 		                    	<p id="gambar-kop">
 		                    		@if($user->kop_biro)
 		                    		<img class="img img-responsive img-thumbnail" src="{{url('kop/'.$user->kop_biro)}}">
 		                    		@endif
 		                    	</p>
-								<hr>
-								<p>Cover Biro (Format PDF) Sicerdas Versi 1<br>
-									<small>File Sesuai Template | <a target="_blank" href="https://docs.google.com/document/d/1_8IzxLI0UVkaURLlbCRthhOalBO9QjP5/edit?usp=sharing&ouid=113639986592277865781&rtpof=true&sd=true">Download Template</a></small><br>
-									<button id="btn_cover" class="btn btn-secondary btn-upload-gambar" type="button">
-										<i class="la la-upload"></i> Upload Cover</button> 
-								</p>
-								{{ Form::bsHidden('cover_biro',$user->cover_biro) }}
-								<p id="lihat-cover">
-		                    		@if($user->cover_biro)
-		                    		<a target="_blank" href="{{url('cover/'.$user->cover_biro)}}">Lihat Cover PDF</a>
-		                    		@endif
-		                    	</p>
-								<hr>
-		                    	<p>Cover Biro (Format Gambar) Sicerdas Versi 2<br>
-								<small>Ukuran Gambar yang Disarankan adalah 1273 × 2000 Pixels | <a target="_blank" href="https://www.canva.com/design/DAFzprxvUGU/t9Gow8CZuZUrzP6w1Irh6Q/edit?utm_content=DAFzprxvUGU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Gunakan Template Canva</a></small><br>
-		                    	<button id="btn_cover_gambar" class="btn btn-secondary btn-upload-gambar" type="button">
+		                    	<p>Cover Biro<br>
+		                    	<small>File Sesuai Template (<a target="_blank" href="https://docs.google.com/document/d/1_8IzxLI0UVkaURLlbCRthhOalBO9QjP5/edit?usp=sharing&ouid=113639986592277865781&rtpof=true&sd=true">Download Template</a>)</small><br>
+		                    	<button id="btn_cover" class="btn btn-secondary btn-upload-gambar" type="button">
 		                    		<i class="la la-upload"></i> Upload Cover</button> 
 		                    	</p>
-								
-		                    	{{ Form::bsHidden('cover_biro_gambar',$user->cover_biro_gambar) }}
+		                    	{{ Form::bsHidden('cover_biro',$user->cover_biro) }}
 		                    	{{ Form::bsHidden('uuid',$user->uuid) }}
-		                    	<p id="lihat-cover-gambar">
-		                    		@if($user->cover_biro_gambar)
-		                    		<a target="_blank" href="{{url('cover/'.$user->cover_biro_gambar)}}">Lihat Cover Gambar</a>
+		                    	<p id="lihat-cover">
+		                    		@if($user->cover_biro)
+		                    		<a target="_blank" href="{{url('cover/'.$user->cover_biro)}}">Lihat Cover</a>
 		                    		@endif
 		                    	</p>
 		                    	<hr>
@@ -91,10 +73,6 @@ $user = DB::table('users')->where('uuid', $uuid)->first();
 
 {{ Form::bsOpen('form-upload-cover',url($main_path."/upload-cover")) }}
 	 <input type="file" style="display: none;" id="upload-cover" name="cover" accept=".pdf">
-{{ Form::bsClose()}}
-
-{{ Form::bsOpen('form-upload-cover-gambar',url($main_path."/upload-cover-gambar")) }}
-	 <input type="file" style="display: none;" id="upload-cover-gambar" name="cover" accept="image/*">
 {{ Form::bsClose()}}
 
 @endsection
@@ -135,7 +113,6 @@ $user = DB::table('users')->where('uuid', $uuid)->first();
 	 			$("#form-upload-cover").submit();
 	 		}
 		});
-		
 
 	 	$('#form-upload-cover').ajaxForm({
 			beforeSubmit:function(){ disableButton("#profil #btn-submit") },
@@ -154,34 +131,8 @@ $user = DB::table('users')->where('uuid', $uuid)->first();
 			error:function(){errorNotify('Terjadi Kesalahan!');$("#upload-gambar").val('');}
 		}); 
 
-		$("#upload-cover-gambar").on('change', function(){
-	 		if($(this).val()){
-	 			$("#form-upload-cover-gambar").submit();
-	 		}
-		});
-
-		$('#form-upload-cover-gambar').ajaxForm({
-			beforeSubmit:function(){ disableButton("#profil #btn-submit") },
-			success:function($respon){
-				//enableButton("#"+$form_gambar +" #btn_"+$field_gambar);
-				//console.log($respon);
-				if($respon.status==true){
-					$("#cover_biro_gambar").val($respon.filename)
-					$("#upload-cover-gambar").val('');
-					$("#lihat-cover-gambar").html("<a target='_blank' href='"+$respon.url+"'>Lihat Cover</a>");
-				}else{
-					errorNotify($respon.message);
-				}
-			},
-			error:function(){errorNotify('Terjadi Kesalahan!');$("#upload-gambar").val('');}
-		}); 
-
 		$("#btn_cover").on('click', function(){
 			$("#upload-cover").trigger('click');
-		})
-
-		$("#btn_cover_gambar").on('click', function(){
-			$("#upload-cover-gambar").trigger('click');
 		})
 
 

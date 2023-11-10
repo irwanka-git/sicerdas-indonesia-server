@@ -16,6 +16,14 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
     }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/sicerdas.web.id/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/sicerdas.web.id/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
 }
 
 server {
@@ -36,18 +44,49 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
     }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/sicerdas.web.id/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/sicerdas.web.id/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}server {
+    if ($host = sicerdas.web.id) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name sicerdas.web.id;
+    listen 80;
+    return 404; # managed by Certbot
+
+
 }
 
+server {
+    if ($host = www.sicerdas.web.id) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name www.sicerdas.web.id;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
 
 server {
     #servername gunakan domain atau sub domain
-    access_log  /home/docker/log/access-golang-api-sicerdas.log;
-    error_log  /home/docker/log/error-golang-api-sicerdas.log;
-    server_name go.sicerdas.web.id;
+    access_log  /home/docker/log/access-wssicerdas.log;
+    error_log  /home/docker/log/error-wssicerdas.log;
+    server_name ws.sicerdas.web.id;
     send_timeout 1800;
     location / {
-        proxy_pass http://127.0.0.145$request_uri;
-        proxy_set_header Host go.sicerdas.web.id;
+        proxy_pass http://127.0.0.1:8042$request_uri;
+        proxy_set_header Host ws.sicerdas.web.id;
         proxy_set_header X-Forwarded-Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -57,13 +96,37 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
     }
+    listen 80;
+}
+
+
+server {
+    server_name go.sicerdas.web.id;
+    access_log  /home/docker/log/access-go-sicerdas.log;
+    error_log  /home/docker/log/error-go-sicerdas.log;
+    proxy_read_timeout 600;
+    proxy_connect_timeout 600;
+    proxy_send_timeout 600;
+    location / {
+        proxy_pass http://localhost:8045;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/go.sicerdas.web.id/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/go.sicerdas.web.id/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
 }
 
 server {
     listen 80;
+    server_name go.sicerdas.web.id;
     access_log  /home/docker/log/access-go-sicerdas.log;
     error_log  /home/docker/log/error-go-sicerdas.log;
-    server_name go.sicerdas.web.id;
     proxy_read_timeout 600;
     proxy_connect_timeout 600;
     proxy_send_timeout 600;

@@ -48,8 +48,8 @@ func (*controller) RenderCoverReport(w http.ResponseWriter, r *http.Request) {
 	user, _ := userRepository.GetDataUserById(id_user)
 	biro, _ := userRepository.GetDataUserById(int(quiz.IDUserBiro))
 	var cover = "default.png"
-	if biro.CoverBiro != "" {
-		cover = biro.CoverBiro
+	if biro.CoverBiroGambar != "" {
+		cover = biro.CoverBiroGambar
 	}
 	var listTemplate = []string{}
 	listTemplateLampiran := helper.GetArrFilename("templates/cover/")

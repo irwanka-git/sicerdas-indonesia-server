@@ -55,6 +55,7 @@ class ProfilBiroController extends Controller
 	    		"telp"=>trim($r->telp), 
 	    		"kop_biro"=>trim($r->kop_biro), 
 	    		"cover_biro"=>trim($r->cover_biro), 
+	    		"cover_biro_gambar"=>trim($r->cover_biro_gambar), 
 	    	);
 
 	    	DB::table('users')->where('uuid', $uuid)->update($record);
