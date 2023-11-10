@@ -260,3 +260,16 @@ type ResultModeBelajar struct {
 	P4 string `json:"p4"`
 	P5 string `json:"p5"`
 }
+
+type RefModelKesehatanMental struct {
+	ID           int32  `gorm:"column:id;primaryKey" json:"id"`
+	Nama         string `gorm:"column:nama" json:"nama"`
+	FieldSkoring string `gorm:"column:field_skoring" json:"field_skoring"`
+}
+
+type ResultSkorKesehatanMental struct {
+	Id          int32  `json:"id"`
+	Nama        string `json:"nama"`
+	Klasifikasi int    `json:"klasifikasi"`
+	Skor        int    `json:"skor"`
+}

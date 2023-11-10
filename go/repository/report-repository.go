@@ -85,6 +85,7 @@ type ReportRepository interface {
 	GetReferensiKecerdasanMajemuk() ([]*entity.RefKecerdasanMajemuk, error)
 	GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error)
 	GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBelajar, error)
+	GetSkorKesehatanMental(id_quiz int, id_user int) ([]entity.ResultSkorKesehatanMental, error)
 
 	//skoring gabungan
 	GetSkorRekomPeminatanSMA(id_quiz int, id_user int) (*entity.SkorRekomPeminatanSma, error)
@@ -592,6 +593,34 @@ func (*repo) GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBe
 		}
 		temp.P5 = strings.TrimLeft(temp.P5, " ")
 
+		result = append(result, temp)
+	}
+	return result, nil
+}
+
+func (*repo) GetSkorKesehatanMental(id_quiz int, id_user int) ([]entity.ResultSkorKesehatanMental, error) {
+	var ref []*entity.RefModelKesehatanMental
+	db.Table("ref_model_kesehatan_mental").Order("id asc").Scan(&ref)
+	var skoring *entity.SkorKesehatanMental
+	db.Table("skor_kesehatan_mental").Where("id_quiz =?", id_quiz).Where("id_user =?", id_user).First(&skoring)
+
+	var result = []entity.ResultSkorKesehatanMental{}
+	rv := reflect.ValueOf(skoring)
+	rt := rv.Elem().Type()
+	for i := 0; i < len(ref); i++ {
+		var temp = entity.ResultSkorKesehatanMental{}
+		temp.Id = ref[i].ID
+		temp.Nama = ref[i].Nama
+		field_skor := ref[i].FieldSkoring
+		for n := 0; n < rt.NumField(); n++ {
+			if rt.Field(n).Tag.Get("json") == field_skor {
+				skorField := rt.Field(n).Name
+				field := strings.Replace(skorField, "Skor", "", -1)
+				nilaiField := "Nilai" + field
+				temp.Skor = int(reflect.Indirect(rv).FieldByName(skorField).Int())
+				temp.Klasifikasi = int(reflect.Indirect(rv).FieldByName(nilaiField).Int())
+			}
+		}
 		result = append(result, temp)
 	}
 	return result, nil

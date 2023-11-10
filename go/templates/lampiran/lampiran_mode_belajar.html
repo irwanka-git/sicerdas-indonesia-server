@@ -1,4 +1,28 @@
 <p class="p10"><b>LAMPIRAN {{.urutan}}. DESKRIPSI MODA BELAJAR</b><p>
+<p>
+    MODA BELAJAR : Untuk memahami hal teknis terkait pola belajar siswa agar dapat belajar/memahami materi, mengerjakan tugas dan berkarya dengan nyaman, tenang, dan produktif dalam sehingga membantu tercapainya tujuan pembelajaran serta siswa yang sehat dan bahagia.
+</p>
+<table class="table-x">
+    <thead>
+        <tr class="thead-primary">
+            <th class="text-center" width="5%">No.</th>
+            <th class="text-center" width="50%">Deskripsi</th>
+            <th class="text-center" width="30%">Pilihan</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $index,$mode := .skoring }}
+        <tr>
+            <td class="text-center" style="vertical-align: middle;">{{$mode.Urutan}}</td>
+            <td class="text-justify" style="vertical-align: middle;">{{unscapeHTML $mode.Deskripsi}}</td>
+            <td class="text-center" style="vertical-align: middle;">
+                (1) {{$mode.P1}}, (2) {{$mode.P2}}, (3) {{$mode.P3}}, (4) {{$mode.P4}}, (5) {{$mode.P5}}
+            </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+<p></p>
 JENIS SKALA PENGUKURAN : Ordinal (urutan)
 <ul>
     <li>
@@ -17,29 +41,4 @@ JENIS SKALA PENGUKURAN : Ordinal (urutan)
         <b>Prioritas 5 (Terakhir/Dihindari)</b><br>
         Situasi ketika subjek merasa sulit, tidak nyaman, dan cenderung merasa jemu dalam bekerja sehingga tidak maksimal dalam mencapai produktivitas pekerjaan. Ia membutuhkan waktu yang cukup lama untuk bisa beradaptasi dengan situasi ini. 
     </li>
-</ul>
-<p>&nbsp;</p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="5%">No.</th>
-            <th class="text-center" width="50%">Deskripsi</th>
-            <th class="text-center" width="30%">Pilihan</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{range $index,$mode := .skoring }}
-        <tr>
-            <td class="text-center" style="vertical-align: top;">{{$mode.Urutan}}</td>
-            <td class="text-justify">{{unscapeHTML $mode.Deskripsi}}</td>
-            <td>
-                1. {{$mode.P1}}<br>
-                2. {{$mode.P2}}<br>
-                3. {{$mode.P3}}<br>
-                4. {{$mode.P4}}<br>
-                5. {{$mode.P5}}
-            </td>
-        </tr>
-        {{end}}
-    </tbody>
-</table>
+</ul> 
