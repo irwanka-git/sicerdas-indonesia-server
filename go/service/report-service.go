@@ -530,6 +530,11 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 		skoring = skala
 	}
 
+	if tabel_referensi == "skor_mode_belajar" {
+		skala, _ := reportRepository.GetSkorModeBelajar(id_quiz, id_user)
+		skoring = skala
+	}
+
 	//skor gabungan
 	if tabel_referensi == "skor_rekom_peminatan_sma" {
 		skorPeminatan, _ := reportRepository.GetSkorRekomPeminatanSMA(id_quiz, id_user)

@@ -242,3 +242,21 @@ type QuizSesiMappingSmk struct {
 	IDKegiatan int32  `gorm:"column:id_kegiatan;" json:"id_kegiatan"`
 	UUID       string `gorm:"column:uuid" json:"uuid"`
 }
+
+type ResultModeBelajar struct {
+	Urutan    int    `json:"urutan"`
+	Deskripsi string `json:"deskripsi"`
+	Suasana   string `json:"suasana"`
+
+	PilihanA string `json:"pilihan_a"`
+	PilihanB string `json:"pilihan_b"`
+	PilihanC string `json:"pilihan_c"`
+	PilihanD string `json:"pilihan_d"`
+	PilihanE string `json:"pilihan_e"`
+
+	P1 string `json:"p1"`
+	P2 string `json:"p2"`
+	P3 string `json:"p3"`
+	P4 string `json:"p4"`
+	P5 string `json:"p5"`
+}

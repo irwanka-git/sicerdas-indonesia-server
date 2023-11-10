@@ -10,6 +10,7 @@ import (
 	"os"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/skip2/go-qrcode"
@@ -83,6 +84,7 @@ type ReportRepository interface {
 
 	GetReferensiKecerdasanMajemuk() ([]*entity.RefKecerdasanMajemuk, error)
 	GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error)
+	GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBelajar, error)
 
 	//skoring gabungan
 	GetSkorRekomPeminatanSMA(id_quiz int, id_user int) (*entity.SkorRekomPeminatanSma, error)
@@ -464,6 +466,124 @@ func (*repo) GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.Skor
 	var data *entity.SkorKecerdasanMajemuk
 	db.Table("skor_kecerdasan_majemuk").Where("id_quiz = ?", id_quiz).Where("id_user = ?", id_user).First(&data)
 	return data, nil
+}
+
+func (*repo) GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBelajar, error) {
+	var data []*entity.ResultModeBelajar
+	db.Raw(`select 
+			b.urutan , 
+			b.pilihan_a,
+			b.pilihan_b,
+			b.pilihan_c,
+			b.pilihan_d,
+			b.pilihan_e,
+			b.deskripsi , 
+			b.suasana_belajar as suasana, 
+			a.prioritas_1 as p1, 
+			a.prioritas_2 as p2, 
+			a.prioritas_3 as p3,
+			a.prioritas_4 as p4,
+			a.prioritas_5 as p5
+			from skor_mode_belajar as a, soal_mode_belajar as b 
+			where a.id_mode_belajar  = b.urutan 
+			and a.id_user  = ? and a.id_quiz  = ?
+			order by b.urutan`, id_user, id_quiz).Scan(&data)
+
+	var result = []entity.ResultModeBelajar{}
+	for i := 0; i < len(data); i++ {
+
+		var temp = entity.ResultModeBelajar{}
+		temp.Urutan = data[i].Urutan
+		temp.Suasana = data[i].Suasana
+		temp.Deskripsi = data[i].Deskripsi
+		pilihanA := strings.Split(data[i].PilihanA, ":")
+		pilihanB := strings.Split(data[i].PilihanB, ":")
+		pilihanC := strings.Split(data[i].PilihanC, ":")
+		pilihanD := strings.Split(data[i].PilihanD, ":")
+		pilihanE := strings.Split(data[i].PilihanE, ":")
+		prioritasA := helper.Capitalize(strings.TrimSpace(pilihanA[1]))
+		prioritasB := helper.Capitalize(strings.TrimSpace(pilihanB[1]))
+		prioritasC := helper.Capitalize(strings.TrimSpace(pilihanC[1]))
+		prioritasD := helper.Capitalize(strings.TrimSpace(pilihanD[1]))
+		prioritasE := helper.Capitalize(strings.TrimSpace(pilihanE[1]))
+
+		//prioritas 1
+		switch data[i].P1 {
+		case "A":
+			temp.P1 = prioritasA
+		case "B":
+			temp.P1 = prioritasB
+		case "C":
+			temp.P1 = prioritasC
+		case "D":
+			temp.P1 = prioritasD
+		case "E":
+			temp.P1 = prioritasE
+		}
+
+		// prioritas 2
+		switch data[i].P2 {
+		case "A":
+			temp.P2 = prioritasA
+		case "B":
+			temp.P2 = prioritasB
+		case "C":
+			temp.P2 = prioritasC
+		case "D":
+			temp.P2 = prioritasD
+		case "E":
+			temp.P2 = prioritasE
+		}
+		temp.P2 = strings.TrimLeft(temp.P2, " ")
+
+		// prioritas 3
+		switch data[i].P3 {
+		case "A":
+			temp.P3 = prioritasA
+		case "B":
+			temp.P3 = prioritasB
+		case "C":
+			temp.P3 = prioritasC
+		case "D":
+			temp.P3 = prioritasD
+		case "E":
+			temp.P3 = prioritasE
+		}
+		temp.P3 = strings.TrimLeft(temp.P3, " ")
+
+		// prioritas 4
+		switch data[i].P4 {
+		case "A":
+			temp.P4 = pilihanA[1]
+		case "B":
+			temp.P4 = pilihanB[1]
+		case "C":
+			temp.P4 = pilihanC[1]
+		case "D":
+			temp.P4 = pilihanD[1]
+		case "E":
+			temp.P4 = pilihanE[1]
+		}
+		temp.P4 = strings.TrimLeft(temp.P4, " ")
+
+		// prioritas 5
+		switch data[i].P5 {
+		case "A":
+			temp.P5 = pilihanA[1]
+		case "B":
+			temp.P5 = pilihanB[1]
+		case "C":
+			temp.P5 = pilihanC[1]
+		case "D":
+			temp.P5 = pilihanD[1]
+		case "E":
+			temp.P5 = pilihanE[1]
+		}
+		temp.P5 = strings.TrimLeft(temp.P5, " ")
+
+		result = append(result, temp)
+	}
+	return result, nil
 }
 
 // skoring gabungan

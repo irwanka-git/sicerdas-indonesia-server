@@ -1,0 +1,45 @@
+<p class="p10"><b>{{.urutan}}. MODA BELAJAR</b><p>
+    <table class="table-x">
+        <thead>
+            <tr class="thead-primary">
+                <th class="text-center" width="5%" rowspan="2">No.</th>
+                <th class="text-center" width="30%" rowspan="2">Suasana Belajar</th>
+                <th class="text-center"  colspan="5">Urutan Prioritas</th>
+            </tr>
+            <tr class="thead-primary"> 
+                <th class="text-center" width="15%">
+                    1<br><small>(Prioritas Utama)</small>
+                </th>
+                <th class="text-center" width="15%">
+                    2<br><small>(Prioritas Kedua)</small>
+                </th>
+                <th class="text-center" width="15%">
+                    3<br><small>(Prioritas Tengah)</small>
+                </th>
+                <th class="text-center" width="15%">
+                    4<br><small>(Berusaha Dihindari)</small>
+                </th>
+                <th class="text-center" width="15%">
+                    5<br><small>(Terakhir Dihindari)</small>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range $index,$mode := .skoring }}
+            <tr>
+                <td class="text-center">{{$mode.Urutan}}</td>
+                <td>{{$mode.Suasana}}</td>
+                <td class="text-center">{{$mode.P1}}</td>
+                <td class="text-center">{{$mode.P2}}</td>
+                <td class="text-center">{{$mode.P3}}</td>
+                <td class="text-center">{{$mode.P4}}</td>
+                <td class="text-center">{{$mode.P5}}</td>
+            </tr>
+            {{end}}
+            <tr>
+                <td colspan="7" class="text-justify">
+                    MODA BELAJAR : Untuk memahami hal teknis terkait pola belajar siswa agar dapat belajar/memahami materi, mengerjakan tugas dan berkarya dengan nyaman, tenang, dan produktif dalam sehingga membantu tercapainya tujuan pembelajaran serta siswa yang sehat dan bahagia.
+                </td>
+            </tr>
+        </tbody>
+    </table>
