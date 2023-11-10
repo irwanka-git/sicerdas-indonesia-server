@@ -495,7 +495,13 @@ func (*repo) GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBe
 		var temp = entity.ResultModeBelajar{}
 		temp.Urutan = data[i].Urutan
 		temp.Suasana = data[i].Suasana
-		temp.Deskripsi = data[i].Deskripsi
+
+		var deskripsi = data[i].Deskripsi
+		deskripsi = strings.ReplaceAll(deskripsi, "<p class=\"ql-align-justify\">", "")
+		deskripsi = strings.ReplaceAll(deskripsi, "<p>", "")
+		deskripsi = strings.ReplaceAll(deskripsi, "</p>", "")
+		temp.Deskripsi = deskripsi
+
 		pilihanA := strings.Split(data[i].PilihanA, ":")
 		pilihanB := strings.Split(data[i].PilihanB, ":")
 		pilihanC := strings.Split(data[i].PilihanC, ":")
@@ -506,6 +512,11 @@ func (*repo) GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBe
 		prioritasC := helper.Capitalize(strings.TrimSpace(pilihanC[1]))
 		prioritasD := helper.Capitalize(strings.TrimSpace(pilihanD[1]))
 		prioritasE := helper.Capitalize(strings.TrimSpace(pilihanE[1]))
+		temp.PilihanA = prioritasA
+		temp.PilihanB = prioritasB
+		temp.PilihanC = prioritasC
+		temp.PilihanD = prioritasD
+		temp.PilihanE = prioritasE
 
 		//prioritas 1
 		switch data[i].P1 {
@@ -554,30 +565,30 @@ func (*repo) GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBe
 		// prioritas 4
 		switch data[i].P4 {
 		case "A":
-			temp.P4 = pilihanA[1]
+			temp.P4 = prioritasA
 		case "B":
-			temp.P4 = pilihanB[1]
+			temp.P4 = prioritasB
 		case "C":
-			temp.P4 = pilihanC[1]
+			temp.P4 = prioritasC
 		case "D":
-			temp.P4 = pilihanD[1]
+			temp.P4 = prioritasD
 		case "E":
-			temp.P4 = pilihanE[1]
+			temp.P4 = prioritasE
 		}
 		temp.P4 = strings.TrimLeft(temp.P4, " ")
 
 		// prioritas 5
 		switch data[i].P5 {
 		case "A":
-			temp.P5 = pilihanA[1]
+			temp.P5 = prioritasA
 		case "B":
-			temp.P5 = pilihanB[1]
+			temp.P5 = prioritasB
 		case "C":
-			temp.P5 = pilihanC[1]
+			temp.P5 = prioritasC
 		case "D":
-			temp.P5 = pilihanD[1]
+			temp.P5 = prioritasD
 		case "E":
-			temp.P5 = pilihanE[1]
+			temp.P5 = prioritasE
 		}
 		temp.P5 = strings.TrimLeft(temp.P5, " ")
 

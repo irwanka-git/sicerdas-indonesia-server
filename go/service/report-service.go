@@ -109,6 +109,10 @@ func (*service) GetDataSkoringLampiranFromReportTabel(tabel_referensi string, id
 		result, _ := reportRepository.GetResultGayaPekerjaan(id_quiz, id_user)
 		skoring = result
 	}
+	if tabel_referensi == "skor_mode_belajar" {
+		skala, _ := reportRepository.GetSkorModeBelajar(id_quiz, id_user)
+		skoring = skala
+	}
 	return skoring, nil
 }
 

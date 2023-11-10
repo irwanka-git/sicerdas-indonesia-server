@@ -1,0 +1,45 @@
+<p class="p10"><b>LAMPIRAN {{.urutan}}. DESKRIPSI MODA BELAJAR</b><p>
+JENIS SKALA PENGUKURAN : Ordinal (urutan)
+<ul>
+    <li>
+        <b>Prioritas 1 (Pertama)</b><br>Situasi ketika subjek merasa nyaman dan tenang sehingga mudah menghasilkan ide-ide kreatif atau solutif dalam proses pekerjaan. 
+    </li>
+    <li>
+        <b>Prioritas 2 (Kedua)</b><br>Situasi ketika subjek merasa lumayan nyaman dan tenang dalam melakukan pekerjaan. Akan tetapi, prioritas kedua ini bukan yang paling utama. Situasi ini cukup memungkinkan subjek untuk mencapai produktivitas pekerjaan dengan baik.
+    </li>
+    <li>
+        <b>Prioritas 3 (Tengah)</b><br>Situasi ketika subjek tidak begitu mempermasalahkan pola kerja, tetapi bukan sesuatu yang ia senangi juga. Ia tetap bisa mencapai produktivas kerja yang baik, namun mungkin tidak begitu maksimal.
+    </li>
+    <li>
+        <b>Prioritas 4 (Berusaha Dihindari)</b><br>Situasi ketika subjek berusaha menghindari situasi. Walaupun masih ada kesempatan untuk beradaptasi, tetapi membutuhkan waktu.
+    </li>
+    <li>
+        <b>Prioritas 5 (Terakhir/Dihindari)</b><br>
+        Situasi ketika subjek merasa sulit, tidak nyaman, dan cenderung merasa jemu dalam bekerja sehingga tidak maksimal dalam mencapai produktivitas pekerjaan. Ia membutuhkan waktu yang cukup lama untuk bisa beradaptasi dengan situasi ini. 
+    </li>
+</ul>
+<p>&nbsp;</p>
+<table class="table-x">
+    <thead>
+        <tr class="thead-primary">
+            <th class="text-center" width="5%">No.</th>
+            <th class="text-center" width="50%">Deskripsi</th>
+            <th class="text-center" width="30%">Pilihan</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range $index,$mode := .skoring }}
+        <tr>
+            <td class="text-center" style="vertical-align: top;">{{$mode.Urutan}}</td>
+            <td class="text-justify">{{unscapeHTML $mode.Deskripsi}}</td>
+            <td>
+                1. {{$mode.P1}}<br>
+                2. {{$mode.P2}}<br>
+                3. {{$mode.P3}}<br>
+                4. {{$mode.P4}}<br>
+                5. {{$mode.P5}}
+            </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
