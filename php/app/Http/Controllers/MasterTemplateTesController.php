@@ -44,7 +44,7 @@ class MasterTemplateTesController extends Controller
             $keyword = $search['value'];
             if(strlen($keyword)>=2){
                 $keyword = strtolower($keyword);
-                $filter = " and (  lower(a.nama_sesi) like '%$keyword%' ) ";
+                $filter = " and (  lower(a.nama_sesi) like '%$keyword%' or lower(a.kode) like '%$keyword%' ) ";
             }   
         }
 
@@ -100,6 +100,9 @@ class MasterTemplateTesController extends Controller
             ->editColumn('item_report', function($q){
                 if ($q->jenis=="quiz") 
                 return "<a class='btn btn-sm btn-outline-secondary' href='".url('template-tes/report/'.$q->uuid)."'> <i class='la la-cog'></i> Laporan </a>";
+            })
+            ->editColumn('kode', function($q){
+                 return $q->kode."-".$q->id_quiz_template;
             })
             ->addIndexColumn()
             ->rawColumns(['action','jumlah_sesi','gambar','item_report'])

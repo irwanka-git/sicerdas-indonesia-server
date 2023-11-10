@@ -1,7 +1,7 @@
  <?php 
  $list_jenis_tes = DB::select("SELECT 
-							a.id_quiz_template as value, concat(a.nama_sesi,', ',a.jenis) as text 
-							FROM quiz_sesi_template as a order by jenis desc ");
+							a.id_quiz_template as value, concat(a.kode, '-',a.id_quiz_template,' ',a.nama_sesi,', ',a.jenis) as text 
+							FROM quiz_sesi_template as a order by jenis desc, kode asc, id_quiz_template asc ");
  $list_biro = DB::select("select a.uuid as value, a.nama_pengguna as text  
 							from users a , user_role as b 
 								where a.id= b.id_user and b.id_role = $id_role_biro ");
