@@ -544,6 +544,11 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 		skoring = skor
 	}
 
+	if tabel_referensi == "skor_ssct" {
+		skor, _ := reportRepository.GetSkorSSCTRemaja(id_quiz, id_user)
+		skoring = skor
+	}
+
 	//skor gabungan
 	if tabel_referensi == "skor_rekom_peminatan_sma" {
 		skorPeminatan, _ := reportRepository.GetSkorRekomPeminatanSMA(id_quiz, id_user)

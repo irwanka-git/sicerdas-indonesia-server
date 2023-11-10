@@ -273,3 +273,11 @@ type ResultSkorKesehatanMental struct {
 	Klasifikasi int    `json:"klasifikasi"`
 	Skor        int    `json:"skor"`
 }
+
+type ResultSkorSSCTRemaja struct {
+	Urutan      int32  `json:"id"`
+	Komponen    string `json:"komponen"`
+	Aspek       string `json:"aspek"`
+	Klasifikasi string `json:"klasifikasi"`
+	Span        int    `json:"span"`
+}

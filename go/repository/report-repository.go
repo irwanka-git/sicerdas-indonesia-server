@@ -86,6 +86,7 @@ type ReportRepository interface {
 	GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error)
 	GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBelajar, error)
 	GetSkorKesehatanMental(id_quiz int, id_user int) ([]entity.ResultSkorKesehatanMental, error)
+	GetSkorSSCTRemaja(id_quiz int, id_user int) ([]*entity.ResultSkorSSCTRemaja, error)
 
 	//skoring gabungan
 	GetSkorRekomPeminatanSMA(id_quiz int, id_user int) (*entity.SkorRekomPeminatanSma, error)
@@ -623,6 +624,16 @@ func (*repo) GetSkorKesehatanMental(id_quiz int, id_user int) ([]entity.ResultSk
 		}
 		result = append(result, temp)
 	}
+	return result, nil
+}
+
+func (*repo) GetSkorSSCTRemaja(id_quiz int, id_user int) ([]*entity.ResultSkorSSCTRemaja, error) {
+	var result []*entity.ResultSkorSSCTRemaja
+	db.Raw(`select m.*, k.span from (select c.komponen , count(*) as span 
+			from soal_ssct_remaja as c  group by c.komponen ) as k 
+				, (select a.urutan, a.komponen , a.aspek , b.klasifikasi  from soal_ssct_remaja as a , skor_ssct as b 
+				where a.urutan  = b.urutan  and b.id_quiz  = ? and b.id_user = ?
+				order by a.urutan) as m where k.komponen = m.komponen order by m.urutan`, id_quiz, id_user).Scan(&result)
 	return result, nil
 }
 
