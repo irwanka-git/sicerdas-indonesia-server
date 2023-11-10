@@ -68,11 +68,10 @@ func (*repo) SubmitJawabanQuiz(jawaban string, id_quiz int32, user entity.User) 
 func (*repo) GetSalamPembuka(token string) (string, error) {
 
 	var salam_pembuka string
-	db.Raw(`SELECT c.salam_pembuka FROM
+	db.Raw(`SELECT b.pendahuluan as salam_pembuka FROM
 	quiz_sesi AS a , 
-	quiz_sesi_template as b , 
-	quiz_template_saran as c 
-	where a.id_quiz_template = b.id_quiz_template  and a.token = ?  and c.skoring_tabel = b.skoring_tabel `, token).Scan(&salam_pembuka)
+	quiz_sesi_template as b
+	where a.id_quiz_template = b.id_quiz_template  and a.token = ? `, token).Scan(&salam_pembuka)
 	if salam_pembuka == "" {
 		return "", errors.New("terjadi kesalahan hubungi admin sicerdas")
 	}
