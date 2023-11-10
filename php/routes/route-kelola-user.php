@@ -53,6 +53,7 @@ Route::group(['prefix'=>'manajemen-akun-biro'], function(){
     Route::post('/update-profil', 'ProfilBiroController@submit_update_profil');
     Route::post('/upload-gambar', 'UploadController@upload_gambar_kop');
     Route::post('/upload-cover', 'UploadController@upload_cover_biro');
+    Route::post('/upload-cover-gambar', 'UploadController@upload_cover_biro_gambar');
 });
 
 //PROFIL BIRO

@@ -216,6 +216,22 @@ class UploadController extends Controller
                 'filename'=>$filename,);
         return response()->json($respon);   
     }
+
+    function upload_cover_biro_gambar(Request $request){
+        $not_valid = $this->validate($request, [
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $file = $request->file('cover');
+        $ext = $file->getClientOriginalExtension();
+        $filename = time().rand(1111,5555).".".$ext;
+        $file->move('cover',$filename);
+        
+        $respon = array('status'=>true,
+                'url'=>url('cover/'.$filename), 
+                'filename'=>$filename,);
+        return response()->json($respon);   
+    }
     
 
     function upload_gambar_250_150(Request $request){
