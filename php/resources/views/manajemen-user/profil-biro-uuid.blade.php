@@ -56,7 +56,7 @@ $user = DB::table('users')->where('uuid', $uuid)->first();
 		                    	</p>
 								<hr>
 		                    	<p>Cover Biro (Format Gambar) Sicerdas Versi 2<br>
-								<small>Ukuran Gambar yang Disarankan adalah 1273 × 2000 Pixels | <a target="_blank" href="https://www.canva.com/design/DAFzprxvUGU/t9Gow8CZuZUrzP6w1Irh6Q/edit?utm_content=DAFzprxvUGU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton">Gunakan Template Canva</a></small><br>
+								<small>Ukuran Gambar yang Disarankan adalah 1273 × 2000 Pixels | <a target="_blank" href="https://www.canva.com/design/DAFzyNDLdg0/ql3EMWELvf_zCoSX4-tUtg/view">Gunakan Template Canva</a></small><br>
 		                    	<button id="btn_cover_gambar" class="btn btn-secondary btn-upload-gambar" type="button">
 		                    		<i class="la la-upload"></i> Upload Cover</button> 
 		                    	</p>
