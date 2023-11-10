@@ -65,7 +65,7 @@ class SkoringJob extends Command
              $this->call('skoring:penjurusan_kuliah');
              $this->call('skoring:peminatan_lengkap');
              $this->call('skoring:peminatan_sma_v2');
-             $this->call('skoring:penjurusan_kuliah_v2');
+             $this->call('skoring:penjurusan_kuliah_v2'); 
              $this->call('skoring:peminatan_smk_v2');
              $this->call('skoring:test_iq_dan_eq');
              $this->call('skoring:seleksi_karyawan');
@@ -73,9 +73,6 @@ class SkoringJob extends Command
              $this->call('skoring:penjurusan_kuliah_v3'); 
              $status = DB::table('status_cronjob')->update(['status'=>0]);
              $this->call('skoring:clear_table_jawaban');
-             
-
-
              echo "\n*********************************************************\n";
              echo "*********************************************************\n";
              echo "SKORING COMPELETED........\n";

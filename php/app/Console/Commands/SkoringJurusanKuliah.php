@@ -200,6 +200,14 @@ class SkoringJurusanKuliah extends Command
                             'jawaban'=>$jawaban[$urutan],
                             'skor'=>0
                         );
+
+                        DB::table('quiz_sesi_user_jawaban')
+                                ->where('id_user',$id_user)
+                                ->where('id_quiz',$id_quiz)
+                                ->where('kategori',$kategori)
+                                ->where('urutan',$urutan)
+                                ->delete();
+                                
                         DB::table('quiz_sesi_user_jawaban')->insert($record_jawaban);
                     }
                     //echo $this->space2."Berhasil Konversi Jawaban: ".$kategori."\n";
