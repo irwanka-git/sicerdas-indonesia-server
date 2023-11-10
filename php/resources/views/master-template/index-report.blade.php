@@ -95,7 +95,7 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
 				<p>
 					<a href="{{url('template-tes')}}" class="btn btn-secondary"> <i class="la la-arrow-left"></i> Kembali</a>
 					@if(ucu())
-					<a href="#" class="btn btn-warning pull-right" id="btn-create-dummy"> <i class="la la-cog"></i> Buat Sesi Dummy</a>
+					<a href="#" class="btn btn-warning pull-right" id="btn-create-dummy"> <i class="la la-cog"></i> Buat Data Dummy</a>
 					<a href="#" class="btn btn-success" data-uuid="{{$template->uuid}}" data-bs-toggle="modal" data-bs-target="#modal-saran"> <i class="la la-edit"></i> Ubah Saran</a>
 					<a href="#" class="btn btn-success" data-uuid="{{$template->uuid}}" data-bs-toggle="modal" data-bs-target="#modal-kertas"> <i class="la la-edit"></i> Ubah Ukuran Kertas ({{$template->kertas}})</a>
 					@endif
@@ -277,8 +277,8 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
 
 		confirmCreateDummy = function(){
 			$.confirm({
-					title: 'Buat sesi dummy',
-					content: "Buat sesi pengujian (dummy) untuk jenis tes ini. ",
+					title: 'Buat data dummy',
+					content: "Buat data pengujian (dummy) untuk jenis tes ini. ",
 					buttons: {
 						cancel: {
 							text: 'Batalkan'

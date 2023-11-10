@@ -44,13 +44,14 @@ class MasterTemplateTesController extends Controller
             $keyword = $search['value'];
             if(strlen($keyword)>=2){
                 $keyword = strtolower($keyword);
-                $filter = " and (  lower(a.nama_sesi) like '%$keyword%' or lower(a.kode) like '%$keyword%' ) ";
+                $filter = " and (lower(a.nama_sesi) like '%$keyword%' or lower(a.kode) like '%$keyword%') ";
             }   
         }
 
          $sql_union = "select a.id_quiz_template,  a.kode,
             a.nama_sesi, a.gambar,
             a.uuid, a.jenis, 
+            get_quiz_running_by_template(a.id_quiz_template) as quiz_using,
             count(b.id_sesi_master) as jumlah_sesi
             from quiz_sesi_template as a 
             left join quiz_sesi_detil_template as b 
@@ -66,6 +67,7 @@ class MasterTemplateTesController extends Controller
                         'id_quiz_template',
                         'kode',
                         'nama_sesi', 
+                        'quiz_using',
                         'gambar',
                         'jumlah_sesi', 
                         'jenis',
@@ -80,8 +82,11 @@ class MasterTemplateTesController extends Controller
 
                 $edit = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Ubah Jenis Tes"  data-bs-toggle="modal" data-uuid="'.$query->uuid.'" data-bs-target="#modal-edit" class="btn btn-light btn-sm" type="button"><ion-icon name="create-outline" btn></ion-icon></button>';
                 }
-                if($this->ucd()){
+                if($this->ucd() && $query->quiz_using == 0){
                     $delete = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Hapus Jenis Tes"   data-uuid="'.$query->uuid.'" class="btn btn-light btn-sm btn-konfirm-delete" type="button"><ion-icon name="trash-outline" btn></ion-icon></button>';
+                }
+                if($this->ucd() && $query->quiz_using > 0){
+                    $delete = '<button disabled="disabled" class="btn btn-light btn-sm" type="button"><ion-icon name="trash-outline" btn></ion-icon></button>';
                 }
                 $action =  $action." ".$edit." ".$delete;
                 if ($action==""){return '<a href="#" class="act"><i class="la la-lock"></i></a>'; }
@@ -90,8 +95,14 @@ class MasterTemplateTesController extends Controller
             ->editColumn('gambar', function ($q) {
                 if($q->gambar){
                     $gambar = basename($q->gambar).PHP_EOL;
-                  return '<button data-image="'.$q->gambar.'" class="btn btn-outline-secondary btn-outline btn-sm btn-view-image" type="button">'.$gambar.'</button>';
+                  return '<button data-image="'.$q->gambar.'" class="btn btn-outline-secondary btn-outline btn-sm btn-view-image" type="button"><i class="la la-image"></i> Lihat</button>';
                 }
+            })
+            ->editColumn('quiz_using', function ($q) {
+                if($q->quiz_using > 0){
+                  return '<button data-uuid="'.$q->uuid.'" class="btn btn-outline-success btn-using btn-outline btn-sm" type="button"><i class="la la-play"></i> '.$q->quiz_using.' Tes</button>';
+                }
+                return "";
             })
             ->editColumn('jumlah_sesi', function($q){
                 // return "<a href='".url('template-tes/detil/'.$q->uuid)."'>". $q->jumlah_sesi ." Sesi</a>";
@@ -105,8 +116,23 @@ class MasterTemplateTesController extends Controller
                  return $q->kode."-".$q->id_quiz_template;
             })
             ->addIndexColumn()
-            ->rawColumns(['action','jumlah_sesi','gambar','item_report'])
+            ->rawColumns(['action','jumlah_sesi','gambar','item_report','quiz_using'])
             ->make(true);
+    }
+
+    function view_using_template($uuid){
+        $template = DB::table('quiz_sesi_template')->where('uuid', $uuid)->first();
+        $id_quiz_template = $template->id_quiz_template;
+        $data = DB::select("select a.id_quiz,  a.token , a.nama_sesi , a.tanggal , b.nama_lokasi , c.nama_pengguna , r.name  as kota
+                            from quiz_sesi as a, lokasi as b, users as c , regencies  as r 
+                            where a.id_lokasi  = b.id_lokasi 
+                            and a.id_user_biro  = c.id 
+                            and b.kode_kabupaten  = r.id  
+                            and a.id_quiz_template  =  $id_quiz_template 
+                            and a.jenis  = 'quiz'
+                            and a.arsip = 0
+                            order by a.tanggal desc");
+        return view('master-template.using', compact('data'));
     }
 
     function get_data($uuid){
@@ -154,11 +180,17 @@ class MasterTemplateTesController extends Controller
             // $pernyataan = str_replace("<p>", "", $r->pernyataan);
             // $pernyataan = str_replace("</p>", "", $pernyataan);
             //return $pernyataan;
+           
+            $template = DB::table('quiz_sesi_template')->where('uuid', $uuid)->first();
+            $id_quiz_template = $template->id_quiz_template;
+            $cek = DB::select("select get_quiz_running_by_template($id_quiz_template) as using_quiz ");
+            $using_quiz = $cek[0]->using_quiz;
+
 	    	$record = array(
                 "kode"=>trim($r->kode),
                  "nama_sesi"=>trim($r->nama_sesi),
                   "gambar"=>trim($r->gambar),
-                  "jenis"=>trim($r->jenis),
+                  "jenis"=>$using_quiz == 0 ? trim($r->jenis) : $template->jenis,
                   "pendahuluan"=>trim($r->pendahuluan),
                 // "skoring_tabel"=>trim($r->skoring_tabel)
             );
@@ -211,6 +243,15 @@ class MasterTemplateTesController extends Controller
         if($this->ucd()){
             loadHelper('format');
             $uuid = $r->uuid;
+            $template = DB::table('quiz_sesi_template')->where('uuid', $uuid)->first();
+            $id_quiz_template = $template->id_quiz_template;
+            //cek template di pake di quiz dan sudah submit 
+            $cek = DB::select("select get_quiz_running_by_template($id_quiz_template) as using_quiz ");
+            if ($cek[0]->using_quiz > 0) {
+                //sudah digunakan
+                $respon = array('status'=>false,'message'=>'Jenis Tes ini Tidak Bisa Dihapus karna di gunakan pada sesi tes yang sudah berjalan');          
+                return response()->json($respon);
+            }
             DB::table('quiz_sesi_template')->where('uuid', $uuid)->delete();
             $respon = array('status'=>true,'message'=>'Data Berhasil Dihapus!');          
             return response()->json($respon);
@@ -225,8 +266,12 @@ class MasterTemplateTesController extends Controller
     function index_detil($uuid){
         $pagetitle = "Master Template Tes";
         $smalltitle = "Data Master Template Tes";
+       
         $template = DB::table('quiz_sesi_template')->where('uuid', $uuid)->first();
-        return view('master-template.index-detil', compact('pagetitle','smalltitle','template'));
+        $id_quiz_template = $template->id_quiz_template;
+        $using_quiz = DB::select("select get_quiz_running_by_template(a.id_quiz_template) as quiz_using from quiz_sesi_template as a where id_quiz_template = $id_quiz_template");
+        $using_quiz = $using_quiz[0]->quiz_using;
+        return view('master-template.index-detil', compact('pagetitle','smalltitle','template', 'using_quiz'));
     }
 
     function datatable_detil($uuid){
@@ -247,7 +292,8 @@ class MasterTemplateTesController extends Controller
                             a.urutan,
                             a.durasi,
                             a.kunci_waktu,
-                            b.nama_sesi_ujian, a.uuid
+                            b.nama_sesi_ujian, a.uuid,
+                            get_quiz_running_by_template(a.id_quiz_template) as quiz_using
                         FROM
                             quiz_sesi_detil_template AS a,
                             quiz_sesi_master AS b 
@@ -261,6 +307,7 @@ class MasterTemplateTesController extends Controller
                         'urutan',
                         'nama_sesi_ujian',
                         'kunci_waktu',
+                        'quiz_using',
                         'durasi',
                         'uuid',
                     ]);
@@ -273,7 +320,7 @@ class MasterTemplateTesController extends Controller
 
                     $edit = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Ubah Sesi"  data-bs-toggle="modal" data-uuid="'.$query->uuid.'" data-bs-target="#modal-edit" class="btn btn-light btn-sm" type="button"><ion-icon name="create-outline" btn></ion-icon></button>';
                     }
-                    if($this->ucd()){
+                    if($this->ucd() && $query->quiz_using == 0){
                         $delete = '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Hapus Sesi"   data-uuid="'.$query->uuid.'" class="btn btn-light btn-sm btn-konfirm-delete" type="button"><ion-icon name="trash-outline" btn></ion-icon></button>';
                     }
                     $action =  $action." ".$edit." ".$delete;
@@ -299,7 +346,14 @@ class MasterTemplateTesController extends Controller
         if($this->ucc()){
             loadHelper('format');
             $uuid = $this->genUUID();
-            
+            $id_quiz_template = (int) $r->id_quiz_template;
+            $cek = DB::select("select get_quiz_running_by_template($id_quiz_template) as using_quiz ");
+            if ($cek[0]->using_quiz > 0) {
+                //sudah digunakan
+                $respon = array('status'=>false,'message'=>'Sesi tidak bisa ditambahkan lagi karna JENIS TES ini telah di gunakan pada TES yang SUDAH BERJALAN');          
+                return response()->json($respon);
+            }
+
             $record = array( 
                 "id_quiz_template"=>$r->id_quiz_template,                                        
                 "urutan"=>(int)($r->urutan),
@@ -342,7 +396,20 @@ class MasterTemplateTesController extends Controller
     function submit_delete_detil(Request $r){
         if($this->ucu()){
             //loadHelper('format');
-            DB::table('quiz_sesi_detil_template')->where('uuid', $r->uuid)->delete();
+
+            $template = DB::table('quiz_sesi_detil_template')->where('uuid', $r->uuid)->first();
+            $id_quiz_template = $template->id_quiz_template;
+            $cek = DB::select("select count(b.id_user) as peserta from quiz_sesi as a, quiz_sesi_user as b , quiz_sesi_template as c 
+                        where a.id_quiz_template  = c.id_quiz_template  and b.id_user != 100
+                        and a.id_quiz  = b.id_quiz  and a.jenis ='quiz' and a.arsip = 0
+                        and c.id_quiz_template  = $id_quiz_template");
+            if ($cek[0]->peserta > 0) {
+                //sudah digunakan
+                $respon = array('status'=>false,'message'=>'Sesi tidak bisa dihapus karna JENIS TES ini telah di gunakan pada TES yang SUDAH BERJALAN');          
+                return response()->json($respon);
+            }
+
+            // DB::table('quiz_sesi_detil_template')->where('uuid', $r->uuid)->delete();
             $respon = array('status'=>true,'message'=>'Data Berhasil Dihapus!');
             return response()->json($respon);
         }else{

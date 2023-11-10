@@ -36,8 +36,10 @@ $list_sesi_master = DB::table('quiz_sesi_master')
 			</div>
 			<div class="card-body">
 				<a href="{{url('template-tes')}}" class="btn btn-secondary"> <i class="la la-arrow-left"></i> Kembali</a>
-				@if(ucc())
+				@if(ucc() && $using_quiz == 0)
 				{{Html::btnModal('<i class="la la-plus-circle"></i> Tambah Sesi','modal-tambah','primary')}}
+				<hr>
+				@else 
 				<hr>
 				@endif
 				<table id="datatable" class="table table-striped table-hover table-sm" style="width:100%">

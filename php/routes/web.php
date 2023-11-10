@@ -361,6 +361,7 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 	Route::group(['prefix'=>'template-tes'], function(){
 		Route::get('/', 'MasterTemplateTesController@index');
 		Route::get('/dt', 'MasterTemplateTesController@datatable_template');
+		Route::get('/using/{uuid}', 'MasterTemplateTesController@view_using_template');
 		Route::get('/get-data/{uuid}', 'MasterTemplateTesController@get_data');
 		Route::post('/insert', 'MasterTemplateTesController@submit_insert');
 		Route::post('/update', 'MasterTemplateTesController@submit_update');

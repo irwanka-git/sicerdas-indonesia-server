@@ -40,9 +40,10 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 							<th width="10%">Kode</th>
 							<th width="35%">Nama Jenis Tes</th>
 							<th width="10%">Jenis</th>
-							<th width="15%">Gambar</th>
-							<th width="15%">Sesi Tes</th>
-							<th width="15%">Komponen Laporan</th>							
+							<th width="10%">Gambar</th>
+							<th width="10%">Quiz/Tes</th>
+							<th width="15%">Sesi</th>
+							<th width="15%">Format</th>							
 							@if(ucu() || ucd())
 							<th width="10%">Actions</th>
 							@endif
@@ -88,6 +89,9 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 {{ Form::bsClose()}}
 @endif
 
+{{Html::mOpenLG('modal-using','Quiz/Tes yang menggunakan jenis tes ini.')}}
+	<div id="panel-using"   height="500px" width="100%" title=""></div>
+{{Html::mCloseLG()}}
 
 @if(ucu())
 <!-- MODAL FORM EDIT -->
@@ -150,6 +154,7 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 				{data: 'nama_sesi',name: "nama_sesi",orderable: false,searchable: false,sClass: ""},
 				{data: 'jenis',name: "jenis",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'gambar',name: "gambar",orderable: false,searchable: false,sClass: ""},
+				{data: 'quiz_using',name: "quiz_using",orderable: false,searchable: false,sClass: ""},
 				{data: 'jumlah_sesi',name: "jumlah_sesi",orderable: false,searchable: false,sClass: "text-center"},
 				{data: 'item_report',name: "item_report",orderable: false,searchable: false,sClass: "text-center"},
 				@if(ucu() || ucd())
@@ -166,6 +171,7 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 				initKonfirmDelete();
 				@endif
 				initViewGambar();
+				initViewUsing();
 			}
 		});
 
@@ -390,6 +396,17 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 					});
 			 	}
 			})
+		}
+
+		var initViewUsing = function(){
+			$('.btn-using').on('click', function(e) {
+				$uuid = $(this).data('uuid');
+				$("#panel-using").load("{{url($main_path)}}/using/" + $uuid, function(){
+					$("#datatable-using").DataTable();
+					$("#modal-using").modal('show');
+				})
+				
+			});
 		}
 	})
 </script>
