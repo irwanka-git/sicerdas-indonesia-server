@@ -179,7 +179,7 @@ func (*repo) GenerateJawaban(id_quiz int) ([]*entity.JawabanQuiz, error) {
 		if sesi.Mode == "RT" {
 			for s := 0; s < len(listSoalSesi); s++ {
 				if listSoalSesi[s].Kategori == sesi.Kategori {
-					min := 1
+					min := 3
 					max := 7
 					var jawaban = ""
 					for p := 0; p < sesi.PanjangJawaban; p++ {

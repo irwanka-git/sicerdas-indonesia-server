@@ -274,10 +274,35 @@ type ResultSkorKesehatanMental struct {
 	Skor        int    `json:"skor"`
 }
 
+type RefKlasifikasiKesehatanMental struct {
+	Nilai      int16  `gorm:"column:nilai;primaryKey" json:"nilai"`
+	Keterangan string `gorm:"column:keterangan" json:"keterangan"`
+	Tindakan   string `gorm:"column:tindakan" json:"tindakan"`
+}
+
 type ResultSkorSSCTRemaja struct {
 	Urutan      int32  `json:"id"`
 	Komponen    string `json:"komponen"`
 	Aspek       string `json:"aspek"`
 	Klasifikasi string `json:"klasifikasi"`
 	Span        int    `json:"span"`
+}
+
+type RefKlasifikasiKejiwaanDewasa struct {
+	Nilai      int16  `gorm:"column:nilai;primaryKey" json:"nilai"`
+	Keterangan string `gorm:"column:keterangan" json:"keterangan"`
+	Tindakan   string `gorm:"column:tindakan" json:"tindakan"`
+}
+
+type RefModelKejiwaanDewasa struct {
+	ID           int32  `gorm:"column:id;primaryKey" json:"id"`
+	Nama         string `gorm:"column:nama" json:"nama"`
+	FieldSkoring string `gorm:"column:field_skoring" json:"field_skoring"`
+}
+
+type ResultSkorKejiwaanDewasa struct {
+	Id          int32  `json:"id"`
+	Nama        string `json:"nama"`
+	Klasifikasi int    `json:"klasifikasi"`
+	Skor        int    `json:"skor"`
 }

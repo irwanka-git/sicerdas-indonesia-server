@@ -539,14 +539,28 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 		skoring = skala
 	}
 
-	if tabel_referensi == "skor_kesehatan_mental" {
-		skor, _ := reportRepository.GetSkorKesehatanMental(id_quiz, id_user)
-		skoring = skor
-	}
-
 	if tabel_referensi == "skor_ssct" {
 		skor, _ := reportRepository.GetSkorSSCTRemaja(id_quiz, id_user)
 		skoring = skor
+	}
+
+	if tabel_referensi == "skor_kesehatan_mental" {
+		skor, _ := reportRepository.GetSkorKesehatanMental(id_quiz, id_user)
+		klasifikasi, _ := reportRepository.GetKlasifikasiKesehatanMental()
+		var data = map[string]interface{}{
+			"skor":        skor,
+			"klasifikasi": klasifikasi,
+		}
+		skoring = data
+	}
+	if tabel_referensi == "skor_kejiwaan_dewasa" {
+		skor, _ := reportRepository.GetSkorKejiwaanDewasa(id_quiz, id_user)
+		klasifikasi, _ := reportRepository.GetKlasifikasiKejiwaanDewasa()
+		var data = map[string]interface{}{
+			"skor":        skor,
+			"klasifikasi": klasifikasi,
+		}
+		skoring = data
 	}
 
 	//skor gabungan

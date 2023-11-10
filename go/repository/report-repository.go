@@ -38,55 +38,42 @@ type ReportRepository interface {
 
 	GetSkoringKognitif(id_quiz int, id_user int) (*entity.SkorKognitif, error)
 	GetSkoringKognitifPMK(id_quiz int, id_user int) (*entity.SkorKognitif, error)
-
 	GetReferensiSekolahDinas() ([]*entity.RefSekolahDinas, error)
 	GetSkoringKuliahDinas(id_quiz int, id_user int) (*entity.SkorKuliahDinas, error)
-
 	GetReferensiKuliahIlmuAlam() ([]*entity.RefKuliahAlam, error)
 	GetSkoringKuliahAlam(id_quiz int, id_user int) (*entity.SkorKuliahAlam, error)
-
 	GetReferensiKuliahIlmuSosial() ([]*entity.RefKuliahSosial, error)
 	GetSkoringKuliahSosial(id_quiz int, id_user int) (*entity.SkorKuliahSosial, error)
-
 	GetReferensiKuliahIlmuAgama() ([]*entity.RefKuliahAgama, error)
 	GetSkoringKuliahAgama(id_quiz int, id_user int) (*entity.SkorKuliahAgama, error)
-
 	GetReferensiSuasanaKerja() ([]*entity.RefSuasanaKerja, error)
 	GetSkoringSuasanaKerja(id_quiz int, id_user int) (*entity.SkorSuasanaKerja, error)
-
 	GetReferensiSikapPelajaran() ([]*entity.RefSikapPelajaran, error)
 	GetSkoringSikapPelajaran(id_quiz int, id_user int) (*entity.SkorSikapPelajaran, error)
-
 	GetReferensiSikapPelajaranMK() ([]*entity.RefSikapPelajaranMK, error)
 	GetSkoringSikapPelajaranMK(id_quiz int, id_user int) (*entity.SkorSikapPelajaranMk, error)
-
 	GetReferensiMinatSMA() ([]*entity.RefPilihanMinatSma, error)
 	GetSkoringPeminatanSMA(id_quiz int, id_user int) (*entity.SkorPeminatanSma, error)
-
 	GetReferensiMinatMAN() ([]*entity.RefPilihanMinatMan, error)
 	GetSkoringPeminatanMAN(id_quiz int, id_user int) (*entity.SkorPeminatanMan, error)
-
 	GetReferensiMinatTMI() ([]*entity.RefPilihanMinatTMI, error)
 	GetSkoringPeminatanTMI(id_quiz int, id_user int) (*entity.SkorMinatIndonesium, error)
-
 	GetInterprestasiTipologiJung(kode string) (entity.InterprestasiTipologiJung, error)
 	GetSkoringMBTI(id_quiz int, id_user int) (*entity.SkorMbti, error)
-
 	GetKomponenKarakteristikPribadi() ([]*entity.RefKomponenKarakteristikPribadi, error)
 	GetSkoringKarakteristikPribadi(id_quiz int, id_user int) (*entity.SkorKarakteristikPribadi, error)
-
 	GetResultGayaPekerjaan(id_quiz int, id_user int) ([]*entity.ResultGayaPekerjaan, error)
 	GetSkoringGayaPekerjaan(id_quiz int, id_user int) (*entity.SkorGayaPekerjaan, error)
-
 	GetResultGayaBelajar(id_quiz int, id_user int) ([]*entity.ResultGayaBelajar, error)
-
 	GetResultPeminatanSMK(id_quiz int, id_user int) ([]*entity.ResultPeminatanSMK, error)
-
 	GetReferensiKecerdasanMajemuk() ([]*entity.RefKecerdasanMajemuk, error)
 	GetSkoringKecerdasanMajemuk(id_quiz int, id_user int) (*entity.SkorKecerdasanMajemuk, error)
 	GetSkorModeBelajar(id_quiz int, id_user int) ([]entity.ResultModeBelajar, error)
-	GetSkorKesehatanMental(id_quiz int, id_user int) ([]entity.ResultSkorKesehatanMental, error)
 	GetSkorSSCTRemaja(id_quiz int, id_user int) ([]*entity.ResultSkorSSCTRemaja, error)
+	GetKlasifikasiKesehatanMental() ([]*entity.RefKlasifikasiKesehatanMental, error)
+	GetKlasifikasiKejiwaanDewasa() ([]*entity.RefKlasifikasiKejiwaanDewasa, error)
+	GetSkorKesehatanMental(id_quiz int, id_user int) ([]entity.ResultSkorKesehatanMental, error)
+	GetSkorKejiwaanDewasa(id_quiz int, id_user int) ([]entity.ResultSkorKejiwaanDewasa, error)
 
 	//skoring gabungan
 	GetSkorRekomPeminatanSMA(id_quiz int, id_user int) (*entity.SkorRekomPeminatanSma, error)
@@ -635,6 +622,46 @@ func (*repo) GetSkorSSCTRemaja(id_quiz int, id_user int) ([]*entity.ResultSkorSS
 				where a.urutan  = b.urutan  and b.id_quiz  = ? and b.id_user = ?
 				order by a.urutan) as m where k.komponen = m.komponen order by m.urutan`, id_quiz, id_user).Scan(&result)
 	return result, nil
+}
+
+func (*repo) GetSkorKejiwaanDewasa(id_quiz int, id_user int) ([]entity.ResultSkorKejiwaanDewasa, error) {
+	var ref []*entity.RefModelKejiwaanDewasa
+	db.Table("ref_model_kejiwaan_dewasa").Order("id asc").Scan(&ref)
+	var skoring *entity.SkorKejiwaanDewasa
+	db.Table("skor_kejiwaan_dewasa").Where("id_quiz =?", id_quiz).Where("id_user =?", id_user).First(&skoring)
+
+	var result = []entity.ResultSkorKejiwaanDewasa{}
+	rv := reflect.ValueOf(skoring)
+	rt := rv.Elem().Type()
+	for i := 0; i < len(ref); i++ {
+		var temp = entity.ResultSkorKejiwaanDewasa{}
+		temp.Id = ref[i].ID
+		temp.Nama = ref[i].Nama
+		field_skor := ref[i].FieldSkoring
+		for n := 0; n < rt.NumField(); n++ {
+			if rt.Field(n).Tag.Get("json") == field_skor {
+				skorField := rt.Field(n).Name
+				field := strings.Replace(skorField, "Skor", "", -1)
+				nilaiField := "Nilai" + field
+				temp.Skor = int(reflect.Indirect(rv).FieldByName(skorField).Int())
+				temp.Klasifikasi = int(reflect.Indirect(rv).FieldByName(nilaiField).Int())
+			}
+		}
+		result = append(result, temp)
+	}
+	return result, nil
+}
+
+func (*repo) GetKlasifikasiKesehatanMental() ([]*entity.RefKlasifikasiKesehatanMental, error) {
+	var ref []*entity.RefKlasifikasiKesehatanMental
+	db.Table("ref_klasifikasi_kesehatan_mental").Order("nilai asc").Scan(&ref)
+	return ref, nil
+}
+
+func (*repo) GetKlasifikasiKejiwaanDewasa() ([]*entity.RefKlasifikasiKejiwaanDewasa, error) {
+	var ref []*entity.RefKlasifikasiKejiwaanDewasa
+	db.Table("ref_klasifikasi_kejiwaan_dewasa").Order("nilai asc").Scan(&ref)
+	return ref, nil
 }
 
 // skoring gabungan
