@@ -219,7 +219,7 @@ class UploadController extends Controller
 
     function upload_cover_biro_gambar(Request $request){
         $not_valid = $this->validate($request, [
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'cover' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $file = $request->file('cover');
