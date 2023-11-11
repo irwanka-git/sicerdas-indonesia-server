@@ -269,6 +269,41 @@ class UploadController extends Controller
         return response()->json($respon);   
     }
 
+    function upload_gambar_smk(Request $request){
+        $not_valid = $this->validate($request, [
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        $image = $request->file('image');
+        
+        $height = Image::make($image)->height();
+        $width = Image::make($image)->width();
+        if($height != $width){
+            $respon = array('status'=>false, 'message'=>'Ukuran gambar tidak sesuai, ukuran lebar dan tinggi harus sama');
+            return response()->json($respon);   
+        }
+
+        $filename= rand(100,999).time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path('/gambar');
+        $img = Image::make($image->getRealPath());
+        $height  = $img->height();
+        $width  = $img->width();
+        $img->fit(250,150)->save($destinationPath.'/'.$filename);
+
+        $data = file_get_contents($destinationPath.'/'.$filename);
+        $image_base64 = base64_encode($data);
+        $type = pathinfo($destinationPath.'/'.$filename, PATHINFO_EXTENSION);
+
+        DB::table('gambar')->insert(['filename'=>$filename, 
+                    'type'=>$type, 
+                    'image_base64'=>$image_base64]);   
+
+        $respon = array('status'=>true,
+                'url_image'=>url('gambar/'.$filename), 
+                'filename'=>$filename, 
+                'height'=>$height, 'width'=>$width);
+        return response()->json($respon);   
+    }
+
 
     function upload_excel(Request $request){
 
