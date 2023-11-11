@@ -64,7 +64,7 @@ Direkomendasikan untuk Siswa SMA, SMP maupun Mahasiswa
                                             <i class="mx-2 fa-brands fa-app-store"></i> 
                                              App Store
                                          </a>
-                                        <a class="btn btn-white fw-500 me-2" href="https://shorturl.at/ARWX1">
+                                        <a class="btn btn-white fw-500 me-2" href="https://drive.google.com/file/d/1gJnLT8EUaBx662-40XnmXiwjhodZ28eX/view?usp=sharing">
                                             <i class="mx-2 fa-brands fa-windows"></i> 
                                              Windows
                                          </a>
