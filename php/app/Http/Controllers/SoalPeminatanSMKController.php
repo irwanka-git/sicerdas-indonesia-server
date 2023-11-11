@@ -128,8 +128,16 @@ class SoalPeminatanSMKController  extends Controller
             $kegiatan = str_replace("<p>", "", $r->kegiatan);
             $kegiatan = str_replace("</p>", "", $kegiatan);
             //return $kegiatan;
+            //boleh update nomor jika belum ada di sesi mapping 
+            $smk = DB::table('soal_peminatan_smk')->where('uuid', $uuid)->first();
+            $id_kegiatan = $smk->id_kegiatan;
+            $current_nomor = $smk->nomor;
+
+            $cek = DB::select("select count(*) as using from quiz_sesi_mapping_smk  as a where a.id_kegiatan = $id_kegiatan");
+            $using = $cek[0]->using;
+            
 	    	$record = array(
-               "nomor"=>$r->nomor, 
+               "nomor"=>$using == 0 ?  $r->nomor : $current_nomor,
                 "kegiatan"=>trim($kegiatan), 
                 "keterangan"=>trim($r->keterangan), 
                 "deskripsi"=>trim($r->deskripsi), 
