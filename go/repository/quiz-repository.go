@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"irwanka/sicerdas/entity"
-	"os"
 	"strings"
 	"time"
 
@@ -90,6 +89,7 @@ func (*repo) GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error
 				a.gambar,
 				b.submit, 
 				b.status_hasil, 
+				b.firebase_url_report,
 				b.token_submit
 				`).
 		Joins("left join quiz_sesi_user as b on a.id_quiz = b.id_quiz").
@@ -98,8 +98,10 @@ func (*repo) GetStatusQuizUser(id int, token string) (*entity.QuizUserApi, error
 	if result.RowsAffected == 0 {
 		return nil, errors.New("data not found")
 	}
-	sicerdas_url := os.Getenv("URL_SICERDAS")
-	quiz.UrlResult = fmt.Sprintf("%v/result/%v", sicerdas_url, quiz.TokenSubmit)
+	// sicerdas_url := os.Getenv("URL_SICERDAS")
+	if quiz.StatusHasil == 1 {
+		quiz.UrlResult = quiz.FirebaseURLReport
+	}
 	return quiz, nil
 }
 

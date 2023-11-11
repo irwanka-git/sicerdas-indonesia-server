@@ -68,17 +68,18 @@ type QuizSesiDetilTemplate struct {
 }
 
 type QuizUserApi struct {
-	Open        int    `json:"open"`
-	Token       string `json:"token"`
-	NamaSesi    string `json:"nama_sesi"`
-	Lokasi      string `json:"lokasi"`
-	Tanggal     string `json:"tanggal"`
-	Gambar      string `json:"gambar"`
-	Submit      int    `json:"submit"`
-	TokenSubmit string `json:"token_submit"`
-	StatusHasil int    `json:"status_hasil"`
-	UrlResult   string `json:"url_result"`
-	JsonUrl     string `json:"json_url"`
+	Open              int    `json:"open"`
+	Token             string `json:"token"`
+	NamaSesi          string `json:"nama_sesi"`
+	Lokasi            string `json:"lokasi"`
+	Tanggal           string `json:"tanggal"`
+	Gambar            string `json:"gambar"`
+	Submit            int    `json:"submit"`
+	TokenSubmit       string `json:"token_submit"`
+	StatusHasil       int    `json:"status_hasil"`
+	FirebaseURLReport string `json:"firebase_url_report"`
+	UrlResult         string `json:"url_result"`
+	JsonUrl           string `json:"json_url"`
 }
 
 type QuizSesiMaster struct {
