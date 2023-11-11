@@ -420,6 +420,10 @@ $back_url = Request::get('back');
 {{ Form::bsHidden('uuid','') }}
 {{ Form::bsClose()}}
 
+{{ Form::bsOpen('form-publish-hasil-peserta',url($main_path."/publish-hasil-peserta-v2")) }}
+{{ Form::bsHidden('uuid','') }}
+{{ Form::bsClose()}}
+
 {{ Form::bsOpen('form-publish-all',url($main_path."/publish-all-peserta")) }}
 {{ Form::bsHidden('uuid',$quiz->uuid) }}
 {{ Form::bsClose()}}
@@ -912,6 +916,36 @@ $back_url = Request::get('back');
 					})
 			}
 			var initRemovePeserta = function(){
+				//versi 2
+				$(".btn-publish-hasil").on('click', function (e){
+					$uuid = $(this).data('uuid');
+					//alert($uuid);
+					$("#form-publish-hasil-peserta #uuid").val($uuid);
+					$.get("{{url($main_path.'/get-data-peserta')}}/" + $uuid, function(respon) {
+						if (respon.status) {
+							$.confirm({
+								title: 'Konfirmasi Publish',
+								content:  respon.informasi + '<br>Anda Yakin Ingin Publish Hasil Tes Peserta Ini?.',
+								buttons: {
+									cancel: {
+										text: 'Batalkan'
+									},
+									confirm: {
+										text: 'Ya, Publish',
+										btnClass: 'btn-success',
+										action: function() {
+											$("#form-publish-hasil-peserta").submit()
+										}
+									},
+								}
+							});
+						} else {
+							errorNotify(respon.message);
+						}
+					})
+
+				});
+
 				$(".btn-reset-sesi-peserta").on('click', function (e){
 					$uuid = $(this).data('uuid');
 					//alert($uuid);
@@ -987,6 +1021,21 @@ $back_url = Request::get('back');
 
 
 			$('#form-reset-peserta').ajaxForm({
+				beforeSubmit:function(){},
+				success:function($respon){
+					if ($respon.status==true){
+						  //$("#modal-upload-peserta").modal('hide');
+						  successNotify($respon.message);
+						  $tabel_peserta.ajax.reload(null, false);
+						}else{
+							errorNotify($respon.message);
+						}
+					},
+				error:function(){errorNotify('Terjadi Kesalahan!');}
+			}); 
+
+			//versi 2
+			$('#form-publish-hasil-peserta').ajaxForm({
 				beforeSubmit:function(){},
 				success:function($respon){
 					if ($respon.status==true){

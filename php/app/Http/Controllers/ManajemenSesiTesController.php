@@ -766,9 +766,14 @@ class ManajemenSesiTesController extends Controller
 
 
     function datatable_peserta($uuid){
-        
-        $quiz = DB::table('quiz_sesi')->select('id_quiz')->where('uuid', $uuid)->first();
+        $quiz = DB::table('quiz_sesi')->select('id_quiz','skoring_tabel')->where('uuid', $uuid)->first();
+        if ($quiz->skoring_tabel==""){
+            //versi 2
+            return $this->datatable_peserta_baru($uuid);
+        }
 
+        //versi 1
+        
         $filter = "";
         if (request()->has('search')) {
             $search = request('search');
@@ -912,6 +917,8 @@ class ManajemenSesiTesController extends Controller
                ])
             ->make(true);
     }
+
+    
 
     function datatable_tambah_peserta($uuid){
 
@@ -1576,8 +1583,7 @@ class ManajemenSesiTesController extends Controller
         $quiz = DB::table('quiz_sesi')->where('uuid', $uuid)->first();
         $table_skoring = $quiz->skoring_tabel;
         DB::table('quiz_sesi_user')->where('id_quiz', $quiz->id_quiz)->update(['skoring'=>0,'skoring_at'=>null,'status_hasil'=>0]);
-        DB::table($table_skoring)->where('id_quiz', $quiz->id_quiz)->delete();
-
+        // DB::table($table_skoring)->where('id_quiz', $quiz->id_quiz)->delete();
         $respon = array('status'=>true,'message'=>'Berhasil Batalkan Skoring Hasil Tes Peserta');
         return response()->json($respon);
     }
@@ -1627,11 +1633,7 @@ class ManajemenSesiTesController extends Controller
                  'no_seri'=>null,
                 );
             DB::table('quiz_sesi_user')->where('uuid', $uuid)->update($reset);
-            DB::table('quiz_sesi_user_jawaban')
-                    ->where('id_quiz', $peserta->id_quiz)
-                    ->where('id_user', $peserta->id_user)
-                    ->delete();
-            if($skoring_tabel !='non_skoring'){
+            if($skoring_tabel !='non_skoring' || $skoring_tabel !='' ){
                  DB::table($skoring_tabel)->where('id_quiz', $peserta->id_quiz)
                     ->where('id_user', $peserta->id_user)
                     ->delete();
@@ -1642,5 +1644,170 @@ class ManajemenSesiTesController extends Controller
             $respon = array('status'=>false,'message'=>'Akses Ditolak!');
             return response()->json($respon);
         }
+    }
+
+    //versi 2
+    function pubish_hasil_peserta_v2(Request $r){
+        // echo $r->uuid;
+        if($this->ucu()){
+            $uuid = $r->uuid;
+            $peserta = DB::table('quiz_sesi_user')->select('id_user','id_quiz','uuid')->where('uuid', $uuid)->first();
+            $quiz = DB::table('quiz_sesi')->where('id_quiz', $peserta->id_quiz)->first();
+            $id_quiz = $quiz->id_quiz;
+            $id_user = $peserta->id_user;
+            $id_model = $quiz->model_report;
+
+            ini_set('max_execution_time', '1300');
+            // export-report-peserta/{id_quiz}/{id_user}/{id_model}
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => env('GO_API_URL').'/export-report-peserta/'.$id_quiz .'/'.$id_user.'/'.$id_model,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTg1NTc3MDYsImlzcyI6Imh0dHBzOi8vc2ljZXJkYXMud2ViLmlkIiwianRpIjoiZGEyZWYwNTUtODYzNS00OTMyLWJmYTAtNmE0ODRiMTQ4MWU2IiwibmFtZSI6IkFkbWluaXN0cmF0b3IgU0NEIiwic3ViIjoiMjM1MzI2MjM2LTQzNzk0MzA3NTQ4IiwidXNlcm5hbWUiOiJhZG1pbiJ9.Bqb-aApPsbiOkStnt5M10-mc9pM8Ro5YSgDQhiZ5HmYOAogTuc5F9JTHoFhxVcsk2BY3bLkclH2kXoHpMJyPpA'
+                ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $data = json_decode($response);
+            return response()->json($data);
+
+        }
+    }
+
+    function datatable_peserta_baru($uuid){
+        $quiz = DB::table('quiz_sesi')->select('id_quiz')->where('uuid', $uuid)->first();
+        $filter = "";
+        if (request()->has('search')) {
+            $search = request('search');
+            $keyword = $search['value'];
+            if(strlen($keyword)>=2){
+                $keyword = strtolower($keyword);
+                $filter = " and (  lower(a.username) like '%$keyword%' or lower(a.nama_pengguna) like '%$keyword%'  ) ";
+            }   
+        }
+         $id_role_peserta = $this->id_role_peserta;
+         $id_quiz = $quiz->id_quiz;
+         $sql_union = "select x.* 
+                        from (
+                        select  a.uuid as id_user, a.avatar, 
+                                a.nama_pengguna, a.username, a.organisasi, 
+                                a.unit_organisasi,
+                                c.uuid , c.submit, c.status_hasil, c.token_submit,
+                                c.start_at, c.skoring, c.submit_at, c.skoring_at, c.no_seri, c.firebase_url_report
+                        from users as a, 
+                            user_role as b, 
+                            quiz_sesi_user as c
+                        where a.id = b.id_user 
+                                and b.id_role  = $id_role_peserta 
+                                and a.id  = c.id_user 
+                                and c.id_quiz = $id_quiz 
+                        $filter) as x ";
+        //return $sql_union;
+         $jumlah_peserta = DB::table('quiz_sesi_user')->where('id_quiz', $id_quiz)->count();
+         $rekap_status_peserta = DB::select("select 
+                                        sum(case when a.id_user > 0 then 1 else 0 end) as peserta,
+                                        sum(case when a.submit=1 then 1 else 0 end) as submit, 
+                                        sum(case when a.skoring=1 then 1 else 0 end) as skoring, 
+                                        sum(case when a.status_hasil=1 then 1 else 0 end) as publish 
+                                         from quiz_sesi_user as a 
+                                        where a.id_quiz = $id_quiz");
+        $rekap_status_peserta = $rekap_status_peserta[0];
+
+         $query = DB::table(DB::raw("($sql_union) as z order by start_at desc, submit_at desc, skoring_at desc, username asc"))
+                    ->select([
+                        'uuid',
+                        'username',
+                        'avatar',
+                        'nama_pengguna',
+                        'organisasi',
+                        'no_seri',
+                        'skoring_at',
+                        'firebase_url_report',
+                        'unit_organisasi',
+                        'submit',
+                        'id_user',
+                        'status_hasil',
+                        'token_submit',
+                        'start_at',
+                        'skoring',
+                    ]);
+
+         return Datatables::of($query)
+            ->addColumn('action', function ($query) {
+                    $bisa_publish = $query->status_hasil > 0 ? true : false;
+                    $reset_delete  = "";
+                    $publish = "";
+                    if($bisa_publish){
+                       $publish = '<a target="_blank" href="'.$query->firebase_url_report.'"
+                                    data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Download Hasil Tes" 
+                                        class="btn btn-light btn-sm"><ion-icon name="download-outline" btn></ion-icon></a>';
+                    }else{
+                        if ($query->submit == 1 && $query->skoring==1 && $query->status_hasil==0) {
+                            $publish =  '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Publish Hasil Tes Peserta"   data-uuid="'.$query->uuid.'"  
+                                        class="btn btn-light btn-sm btn-publish-hasil" type="button"><ion-icon name="document-outline" btn></ion-icon></button>';
+                        }
+                        $reset_delete =  '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Reset Sesi Peserta"  data-uuid="'.$query->uuid.'" class="btn btn-reset-sesi-peserta 
+                            btn-light btn-sm" type="button"><ion-icon name="repeat-outline"  btn></ion-icon></button>';
+                        $reset_delete .=  '<button data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Hapus Peserta"  data-uuid="'.$query->uuid.'" class="btn btn-remove-peserta 
+                            btn-light btn-sm" type="button"><ion-icon name="trash-outline"  btn></ion-icon></button>';
+                    }
+                    if($this->ucu()){
+                        return  '<div class="btn-group" role="group">'.$publish." ".$reset_delete.'</button>';
+                    }
+                    return '<a href="#" class="act"><i class="la la-lock"></i></a>';
+            })
+            ->addColumn('user', function ($q) {
+                  return '<div class="d-flex align-items-start">
+                            <img src="'.url("gambar/".$q->avatar).'" width="36" height="36" class="rounded-circle me-2">
+                            <div class="info-user">
+                            <small>'.$q->username.'</small>
+                            <br><a class="btn-view-user" data-id="'.$q->id_user.'">'.$q->nama_pengguna.'</a>
+                            </div>
+                        </div>';
+            })
+            ->addColumn('departement', function ($q) {
+                  return '<div class="info-user">
+                            <small>'.$q->unit_organisasi.'</small>
+                            <br>'.$q->organisasi.'
+                            </div>';
+            })
+            ->editColumn('start_at', function($q){
+                if($q->start_at){
+                    return '<ion-icon gr name="checkmark-outline"></ion-icon>';
+                }
+                return '<ion-icon name="time-outline"></ion-icon>';
+            })
+            ->editColumn('skoring', function($q){
+                if($q->skoring){
+                    return '<ion-icon gr name="checkmark-outline"></ion-icon>';
+                }
+                return '<ion-icon name="time-outline"></ion-icon>';
+            })
+            ->editColumn('submit', function($q){
+                if($q->submit){
+                    return '<ion-icon gr name="checkmark-outline"></ion-icon>';
+                }
+                return '<ion-icon name="time-outline"></ion-icon>';
+            })
+            ->editColumn('publish', function($q){
+                if($q->status_hasil==1){
+                    return '<ion-icon gr name="checkmark-outline"></ion-icon>';
+                }
+                return '<ion-icon name="time-outline"></ion-icon>';
+            })
+            ->addIndexColumn()
+            ->rawColumns(['action','user','start_at','skoring','submit','departement','publish'])
+            ->with([
+                    'jumlah_peserta' => $jumlah_peserta, 
+                    'rekap_status_peserta'=>$rekap_status_peserta
+               ])
+            ->make(true);
     }
 }

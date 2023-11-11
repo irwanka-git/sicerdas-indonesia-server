@@ -443,6 +443,9 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
  		Route::post('/upload-ttd', 'UploadController@upload_gambar_250_150');
  		Route::post('/upload-excel', 'UploadController@upload_excel');
  		Route::post('/publish-all-peserta', 'ManajemenSesiTesController@publish_all_peserta');
+		//versi 2
+		Route::post('/publish-hasil-peserta-v2', 'ManajemenSesiTesController@pubish_hasil_peserta_v2');
+		//end versi 2
  		Route::post('/batal-publish-all-peserta', 'ManajemenSesiTesController@batal_publish_all_peserta');
  		Route::post('/batal-skoring-all-peserta', 'ManajemenSesiTesController@batal_skoring_all_peserta');
  		Route::get('/generate-import-excel/{uuid}/{token}/{filename}', 'UploadController@generate_import_data_excel_peserta');
