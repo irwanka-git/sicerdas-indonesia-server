@@ -81,6 +81,24 @@ class ManajemenSesiMappingSMKController extends Controller
                 return response()->json($respon);
             }
 
+            //cek exist nomor
+            $smk = DB::table("soal_peminatan_smk")->where('id_kegiatan', $r->id_kegiatan)->first();
+
+            $nomor = $smk->nomor;
+
+            $cek = DB::select("select b.nomor  from quiz_sesi_mapping_smk as a, soal_peminatan_smk as b 
+            where a.id_kegiatan  = b.id_kegiatan  and a.id_quiz  =  $id_quiz");
+            $valid = true;
+            foreach ($cek as $c){
+                if ($c->nomor == $nomor){
+                    $valid = false;
+                }
+            } 
+            if (!$valid){
+                $respon = array('status'=>false,'message'=>'Pilihan: ' . $nomor .' sudah ditambahkan sebelumnya');
+                return response()->json($respon);
+            }
+
             $record = array(                                              
                 "id_quiz"=>(int)($id_quiz),
                 "id_kegiatan"=>(int)($r->id_kegiatan),
