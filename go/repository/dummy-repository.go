@@ -56,7 +56,7 @@ func (*repo) CreateDummySesiTemplate(id_quiz_template int) entity.QuizSesi {
 	quisDummy.Jenis = "quiz"
 	quisDummy.Token = token
 	quisDummy.Tanggal = time.Now()
-	quisDummy.NamaSesi = "DUMMY - " + quiz_sesi_template.NamaSesi
+	quisDummy.NamaSesi = "SAMPLE - " + quiz_sesi_template.NamaSesi
 	quisDummy.UUID = uuid.NewString()
 	quisDummy.Kota = "Jambi"
 	quisDummy.NamaAsesor = "JELPA PERIANTALO, M.Psi. Psi."
@@ -64,6 +64,7 @@ func (*repo) CreateDummySesiTemplate(id_quiz_template int) entity.QuizSesi {
 	quisDummy.IDUserBiro = 239
 	quisDummy.IDLokasi = 17
 	quisDummy.ModelReport = "-"
+	quisDummy.TtdAsesor = "6441696907725.png"
 	quisDummy.Gambar = "https://storage.googleapis.com/sicerdas-indonesia-service-repository/gambar/6091699310030.png"
 	db.Table("quiz_sesi").Create(&quisDummy)
 
