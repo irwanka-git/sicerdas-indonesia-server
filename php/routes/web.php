@@ -174,7 +174,7 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/insert', 'SoalPeminatanSMKController@submit_insert');
 		Route::post('/update', 'SoalPeminatanSMKController@submit_update');
 		Route::post('/delete', 'SoalPeminatanSMKController@submit_delete');
-		Route::post('/upload-gambar', 'UploadController@upload_gambar');
+		Route::post('/upload-gambar', 'UploadController@upload_gambar_smk');
 	});
 
 	//soal-sikap-pelajaran
