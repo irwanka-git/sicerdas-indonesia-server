@@ -136,6 +136,12 @@ class SoalPeminatanSMKController  extends Controller
             $cek = DB::select("select count(*) as using from quiz_sesi_mapping_smk  as a where a.id_kegiatan = $id_kegiatan");
             $using = $cek[0]->using;
             
+            if ($using > 0  && $current_nomor != trim($r->nomor) ){
+                $respon = array('status'=>false,'message'=>'Nomor Jurusan SMK Tidak Dapat diubah karna sudah digunakan pada sesi tes!', 
+	    		    '_token'=>csrf_token());
+        	        return response()->json($respon);
+            }
+
 	    	$record = array(
                "nomor"=>$using == 0 ?  $r->nomor : $current_nomor,
                 "kegiatan"=>trim($kegiatan), 
