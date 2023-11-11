@@ -287,7 +287,7 @@ class UploadController extends Controller
         $img = Image::make($image->getRealPath());
         $height  = $img->height();
         $width  = $img->width();
-        $img->fit(250,150)->save($destinationPath.'/'.$filename);
+        $img->fit(250,250)->save($destinationPath.'/'.$filename);
 
         $data = file_get_contents($destinationPath.'/'.$filename);
         $image_base64 = base64_encode($data);
