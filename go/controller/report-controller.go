@@ -345,6 +345,7 @@ func renderReportKomponenUtama(id_quiz int, id_user int, id_model string, nomor_
 	data := map[string]interface{}{
 		"komponen":  komponenReport,
 		"quiz":      quiz,
+		"tanggal":   helper.StringTimeTglIndo(quiz.Tanggal),
 		"user":      user,
 		"nomorSeri": nomor_seri,
 		"userBiro":  userBiro,
