@@ -1,6 +1,11 @@
 <center style="padding-top: 20px !important;">
     {{.skoring.quiz.Kota}}, {{.skoring.skoringAt}} <br>
-    Asesor,<br><p><small>DTO</small></p>
+    Asesor,
+    {{if eq .skoring.ttdAsesor "-"}}
+    <br><p><small>DTO</small></p>
+    {{else}}
+    <br><img src="/gambar/{{.skoring.ttdAsesor}}" height="40"/>
+    {{end}}
      <b>{{.skoring.quiz.NamaAsesor}}</b><br>
      <small>SIPP: {{.skoring.quiz.NomorSipp}}</small>
 </center>

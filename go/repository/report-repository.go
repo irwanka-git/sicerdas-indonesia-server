@@ -148,7 +148,7 @@ func (*repo) UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string, f
 
 func (*repo) GetDetilQuizCetak(id_quiz int) (*entity.QuizSesi, error) {
 	var quiz *entity.QuizSesi
-	db.Table("quiz_sesi as a").Select("a.token, a.id_quiz, a.nama_asesor, a.kota, a.nomor_sipp,  a.id_user_biro,  a.nama_sesi, a.id_quiz_template,  c.nama_lokasi as lokasi, a.tanggal").
+	db.Table("quiz_sesi as a").Select("a.token, a.ttd_asesor, a.id_quiz, a.nama_asesor, a.kota, a.nomor_sipp,  a.id_user_biro,  a.nama_sesi, a.id_quiz_template,  c.nama_lokasi as lokasi, a.tanggal").
 		Joins("left join lokasi as c on c.id_lokasi = a.id_lokasi").
 		Where("a.id_quiz = ?", id_quiz).
 		First(&quiz)

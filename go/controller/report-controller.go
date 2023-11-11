@@ -290,13 +290,18 @@ func renderReportKomponenUtama(id_quiz int, id_user int, id_model string, nomor_
 		if listKomponenUtama[i].TabelReferensi == "saran" {
 			skoring, _ = reportRepository.GetDetilQuizTemplate(int(quiz.IDQuizTemplate))
 		}
-
+		var ttd_asesor = "-"
+		if quiz.TtdAsesor != "" {
+			ttd_asesor = quiz.TtdAsesor
+		}
 		if listKomponenUtama[i].TabelReferensi == "ttd" {
 			ttdInfo := map[string]interface{}{
 				"quiz":      quiz,
 				"skoringAt": helper.StringTimeTglIndo(userQuiz.SkoringAt),
+				"ttdAsesor": ttd_asesor,
 			}
 			skoring = ttdInfo
+			fmt.Println(skoring)
 		}
 
 		data := map[string]interface{}{

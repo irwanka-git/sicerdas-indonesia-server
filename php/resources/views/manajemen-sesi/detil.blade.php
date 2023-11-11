@@ -916,7 +916,37 @@ $back_url = Request::get('back');
 					})
 			}
 			var initRemovePeserta = function(){
+				
+				
 				//versi 2
+				$(".btn-batalkan-publish-hasil-tes").on('click', function(e){
+					$uuid = $(this).data('uuid');
+					$.get("{{url($main_path.'/get-data-peserta')}}/" + $uuid, function(respon) {
+						if (respon.status) {
+							$.confirm({
+								title: 'Batalkan Publish',
+								content:  respon.informasi + '<br>Anda Yakin Ingin Batalkan Publish Hasil Tes Peserta Ini?.',
+								buttons: {
+									cancel: {
+										text: 'Tutup'
+									},
+									confirm: {
+										text: 'Ya, Batalkan',
+										btnClass: 'btn-danger',
+										action: function() {
+											$.post("{{url($main_path)}}/batalkan-publish-hasil-peserta-v2", {"uuid":$uuid, "_token":"{{csrf_token()}}"}, function($respon){
+												successNotify($respon.message);
+						  						$tabel_peserta.ajax.reload(null, false);
+											})
+										}
+									},
+								}
+							});
+						} else {
+							errorNotify(respon.message);
+						}
+					})
+				});
 				$(".btn-publish-hasil").on('click', function (e){
 					$uuid = $(this).data('uuid');
 					//alert($uuid);
@@ -943,7 +973,6 @@ $back_url = Request::get('back');
 							errorNotify(respon.message);
 						}
 					})
-
 				});
 
 				$(".btn-reset-sesi-peserta").on('click', function (e){

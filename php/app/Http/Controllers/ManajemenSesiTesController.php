@@ -769,7 +769,7 @@ class ManajemenSesiTesController extends Controller
         $quiz = DB::table('quiz_sesi')->select('id_quiz','skoring_tabel')->where('uuid', $uuid)->first();
         if ($quiz->skoring_tabel==""){
             //versi 2
-            return $this->datatable_peserta_baru($uuid);
+            return $this->datatable_peserta_versi_2($uuid);
         }
 
         //versi 1
@@ -1681,7 +1681,18 @@ class ManajemenSesiTesController extends Controller
         }
     }
 
-    function datatable_peserta_baru($uuid){
+    function batalkan_pubish_hasil_peserta_v2(Request $r){
+        if($this->ucu()){
+            $uuid = $r->uuid;
+            // $peserta = DB::table('quiz_sesi_user')->select('id_user','id_quiz','uuid')->where('uuid', $uuid)->first();
+            $record = array("status_hasil"=>0, "firebase_url_report"=>"");
+            DB::table('quiz_sesi_user')->where('uuid', $uuid)->update($record);
+            $respon = array('status'=>true,'message'=>'Publish Hasil Tes Peserta Berhasil Batalkan!');          
+            return response()->json($respon);
+        }
+    }
+
+    function datatable_peserta_versi_2($uuid){
         $quiz = DB::table('quiz_sesi')->select('id_quiz')->where('uuid', $uuid)->first();
         $filter = "";
         if (request()->has('search')) {
@@ -1745,7 +1756,11 @@ class ManajemenSesiTesController extends Controller
                     $reset_delete  = "";
                     $publish = "";
                     if($bisa_publish){
-                       $publish = '<a target="_blank" href="'.$query->firebase_url_report.'"
+                        if($this->ucu()){
+                            $publish .= '<button  data-uuid="'.$query->uuid.'" data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Batalkan Publish Hasil Tes" 
+                                        class="btn btn-light btn-sm btn-batalkan-publish-hasil-tes"><ion-icon name="return-down-back-outline" btn></ion-icon></button>';
+                        }
+                        $publish .= '<a target="_blank" href="'.$query->firebase_url_report.'"
                                     data-bs-tip="tooltip" data-bs-placement="top" data-bs-original-title="Download Hasil Tes" 
                                         class="btn btn-light btn-sm"><ion-icon name="download-outline" btn></ion-icon></a>';
                     }else{
