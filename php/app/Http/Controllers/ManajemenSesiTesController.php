@@ -1778,9 +1778,10 @@ class ManajemenSesiTesController extends Controller
                     }
                     return '<a href="#" class="act"><i class="la la-lock"></i></a>';
             })
+            //"https://ui-avatars.com/api/?background=5C31A8&color=fff&name=${user.nama_pengguna}"
             ->addColumn('user', function ($q) {
                   return '<div class="d-flex align-items-start">
-                            <img src="'.url("gambar/".$q->avatar).'" width="36" height="36" class="rounded-circle me-2">
+                            <img src="https://ui-avatars.com/api/?background=5C31A8&color=fff&name='.$q->nama_pengguna.'" width="36" height="36" class="rounded-circle me-2">
                             <div class="info-user">
                             <small>'.$q->username.'</small>
                             <br><a class="btn-view-user" data-id="'.$q->id_user.'">'.$q->nama_pengguna.'</a>
