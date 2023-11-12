@@ -53,10 +53,10 @@
                             <a href="{{url('/')}}" class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Layanan Tes</a>
+                            <a href="#feature" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Layanan Tes</a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Kontak Kami</a>
+                            <a href="#kontak" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Kontak Kami</a>
                         </li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@
     </header>
 
     <!-- Start block -->
-    <section class="bg-gradient-primary-to-secondary text-white">
+    <section id="feature" class="bg-gradient-primary-to-secondary text-white">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="mr-auto place-self-center lg:col-span-7">
                 <div  class="flex flex-row text-3xl py-8">
@@ -100,7 +100,7 @@
     <!-- End block --> 
     
     <!-- Start block -->
-    <section class="bg-white dark:bg-gray-800 pb-4">
+    <section  id="kontak"  class="bg-white dark:bg-gray-800 pb-4">
         <div class="max-w-screen-xl px-4 pb-8 mx-auto space-y-12">
                 <div class="text-gray-500 px-4 pt-8 sm:text-lg dark:text-gray-400">
                     <h4 class="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layanan Tes Psikotes</h4>
