@@ -464,6 +464,7 @@ func (*controller) PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Req
 	}
 
 	var listTemplate = []string{}
+	fmt.Println(model)
 
 	listTemplate = append(listTemplate, fmt.Sprintf("templates/%v/preview.html", model.Direktori))
 	listTemplateKomponen := helper.GetArrFilename(fmt.Sprintf("templates/%v/komponen/", model.Direktori))

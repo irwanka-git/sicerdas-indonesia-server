@@ -1,0 +1,98 @@
+@font-face {
+    font-family: Reguler;
+    src: url(../fonts/arial-mt-condensed.ttf);
+}
+
+body{
+    font-size: 10pt;
+    font-family: Reguler;    
+}
+
+body.report{
+    font-size: 1.1em !important;
+}
+
+p.p10{
+    padding-top: 15px !important;
+    line-height: 0.5em !important;
+    padding-bottom: 0px !important; 
+}
+
+.new-page {
+    page-break-before: always;
+}
+.text-center{
+    text-align: center;
+}
+
+
+.text-right{
+    text-align: right;
+}
+
+ .fa-check:before {
+    content: url(../images/check.png)
+ }
+
+ td.jf, p.jf, td.text-justify{
+    text-align: justify !important;
+ }
+
+thead { display: table-row-group }
+tfoot { display: table-row-group }
+tr.auto { page-break-inside: auto !important;}
+
+table { overflow: visible !important; }
+tfoot { display: table-row-group }
+tr { page-break-inside: avoid !important;}
+thead.repeat { display: table-header-group !important }
+.new-page {
+    page-break-before: always;
+}
+
+.bg-purple{
+    background-color: #5f2778 ;
+}
+.bg-purple-500{
+    background-color: #b766dd ;
+}
+
+.title-component{
+    display: block;
+    margin-bottom: 10px;
+}
+.badge{
+    padding: 4px;
+    text-align: center;
+    border-radius: 5px;
+    width: 30px !important;
+    display: inline-block;
+    margin-right: 2px;
+    line-height: 20px;
+    color: white;
+}
+
+.title{
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    border-radius: 5px;
+    display: inline-table; 
+    line-height: 20px; 
+    color: white;
+}
+
+.subtitle{
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 42px;
+    margin-top: 5px;
+    text-align: left;
+    border-radius: 5px;
+    display: block; 
+    line-height: 20px; 
+    width: 100%;
+    color: white;
+}

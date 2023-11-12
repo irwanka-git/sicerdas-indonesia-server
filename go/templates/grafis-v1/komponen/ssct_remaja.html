@@ -1,0 +1,43 @@
+<p class="p10"><b>{{.urutan}}. SSCT REMAJA MODIFIKASI</b><p>
+    <table class="table-x">
+        <thead>
+            <tr class="thead-primary">
+                <th class="text-center" width="15%" rowspan="2">Komponen</th>
+                <th class="text-center" width="25%" rowspan="2">Aspek</th>
+                <th class="text-center" colspan="5">Klasifikasi</th>
+            </tr>
+            <tr class="thead-primary"> 
+                <th class="text-center" width="12%">Sangat Negatif</th>
+                <th class="text-center" width="12%">Negatif</th>
+                <th class="text-center" width="12%">Netral</th>
+                <th class="text-center" width="12%">Positif</th>
+                <th class="text-center" width="12%">Sangat Positif</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{$current_kelompok :=""}} 
+            {{range $index,$sikap := .skoring }}
+            {{$kelompok := $sikap.Komponen}}
+            <tr>
+                {{if ne $kelompok $current_kelompok}}
+                    {{if eq $kelompok "KELUARGA"}}
+                        <td class="text-center" rowspan="{{$sikap.Span}}">{{replaceStrip $sikap.Komponen}}</td>
+                    {{end}}
+                    {{if eq $kelompok "KONSEP DIRI"}}
+                        <td class="text-center" rowspan="{{$sikap.Span}}">{{replaceStrip $sikap.Komponen}}</td>
+                    {{end}}
+                    {{if eq $kelompok "SEKOLAH"}}
+                        <td class="text-center" rowspan="{{$sikap.Span}}">{{replaceStrip $sikap.Komponen}}</td>
+                    {{end}}
+                {{end}}
+                <td class="text-left" >{{$sikap.Aspek}}</td>
+                <td class="text-center">{{ if eq $sikap.Klasifikasi "Sangat Negatif"}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $sikap.Klasifikasi "Negatif"}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $sikap.Klasifikasi "Netral"}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $sikap.Klasifikasi "Positif"}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $sikap.Klasifikasi "Sangat Positif"}} <i class="fa-check"></i> {{end}} </td>
+            </tr>
+            {{$current_kelompok = $sikap.Komponen}}
+            {{end}}
+        </tbody>
+    </table>

@@ -95,6 +95,8 @@ func main() {
 	r.Handle("/cover/*", http.StripPrefix("/cover/", fileCover))
 	fileGambar := http.FileServer(http.Dir("/var/www/html/public/gambar/"))
 	r.Handle("/gambar/*", http.StripPrefix("/gambar/", fileGambar))
+	fileImages := http.FileServer(http.Dir("/var/www/html/public/images/"))
+	r.Handle("/images/*", http.StripPrefix("/images/", fileImages))
 
 	r.Get("/preview-report-dummy/{uuid}", reportController.PreviewKomponenReportDummy)
 	r.Get("/preview-lampiran-dummy/{uuid}", reportController.PreviewLampiranReportDummy)

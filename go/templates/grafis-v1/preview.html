@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.nama_komponen}}</title>
+    <link rel="stylesheet" href="/static/css/grafis-v1.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/quill.css" type="text/css"/>
+</head>
+<body>  
+  {{if eq .blade "kognitif_kelas_10" }} {{template "kognitif_kelas_10.html" . }} {{end}}
+  {{if eq .blade "kognitif_kelas_12" }} {{template "kognitif_kelas_12.html" . }} {{end}}
+  {{if eq .blade "kuliah_dinas" }} {{template "kuliah_dinas.html" . }} {{end}}
+  {{if eq .blade "kuliah_alam" }} {{template "kuliah_alam.html" . }} {{end}}
+  {{if eq .blade "kuliah_sosial" }} {{template "kuliah_sosial.html" . }} {{end}}
+  {{if eq .blade "kuliah_agama" }} {{template "kuliah_agama.html" . }} {{end}}
+  {{if eq .blade "suasana_kerja" }} {{template "suasana_kerja.html" . }} {{end}}
+  {{if eq .blade "sikap_pelajaran_pmk" }} {{template "sikap_pelajaran_pmk.html" . }} {{end}}
+  {{if eq .blade "sikap_pelajaran" }} {{template "sikap_pelajaran.html" . }} {{end}}
+  {{if eq .blade "peminatan_sma" }} {{template "peminatan_sma.html" . }} {{end}}
+  {{if eq .blade "peminatan_smk" }} {{template "peminatan_smk.html" . }} {{end}}
+  {{if eq .blade "peminatan_man" }} {{template "peminatan_man.html" . }} {{end}}
+  {{if eq .blade "tmi" }} {{template "tmi.html" . }} {{end}}
+  {{if eq .blade "mbti" }} {{template "mbti.html" . }} {{end}}
+  {{if eq .blade "karakteristik_pribadi" }} {{template "karakteristik_pribadi.html" . }} {{end}}
+  {{if eq .blade "gaya_pekerjaan" }} {{template "gaya_pekerjaan.html" . }} {{end}}
+  {{if eq .blade "gaya_belajar" }} {{template "gaya_belajar.html" . }} {{end}}
+  {{if eq .blade "kecerdasan_majemuk" }} {{template "kecerdasan_majemuk.html" . }} {{end}}
+  {{if eq .blade "mode_belajar" }} {{template "mode_belajar.html" . }} {{end}}
+  {{if eq .blade "ssct_remaja" }} {{template "ssct_remaja.html" . }} {{end}}
+  {{if eq .blade "kesehatan_mental_id" }} {{template "kesehatan_mental_id.html" . }} {{end}}
+  {{if eq .blade "kejiwaan_dewasa_id" }} {{template "kejiwaan_dewasa_id.html" . }} {{end}}
+  
+  {{if eq .blade "newline" }} {{template "newline.html" . }} {{end}}
+  {{if eq .blade "newpage" }} {{template "newpage.html" . }} {{end}}
+  {{if eq .blade "saran" }} {{template "saran.html" . }} {{end}}
+  {{if eq .blade "ttd" }} {{template "ttd.html" . }} {{end}}
+
+  {{if eq .blade "rekom_peminatan_sma" }} {{template "rekom_peminatan_sma.html" . }} {{end}}
+  {{if eq .blade "rekom_kuliah_a" }} {{template "rekom_kuliah_a.html" . }} {{end}}
+  {{if eq .blade "rekom_kuliah_b" }} {{template "rekom_kuliah_b.html" . }} {{end}}
+</body>
+</html>

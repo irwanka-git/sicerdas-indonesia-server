@@ -1,0 +1,48 @@
+<p class="p10"><b>{{.urutan}}. SKALA KESEHATAN MENTAL</b><p>
+    <table class="table-x">
+        <thead>
+            <tr class="thead-primary">
+                <th class="text-center" width="5%" rowspan="2">No.</th>
+                <th class="text-center" width="25%" rowspan="2">Model</th>
+                <th class="text-center"  colspan="7">Klasifikasi / Kategori</th>
+            </tr>
+            <tr class="thead-primary"> 
+                <th class="text-center" width="10%">
+                    1<br><small>Sangat Baik</small>
+                </th>
+                <th class="text-center" width="10%">
+                    2<br><small>Baik</small>
+                </th>
+                <th class="text-center" width="10%">
+                    3<br><small>Agak Baik</small>
+                </th>
+                <th class="text-center" width="10%">
+                    4<br><small>Sedang</small>
+                </th>
+                <th class="text-center" width="10%">
+                    5<br><small>Agak Jelek</small>
+                </th>
+                <th class="text-center" width="10%">
+                    6<br><small>Jelek</small>
+                </th>
+                <th class="text-center" width="10%">
+                    7<br><small>Sangat Jelek</small>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range $index,$mode := .skoring.skor }}
+            <tr>
+                <td class="text-center">{{$mode.Id}}</td>
+                <td>{{$mode.Nama}}</td>
+                <td class="text-center">{{ if eq $mode.Klasifikasi 1}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $mode.Klasifikasi 2}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $mode.Klasifikasi 3}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $mode.Klasifikasi 4}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $mode.Klasifikasi 5}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $mode.Klasifikasi 6}} <i class="fa-check"></i> {{end}} </td>
+                <td class="text-center">{{ if eq $mode.Klasifikasi 7}} <i class="fa-check"></i> {{end}} </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>

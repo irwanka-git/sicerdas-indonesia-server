@@ -10,7 +10,7 @@ $main_path = Request::segment(1);
 loadHelper('akses,function');
 $list_model = DB::select("select nama as text, id as value from model_report order by id asc ");
 
-$list_report_query = DB::select("select nama_report as text, id_report as value , tabel_referensi,  tabel_terkait from quiz_sesi_report where jenis = 1 order by tabel_terkait desc");
+$list_report_query = DB::select("select nama_report as text, id_report as value , tabel_referensi,  tabel_terkait from quiz_sesi_report where jenis = 1 order by tabel_terkait desc, id_report asc");
 $tabel_sesi = array();
 foreach($sesi as $r){
     array_push($tabel_sesi, $r->tabel);
@@ -22,6 +22,7 @@ foreach ($list_model as $lm) {
 }
 
 $list_report = array();
+$list_other= array();
 foreach($list_report_query as $r){
 	$explode_terkait = explode(",", $r->tabel_terkait);
 	if (count($explode_terkait) > 1) {
@@ -40,12 +41,12 @@ foreach($list_report_query as $r){
 		}
 	}
     
-    if($r->tabel_referensi =="-" || $r->tabel_referensi =="saran" || $r->tabel_referensi =="ttd"){
-        array_push($list_report, $r);
+    if($r->tabel_terkait =="-"){
+        array_push($list_other, $r);
     }
 }
 $list_report = json_decode(json_encode($list_report));
-
+ 
 
 $list_lampiran_query = DB::select("select nama_report as text, id_report as value , tabel_referensi, tabel_terkait from quiz_sesi_report where jenis = 2 order by tabel_terkait desc");
 
@@ -106,7 +107,8 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
 						{{ Form::bsSelect2('Pilih Model Report','id_model_select',$list_model_report,'',false,'md-8')}} 
 						<hr>
                         @if(ucc())
-                        {{Html::btnModal('<i class="la la-plus-circle"></i> Tambah Komponen','modal-tambah','primary')}}
+                        {{Html::btnModal('<i class="la la-plus-circle"></i> Komponen','modal-tambah','primary')}}
+                        {{Html::btnModal('<i class="la la-plus-circle"></i> Lainnya','modal-tambah-lain','secondary')}}
 						 @endif
                         <div id="komponen-laporan"></div>
 						<hr>
@@ -150,6 +152,14 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
 		{{ Form::bsHidden('id_quiz_template',$template->id_quiz_template) }} 
 		{{ Form::bsHidden('model',"-") }} 
 		{{ Form::bsSelect2('Komponen','id_report',$list_report,'',true,'md-8')}} 
+	{{Html::mCloseSubmitLG('Simpan')}}
+{{ Form::bsClose()}}
+<!-- MODAL FORM TAMBAH -->
+{{ Form::bsOpen('form-tambah-lain',url($main_path."/insert-report")) }}
+	{{Html::mOpenLG('modal-tambah-lain','Tambah Lainnya')}}
+		{{ Form::bsHidden('id_quiz_template',$template->id_quiz_template) }} 
+		{{ Form::bsHidden('model',"-") }} 
+		{{ Form::bsSelect2('Komponen','id_report',$list_other,'',true,'md-8')}} 
 	{{Html::mCloseSubmitLG('Simpan')}}
 {{ Form::bsClose()}}
 
@@ -242,6 +252,7 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
                 initKonfirmDelete();
                 initPreview();
 				$("#form-tambah #model").val($model);
+				$("#form-tambah-lain #model").val($model);
 				$("#form-export #id_model").val($model);
             })
         }
@@ -347,7 +358,7 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
 			$("#form-saran").clearForm(); 
 			$('#form-saran #judul_saran').val('')
 			$("#isi_edit .ql-editor").html('');
-			disableButton("#form-tambah button[type=submit]");
+			disableButton("#form-saran button[type=submit]");
 			$uuid = $(e.relatedTarget).data('uuid');
 			$.get("{{url($main_path.'/get-data')}}/" + $uuid, function(respon) {
 				if (respon.status) {
@@ -446,6 +457,35 @@ $list_kertas = json_decode(json_encode(array(["value"=>"A4", "text"=>"A4"], ["va
 			error: function() {
 				$("#form-tambah button[type=submit]").button('reset');
 				$("#modal-tambah").modal('hide');
+				errorNotify('Terjadi Kesalahan!');
+			}
+		});
+
+		$validator_form_tambah_lain = $("#form-tambah-lain").validate();
+		$("#modal-tambah-lain").on('show.bs.modal', function(e) {
+			$validator_form_tambah_lain.resetForm();
+			$("#form-tambah-lain").clearForm(); 
+			$('#form-tambah-lain #id_report').selectize()[0].selectize.clear(); 
+			enableButton("#form-tambah-lain button[type=submit]")
+		});
+
+		$('#form-tambah-lain').ajaxForm({
+			beforeSubmit: function() {
+				disableButton("#form-tambah-lain button[type=submit]")
+			},
+			success: function($respon) {
+				if ($respon.status == true) {
+					$("#modal-tambah-lain").modal('hide');
+					successNotify($respon.message);
+					reloadKomponen();
+				} else {
+					errorNotify($respon.message);
+				}
+				enableButton("#form-tambah-lain button[type=submit]")
+			},
+			error: function() {
+				$("#form-tambah-lain button[type=submit]").button('reset');
+				$("#modal-tambah-lain").modal('hide');
 				errorNotify('Terjadi Kesalahan!');
 			}
 		});

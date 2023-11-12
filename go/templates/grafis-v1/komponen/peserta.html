@@ -1,0 +1,40 @@
+<table width="100%">
+    <tr>
+        <td width="15%">ID</td>
+        <td>:</td>
+        <td width="35%">{{.user.Username}}</td>
+        <td width="15%">Organisasi</td>
+        <td>:</td>
+        <td width="35%">{{ .user.Organisasi}}</td>
+    </tr>
+    <tr>
+        <td>Nama</td>
+        <td>:</td>
+        <td>{{.user.NamaPengguna}}</td>
+        <td>Kelas/Sub</td>
+        <td>:</td>
+        <td>{{.user.UnitOrganisasi}}</td>
+    </tr>
+    <tr>
+        <td>Jenis Kelamin</td>
+        <td>:</td>
+        {{if eq .user.JenisKelamin "L"}}
+        <td>Laki-Laki</td>
+        {{else if eq .user.JenisKelamin "M"}}
+        <td>Laki-Laki</td>
+        {{else}}
+        <td>Perempuan</td>
+        {{end}}
+        <td>Lokasi Tes</td>
+        <td>:</td>
+        <td>{{.quiz.Lokasi}}</td>
+    </tr>
+    <tr>
+        <td>Tanggal</td>
+        <td>:</td>
+        <td>{{.tanggal}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
