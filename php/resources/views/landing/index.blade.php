@@ -65,7 +65,7 @@
     </header>
 
     <!-- Start block -->
-    <section id="feature" class="bg-gradient-primary-to-secondary text-white">
+    <section class="bg-gradient-primary-to-secondary text-white">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="mr-auto place-self-center lg:col-span-7">
                 <div  class="flex flex-row text-3xl py-8">
@@ -100,7 +100,7 @@
     <!-- End block --> 
     
     <!-- Start block -->
-    <section  id="kontak"  class="bg-white dark:bg-gray-800 pb-4">
+    <section  id="feature"  class="bg-white dark:bg-gray-800 pb-4">
         <div class="max-w-screen-xl px-4 pb-8 mx-auto space-y-12">
                 <div class="text-gray-500 px-4 pt-8 sm:text-lg dark:text-gray-400">
                     <h4 class="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layanan Tes Psikotes</h4>
@@ -130,7 +130,7 @@
         </div>
       </section>
 
-      <section class="bg-gray-50 dark:bg-gray-800 pb-4 pt-8">
+      <section id="kontak" class="bg-gray-50 dark:bg-gray-800 pb-4 pt-8">
         <div class="max-w-screen-xl px-4 pb-8 mx-auto">
             <h4 class="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Kontak Kami</h4>
             <p class="mb-8 font-light lg:text-xl">Informasi Lebih Lanjut dapat hubungi kami:</p>
