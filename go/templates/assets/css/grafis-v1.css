@@ -60,6 +60,7 @@ thead.repeat { display: table-header-group !important }
 div.box-header{
     padding-left:5px;
     padding-right:5px;
+    margin-top: 20px;
 }
 
 div.box-title { 
