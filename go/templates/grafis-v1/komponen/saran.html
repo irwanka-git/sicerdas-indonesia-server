@@ -1,17 +1,18 @@
 <p>&nbsp;</p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="100%" rowspan="2">{{.skoring.JudulSaran}}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="auto">
-            <td class="jf">
-                <div class="ql-editor">
-                    {{unscapeHTML .skoring.IsiSaran}}
-                </div> 
-            </td>
-        </tr>
-    </tbody>
+<div class="box-header">
+    <div class="bg-indigo-hot box-title">
+        <b>{{.skoring.JudulSaran}}</b>
+    </div>
+</div>
+
+<div class="box-content">
+<table width="100%" cellpadding="0" cellspacing="5">
+    <tr>
+        <td class="cell-info-compact bg-row text-justify">
+            <div class="ql-editor">
+                {{unscapeHTML .skoring.IsiSaran}}
+            </div> 
+        </td>
+    </tr>
 </table>
+</div>
