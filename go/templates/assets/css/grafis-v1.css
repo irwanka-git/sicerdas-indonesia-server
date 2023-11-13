@@ -57,42 +57,23 @@ thead.repeat { display: table-header-group !important }
     background-color: #b766dd ;
 }
 
-.title-component{
-    display: block;
-    margin-bottom: 10px;
+div.box-header{
+    padding-left:5px;
+    padding-right:5px;
 }
-.badge{
-    padding: 4px;
-    text-align: center;
-    border-radius: 5px;
-    width: 30px !important;
+
+div.box-title { 
     display: inline-block;
-    margin-right: 2px;
-    line-height: 20px;
-    color: white;
-}
+    color:  white !important;
+    margin-bottom: 2px;
+    padding: 8px;
+} 
 
-.title{
-    padding: 4px;
-    padding-left: 10px;
+div.box-subtitle { 
+    display: block;
+    color:  white !important;
+    padding:5px;
     padding-right: 10px;
-    text-align: left;
-    border-radius: 5px;
-    display: inline-table; 
-    line-height: 20px; 
-    color: white;
-}
-
-.subtitle{
-    padding: 4px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 42px;
-    margin-top: 5px;
-    text-align: left;
-    border-radius: 5px;
-    display: block; 
-    line-height: 20px; 
-    width: 100%;
-    color: white;
-}
+    font-size: 0.9em !important; 
+} 
+  

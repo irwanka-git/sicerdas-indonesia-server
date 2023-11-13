@@ -111,6 +111,7 @@ func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Requ
 	_, err2 := exCover.Output()
 	// fmt.Println(string(out))
 	if err2 != nil {
+		//fmt.Println((err2))
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err2.Error()})
 		return
 	}
