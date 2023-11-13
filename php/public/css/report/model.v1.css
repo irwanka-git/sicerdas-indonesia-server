@@ -109,7 +109,6 @@ table {
   border-radius: 0px;
   padding-right: 15px;
   border: 2px solid #5D1298;
-  
 }
 
 
@@ -629,11 +628,10 @@ tr > td.box-cell-info-009 {
 }
 
 .bg-fil-009-sangat-negatif {
-     background: -webkit-linear-gradient(right, #f37594  0%,  #d9385b    100%) !important;
-    position: relative;
+  background: -webkit-linear-gradient(right, #f37594  0%,  #d9385b    100%) !important;
+  position: relative;
    text-align: center !important;
-   left: 0% !important;
-   text-weight:bold;
+  left: 0% !important;
    color: #080c07 !important;
 }
  

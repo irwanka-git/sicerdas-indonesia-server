@@ -1,17 +1,22 @@
- <p class="p10"><b>{{.urutan}}. MINAT JURUSAN KULIAH SAINS TEKNOLOGI</b><p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="10%">Urutan</th>
-            <th width="90%">Keterangan</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="box-header">
+    <div class="bg-blue-dark box-title ">
+        <b>MINAT JURUSAN KULIAH SAINS TEKNOLOGI&nbsp;&nbsp;</b>
+    </div> 
+    <div class="bg-canvas box-subtitle ">
+        <b>Urutan nomor 1 (satu) adalah jurusan kuliah yang paling dominan, urutan momor 2 (dua) adalah jurusan
+            kuliah kedua yang dominan. Begitupun yang seterusnya</b>
+    </div>
+</div>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
         {{range $index,$minat := .skoring }}
         <tr>
-            <td class="text-center">{{inc $index}}</td>
-            <td class="text-justify"><b>{{$minat.Minat}}</b> - {{$minat.DeskripsiMinat}} </td>
+            <td width="5%" class="cell-icon bg-blue-dark" valign="align-middle"><b>{{inc $index}}</b></td>
+            <td width="10%" class="cell-icon bg-blue-dark" valign="align-middle">
+                <img src="{{$minat.Gambar}}" height="80px">
+            </td>
+            <td width="85%" class="cell-info-compact bg-row text-justify"><b>{{$minat.Minat}}</b> - {{$minat.DeskripsiMinat}} </td>
         </tr>
         {{end}}
-    </tbody>
-</table>
+    </table>
+</div>

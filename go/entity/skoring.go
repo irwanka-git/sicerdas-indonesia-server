@@ -65,6 +65,12 @@ type SkorRekomendasi struct {
 	Rekomendasi string `json:"rekomendasi"`
 }
 
+type RefBidangKognitif struct {
+	NamaBidang   string `gorm:"column:nama_bidang;primaryKey" json:"nama_bidang"`
+	FieldSkoring string `gorm:"column:field_skoring" json:"field_skoring"`
+	Deskripsi    string `gorm:"column:deskripsi" json:"deskripsi"`
+}
+
 type SkorKognitif struct {
 	ID            int64   `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	IDUser        int32   `gorm:"column:id_user" json:"id_user"`

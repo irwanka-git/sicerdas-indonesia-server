@@ -1,88 +1,201 @@
 <div class="box-header">
 	<div class="bg-purple box-title ">
-		<b>PROFIL KEMAMPUAN KOGNITIF</b>
+		<b>PROFIL KEMAMPUAN KOGNITIF&nbsp;&nbsp;</b>
 	</div> 
-	<div class="bg-purple-500 box-subtitle ">
-		<b>Kecerdasan Umum (IQ) = {{.skoring.SkorIq}} | Klasifikasi: {{ .skoring.KlasifikasiIq}}</b>
+	<div class="bg-canvas box-subtitle ">
+		<b>Kecerdasan Umum (IQ) = {{.skoring.data.SkorIq}} | Klasifikasi: {{ .skoring.data.KlasifikasiIq}}</b>
 	</div>
 </div>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
+        <tr>
+            <td width="5%" class="cell-icon bg-purple-icon" valign="align-middle">
+                <img src="/images/icon/tpa_iu.png" height="80px">
+            </td>
+            <td width="95%" class="bg-row cell-info" valign="align-middle">
+                <b>INFORMASI UMUM</b> <br>
+                {{.skoring.ref.tpa_iu}}<br>
+                <div class="progress-bar">
+                    {{ if eq .skoring.data.KlasifikasiIu "SANGAT RENDAH"}}
+					<span class="progress-fill-purple" style="width: 20%;"> SANGAT RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiIu "RENDAH"}}
+					<span class="progress-fill-purple" style="width: 40%;"> RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiIu "SEDANG"}}
+					<span class="progress-fill-purple" style="width: 60%;"> SEDANG</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiIu "TINGGI"}}
+					<span class="progress-fill-purple" style="width: 80%;"> TINGGI</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiIu "SANGAT TINGGI"}}
+					<span class="progress-fill-purple" style="width: 100%;"> TINGGI</span>
+                    {{ end }}
+				</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="5%" class="cell-icon bg-purple-icon" valign="align-middle">
+                <img src="/images/icon/tpa_pv.png" height="80px">
+            </td>
+            <td width="95%" class="bg-row cell-info" valign="align-middle">
+                <b>PENALARAN VERBAL</b> <br>
+                {{.skoring.ref.tpa_pv}}<br>
+                <div class="progress-bar">
+                    {{ if eq .skoring.data.KlasifikasiPv "SANGAT RENDAH"}}
+					<span class="progress-fill-purple" style="width: 20%;"> SANGAT RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPv "RENDAH"}}
+					<span class="progress-fill-purple" style="width: 40%;"> RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPv "SEDANG"}}
+					<span class="progress-fill-purple" style="width: 60%;"> SEDANG</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPv "TINGGI"}}
+					<span class="progress-fill-purple" style="width: 80%;"> TINGGI</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPv "SANGAT TINGGI"}}
+					<span class="progress-fill-purple" style="width: 100%;"> TINGGI</span>
+                    {{ end }}
+				</div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="5%" class="cell-icon bg-purple-icon" valign="align-middle">
+                <img src="/images/icon/tpa_pk.png" height="80px">
+            </td>
+            <td width="95%" class="bg-row cell-info" valign="align-middle">
+                <b>PENALARAN KUANTITATIF</b> <br>
+                {{.skoring.ref.tpa_pk}}<br>
+                <div class="progress-bar">
+                    {{ if eq .skoring.data.KlasifikasiPk "SANGAT RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 20%;"> SANGAT RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPk "RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 40%;"> RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPk "SEDANG"}}
+                    <span class="progress-fill-purple" style="width: 60%;"> SEDANG</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPk "TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 80%;"> TINGGI</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPk "SANGAT TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 100%;"> TINGGI</span>
+                    {{ end }}
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="5%" class="cell-icon bg-purple-icon" valign="align-middle">
+                <img src="/images/icon/tpa_pa.png" height="80px">
+            </td>
+            <td width="95%" class="bg-row cell-info" valign="align-middle">
+                <b>PENALARAN ABSTRAK</b> <br>
+                {{.skoring.ref.tpa_pa}}<br>
+                <div class="progress-bar">
+                    {{ if eq .skoring.data.KlasifikasiPa "SANGAT RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 20%;"> SANGAT RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPa "RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 40%;"> RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPa "SEDANG"}}
+                    <span class="progress-fill-purple" style="width: 60%;"> SEDANG</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPa "TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 80%;"> TINGGI</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPa "SANGAT TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 100%;"> TINGGI</span>
+                    {{ end }}
+                </div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td width="5%" class="cell-icon bg-purple-icon" valign="align-middle">
+                <img src="/images/icon/tpa_ps.png" height="80px">
+            </td>
+            <td width="95%" class="bg-row cell-info" valign="align-middle">
+                <b>PENALARAN SPASIAL</b> <br>
+                {{.skoring.ref.tpa_ps}}<br>
+                <div class="progress-bar">
+                    {{ if eq .skoring.data.KlasifikasiPs "SANGAT RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 20%;"> SANGAT RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPs "RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 40%;"> RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPs "SEDANG"}}
+                    <span class="progress-fill-purple" style="width: 60%;"> SEDANG</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPs "TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 80%;"> TINGGI</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPs "SANGAT TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 100%;"> TINGGI</span>
+                    {{ end }}
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="5%" class="cell-icon bg-purple-icon" valign="align-middle">
+                <img src="/images/icon/tpa_pm.png" height="80px">
+            </td>
+            <td width="95%" class="bg-row cell-info" valign="align-middle">
+                <b>PENGERTIAN MEKANIKA</b> <br>
+                {{.skoring.ref.tpa_pm}}<br>
+                <div class="progress-bar">
+                    {{ if eq .skoring.data.KlasifikasiPm "SANGAT RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 20%;"> SANGAT RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPm "RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 40%;"> RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPm "SEDANG"}}
+                    <span class="progress-fill-purple" style="width: 60%;"> SEDANG</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPm "TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 80%;"> TINGGI</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiPm "SANGAT TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 100%;"> TINGGI</span>
+                    {{ end }}
+                </div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td width="5%" class="cell-icon bg-purple-icon" valign="align-middle">
+                <img src="/images/icon/tpa_kt.png" height="80px">
+            </td>
+            <td width="95%" class="bg-row cell-info" valign="align-middle">
+                <b>KETELITIAN</b> <br>
+                {{.skoring.ref.tpa_kt}}<br>
+                <div class="progress-bar">
+                    {{ if eq .skoring.data.KlasifikasiKt "SANGAT RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 20%;"> SANGAT RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiKt "RENDAH"}}
+                    <span class="progress-fill-purple" style="width: 40%;"> RENDAH</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiKt "SEDANG"}}
+                    <span class="progress-fill-purple" style="width: 60%;"> SEDANG</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiKt "TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 80%;"> TINGGI</span>
+                    {{ end }}
+                    {{ if eq .skoring.data.KlasifikasiKt "SANGAT TINGGI"}}
+                    <span class="progress-fill-purple" style="width: 100%;"> TINGGI</span>
+                    {{ end }}
+                </div>
+            </td>
+        </tr>
  
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="30%" rowspan="2">Aspek Kognitif</th>
-            <th class="text-center"  colspan="5">Klasifikasi</th>
-        </tr>
-        <tr class="thead-primary"> 
-            <th class="text-center" width="14%">Sangat Rendah</th>
-            <th class="text-center" width="14%">Rendah</th>
-            <th class="text-center" width="14%">Sedang</th>
-            <th class="text-center" width="14%">Tinggi</th>
-            <th class="text-center" width="14%">Sangat Tinggi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>01. Informasi Umum</td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiIu "SANGAT RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiIu "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiIu "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiIu "TINGGI"}} <i class="fa-check"></i>{{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiIu "SANGAT TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        <tr>
-            <td>02. Penalaran Verbal</td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPv "SANGAT RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPv "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPv "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPv "TINGGI"}} <i class="fa-check"></i>{{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPv "SANGAT TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        <tr>
-            <td>03. Penalaran Kuantitatif</td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPk "SANGAT RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPk "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPk "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPk "TINGGI"}} <i class="fa-check"></i>{{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPk "SANGAT TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        <tr>
-            <td>04. Penalaran Abstrak</td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPa "SANGAT RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPa "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPa "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPa "TINGGI"}} <i class="fa-check"></i>{{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPa "SANGAT TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        <tr>
-            <td>05. Penalaran Spasial</td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPs "SANGAT RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPs "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPs "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPs "TINGGI"}} <i class="fa-check"></i>{{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPs "SANGAT TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        <tr>
-            <td>06. Pengertian Mekanika</td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPm "SANGAT RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPm "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPm "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPm "TINGGI"}} <i class="fa-check"></i>{{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiPm "SANGAT TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        <tr>
-            <td>06. Cepat/Teliti</td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiKt "SANGAT RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiKt "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiKt "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiKt "TINGGI"}} <i class="fa-check"></i>{{end}} </td>
-            <td class="text-center">{{ if eq .skoring.KlasifikasiKt "SANGAT TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        <tr>
-            <td>Kecerdasan Umum (IQ-konversi)</td>
-            <td colspan="5">
-				Skor: {{.skoring.SkorIq}} &nbsp;&nbsp;|&nbsp;&nbsp; Klasifikasi: {{ .skoring.KlasifikasiIq}}
-			</td>
-        </tr>
-    </tbody>
-</table>
+    </table>
+</div>

@@ -119,12 +119,23 @@ func (*service) GetDataSkoringLampiranFromReportTabel(tabel_referensi string, id
 // KOMPONEN UTAMA
 func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz int, id_user int) (any, error) {
 	var skoring any
+
 	if tabel_referensi == "skor_kognitif" {
 		skoringCek, errSkoring := reportRepository.GetSkoringKognitif(id_quiz, id_user)
 		if errSkoring != nil {
 			return nil, errSkoring
 		}
-		skoring = skoringCek
+		ref, _ := reportRepository.GetRefBidangKognitif()
+		var ref_arr = map[string]interface{}{}
+		for i := 0; i < len(ref); i++ {
+			ref_arr[ref[i].FieldSkoring] = ref[i].Deskripsi
+		}
+
+		var data = map[string]interface{}{
+			"ref":  ref_arr,
+			"data": skoringCek,
+		}
+		skoring = data
 	}
 
 	if tabel_referensi == "skor_kognitif_pmk" {
@@ -132,7 +143,19 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 		if errSkoring != nil {
 			return nil, errSkoring
 		}
-		skoring = skoringCek
+
+		ref, _ := reportRepository.GetRefBidangKognitif()
+		var ref_arr = map[string]interface{}{}
+		for i := 0; i < len(ref); i++ {
+			ref_arr[ref[i].FieldSkoring] = ref[i].Deskripsi
+		}
+
+		var data = map[string]interface{}{
+			"ref":  ref_arr,
+			"data": skoringCek,
+		}
+		skoring = data
+
 	}
 
 	if tabel_referensi == "skor_kuliah_dinas" {
@@ -553,6 +576,7 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 		}
 		skoring = data
 	}
+
 	if tabel_referensi == "skor_kejiwaan_dewasa" {
 		skor, _ := reportRepository.GetSkorKejiwaanDewasa(id_quiz, id_user)
 		klasifikasi, _ := reportRepository.GetKlasifikasiKejiwaanDewasa()

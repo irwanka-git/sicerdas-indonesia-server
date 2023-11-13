@@ -36,6 +36,7 @@ type ReportRepository interface {
 	GetQuizUserDummyFromTemplate(id_quiz_template int32) (*entity.QuizSesiUser, error)
 	GetQuizUserDummyFromTemplateByUUID(uuid string) (*entity.QuizSesiUser, error)
 
+	GetRefBidangKognitif() ([]*entity.RefBidangKognitif, error)
 	GetSkoringKognitif(id_quiz int, id_user int) (*entity.SkorKognitif, error)
 	GetSkoringKognitifPMK(id_quiz int, id_user int) (*entity.SkorKognitif, error)
 	GetReferensiSekolahDinas() ([]*entity.RefSekolahDinas, error)
@@ -83,6 +84,12 @@ type ReportRepository interface {
 
 func NewReportRepository() ReportRepository {
 	return &repo{}
+}
+
+func (*repo) GetRefBidangKognitif() ([]*entity.RefBidangKognitif, error) {
+	var ref []*entity.RefBidangKognitif
+	db.Table("ref_bidang_kognitif").Scan(&ref)
+	return ref, nil
 }
 
 func (*repo) GetDetailReport(id_report int) *entity.QuizSesiReport {

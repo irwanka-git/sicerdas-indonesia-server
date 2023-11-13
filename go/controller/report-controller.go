@@ -331,6 +331,14 @@ func renderReportKomponenUtama(id_quiz int, id_user int, id_model string, nomor_
 			stripped := strings.ReplaceAll(original, "_", " ")
 			return stripped
 		},
+		"toLower": func(original string) string {
+			result := strings.ToLower(original)
+			return result
+		},
+		"replaceSpace": func(original string) string {
+			stripped := strings.ReplaceAll(original, " ", "")
+			return stripped
+		},
 	}
 
 	var listTemplate = []string{}
@@ -386,6 +394,14 @@ func (*controller) PreviewLampiranReportDummy(w http.ResponseWriter, r *http.Req
 		},
 		"replaceStrip": func(original string) string {
 			stripped := strings.ReplaceAll(original, "_", " ")
+			return stripped
+		},
+		"toLower": func(original string) string {
+			result := strings.ToLower(original)
+			return result
+		},
+		"replaceSpace": func(original string) string {
+			stripped := strings.ReplaceAll(original, " ", "")
 			return stripped
 		},
 	}
@@ -460,6 +476,14 @@ func (*controller) PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Req
 		},
 		"replaceStrip": func(original string) string {
 			stripped := strings.ReplaceAll(original, "_", " ")
+			return stripped
+		},
+		"toLower": func(original string) string {
+			result := strings.ToLower(original)
+			return result
+		},
+		"replaceSpace": func(original string) string {
+			stripped := strings.ReplaceAll(original, " ", "")
 			return stripped
 		},
 	}

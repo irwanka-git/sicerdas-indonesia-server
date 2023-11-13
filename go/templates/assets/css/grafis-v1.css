@@ -50,31 +50,162 @@ thead.repeat { display: table-header-group !important }
     page-break-before: always;
 }
 
+.bg-red{
+    background-color: rgb(218, 134, 16);
+}
 .bg-purple{
-    background-color: #5f2778 ;
+    background-color: #9207be ;
+} 
+.bg-purple-icon{
+    background-color: #9207be;
 }
-.bg-purple-500{
-    background-color: #b766dd ;
+.bg-yellow{
+    background-color: #d7bc5f;
 }
+.bg-green-muda{
+    background-color: #09a68e;
+}
+.bg-blue-dark{
+    background-color: #2381a1;
+}
+
+.bg-canvas{
+    background-color: #f8f5f8 ;
+}
+.bg-row{
+    background-color: #f8f5f8 ;
+}
+
 
 div.box-header{
     padding-left:5px;
     padding-right:5px;
     margin-top: 20px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+div.box-content{
+    padding-left:5px;
+    padding-right:5px;
+    margin-top: 5px;
 }
 
 div.box-title { 
     display: inline-block;
     color:  white !important;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
     padding: 8px;
+    border-radius: 5px;
 } 
 
 div.box-subtitle { 
-    display: block;
-    color:  white !important;
-    padding:5px;
-    padding-right: 10px;
+    display: block; 
+    padding: 5px;
+    padding-left:8px;
+    padding-right: 8px;
     font-size: 0.9em !important; 
+    max-width: 100%; 
 } 
-  
+
+td.cell-icon{
+    vertical-align: middle;
+    text-align: center; 
+    color: white;
+}
+td.cell-info{
+    vertical-align: middle;
+    text-align: left; 
+    padding: 10px;
+}
+td.cell-info-compact{
+    vertical-align: middle;
+    text-align: left; 
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.progress-bar {
+    margin-top: 6px;
+    width: 90%;
+    background-color: #f8f5f8;
+    padding: 3px; 
+    padding-right: 15px;
+    border: 1px solid rgb(168, 165, 171);
+    border-radius: 5px;
+    font-size: 0.7em !important;
+}
+
+.progress-fill-purple {
+    display: block;
+    height: 10px; 
+    border-radius: 5px; 
+    padding-left: 10px;
+    text-align: left;
+    color: #080c07;
+    background-size: cover;
+    padding: 5px;
+    background: url(../images/gradient-purple.png) !important;
+}
+
+.sikap-bar {
+   font-size: 0.7em !important;
+   color: white !important;
+}
+
+.sikap-sangat-negatif {
+    background: -webkit-linear-gradient(right, #f37594  0%,  #e72650    100%) !important;
+    position: relative;
+    text-align: center !important;
+    left: 0% !important; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.sikap-negatif {
+    background: -webkit-linear-gradient(right, #f37594  0%,  #ec5374    100%) !important;
+    position: relative;
+    text-align: center !important;
+    left: 25% !important; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.sikap-netral {
+    background:  rgb(167, 164, 165)  !important;
+    position: relative;
+    text-align: center !important;
+    left: 35% !important; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.sikap-positif {
+    background: -webkit-linear-gradient(left, #55d164  0%,  rgb(100, 162, 42)    100%) !important;
+    position: relative;
+    text-align: center !important;
+    left: 50% !important; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.sikap-sangat-positif {
+    background: -webkit-linear-gradient(left, #55d164  0%,  rgb(48, 117, 2)    100%) !important;
+    position: relative;
+    text-align: center !important;
+    left: 50% !important; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 10px;
+    border-radius: 5px;
+}

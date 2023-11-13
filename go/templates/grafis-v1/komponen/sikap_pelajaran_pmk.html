@@ -1,35 +1,45 @@
-<p class="p10"><b>{{.urutan}}. SIKAP TERHADAP PELAJARAN</b><p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="15%" rowspan="2">Kelompok</th>
-            <th class="text-center" width="25%" rowspan="2">Pelajaran</th>
-            <th class="text-center" colspan="5">Klasifikasi</th>
-        </tr>
-        <tr class="thead-primary"> 
-            <th class="text-center" width="12%">Sangat Negatif</th>
-            <th class="text-center" width="12%">Negatif</th>
-            <th class="text-center" width="12%">Netral</th>
-            <th class="text-center" width="12%">Positif</th>
-            <th class="text-center" width="12%">Sangat Positif</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{$current_kelompok:=""}}
-        {{range $index,$sikap := .skoring }}
-        {{$kelompok := $sikap.Kelompok}}
-        <tr>
-            {{if ne $kelompok $current_kelompok}}
-            <td class="text-center" rowspan="4">{{$sikap.Kelompok}}</td>
+<p class="p10"><b>SIKAP TERHADAP PELAJARAN</b><p>
+<div class="box-header">
+    <div class="bg-yellow box-title ">
+        <b>SIKAP TERHADAP PELAJARAN&nbsp;&nbsp;</b>
+    </div> 
+    <div class="bg-canvas box-subtitle ">
+        <b>Klasifikasi Sikap Terhadap Pelajaran Berdasarkan 4 Kelompok Pelajaran</b>
+    </div>
+</div>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
+            {{$current_kelompok:=""}}
+            {{range $index,$sikap := .skoring }}
+            {{$kelompok := $sikap.Kelompok}}
+            {{$image := toLower $sikap.Kelompok}}
+            <tr>
+                {{if ne $kelompok $current_kelompok}}
+                <td class="cell-icon bg-yellow" width="12%" rowspan="4">
+                    <img src="/images/icon/{{replaceSpace $image}}.png" height="80px"><br>
+                    {{ $sikap.Kelompok }}
+                </td>
+                {{end}}
+                <td class="cell-info-compact bg-row" width="40%">{{$sikap.Pelajaran}}</td>
+                <td class="cell-info-compact bg-row" width="48%">
+                    {{ if eq $sikap.Klasifikasi "Sangat Negatif"}} 
+                    <div class="sikap-bar sikap-sangat-negatif" style="width: 50%;">Sangat Negatif</div>
+                    {{ end }}
+                    {{ if eq $sikap.Klasifikasi "Negatif"}} 
+                    <div class="sikap-bar sikap-negatif" style="width: 25%;">Negatif</div>
+                    {{ end }}
+                    {{ if eq $sikap.Klasifikasi "Netral"}} 
+                    <div class="sikap-bar sikap-netral" style="width: 30%;">Netral</div>
+                    {{ end }}
+                    {{ if eq $sikap.Klasifikasi "Positif"}} 
+                    <div class="sikap-bar sikap-positif" style="width: 25%;">Positif</div>
+                    {{ end }}
+                    {{ if eq $sikap.Klasifikasi "Sangat Positif"}} 
+                    <div class="sikap-bar sikap-sangat-positif" style="width: 50%;">Sangat Positif</div>
+                    {{ end }}
+                </td>
+            </tr>
+            {{$current_kelompok = $sikap.Kelompok}}
             {{end}}
-            <td class="text-left" >{{$sikap.Pelajaran}}</td>
-            <td class="text-center">{{ if eq $sikap.Klasifikasi "Sangat Negatif"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq $sikap.Klasifikasi "Negatif"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq $sikap.Klasifikasi "Netral"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq $sikap.Klasifikasi "Positif"}} <i class="fa-check"></i> {{end}} </td>
-            <td class="text-center">{{ if eq $sikap.Klasifikasi "Sangat Positif"}} <i class="fa-check"></i> {{end}} </td>
-        </tr>
-        {{$current_kelompok = $sikap.Kelompok}}
-        {{end}}
-    </tbody>
-</table>
+    </table>
+</div>
