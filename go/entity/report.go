@@ -216,6 +216,7 @@ type ResultGayaPekerjaan struct {
 	Klasifikasi   string `json:"klasifikasi"`
 	Deskripsi     string `json:"deskripsi"`
 	Pekerjaan     string `json:"pekerjaan"`
+	Gambar        string `json:"gambar"`
 }
 
 type ResultGayaBelajar struct {

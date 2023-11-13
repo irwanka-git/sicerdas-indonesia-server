@@ -365,11 +365,12 @@ func (*repo) GetResultGayaPekerjaan(id_quiz int, id_user int) ([]*entity.ResultG
 				A.rangking,
 				C.nama_komponen,
 				C.kode,
-				C.cetak_komponen,
+				C.cetak_komponen as cetak_komponen,
 				A.skor,
 				A.klasifikasi ,
 				C.deskripsi,
-      			C.pekerjaan
+      			C.pekerjaan, 
+				C.gambar
 			FROM
 				ref_skoring_gaya_pekerjaan AS A,
 				ref_komponen_gaya_pekerjaan AS C 

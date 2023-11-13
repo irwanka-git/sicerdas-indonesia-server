@@ -49,6 +49,9 @@ thead.repeat { display: table-header-group !important }
 .new-page {
     page-break-before: always;
 }
+ul {
+    display: inline-block;
+}
 
 .bg-red{
     background-color: rgb(218, 134, 16);
@@ -67,6 +70,25 @@ thead.repeat { display: table-header-group !important }
 }
 .bg-blue-dark{
     background-color: #2381a1;
+}
+.bg-green-dark{
+    background-color: #25a12e;
+}
+.bg-indigo{
+    background-color: #6F45E9;
+}
+.bg-indigo-dark{
+    background-color: #5e64d7;
+}
+.bg-indigo-hot{
+    background-color: #3a1a93;
+}
+.bg-biru-muda{
+    background-color: #3fc3f6;
+}
+
+.bg-orange{
+    background-color:  #f6763e;
 }
 
 .bg-canvas{
@@ -148,6 +170,43 @@ td.cell-info-compact{
     background-size: cover;
     padding: 5px;
     background: url(../images/gradient-purple.png) !important;
+}
+
+
+.progress-fill-blue {
+    display: block;
+    height: 10px; 
+    border-radius: 5px; 
+    padding-left: 10px;
+    text-align: left;
+    color: #080c07;
+    background-size: cover;
+    padding: 5px;
+    background: url(../images/gradient-blue.png) !important;
+}
+
+.progress-fill-green {
+    display: block;
+    height: 10px; 
+    border-radius: 5px; 
+    padding-left: 10px;
+    text-align: left;
+    color: #080c07;
+    background-size: cover;
+    padding: 5px;
+    background: url(../images/gradient-green.png) !important;
+}
+
+.progress-fill-indigo {
+    display: block;
+    height: 10px; 
+    border-radius: 5px; 
+    padding-left: 10px;
+    text-align: left;
+    color: #080c07;
+    background-size: cover;
+    padding: 5px;
+    background: url(../images/gradient-indigo.png) !important;
 }
 
 .sikap-bar {

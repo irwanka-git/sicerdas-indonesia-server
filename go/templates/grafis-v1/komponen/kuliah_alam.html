@@ -3,8 +3,7 @@
         <b>MINAT JURUSAN KULIAH SAINS TEKNOLOGI&nbsp;&nbsp;</b>
     </div> 
     <div class="bg-canvas box-subtitle ">
-        <b>Urutan nomor 1 (satu) adalah jurusan kuliah yang paling dominan, urutan momor 2 (dua) adalah jurusan
-            kuliah kedua yang dominan. Begitupun yang seterusnya</b>
+        <b>Disusun Berdasarkan Urutan Minat Kuliah Jurusan Sains dan Teknologi</b>
     </div>
 </div>
 <div class="box-content">
@@ -13,9 +12,9 @@
         <tr>
             <td width="5%" class="cell-icon bg-blue-dark" valign="align-middle"><b>{{inc $index}}</b></td>
             <td width="10%" class="cell-icon bg-blue-dark" valign="align-middle">
-                <img src="{{$minat.Gambar}}" height="80px">
+                <img src="/icon/{{filenameOfUrl $minat.Gambar}}" height="80px">
             </td>
-            <td width="85%" class="cell-info-compact bg-row text-justify"><b>{{$minat.Minat}}</b> - {{$minat.DeskripsiMinat}} </td>
+            <td width="85%" class="cell-info-compact bg-row text-justify"><b>{{$minat.Jurusan}}</b> - {{$minat.DeskripsiMinat}} </td>
         </tr>
         {{end}}
     </table>

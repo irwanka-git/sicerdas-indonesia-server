@@ -9,6 +9,7 @@ import (
 	"irwanka/sicerdas/repository"
 	"irwanka/sicerdas/service"
 	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"strconv"
@@ -107,25 +108,22 @@ func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Requ
 	path_export_cover := fmt.Sprintf("/app/export/pdf/%v.%v.cover.pdf", user.ID, quiz.Token)
 	url_render_cover := fmt.Sprintf("%v/render-cover/%v/%v", url_docker, id_quiz, id_user)
 	exCover := exec.Command("/app/export.sh", url_render_cover, path_export_cover, "Portrait", quizTemplate.Kertas, nomor_seri, "cover")
-
 	_, err2 := exCover.Output()
 	// fmt.Println(string(out))
 	if err2 != nil {
-		//fmt.Println((err2))
+		fmt.Println(err2.Error())
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err2.Error()})
 		return
 	}
 	//render repot utama
 	url_render_utama := fmt.Sprintf("%v/render-report-utama/%v/%v/%v/%v", url_docker, id_quiz, id_user, id_model, nomor_seri)
-	fmt.Println(url_render_utama)
 	path_export_utama := fmt.Sprintf("/app/export/pdf/%v.%v.%v.pdf", user.ID, quiz.Token, model.Direktori)
 	ex := exec.Command("/app/export.sh", url_render_utama, path_export_utama, "Portrait", quizTemplate.Kertas, nomor_seri, "utama")
 	// fmt.Println(ex.Args)
-
 	_, err3 := ex.Output()
 	// fmt.Println(string(out))
 	if err3 != nil {
-		//fmt.Println(err3.Error())
+		fmt.Println(err3.Error())
 		json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err3.Error()})
 		return
 	}
@@ -142,7 +140,7 @@ func (*controller) ExportReportPDFToFirebase(w http.ResponseWriter, r *http.Requ
 		// fmt.Println(ex.Args)
 		_, err4 := exLampiran.Output()
 		if err4 != nil {
-			//fmt.Println(err3.Error())
+			fmt.Println(err3.Error())
 			json.NewEncoder(w).Encode(helper.ResponseMessage{Status: false, Message: err4.Error()})
 			return
 		}
@@ -322,6 +320,11 @@ func renderReportKomponenUtama(id_quiz int, id_user int, id_model string, nomor_
 		"unscapeHTML": func(s string) template.HTML {
 			return template.HTML(s)
 		},
+		"unscapeHTMLWithoutP": func(s string) template.HTML {
+			var rem = strings.ReplaceAll(s, "<p>", "")
+			rem = strings.ReplaceAll(rem, "</p>", "")
+			return template.HTML(rem)
+		},
 		"stripTags": func(original string) string {
 			stripped := strip.StripTags(original)
 			result := strings.ReplaceAll(stripped, "&nbsp;", " ")
@@ -335,9 +338,22 @@ func renderReportKomponenUtama(id_quiz int, id_user int, id_model string, nomor_
 			result := strings.ToLower(original)
 			return result
 		},
+		"toUpper": func(original string) string {
+			result := strings.ToUpper(original)
+			return result
+		},
 		"replaceSpace": func(original string) string {
 			stripped := strings.ReplaceAll(original, " ", "")
 			return stripped
+		},
+		"filenameOfUrl": func(fullURLFile string) string {
+			fileURL, err := url.Parse(fullURLFile)
+			if err != nil {
+				return ""
+			}
+			path := fileURL.Path
+			segments := strings.Split(path, "/")
+			return segments[len(segments)-1]
 		},
 	}
 
@@ -387,9 +403,18 @@ func (*controller) PreviewLampiranReportDummy(w http.ResponseWriter, r *http.Req
 		"unscapeHTML": func(s string) template.HTML {
 			return template.HTML(s)
 		},
+		"unscapeHTMLWithoutP": func(s string) template.HTML {
+			var rem = strings.ReplaceAll(s, "<p>", "")
+			rem = strings.ReplaceAll(rem, "</p>", "")
+			return template.HTML(rem)
+		},
 		"stripTags": func(original string) string {
 			stripped := strip.StripTags(original)
 			result := strings.ReplaceAll(stripped, "&nbsp;", " ")
+			return result
+		},
+		"toUpper": func(original string) string {
+			result := strings.ToUpper(original)
 			return result
 		},
 		"replaceStrip": func(original string) string {
@@ -403,6 +428,15 @@ func (*controller) PreviewLampiranReportDummy(w http.ResponseWriter, r *http.Req
 		"replaceSpace": func(original string) string {
 			stripped := strings.ReplaceAll(original, " ", "")
 			return stripped
+		},
+		"filenameOfUrl": func(fullURLFile string) string {
+			fileURL, err := url.Parse(fullURLFile)
+			if err != nil {
+				return ""
+			}
+			path := fileURL.Path
+			segments := strings.Split(path, "/")
+			return segments[len(segments)-1]
 		},
 	}
 
@@ -469,9 +503,18 @@ func (*controller) PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Req
 		"unscapeHTML": func(s string) template.HTML {
 			return template.HTML(s)
 		},
+		"unscapeHTMLWithoutP": func(s string) template.HTML {
+			var rem = strings.ReplaceAll(s, "<p>", "")
+			rem = strings.ReplaceAll(rem, "</p>", "")
+			return template.HTML(rem)
+		},
 		"stripTags": func(original string) string {
 			stripped := strip.StripTags(original)
 			result := strings.ReplaceAll(stripped, "&nbsp;", " ")
+			return result
+		},
+		"toUpper": func(original string) string {
+			result := strings.ToUpper(original)
 			return result
 		},
 		"replaceStrip": func(original string) string {
@@ -485,6 +528,15 @@ func (*controller) PreviewKomponenReportDummy(w http.ResponseWriter, r *http.Req
 		"replaceSpace": func(original string) string {
 			stripped := strings.ReplaceAll(original, " ", "")
 			return stripped
+		},
+		"filenameOfUrl": func(fullURLFile string) string {
+			fileURL, err := url.Parse(fullURLFile)
+			if err != nil {
+				return ""
+			}
+			path := fileURL.Path
+			segments := strings.Split(path, "/")
+			return segments[len(segments)-1]
 		},
 	}
 

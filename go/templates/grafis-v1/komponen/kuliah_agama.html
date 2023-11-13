@@ -1,17 +1,21 @@
-<p class="p10"><b>{{.urutan}}. MINAT JURUSAN KULIAH UIN / IAIN (ILMU AGAMA)</b><p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="10%">Urutan</th>
-            <th width="90%">Jurusan</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="box-header">
+    <div class="bg-indigo-dark box-title ">
+        <b>MINAT JURUSAN KULIAH UIN / IAIN (ILMU AGAMA)&nbsp;&nbsp;</b>
+    </div> 
+    <div class="bg-canvas box-subtitle ">
+        <b>Disusun Berdasarkan Urutan Minat Kuliah Jurusan Sains dan Teknologi</b>
+    </div>
+</div>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
         {{range $index,$minat := .skoring }}
         <tr>
-            <td class="text-center">{{inc $index}}</td>
-            <td>{{$minat.Jurusan}} </td>
+            <td width="5%" class="cell-icon bg-indigo-dark" valign="align-middle"><b>{{inc $index}}</b></td>
+            <td width="10%" class="cell-icon bg-indigo-dark" valign="align-middle">
+                <img src="/images/icon/teologi.png" height="80px">
+            </td>
+            <td width="95%" class="cell-info-compact bg-row"><b>{{toUpper $minat.Jurusan}}</b><br><small>{{unscapeHTMLWithoutP $minat.Indikator }}</small></td>
         </tr>
         {{end}}
-    </tbody>
-</table>
+    </table>
+</div>
