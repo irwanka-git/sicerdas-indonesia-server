@@ -19,7 +19,7 @@
                     <td width="10%" class="cell-icon bg-biru-tiga" valign="align-middle">
                         <img src="/static/images/ilmu_alam.png" height="80px">
                     </td>
-                    <td width="85%" class="cell-info-compact bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
+                    <td width="85%" class="cell-info bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
                         <br>{{stripTags $minat.Keterangan}}
                         <div class="progress-bar">
                             {{ if eq $klasifikasiMinatSains "SANGAT_RENDAH"}}
@@ -47,7 +47,7 @@
                     <td width="10%" class="cell-icon bg-biru-tiga" valign="align-middle">
                         <img src="/static/images/ilmu_sosial.png" height="80px">
                     </td>
-                    <td width="85%" class="cell-info-compact bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
+                    <td width="85%" class="cell-info bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
                         <br>{{stripTags $minat.Keterangan}}
                         <div class="progress-bar">
                             {{ if eq $klasifikasiMinatHumaniora "SANGAT_RENDAH"}}
@@ -75,7 +75,7 @@
                     <td width="10%" class="cell-icon bg-biru-tiga" valign="align-middle">
                         <img src="/static/images/ilmu_bahasa.png" height="80px">
                     </td>
-                    <td width="85%" class="cell-info-compact bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
+                    <td width="85%" class="cell-info bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
                         <br>{{stripTags $minat.Keterangan}}
                         <div class="progress-bar">
                             {{ if eq $klasifikasiMinatBahasa "SANGAT_RENDAH"}}
@@ -103,7 +103,7 @@
                 <td width="10%" class="cell-icon bg-biru-tiga" valign="align-middle">
                     <img src="/static/images/ilmu_agama.png" height="80px">
                 </td>
-                <td width="85%" class="cell-info-compact bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
+                <td width="85%" class="cell-info bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
                     <br>{{stripTags $minat.Keterangan}}
                     <div class="progress-bar">
                         {{ if eq $klasifikasiMinatAgama "SANGAT_RENDAH"}}
@@ -125,8 +125,6 @@
                 </td>
             </tr>
             {{end}}
-
-        
         {{end}}
     </table>
 </div>
