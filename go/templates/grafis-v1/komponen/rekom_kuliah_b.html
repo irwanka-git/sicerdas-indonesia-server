@@ -1,34 +1,31 @@
-<p class="p10"><b>{{.urutan}}. REKOMENDASI JURUSAN KULIAH</b><p></p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" colspan="2" width="100%">Rekomendasi Jurusan Kuliah</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
         <tr>
-            <td class="text-center"><b>KELOMPOK ILMU SAINS DAN TEKNOLOGI</b></td>
-            <td class="text-center"><b>KELOMPOK ILMU SOSIAL DAN HUMANIORA</b></td>
+            <td class="text-center bg-indigo-dark title" colspan="2" width="100%">REKOMENDASI JURUSAN KULIAH</td>
         </tr>
         <tr>
-            <td>
+            <td class="text-center cell-info bg-row"><b>KELOMPOK ILMU SAINS DAN TEKNOLOGI</b></td>
+            <td class="text-center cell-info bg-row"><b>KELOMPOK ILMU SOSIAL DAN HUMANIORA</b></td>
+        </tr>
+        <tr>
+            <td class="cell-info bg-row">
                 {{unscapeHTML .skoring.KuliahSains}}
             </td>
-            <td>
+            <td class="cell-info bg-row">
                 {{unscapeHTML .skoring.KuliahSosial}}
             </td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td colspan="2" class="cell-info bg-row">
                 <b>SEKOLAH KEDINASAN :</b><br>
                 {{unscapeHTML .skoring.KuliahDinas}}
             </td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td colspan="2" class="cell-info bg-row"> 
                 <b>JURUSAN UIN/IAIN (ILMU AGAMA) :</b><br>
                 {{unscapeHTML .skoring.KuliahAgama}}
             </td>
         </tr>
-    </tbody>
-</table>
+    </table>
+</div> 
