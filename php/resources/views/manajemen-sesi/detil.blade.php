@@ -165,8 +165,7 @@ $back_url = Request::get('back');
 								<tr>							
 									<th width="4%">No</th>
 									<th width="28%">User</th>
-									<th width="20%">Asal/Sekolah/Organisasi</th>
-									<th width="7%">Start</th>
+									<th width="20%">Asal/Institusi/Organisasi</th>
 									<th width="7%">Submit</th>
 									<th width="7%">Skoring</th>
 									<th width="7%">Publish</th>
@@ -827,8 +826,7 @@ $back_url = Request::get('back');
 				columns: [
 				{data:'DT_Row_Index' , orderable:false, searchable: false,sClass:""},
 				{data: 'user',name: "user",orderable: false,searchable: false,sClass: ""},
-				{data: 'departement',name: "departement",orderable: false,searchable: false,sClass: ""},
-				{data: 'start_at',name: "start_at",orderable: false,searchable: false,sClass: ""},
+				{data: 'departement',name: "departement",orderable: false,searchable: false,sClass: ""}, 
 				{data: 'submit',name: "submit",orderable: false,searchable: false,sClass: ""},
 				{data: 'skoring',name: "skoring",orderable: false,searchable: false,sClass: ""},
 				{data: 'publish',name: "publish",orderable: false,searchable: false,sClass: ""},
