@@ -52,7 +52,7 @@ func main() {
 	skoringService.SkoringAllKategori(kategori_tabel, id_quiz, 100)
 	skoringRepo.ClearTabelTemporaryJawabanUser(id_quiz, 100)
 	now := helper.StringTimeYMDHIS(time.Now())
-	skoringRepo.StartRunningSkoring()
+	skoringRepo.StartRunningSkoring(now)
 	skoringRepo.FinishSkoring(id_quiz, 100, now)
-	skoringRepo.StopRunningSkoring()
+	skoringRepo.StopRunningSkoring(now)
 }
