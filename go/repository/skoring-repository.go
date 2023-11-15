@@ -97,8 +97,8 @@ func (*repo) GetUserSesiBelumSkoring() ([]*entity.QuizSesiUserSkoring, error) {
 		where a.submit = 1 and a.skoring = 0
 		and b.id_quiz_template = c.id_quiz_template
 		and c.id_quiz = a.id_quiz
-		and c.jenis = 'quiz'  
-		and c.skoring_tabel = ''
+		and c.jenis = 'quiz'
+		and ( c.skoring_tabel = '' or c.skoring_tabel is null)
 		order by a.id_quiz_user asc
 	`).Scan(&list)
 	return list, nil
