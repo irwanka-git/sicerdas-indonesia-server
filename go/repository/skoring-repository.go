@@ -13,7 +13,7 @@ import (
 type SkoringRepository interface {
 	GetStatusRunningSkoring() (*entity.StatusRunningSkoring, error)
 	StartRunningSkoring(mulai string) error
-	StopRunningSkoring(selesai string) error
+	StopRunningSkoring(selesai string, user int) error
 	GetUserSesiBelumSkoring() ([]*entity.QuizSesiUserSkoring, error)
 	ClearTabelTemporaryJawabanUser(id_quiz int32, id_user int32) error
 	GenerateTabelTemporaryJawabanUser(id_quiz int32, id_user int32) error
@@ -75,9 +75,10 @@ func (*repo) StartRunningSkoring(mulai string) error {
 	return nil
 }
 
-func (*repo) StopRunningSkoring(selesai string) error {
+func (*repo) StopRunningSkoring(selesai string, jumlah int) error {
 	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("status", 0)
 	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("selesai", selesai)
+	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("jumlah", jumlah)
 	return nil
 }
 

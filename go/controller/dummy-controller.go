@@ -95,9 +95,9 @@ func (*controller) CreateDummyForTemplate(w http.ResponseWriter, r *http.Request
 	skoringService.SkoringAllKategori(kategori_tabel, id_quiz, 100)
 	skoringRepo.ClearTabelTemporaryJawabanUser(id_quiz, 100)
 	now := helper.StringTimeYMDHIS(time.Now())
-	skoringRepo.StartRunningSkoring()
+	skoringRepo.StartRunningSkoring(now)
 	skoringRepo.FinishSkoring(id_quiz, 100, now)
-	skoringRepo.StopRunningSkoring()
+	skoringRepo.StopRunningSkoring(now, 1)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(helper.ResponseMessage{Status: true, Message: "Sesi dummy berhasil dibuat"})
 }

@@ -34,5 +34,5 @@ func main() {
 		fmt.Println(text)
 	}
 	selesai := helper.StringTimeYMDHIS(time.Now())
-	skoringRepo.StopRunningSkoring(selesai)
+	skoringRepo.StopRunningSkoring(selesai, len(list_belum_skoring))
 }

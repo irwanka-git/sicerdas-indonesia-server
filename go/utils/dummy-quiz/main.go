@@ -54,5 +54,5 @@ func main() {
 	now := helper.StringTimeYMDHIS(time.Now())
 	skoringRepo.StartRunningSkoring(now)
 	skoringRepo.FinishSkoring(id_quiz, 100, now)
-	skoringRepo.StopRunningSkoring(now)
+	skoringRepo.StopRunningSkoring(now, 1)
 }
