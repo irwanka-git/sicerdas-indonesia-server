@@ -154,7 +154,7 @@ func (*repo) GenerateTabelTemporaryJawabanUser(id_quiz int32, id_user int32) err
 	for i := 0; i < len(data); i++ {
 		kategori := data[i].Kategori
 		for urutan := 1; urutan < len(data[i].JawabanArray); urutan++ {
-			// db.Exec("delete * from quiz_sesi_user_jawaban where id_quiz = ? and id_user = ? and kategori = ? and urutan = ? ", id_quiz, id_user, kategori, urutan)
+			db.Exec("delete * from quiz_sesi_user_jawaban where id_quiz = ? and id_user = ? and kategori = ? and urutan = ? ", id_quiz, id_user, kategori, urutan)
 			var current *entity.JawabanSubmit
 			db.Table("quiz_sesi_user_jawaban").
 				Where("id_quiz = ? ", id_quiz).
