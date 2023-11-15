@@ -1,20 +1,22 @@
-<p class="p10"><b>{{.urutan}}. TES MINAT INDONESIA</b><p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="10%">Urutan</th>
-            <th width="90%">Minat Jurusan Kuliah</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{range $index,$minat := .skoring.minat }}
-        <tr>
-            <td class="text-center">{{inc $index}}</td>
-            <td class="text-justify"><b>{{$minat.Minat}}</b> - {{$minat.Keterangan}}</td>
-        </tr>
-        {{end}}
-        <tr>
-            <td colspan="2" class="text-right">Rekomendasi Peminatan : {{replaceStrip .skoring.data.RekomTmi}}</td>
-        </tr>
-    </tbody>
-</table> 
+<div class="box-header">
+    <div class="bg-green-muda box-title ">
+        <b>TES MINAT INDONESIA&nbsp;&nbsp;</b>
+    </div> 
+    <div class="bg-canvas box-subtitle ">
+        <b>Disusun Berdasarkan urutan Peminatan Jurusan Kuliah</b>
+    </div>
+</div>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
+        
+            {{range $index,$minat := .skoring.minat }}
+            <tr>
+                <td class="cell-icon text-center bg-green-muda" width="10%">{{inc $index}}</td>
+                <td class="cell-info-compact bg-row text-justify" width="90%"><b>{{$minat.Minat}}</b> - {{$minat.Keterangan}}</td>
+            </tr>
+            {{end}}
+            <tr>
+                <td colspan="2" class="cell-info bg-row text-right"><b>Rekomendasi Peminatan : {{replaceStrip .skoring.data.RekomTmi}}</b></td>
+            </tr>
+    </table> 
+</div>
