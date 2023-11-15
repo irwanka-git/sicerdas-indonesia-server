@@ -483,6 +483,7 @@ class ManajemenSesiTesController extends Controller
                 "gambar"=>$template->gambar,
                 "id_quiz_template"=>$template->id_quiz_template,
                 "id_user_biro"=>$user_biro->id,
+                "model_report"=>"-",
 	    		"uuid"=>$uuid,
             );
 
