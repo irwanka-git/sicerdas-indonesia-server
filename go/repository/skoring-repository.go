@@ -77,7 +77,7 @@ func (*repo) StartRunningSkoring(mulai string) error {
 
 func (*repo) StopRunningSkoring(selesai string) error {
 	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("status", 0)
-	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("mulai", selesai)
+	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("selesai", selesai)
 	return nil
 }
 
