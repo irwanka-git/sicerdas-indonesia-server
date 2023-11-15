@@ -499,6 +499,7 @@ func (*service) GetDataSkoringFromReportTabel(tabel_referensi string, id_quiz in
 			temp.Urutan = int32(i) + 1
 			temp.NamaKomponen = komponen[i].NamaKomponen
 			temp.Keterangan = komponen[i].Keterangan
+			temp.Icon = komponen[i].Icon
 			kode := helper.Capitalize(strings.ReplaceAll(strings.ToLower(komponen[i].FieldSkoring), "pribadi_", ""))
 			klasifikasiName := "Klasifikasi" + kode
 			temp.Klasifikasi = reflect.Indirect(rv).FieldByName(klasifikasiName).String()

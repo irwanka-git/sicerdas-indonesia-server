@@ -10,7 +10,7 @@
         {{range $index,$minat := .skoring }}
         <tr>
             <td class="text-center">{{$minat.Urutan}}</td>
-            <td class="text-justify"><b>{{$minat.Keterangan}}</b> - {{stripTags $minat.Deskripsi}} </td>
+            <td class="text-justify"><b>{{toUpper $minat.Keterangan}}</b> - {{stripTags $minat.Deskripsi}} </td>
         </tr>
         {{end}}
     </tbody>
