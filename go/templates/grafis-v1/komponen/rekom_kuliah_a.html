@@ -1,4 +1,28 @@
-<p class="p10"><b>{{.urutan}}. REKOMENDASI JURUSAN KULIAH</b><p></p>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
+        <tr>
+            <td class="text-center bg-indigo-dark title" colspan="2" width="100%">Rekomendasi Jurusan Kuliah</td>
+        </tr>
+        <tr>
+            <td class="text-center cell-info-compact bg-row"><b>KELOMPOK ILMU SAINS DAN TEKNOLOGI</b></td>
+            <td class="text-center cell-info-compact bg-row"><b>KELOMPOK ILMU SOSIAL DAN HUMANIORA</b></td>
+        </tr>
+        <tr>
+            <td class="cell-info-compact bg-row">
+                {{unscapeHTML .skoring.KuliahSains}}
+            </td>
+            <td class="cell-info-compact bg-row">
+                {{unscapeHTML .skoring.KuliahSosial}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="cell-info-compact bg-row">
+                <b>SEKOLAH KEDINASAN :</b><br>
+                {{unscapeHTML .skoring.KuliahDinas}}
+            </td>
+        </tr>
+    </table>
+</div>
 <table class="table-x">
     <thead>
         <tr class="thead-primary">
@@ -6,23 +30,6 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td class="text-center"><b>KELOMPOK ILMU SAINS DAN TEKNOLOGI</b></td>
-            <td class="text-center"><b>KELOMPOK ILMU SOSIAL DAN HUMANIORA</b></td>
-        </tr>
-        <tr>
-            <td>
-                {{unscapeHTML .skoring.KuliahSains}}
-            </td>
-            <td>
-                {{unscapeHTML .skoring.KuliahSosial}}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>SEKOLAH KEDINASAN :</b><br>
-                {{unscapeHTML .skoring.KuliahDinas}}
-            </td>
-        </tr>
+        
     </tbody>
 </table>

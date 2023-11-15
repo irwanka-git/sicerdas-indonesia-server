@@ -22,7 +22,7 @@ p.p10{
     page-break-before: always;
 }
 .text-center{
-    text-align: center;
+    text-align: center !important;
 }
 
 
@@ -131,6 +131,11 @@ div.box-subtitle {
     max-width: 100%; 
 } 
 
+td.title {  
+    color:  white !important; 
+    padding: 8px; 
+}
+
 td.cell-icon{
     vertical-align: middle;
     text-align: center; 
@@ -142,11 +147,14 @@ td.cell-info{
     padding: 10px;
 }
 td.cell-info-compact{
-    vertical-align: middle;
-    text-align: left; 
+    vertical-align: middle; 
     padding: 3px;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+td.text-center{
+    text-align: center !important;
 }
 
 .progress-bar {
