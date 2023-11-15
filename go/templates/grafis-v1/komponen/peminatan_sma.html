@@ -1,53 +1,101 @@
-<p class="p10"><b>{{.urutan}}. PEMINATAN SMA</b><p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="40%" rowspan="2">Peminatan SMA</th>
-            <th class="text-center"  colspan="5">Klasifikasi</th>
-        </tr>
-        <tr class="thead-primary"> 
-            <th class="text-center" width="12%">Sangat Rendah</th>
-            <th class="text-center" width="12%">Rendah</th>
-            <th class="text-center" width="12%">Sedang</th>
-            <th class="text-center" width="12%">Tinggi</th>
-            <th class="text-center" width="12%">Sangat Tinggi</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="box-header">
+    <div class="bg-biru-tiga box-title ">
+        <b>SKALA PEMINATAN SMA&nbsp;&nbsp;</b>
+    </div> 
+    <div class="bg-canvas box-subtitle ">
+        <b>Disusun Berdasarkan Urutan Peminatan SMA</b>
+    </div>
+</div>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
         {{$klasifikasiMinatSains := .skoring.data.KlasifikasiMinatSains}}
         {{$klasifikasiMinatBahasa := .skoring.data.KlasifikasiMinatBahasa}}
-        {{$klasifikasiMinatHumaniora := .skoring.data.KlasifikasiMinatHumaniora}}
+        {{$klasifikasiMinatHumaniora := .skoring.data.KlasifikasiMinatHumaniora}} 
         {{range $index,$minat := .skoring.ref }}
-            {{if eq $minat.NamaPilihan "ILMU_ALAM"}}
+        {{if eq $minat.NamaPilihan "ILMU_ALAM"}}
                 <tr>
-                    <td><b>{{replaceStrip $minat.NamaPilihan}}</b><br>{{$minat.Keterangan}}</td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatSains "SANGAT_RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatSains "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatSains "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatSains "TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatSains "SANGAT_TINGGI"}} <i class="fa-check"></i> {{end}} </td>
+                    <td width="5%" class="cell-icon bg-biru-tiga" valign="align-middle"><b>{{inc $index}}</b></td>
+                    <td width="10%" class="cell-icon bg-biru-tiga" valign="align-middle">
+                        <img src="/static/images/ilmu_alam.png" height="80px">
+                    </td>
+                    <td width="85%" class="cell-info bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
+                        <br>{{stripTags $minat.Keterangan}}
+                        <div class="progress-bar">
+                            {{ if eq $klasifikasiMinatSains "SANGAT_RENDAH"}}
+                            <span class="progress-fill-blue" style="width: 20%;"> SANGAT RENDAH</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatSains "RENDAH"}}
+                            <span class="progress-fill-blue" style="width: 40%;"> RENDAH</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatSains "SEDANG"}} 
+                            <span class="progress-fill-blue" style="width: 60%;"> SEDANG</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatSains "TINGGI" }} 
+                            <span class="progress-fill-blue" style="width: 80%;"> TINGGI</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatSains "SANGAT_TINGGI"}}
+                            <span class="progress-fill-blue" style="width: 100%;"> SANGAT TINGGI</span>
+                            {{ end }}
+                        </div>
+                    </td>
                 </tr>
             {{end}}
             {{if eq $minat.NamaPilihan "ILMU_SOSIAL"}}
                 <tr>
-                    <td><b>{{replaceStrip $minat.NamaPilihan}}</b><br>{{$minat.Keterangan}}</td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatHumaniora "SANGAT_RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatHumaniora "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatHumaniora "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatHumaniora "TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatHumaniora "SANGAT_TINGGI"}} <i class="fa-check"></i> {{end}} </td>
+                    <td width="5%" class="cell-icon bg-biru-tiga" valign="align-middle"><b>{{inc $index}}</b></td>
+                    <td width="10%" class="cell-icon bg-biru-tiga" valign="align-middle">
+                        <img src="/static/images/ilmu_sosial.png" height="80px">
+                    </td>
+                    <td width="85%" class="cell-info bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
+                        <br>{{stripTags $minat.Keterangan}}
+                        <div class="progress-bar">
+                            {{ if eq $klasifikasiMinatHumaniora "SANGAT_RENDAH"}}
+                            <span class="progress-fill-blue" style="width: 20%;"> SANGAT RENDAH</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatHumaniora "RENDAH"}}
+                            <span class="progress-fill-blue" style="width: 40%;"> RENDAH</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatHumaniora "SEDANG"}} 
+                            <span class="progress-fill-blue" style="width: 60%;"> SEDANG</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatHumaniora "TINGGI" }} 
+                            <span class="progress-fill-blue" style="width: 80%;"> TINGGI</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatHumaniora "SANGAT_TINGGI"}}
+                            <span class="progress-fill-blue" style="width: 100%;"> SANGAT TINGGI</span>
+                            {{ end }}
+                        </div>
+                    </td>
                 </tr>
             {{end}}
             {{if eq $minat.NamaPilihan "ILMU_BAHASA"}}
                 <tr>
-                    <td><b>{{replaceStrip $minat.NamaPilihan}}</b><br>{{$minat.Keterangan}}</td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatBahasa "SANGAT_RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatBahasa "RENDAH"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatBahasa "SEDANG"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatBahasa "TINGGI"}} <i class="fa-check"></i> {{end}} </td>
-                    <td class="text-center">{{ if eq $klasifikasiMinatBahasa "SANGAT_TINGGI"}} <i class="fa-check"></i> {{end}} </td>
+                    <td width="5%" class="cell-icon bg-biru-tiga" valign="align-middle"><b>{{inc $index}}</b></td>
+                    <td width="10%" class="cell-icon bg-biru-tiga" valign="align-middle">
+                        <img src="/static/images/ilmu_bahasa.png" height="80px">
+                    </td>
+                    <td width="85%" class="cell-info bg-row text-justify"><b>{{replaceStrip $minat.NamaPilihan}}</b> 
+                        <br>{{stripTags $minat.Keterangan}}
+                        <div class="progress-bar">
+                            {{ if eq $klasifikasiMinatBahasa "SANGAT_RENDAH"}}
+                            <span class="progress-fill-blue" style="width: 20%;"> SANGAT RENDAH</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatBahasa "RENDAH"}}
+                            <span class="progress-fill-blue" style="width: 40%;"> RENDAH</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatBahasa "SEDANG"}} 
+                            <span class="progress-fill-blue" style="width: 60%;"> SEDANG</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatBahasa "TINGGI" }} 
+                            <span class="progress-fill-blue" style="width: 80%;"> TINGGI</span>
+                            {{ end }}
+                            {{ if eq $klasifikasiMinatBahasa "SANGAT_TINGGI"}}
+                            <span class="progress-fill-blue" style="width: 100%;"> SANGAT TINGGI</span>
+                            {{ end }}
+                        </div>
+                    </td>
                 </tr>
             {{end}}
         {{end}}
-    </tbody>
-</table>
+    </table>
+</div>

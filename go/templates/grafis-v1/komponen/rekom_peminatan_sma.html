@@ -1,13 +1,13 @@
-<p class="p10"><b>{{.urutan}}. REKOMENDASI PEMINATAN SMA</b><p></p>
-<table class="table-x">
-    <thead>
-        <tr class="thead-primary">
-            <th class="text-center" width="100%">Rekomendasi Peminatan SMA</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
         <tr>
-            <td class="text-center">Lebih disarankan ke Mata Pelajaran <br><b>{{replaceStrip .skoring.RekomMapel}}</b></td>
+            <td class="text-center bg-indigo-dark title"  width="100%">REKOMENDASI PEMINATAN SMA</td>
         </tr>
-    </tbody>
-</table>
+        <tr>
+            <td class="cell-info bg-row text-center">
+                Berdasarkan Hasil Peminatan dan Sikap Terhadap Pelajaran<br>
+                Lebih disarankan ke Mata Pelajaran <br><b>{{replaceStrip .skoring.RekomMapel}}</b>
+            </td>
+        </tr>
+    </table>
+</div> 
