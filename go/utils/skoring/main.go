@@ -18,7 +18,8 @@ func main() {
 		fmt.Println("Skoring sedang berjalan..")
 		return
 	}
-	skoringRepo.StartRunningSkoring()
+	mulai := helper.StringTimeYMDHIS(time.Now())
+	skoringRepo.StartRunningSkoring(mulai)
 	list_belum_skoring, _ := skoringRepo.GetUserSesiBelumSkoring()
 	for _, user := range list_belum_skoring {
 
@@ -32,5 +33,6 @@ func main() {
 		text := fmt.Sprintf("[%v] \tID USER : %v   ID QUIZ : %v  Sesi: %v (%v)  Kota: %v", now, user.IDUser, user.IDQuiz, user.NamaSesi, user.IDQuizTemplate, user.Kota)
 		fmt.Println(text)
 	}
-	skoringRepo.StopRunningSkoring()
+	selesai := helper.StringTimeYMDHIS(time.Now())
+	skoringRepo.StopRunningSkoring(selesai)
 }

@@ -12,8 +12,8 @@ import (
 
 type SkoringRepository interface {
 	GetStatusRunningSkoring() (*entity.StatusRunningSkoring, error)
-	StartRunningSkoring() error
-	StopRunningSkoring() error
+	StartRunningSkoring(mulai string) error
+	StopRunningSkoring(selesai string) error
 	GetUserSesiBelumSkoring() ([]*entity.QuizSesiUserSkoring, error)
 	ClearTabelTemporaryJawabanUser(id_quiz int32, id_user int32) error
 	GenerateTabelTemporaryJawabanUser(id_quiz int32, id_user int32) error
@@ -69,13 +69,15 @@ func (*repo) GetStatusRunningSkoring() (*entity.StatusRunningSkoring, error) {
 	db.Table("status_skoring").First(&cek)
 	return cek, nil
 }
-func (*repo) StartRunningSkoring() error {
+func (*repo) StartRunningSkoring(mulai string) error {
 	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("status", 1)
+	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("mulai", mulai)
 	return nil
 }
 
-func (*repo) StopRunningSkoring() error {
+func (*repo) StopRunningSkoring(selesai string) error {
 	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("status", 0)
+	db.Table("status_skoring").Where("id = ?", 1).UpdateColumn("mulai", selesai)
 	return nil
 }
 
