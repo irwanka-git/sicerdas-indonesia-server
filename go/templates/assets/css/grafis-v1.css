@@ -105,6 +105,15 @@ ul {
 }
 .bg-orange-dua{
     background-color: #f3852b;
+    border-radius: 5px;
+}
+ 
+.bg-gray-light{
+    background-color: #efefef;
+}
+
+.bg-gray{
+    background-color: #9b9699;
 }
 
 .bg-merah{
@@ -183,7 +192,7 @@ td.text-center{
     background-color: #f8f5f8;
     padding: 3px; 
     padding-right: 15px;
-    border: 1px solid rgb(67, 65, 68);
+    border: 1px solid rgb(207 204 208);    
     border-radius: 5px;
     font-size: 0.7em !important;
 }
@@ -225,6 +234,42 @@ td.text-center{
     background: url(../images/gradient-green.png) !important;
 }
 
+.progress-fill-green-invert {
+    display: block;
+    height: 10px; 
+    border-radius: 5px; 
+    padding-left: 10px;
+    text-align: left;
+    color: #080c07;
+    background-size: cover;
+    padding: 5px;
+    background: url(../images/gradient-green-invert.png) !important;
+}
+
+.progress-fill-yellow {
+    display: block;
+    height: 10px; 
+    border-radius: 5px; 
+    padding-left: 10px;
+    text-align: left;
+    color: #080c07;
+    background-size: cover;
+    padding: 5px;
+    background: url(../images/gradient-yellow.png) !important;
+}
+
+
+.progress-fill-red {
+    display: block;
+    height: 10px; 
+    border-radius: 5px; 
+    padding-left: 10px;
+    text-align: left;
+    color: #080c07;
+    background-size: cover;
+    padding: 5px;
+    background: url(../images/gradient-red.png) !important;
+}
 .progress-fill-indigo {
     display: block;
     height: 10px; 
