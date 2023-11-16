@@ -72,6 +72,7 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 		{{ Form::bsSelect2('Jenis','jenis',$list_jenis,'',true,'md-8')}}
 		<div class="mb-3">
 			<small>Ukuran gambar yang direkomendasikan adalah 400 x 250 pixel</small>
+			<p>Dapat menggunakan template canva berikut <a href="https://www.canva.com/design/DAF0XkjwAyY/R8Y56zNAbVvITMEsT2uDgQ/edit?utm_content=DAF0XkjwAyY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"> Template</a></p>
 			<div class="input-group">
 				<button id="btn_gambar" class="btn btn-primary btn-upload-gambar" data-field="gambar" 
 					data-form="form-tambah" type="button"><i class="la la-upload"></i> Upload Gambar</button>
