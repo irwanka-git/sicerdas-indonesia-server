@@ -11,8 +11,8 @@
     <table width="100%" cellpadding="0" cellspacing="5">
         {{range $index,$mode := .skoring.skor }}
         <tr>
-            <td class="bg-row cell-info-compact" width="20%">{{$mode.Id}}. {{$mode.Nama}}</td>
-            <td class=" bg-row cell-info-compact">
+            <td class="bg-row cell-info-compact" width="30%">{{$mode.Id}}. {{$mode.Nama}}</td>
+            <td class=" bg-row cell-info-compact" width="70%">
                 <div class="progress-bar">
                     {{ if eq $mode.Klasifikasi 1}}
 					<span class="progress-fill-green-invert" style="width: 15%;"> SANGAT BAIK</span>
