@@ -561,6 +561,16 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::get('/dt', 'SoalKejiwaanDewasaController@datatable');
 	});
 
+	// BANK SOAL 4
+	Route::group(['prefix'=>'soal-disc'], function(){
+		Route::get('/', 'SoalDISCController@index');
+		Route::get('/dt', 'SoalDISCController@datatable');
+		Route::get('/get-data/{uuid}', 'SoalDISCController@get_data');
+		Route::post('/insert', 'SoalDISCController@submit_insert');
+		Route::post('/update', 'SoalDISCController@submit_update');
+		Route::post('/delete', 'SoalDISCController@submit_delete');
+	});
+
 });
 
 //ROUTER INFORMASI
