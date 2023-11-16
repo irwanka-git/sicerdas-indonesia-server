@@ -6,11 +6,7 @@ $list_kelompok = get_list_enum_values('soal_mode_kerja','kelompok');
 @extends('layout')
 @section("css")
 <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css" />
-<style>
-    tr > td {
-        vertical-align:  top !important;
-    }
-</style>
+
 @endsection
 @section("pagetitle")
 	 
