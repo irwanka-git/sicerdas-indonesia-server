@@ -571,6 +571,15 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/delete', 'SoalDISCController@submit_delete');
 	});
 
+	Route::group(['prefix'=>'soal-mode-kerja'], function(){
+		Route::get('/', 'SoalModeKerjaController@index');
+		Route::get('/dt', 'SoalModeKerjaController@datatable'); 
+		Route::get('/get-data/{uuid}', 'SoalModeKerjaController@get_data');
+		Route::post('/insert', 'SoalModeKerjaController@submit_insert');
+		Route::post('/update', 'SoalModeKerjaController@submit_update');
+		Route::post('/delete', 'SoalModeKerjaController@submit_delete');
+	});
+
 });
 
 //ROUTER INFORMASI

@@ -24,6 +24,11 @@
 	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 	@section("css") @show
+	<style>
+		tr > td {
+			vertical-align:  top !important;
+		}
+	</style>
 	<!-- END SETTINGS -->
 </head>
 
