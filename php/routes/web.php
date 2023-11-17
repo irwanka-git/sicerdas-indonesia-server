@@ -589,6 +589,11 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/delete', 'SoalKepribadianManajerialController@submit_delete');
 	});
 
+	Route::group(['prefix'=>'soal-wlb'], function(){
+		Route::get('/', 'SoalWLBController@index');
+		Route::get('/dt', 'SoalWLBController@datatable');
+	});
+
 });
 
 //ROUTER INFORMASI
