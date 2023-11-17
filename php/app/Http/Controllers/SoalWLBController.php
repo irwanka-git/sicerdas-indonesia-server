@@ -30,23 +30,27 @@ class SoalWLBController   extends Controller
             }   
         }
 
-         $sql_union = "select a.id_soal, a.id_model, a.urutan, a.unsur , b.nama as model                 
+         $sql_union = "select a.id_soal, a.id_model, a.urutan, a.unsur , b.nama as model  , a.kategori               
          from soal_wlb as a, ref_model_wlb as b where a.id_model = b.id  $filter  ";
          $query = DB::table(DB::raw("($sql_union) as x order by id_model, urutan"))
                     ->select([
                         'id_soal',
                         'id_model',
                         'urutan',
+                        'kategori',
                         'model',
                         'unsur', 
                     ]);
 
          return Datatables::of($query)
+         ->editColumn('unsur', function($q){
+            return $q->unsur."&nbsp;&nbsp;<b>(".$q->kategori.")</b>";
+         })
          ->editColumn('model', function($q){
             return "<small>(Keseimbangan ".$q->id_model.")</small><br>". $q->model;
          })
             ->addIndexColumn() 
-            ->rawColumns(['action','model'])
+            ->rawColumns(['action','model', 'unsur'])
             ->make(true);
     }
 
