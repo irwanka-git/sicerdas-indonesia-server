@@ -579,6 +579,15 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/update', 'SoalModeKerjaController@submit_update');
 		Route::post('/delete', 'SoalModeKerjaController@submit_delete');
 	});
+	
+	Route::group(['prefix'=>'soal-kepribadian-manajerial'], function(){
+		Route::get('/', 'SoalKepribadianManajerialController@index');
+		Route::get('/dt', 'SoalKepribadianManajerialController@datatable'); 
+		Route::get('/get-data/{uuid}', 'SoalKepribadianManajerialController@get_data');
+		Route::post('/insert', 'SoalKepribadianManajerialController@submit_insert');
+		Route::post('/update', 'SoalKepribadianManajerialController@submit_update');
+		Route::post('/delete', 'SoalKepribadianManajerialController@submit_delete');
+	});
 
 });
 
