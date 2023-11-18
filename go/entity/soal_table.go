@@ -55,3 +55,11 @@ type SoalMinatKuliahSosial struct {
 	IDKelas          int16  `gorm:"column:id_kelas;comment:MINAT SMA V2" json:"id_kelas"`                 // MINAT SMA V2
 	Gambar           string `gorm:"column:gambar;default:'default.png'" json:"gambar"`
 }
+
+type SoalWlb struct {
+	IDSoal   int16  `gorm:"column:id_soal;primaryKey" json:"id_soal"`
+	IDModel  int16  `gorm:"column:id_model" json:"id_model"`
+	Unsur    string `gorm:"column:unsur" json:"unsur"`
+	Urutan   int16  `gorm:"column:urutan" json:"urutan"`
+	Kategori string `gorm:"column:kategori;comment:P=> Mendukung, N=> Tidak Mendukung" json:"kategori"` // P=> Mendukung, N=> Tidak Mendukung
+}

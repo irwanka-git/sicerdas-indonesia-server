@@ -49,6 +49,7 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.TokenUpload = field.NewString(tableName, "token_upload")
 	_user.DeviceID = field.NewString(tableName, "device_id")
 	_user.CoverBiro = field.NewString(tableName, "cover_biro")
+	_user.CoverBiroGambar = field.NewString(tableName, "cover_biro_gambar")
 
 	_user.fillFieldMap()
 
@@ -58,29 +59,30 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 type user struct {
 	userDo userDo
 
-	ALL            field.Asterisk
-	ID             field.Int32
-	Username       field.String
-	Password       field.String
-	NamaPengguna   field.String
-	JenisKelamin   field.String
-	Organisasi     field.String
-	UnitOrganisasi field.String
-	Alamat         field.String
-	Email          field.String
-	Telp           field.String
-	KopBiro        field.String
-	RememberToken  field.String
-	CreatedAt      field.Time
-	UpdatedAt      field.Time
-	UUID           field.String
-	Avatar         field.String
-	CreateBy       field.Int32 // id USER yg buat akun
-	KunciUser      field.Int32
-	BlokUser       field.Int32
-	TokenUpload    field.String
-	DeviceID       field.String // Device ID Login
-	CoverBiro      field.String // Cover BIRO PDF
+	ALL             field.Asterisk
+	ID              field.Int32
+	Username        field.String
+	Password        field.String
+	NamaPengguna    field.String
+	JenisKelamin    field.String
+	Organisasi      field.String
+	UnitOrganisasi  field.String
+	Alamat          field.String
+	Email           field.String
+	Telp            field.String
+	KopBiro         field.String
+	RememberToken   field.String
+	CreatedAt       field.Time
+	UpdatedAt       field.Time
+	UUID            field.String
+	Avatar          field.String
+	CreateBy        field.Int32 // id USER yg buat akun
+	KunciUser       field.Int32
+	BlokUser        field.Int32
+	TokenUpload     field.String
+	DeviceID        field.String // Device ID Login
+	CoverBiro       field.String // Cover BIRO PDF
+	CoverBiroGambar field.String
 
 	fieldMap map[string]field.Expr
 }
@@ -119,6 +121,7 @@ func (u *user) updateTableName(table string) *user {
 	u.TokenUpload = field.NewString(table, "token_upload")
 	u.DeviceID = field.NewString(table, "device_id")
 	u.CoverBiro = field.NewString(table, "cover_biro")
+	u.CoverBiroGambar = field.NewString(table, "cover_biro_gambar")
 
 	u.fillFieldMap()
 
@@ -143,7 +146,7 @@ func (u *user) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (u *user) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 22)
+	u.fieldMap = make(map[string]field.Expr, 23)
 	u.fieldMap["id"] = u.ID
 	u.fieldMap["username"] = u.Username
 	u.fieldMap["password"] = u.Password
@@ -166,6 +169,7 @@ func (u *user) fillFieldMap() {
 	u.fieldMap["token_upload"] = u.TokenUpload
 	u.fieldMap["device_id"] = u.DeviceID
 	u.fieldMap["cover_biro"] = u.CoverBiro
+	u.fieldMap["cover_biro_gambar"] = u.CoverBiroGambar
 }
 
 func (u user) clone(db *gorm.DB) user {

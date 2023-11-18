@@ -45,6 +45,10 @@ type SkoringRepository interface {
 	SkoringKesehatanMental(id_quiz int32, id_user int32) error
 	SkoringModeBelajar(id_quiz int32, id_user int32) error
 	SkoringSSCT(id_quiz int32, id_user int32) error
+	SkoringDISC(id_quiz int32, id_user int32) error
+	SkoringModeKerja(id_quiz int32, id_user int32) error
+	SkoringKepribadianManajerial(id_quiz int32, id_user int32) error
+	SkoringWLB(id_quiz int32, id_user int32) error
 
 	//SKORING GABUNGAN
 	SkoringRekomKuliahA(id_quiz int32, id_user int32) error
@@ -1598,6 +1602,208 @@ func (*repo) SkoringSSCT(id_quiz int32, id_user int32) error {
 		db.Table(tabel).Create(&skoring)
 	}
 
+	return nil
+}
+
+func (*repo) SkoringDISC(id_quiz int32, id_user int32) error {
+	kategori := "SKALA_DISC"
+	tabel := "skor_ssct"
+	var tabelSkoring entity.SkorDisc
+	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ? ", id_user).Delete(tabelSkoring)
+
+	var skorHitung []*entity.SkorKategori
+
+	db.Raw(`select  jawaban as kategori, count(*) as skor , '' as klasifikasi
+					from quiz_sesi_user_jawaban where id_quiz  = ? and id_user = ? and kategori = ?
+					group  by jawaban `, id_quiz, id_user, kategori).Scan(&skorHitung)
+	var skoring entity.SkorDisc
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+	for i := 0; i < len(skorHitung); i++ {
+
+		if skorHitung[i].Kategori == "D" {
+			skoring.SkorD = int32(skorHitung[i].Skor)
+			skoring.KlasifikasiD = skorHitung[i].Klasifikasi
+		}
+		if skorHitung[i].Kategori == "S" {
+			skoring.SkorS = int32(skorHitung[i].Skor)
+			skoring.KlasifikasiS = skorHitung[i].Klasifikasi
+		}
+		if skorHitung[i].Kategori == "I" {
+			skoring.SkorI = int32(skorHitung[i].Skor)
+			skoring.KlasifikasiI = skorHitung[i].Klasifikasi
+		}
+		if skorHitung[i].Kategori == "C" {
+			skoring.SkorC = int32(skorHitung[i].Skor)
+			skoring.KlasifikasiC = skorHitung[i].Klasifikasi
+		}
+	}
+	db.Table(tabel).Create(&skoring)
+	return nil
+}
+
+func (*repo) SkoringModeKerja(id_quiz int32, id_user int32) error {
+
+	kategori := "TES_MODE_KERJA"
+	tabel := "skor_mode_kerja"
+
+	var tabelSkoring entity.SkorModeKerja
+	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ? ", id_user).Delete(tabelSkoring)
+
+	var skorHitung []*entity.SkorModeKerja
+	db.Raw(`select 
+			urutan as id_mode_kerja, 
+			substring(jawaban from 1 for 1) as prioritas_1, 
+			substring(jawaban from 2 for 1) as prioritas_2, 
+			substring(jawaban from 3 for 1) as prioritas_3, 
+			substring(jawaban from 4 for 1) as prioritas_4,
+			substring(jawaban from 5 for 1) as prioritas_5 
+			from quiz_sesi_user_jawaban as a
+			where a.id_quiz  = ? and a.id_user = ?
+			and a.kategori  = ? `, id_quiz, id_user, kategori).Scan(&skorHitung)
+
+	for i := 0; i < len(skorHitung); i++ {
+		var skoring entity.SkorModeKerja
+		skoring.IDQuiz = id_quiz
+		skoring.IDUser = id_user
+		skoring.IDModeKerja = skorHitung[i].IDModeKerja
+		skoring.Prioritas1 = skorHitung[i].Prioritas1
+		skoring.Prioritas2 = skorHitung[i].Prioritas2
+		skoring.Prioritas3 = skorHitung[i].Prioritas3
+		skoring.Prioritas4 = skorHitung[i].Prioritas4
+		skoring.Prioritas5 = skorHitung[i].Prioritas5
+		db.Table(tabel).Create(&skoring)
+	}
+
+	return nil
+}
+
+func (*repo) SkoringKepribadianManajerial(id_quiz int32, id_user int32) error {
+	kategori := "SKALA_KEPRIBADIAN_MANAJERIAL"
+	tabel := "skor_kepribadian_manajerial"
+	var skoring entity.SkorKepribadianManajerial
+	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ? ", id_user).Delete(skoring)
+	//update skor
+	db.Exec(`update quiz_sesi_user_jawaban
+			set skor = cast(jawaban as integer)
+			where id_quiz = ? and id_user = ? and kategori = ?`, id_quiz, id_user, kategori)
+	var skorHitung []*entity.SkorHitungFieldKlasifikasi
+
+	db.Raw(`select x.id_user, x.id_quiz, x.total as skor , x.field_skoring, y.klasifikasi from (SELECT 
+				a.id_quiz, a.id_user,
+				c.field_skoring,
+				sum(a.skor) as total
+			from quiz_sesi_user_jawaban as a  , 
+				soal_kepribadian_manajerial as b , 
+				ref_komponen_kepribadian_manajerial as c
+			where 
+				a.urutan = b.urutan 
+				and c.id = b.id_komponen
+				and  a.id_quiz = ? 
+				and a.id_user = ?
+				and a.kategori = ?
+			group by 
+				a.id_user, a.id_quiz, c.field_skoring) as x, ref_klasifikasi_pribadi_manajerial as y 
+				where x.total = y.skor`, id_quiz, id_user, kategori).Scan(&skorHitung)
+
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+
+	r := reflect.ValueOf(&skoring).Elem()
+	rt := r.Type()
+	for i := 0; i < len(skorHitung); i++ {
+		skor := skorHitung[i].Skor
+		klasifikasi := skorHitung[i].Klasifikasi
+		for n := 0; n < rt.NumField(); n++ {
+			fieldnameJson := rt.Field(n).Tag.Get("json")
+			fieldname := rt.Field(n).Name
+			if fieldnameJson == skorHitung[i].FieldSkoring {
+				komponen := helper.Capitalize(skorHitung[i].FieldSkoring)
+				reflect.ValueOf(&skoring).Elem().FieldByName(fieldname).SetInt(int64(skor))
+				klasifikasiName := fmt.Sprintf("Klasifikasi%v", komponen)
+				reflect.ValueOf(&skoring).Elem().FieldByName(klasifikasiName).SetString(klasifikasi)
+			}
+		}
+	}
+	db.Table(tabel).Create(&skoring)
+	return nil
+}
+
+func (*repo) SkoringWLB(id_quiz int32, id_user int32) error {
+
+	kategori := "TES_WORK_LIFE_BALANCED"
+	tabel := "skor_wlb"
+
+	var skoring entity.SkorWlb
+	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ? ", id_user).Delete(skoring)
+	skoring.IDQuiz = id_quiz
+	skoring.IDUser = id_user
+
+	var jawabanUser []*entity.QuizSesiUserJawaban
+	db.Table("quiz_sesi_user_jawaban").Where("id_quiz = ? ", id_quiz).Where("id_user = ? ", id_user).Where("kategori = ? ", kategori).Order("urutan asc").Scan(&jawabanUser)
+	for i := 0; i < len(jawabanUser); i++ {
+		urutan := jawabanUser[i].Urutan
+		jawaban := jawabanUser[i].Jawaban
+
+		jawabanArr := strings.Split(jawaban, "")
+		var skor = 0
+		for n := 0; n < len(jawabanArr); n++ {
+			var cekSoal *entity.SoalWlb
+			db.Table("soal_wlb").Where("id_model = ? ", urutan).Where("urutan = ? ", n).First(&cekSoal)
+			if cekSoal.Kategori == "P" {
+				if jawabanArr[n] == "Y" {
+					skor = skor + 3
+				}
+				if jawabanArr[n] == "K" {
+					skor = skor + 2
+				}
+				if jawabanArr[n] == "T" {
+					skor = skor + 1
+				}
+			} else {
+				if jawabanArr[n] == "Y" {
+					skor = skor + 1
+				}
+				if jawabanArr[n] == "K" {
+					skor = skor + 2
+				}
+				if jawabanArr[n] == "T" {
+					skor = skor + 3
+				}
+			}
+		}
+		db.Exec(`update quiz_sesi_user_jawaban
+			set skor = ?
+			where id_quiz = ? and id_user = ? and kategori = ? and urutan = ? `, skor, id_quiz, id_user, kategori, urutan)
+	}
+
+	var skorHitung []*entity.SkorHitungNilaiFieldSkoring
+	db.Raw(`select x.*, y.nilai from (select 
+		a.skor as skor,
+		b.field_skoring 
+	from quiz_sesi_user_jawaban as a , ref_model_wlb as b  
+		where a.id_quiz  = ?
+			 and a.id_user = ? 
+			 and a.kategori  = ?
+			 and a.urutan  = b.id ) as x, ref_skoring_wlb as y
+			 where x.skor = y.skor`, id_quiz, id_user, kategori).Scan(&skorHitung)
+	r := reflect.ValueOf(&skoring).Elem()
+	rt := r.Type()
+	for i := 0; i < len(skorHitung); i++ {
+		skor := skorHitung[i].Skor
+		nilai := skorHitung[i].Nilai
+		field_skoring := skorHitung[i].FieldSkoring
+		for n := 0; n < rt.NumField(); n++ {
+			fieldnameJson := rt.Field(n).Tag.Get("json")
+			fieldname := rt.Field(n).Name
+			if fieldnameJson == field_skoring {
+				reflect.ValueOf(&skoring).Elem().FieldByName(fieldname).SetInt(int64(skor))
+				nilaiName := fmt.Sprintf("Nilai%v", fieldname)
+				reflect.ValueOf(&skoring).Elem().FieldByName(nilaiName).SetInt(int64(nilai))
+			}
+		}
+	}
+	db.Table(tabel).Create(&skoring)
 	return nil
 }
 

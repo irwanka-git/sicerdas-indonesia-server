@@ -29,6 +29,9 @@ func newStatusSkoring(db *gorm.DB, opts ...gen.DOOption) statusSkoring {
 	_statusSkoring.ALL = field.NewAsterisk(tableName)
 	_statusSkoring.ID = field.NewInt32(tableName, "id")
 	_statusSkoring.Status = field.NewInt16(tableName, "status")
+	_statusSkoring.Mulai = field.NewString(tableName, "mulai")
+	_statusSkoring.Selesai = field.NewString(tableName, "selesai")
+	_statusSkoring.Jumlah = field.NewInt32(tableName, "jumlah")
 
 	_statusSkoring.fillFieldMap()
 
@@ -38,9 +41,12 @@ func newStatusSkoring(db *gorm.DB, opts ...gen.DOOption) statusSkoring {
 type statusSkoring struct {
 	statusSkoringDo statusSkoringDo
 
-	ALL    field.Asterisk
-	ID     field.Int32
-	Status field.Int16
+	ALL     field.Asterisk
+	ID      field.Int32
+	Status  field.Int16
+	Mulai   field.String
+	Selesai field.String
+	Jumlah  field.Int32
 
 	fieldMap map[string]field.Expr
 }
@@ -59,6 +65,9 @@ func (s *statusSkoring) updateTableName(table string) *statusSkoring {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewInt32(table, "id")
 	s.Status = field.NewInt16(table, "status")
+	s.Mulai = field.NewString(table, "mulai")
+	s.Selesai = field.NewString(table, "selesai")
+	s.Jumlah = field.NewInt32(table, "jumlah")
 
 	s.fillFieldMap()
 
@@ -87,9 +96,12 @@ func (s *statusSkoring) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (s *statusSkoring) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 2)
+	s.fieldMap = make(map[string]field.Expr, 5)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["status"] = s.Status
+	s.fieldMap["mulai"] = s.Mulai
+	s.fieldMap["selesai"] = s.Selesai
+	s.fieldMap["jumlah"] = s.Jumlah
 }
 
 func (s statusSkoring) clone(db *gorm.DB) statusSkoring {

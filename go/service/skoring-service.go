@@ -116,6 +116,22 @@ func (*service) SkoringAllKategori(kategori_tabel []*entity.KategoriTabel, id_qu
 		if kategori.Tabel == "skor_ssct" {
 			skoringRepoService.SkoringSSCT(id_quiz, id_user)
 		}
+		//24
+		if kategori.Tabel == "skor_disc" {
+			skoringRepoService.SkoringDISC(id_quiz, id_user)
+		}
+		//25
+		if kategori.Tabel == "skor_mode_kerja" {
+			skoringRepoService.SkoringModeKerja(id_quiz, id_user)
+		}
+		//26
+		if kategori.Tabel == "skor_kepribadian_manajerial" {
+			skoringRepoService.SkoringKepribadianManajerial(id_quiz, id_user)
+		}
+		//27
+		if kategori.Tabel == "skor_wlb" {
+			skoringRepoService.SkoringWLB(id_quiz, id_user)
+		}
 	}
 
 	//cek skoring gabungan lihat di tabel quiz_sesi_report

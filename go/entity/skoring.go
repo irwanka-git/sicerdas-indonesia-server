@@ -659,3 +659,77 @@ type RefRekomendasiAkhirPeminatanSma struct {
 	RekomSikapPelajaran string `gorm:"column:rekom_sikap_pelajaran" json:"rekom_sikap_pelajaran"`
 	RekomAkhir          string `gorm:"column:rekom_akhir" json:"rekom_akhir"`
 }
+
+type SkorKategori struct {
+	Kategori    string `json:"kategori"`
+	Klasifikasi string `json:"klasifikasi"`
+	Skor        int8   `json:"skor"`
+}
+
+type SkorDisc struct {
+	IDUser       int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz       int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	SkorD        int32  `gorm:"column:skor_d" json:"skor_d"`
+	SkorI        int32  `gorm:"column:skor_i" json:"skor_i"`
+	SkorS        int32  `gorm:"column:skor_s" json:"skor_s"`
+	SkorC        int32  `gorm:"column:skor_c" json:"skor_c"`
+	KlasifikasiD string `gorm:"column:klasifikasi_d" json:"klasifikasi_d"`
+	KlasifikasiS string `gorm:"column:klasifikasi_s" json:"klasifikasi_s"`
+	KlasifikasiI string `gorm:"column:klasifikasi_i" json:"klasifikasi_i"`
+	KlasifikasiC string `gorm:"column:klasifikasi_c" json:"klasifikasi_c"`
+}
+
+type SkorModeKerja struct {
+	IDUser      int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz      int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	IDModeKerja int32  `gorm:"column:id_mode_kerja;primaryKey" json:"id_mode_kerja"`
+	Prioritas1  string `gorm:"column:prioritas_1" json:"prioritas_1"`
+	Prioritas2  string `gorm:"column:prioritas_2" json:"prioritas_2"`
+	Prioritas3  string `gorm:"column:prioritas_3" json:"prioritas_3"`
+	Prioritas4  string `gorm:"column:prioritas_4" json:"prioritas_4"`
+	Prioritas5  string `gorm:"column:prioritas_5" json:"prioritas_5"`
+}
+
+type SkorKepribadianManajerial struct {
+	IDUser                          int32  `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz                          int32  `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	Visioner                        int32  `gorm:"column:visioner" json:"visioner"`
+	KestabilanEmosi                 int32  `gorm:"column:kestabilan_emosi" json:"kestabilan_emosi"`
+	Memotivasi                      int32  `gorm:"column:memotivasi" json:"memotivasi"`
+	ManajemenResiko                 int32  `gorm:"column:manajemen_resiko" json:"manajemen_resiko"`
+	PengambilanKeputusan            int32  `gorm:"column:pengambilan_keputusan" json:"pengambilan_keputusan"`
+	PenyesuaianDiri                 int32  `gorm:"column:penyesuaian_diri" json:"penyesuaian_diri"`
+	ManajemenWaktu                  int32  `gorm:"column:manajemen_waktu" json:"manajemen_waktu"`
+	MotivasiPrestasi                int32  `gorm:"column:motivasi_prestasi" json:"motivasi_prestasi"`
+	Integritas                      int32  `gorm:"column:integritas" json:"integritas"`
+	PelayananPublik                 int32  `gorm:"column:pelayanan_publik" json:"pelayanan_publik"`
+	KlasifikasiVisioner             string `gorm:"column:klasifikasi_visioner" json:"klasifikasi_visioner"`
+	KlasifikasiKestabilanEmosi      string `gorm:"column:klasifikasi_kestabilan_emosi" json:"klasifikasi_kestabilan_emosi"`
+	KlasifikasiMemotivasi           string `gorm:"column:klasifikasi_memotivasi" json:"klasifikasi_memotivasi"`
+	KlasifikasiManajemenResiko      string `gorm:"column:klasifikasi_manajemen_resiko" json:"klasifikasi_manajemen_resiko"`
+	KlasifikasiPengambilanKeputusan string `gorm:"column:klasifikasi_pengambilan_keputusan" json:"klasifikasi_pengambilan_keputusan"`
+	KlasifikasiPenyesuaianDiri      string `gorm:"column:klasifikasi_penyesuaian_diri" json:"klasifikasi_penyesuaian_diri"`
+	KlasifikasiManajemenWaktu       string `gorm:"column:klasifikasi_manajemen_waktu" json:"klasifikasi_manajemen_waktu"`
+	KlasifikasiMotivasiPrestasi     string `gorm:"column:klasifikasi_motivasi_prestasi" json:"klasifikasi_motivasi_prestasi"`
+	KlasifikasiIntegritas           string `gorm:"column:klasifikasi_integritas" json:"klasifikasi_integritas"`
+	KlasifikasiPelayananPublik      string `gorm:"column:klasifikasi_pelayanan_publik" json:"klasifikasi_pelayanan_publik"`
+}
+
+type SkorWlb struct {
+	IDUser                int32 `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz                int32 `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+	KedamaianHati         int32 `gorm:"column:kedamaian_hati" json:"kedamaian_hati"`
+	PengembanganDiri      int32 `gorm:"column:pengembangan_diri" json:"pengembangan_diri"`
+	Ibadah                int32 `gorm:"column:ibadah" json:"ibadah"`
+	Pendapatan            int32 `gorm:"column:pendapatan" json:"pendapatan"`
+	HubunganSosial        int32 `gorm:"column:hubungan_sosial" json:"hubungan_sosial"`
+	Kesehatan             int32 `gorm:"column:kesehatan" json:"kesehatan"`
+	RekanKerja            int32 `gorm:"column:rekan_kerja" json:"rekan_kerja"`
+	NilaiKedamaianHati    int32 `gorm:"column:nilai_kedamaian_hati" json:"nilai_kedamaian_hati"`
+	NilaiPengembanganDiri int32 `gorm:"column:nilai_pengembangan_diri" json:"nilai_pengembangan_diri"`
+	NilaiIbadah           int32 `gorm:"column:nilai_ibadah" json:"nilai_ibadah"`
+	NilaiPendapatan       int32 `gorm:"column:nilai_pendapatan" json:"nilai_pendapatan"`
+	NilaiHubunganSosial   int32 `gorm:"column:nilai_hubungan_sosial" json:"nilai_hubungan_sosial"`
+	NilaiKesehatan        int32 `gorm:"column:nilai_kesehatan" json:"nilai_kesehatan"`
+	NilaiRekanKerja       int32 `gorm:"column:nilai_rekan_kerja" json:"nilai_rekan_kerja"`
+}
