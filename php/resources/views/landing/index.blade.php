@@ -87,7 +87,7 @@
                     <a href="#" class=" bg-white inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                         <i class="lab la-apple"></i>&nbsp;&nbsp;Apps Store (Ios)
                    </a>  
-                   <a target="_blank" href="https://shorturl.at/bKLN1" class=" bg-white inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                   <a target="_blank" href="https://shorturl.at/efklT" class=" bg-white inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                     <i class="lab la-windows"></i>&nbsp;&nbsp;Windows (Desktop)
                    </a>  
                 </div>
