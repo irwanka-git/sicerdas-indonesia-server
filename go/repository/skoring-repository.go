@@ -1607,7 +1607,7 @@ func (*repo) SkoringSSCT(id_quiz int32, id_user int32) error {
 
 func (*repo) SkoringDISC(id_quiz int32, id_user int32) error {
 	kategori := "SKALA_DISC"
-	tabel := "skor_ssct"
+	tabel := "skor_disc"
 	var tabelSkoring entity.SkorDisc
 	db.Table(tabel).Where("id_quiz = ?", id_quiz).Where("id_user = ? ", id_user).Delete(tabelSkoring)
 
