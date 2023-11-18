@@ -1718,9 +1718,9 @@ func (*repo) SkoringKepribadianManajerial(id_quiz int32, id_user int32) error {
 			fieldnameJson := rt.Field(n).Tag.Get("json")
 			fieldname := rt.Field(n).Name
 			if fieldnameJson == skorHitung[i].FieldSkoring {
-				komponen := helper.Capitalize(skorHitung[i].FieldSkoring)
+				// komponen := helper.Capitalize(skorHitung[i].FieldSkoring)
 				reflect.ValueOf(&skoring).Elem().FieldByName(fieldname).SetInt(int64(skor))
-				klasifikasiName := fmt.Sprintf("Klasifikasi%v", komponen)
+				klasifikasiName := fmt.Sprintf("Klasifikasi%v", fieldname)
 				reflect.ValueOf(&skoring).Elem().FieldByName(klasifikasiName).SetString(klasifikasi)
 			}
 		}
