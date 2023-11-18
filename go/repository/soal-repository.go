@@ -32,9 +32,13 @@ type SoalRepository interface {
 	GetSoalGayaPekerjaan(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalGayaBelajar(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalTesModeBelajar(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalTesModeKerja(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalSSCTRemaja(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKesehatanMentalID(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKejiwaanDewasaID(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalTesWLB(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalSkalaDISC(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalKepribadianManajerial(token string, demo bool) ([]*entity.SoalSession, error)
 }
 
 func NewSoalRepository() SoalRepository {
@@ -177,7 +181,9 @@ func (*repo) GetSoalKognitif(paket string, bidang string, token string) ([]*enti
 
 		soal.Pernyataan = pertanyaan
 		soal.Pilihan = pilihan
-		soal.Petunjuk = "<p>" + listResultSoal[i].IsiPetunjuk + "</p>"
+		if listResultSoal[i].IsiPetunjuk != "" {
+			soal.Petunjuk = listResultSoal[i].IsiPetunjuk
+		}
 		soal.Mode = "PG"
 		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
 		listSoal = append(listSoal, &soal)
@@ -1957,6 +1963,367 @@ func (*repo) GetSoalKejiwaanDewasaID(token string, demo bool) ([]*entity.SoalSes
 		soal.Sp2 = ""
 		soal.Sp3 = ""
 
+		soal.Pernyataan = ""
+		soal.PernyataanMulti = pertanyaan_multi
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PGS"
+		soal.Section = section
+		listSoal = append(listSoal, &soal)
+	}
+	return listSoal, nil
+}
+
+func (*repo) GetSoalSkalaDISC(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+
+	var listResultSoal []struct {
+		Urutan     int    `json:"urutan"`
+		Uuid       string `json:"uuid"`
+		Pernyataan string `json:"pernyataan"`
+		PilihanD   string `json:"pilihan_d"`
+		PilihanI   string `json:"pilihan_i"`
+		PilihanS   string `json:"pilihan_s"`
+		PilihanC   string `json:"pilihan_c"`
+	}
+	if demo {
+		db.Raw(`select * from soal_disc order by urutan asc limit 1`).Scan(&listResultSoal)
+	} else {
+		db.Raw(`select * from soal_disc order by urutan asc`).Scan(&listResultSoal)
+	}
+
+	for i := 0; i < len(listResultSoal); i++ {
+
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Pernyataan)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		var pilihan = []*entity.PilihanJawaban{}
+		if listResultSoal[i].PilihanD != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].PilihanD)
+			tmp.Value = "D"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanI != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].PilihanI)
+			tmp.Value = "I"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanS != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].PilihanS)
+			tmp.Value = "S"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanC != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].PilihanC)
+			tmp.Value = "C"
+			pilihan = append(pilihan, &tmp)
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Kategori = "SKALA_DISC"
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Urutan)
+		soal.Uuid = listResultSoal[i].Uuid
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Sp3 = ""
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PG"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+
+	return listSoal, nil
+}
+
+func (*repo) GetSoalKepribadianManajerial(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listResultSoal []struct {
+		Urutan     int32  `json:"urutan"`
+		Uuid       string `json:"uuid"`
+		Pernyataan string `json:"pernyataan"`
+		Pilihan_1  string `json:"pilihan_1"`
+		Pilihan_2  string `json:"pilihan_2"`
+		Pilihan_3  string `json:"pilihan_3"`
+		Pilihan_4  string `json:"pilihan_4"`
+		Pilihan_5  string `json:"pilihan_5"`
+	}
+
+	if demo {
+		db.Raw(`SELECT a.urutan,
+				a.uuid,
+				a.pernyataan,
+				a.pilihan_1,
+				a.pilihan_2,
+				a.pilihan_3,
+				a.pilihan_4,
+				a.pilihan_5
+				FROM
+				soal_kepribadian_manajerial as a order by a.urutan limit 3 `).Scan(&listResultSoal)
+	} else {
+		db.Raw(`SELECT a.urutan,
+					a.uuid,
+					a.pernyataan,
+					a.pilihan_1,
+					a.pilihan_2,
+					a.pilihan_3,
+					a.pilihan_4,
+					a.pilihan_5
+				FROM
+				soal_kepribadian_manajerial as a
+					order by a.urutan`).Scan(&listResultSoal)
+	}
+	for i := 0; i < len(listResultSoal); i++ {
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Pernyataan)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		var pilihan = []*entity.PilihanJawaban{}
+
+		if listResultSoal[i].Pilihan_1 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].Pilihan_1)
+			tmp.Value = "1"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].Pilihan_2 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].Pilihan_2)
+			tmp.Value = "2"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].Pilihan_3 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].Pilihan_3)
+			tmp.Value = "3"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].Pilihan_4 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].Pilihan_4)
+			tmp.Value = "4"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].Pilihan_5 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.Capitalize(listResultSoal[i].Pilihan_5)
+			tmp.Value = "5"
+			pilihan = append(pilihan, &tmp)
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Urutan)
+		soal.Kategori = "SKALA_KEPRIBADIAN_MANAJERIAL"
+
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Uuid = listResultSoal[i].Uuid
+
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Sp3 = ""
+
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PG"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+	return listSoal, nil
+}
+
+func (*repo) GetSoalTesModeKerja(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listResultSoal []struct {
+		Urutan   int32  `json:"urutan"`
+		Uuid     string `json:"uuid"`
+		Soal     string `json:"soal"`
+		PilihanA string `json:"pilihan_a"`
+		PilihanB string `json:"pilihan_b"`
+		PilihanC string `json:"pilihan_c"`
+		PilihanD string `json:"pilihan_d"`
+		PilihanE string `json:"pilihan_e"`
+	}
+
+	if demo {
+		db.Raw(`select 
+				a.urutan,
+				a.soal, 
+				a.uuid,
+				a.pilihan_a,
+				a.pilihan_b, 
+				a.pilihan_c, 
+				a.pilihan_d, 
+				a.pilihan_e
+				from soal_mode_kerja as a 
+				order by urutan limit 3`).Scan(&listResultSoal)
+	} else {
+		db.Raw(`select 
+					a.urutan,
+					a.soal, 
+					a.uuid,
+					a.pilihan_a,
+					a.pilihan_b, 
+					a.pilihan_c, 
+					a.pilihan_d, 
+					a.pilihan_e
+				from soal_mode_kerja as a 
+					order by urutan`).Scan(&listResultSoal)
+	}
+	for i := 0; i < len(listResultSoal); i++ {
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Soal)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		var pilihan = []*entity.PilihanJawaban{}
+
+		if listResultSoal[i].PilihanA != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanA, 1)
+			tmp.Value = "A"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanB != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanB, 1)
+			tmp.Value = "B"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanC != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanC, 1)
+			tmp.Value = "C"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanD != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanD, 1)
+			tmp.Value = "D"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanE != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanE, 1)
+			tmp.Value = "E"
+			pilihan = append(pilihan, &tmp)
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Urutan)
+		soal.Kategori = "TES_MODE_KERJA"
+
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Uuid = listResultSoal[i].Uuid
+
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Section = ""
+		soal.Sp3 = ""
+
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PP"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+	return listSoal, nil
+}
+
+func (*repo) GetSoalTesWLB(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listModel []struct {
+		IdModel int32 `json:"id_model"`
+	}
+	if demo {
+		db.Raw(`select a.id_model from 
+				soal_wlb as a, ref_model_wlb as b 
+				where a.id_model = b.id
+				GROUP BY a.id_model, b.nama , b.id 
+			order by a.id_model limit 1`).Scan(&listModel)
+	} else {
+		db.Raw(`select a.id_model from 
+		soal_wlb as a, ref_model_wlb as b 
+		where a.id_model = b.id
+		GROUP BY a.id_model, b.nama , b.id 
+		order by a.id_model `).Scan(&listModel)
+	}
+	var pilihan = []*entity.PilihanJawaban{}
+	pilihan = append(pilihan, &entity.PilihanJawaban{
+		Text:  "Ya",
+		Value: "Y",
+	})
+	pilihan = append(pilihan, &entity.PilihanJawaban{
+		Text:  "Kadang",
+		Value: "K",
+	})
+	pilihan = append(pilihan, &entity.PilihanJawaban{
+		Text:  "Tidak",
+		Value: "T",
+	})
+
+	for i := 0; i < len(listModel); i++ {
+		section := "Section " + fmt.Sprintf("%02d", i+1)
+		id_model := listModel[i].IdModel
+		var listMultiSoal []struct {
+			Unsur string `json:"unsur"`
+		}
+		var pertanyaan_multi = []*entity.ItemSoalMulti{}
+		if demo {
+			db.Raw(`select a.unsur from soal_wlb as a 
+					where a.id_model = ? order by a.urutan`, id_model).Scan(&listMultiSoal)
+		} else {
+			db.Raw(`select a.unsur from soal_wlb as a 
+					where a.id_model = ? order by a.urutan`, id_model).Scan(&listMultiSoal)
+		}
+		for n := 0; n < len(listMultiSoal); n++ {
+
+			pertanyaan_multi = append(pertanyaan_multi, &entity.ItemSoalMulti{
+				Nomor:      n + 1,
+				Pernyataan: listMultiSoal[n].Unsur,
+			})
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Nomor = fmt.Sprintf("%02d", i+1)
+		soal.Kategori = "TES_WORK_LIFE_BALANCED"
+		soal.PernyataanMulti = pertanyaan_multi
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Uuid = uuid.NewString()
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Sp3 = ""
 		soal.Pernyataan = ""
 		soal.PernyataanMulti = pertanyaan_multi
 		soal.Pilihan = pilihan

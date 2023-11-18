@@ -440,6 +440,46 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 			listSoal = append(listSoal, currentList...)
 		}
 
+		////soal-skala-disc
+		if splitSoal[1] == "soal-skala-disc" {
+			currentList, _ := soalSessionRepo.GetSoalSkalaDISC(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-skala-disc-demo" {
+			currentList, _ := soalSessionRepo.GetSoalSkalaDISC(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		////soal-kepribadian-manajerial
+		if splitSoal[1] == "soal-kepribadian-manajerial" {
+			currentList, _ := soalSessionRepo.GetSoalKepribadianManajerial(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-kepribadian-manajerial-demo" {
+			currentList, _ := soalSessionRepo.GetSoalKepribadianManajerial(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		//soal-tes-mode-kerja
+		if splitSoal[1] == "soal-tes-mode-kerja" {
+			currentList, _ := soalSessionRepo.GetSoalTesModeKerja(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-tes-mode-kerja-demo" {
+			currentList, _ := soalSessionRepo.GetSoalTesModeKerja(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		//soal-tes-wlb
+		if splitSoal[1] == "soal-tes-wlb" {
+			currentList, _ := soalSessionRepo.GetSoalTesWLB(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
+		if splitSoal[1] == "soal-tes-wlb-demo" {
+			currentList, _ := soalSessionRepo.GetSoalTesWLB(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
 		//pola : /soal-break
 		if splitSoal[1] == "soal-break" && len(splitSoal) == 2 {
 			currentList, _ := soalSessionRepo.GetSoalBreak(token)
