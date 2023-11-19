@@ -1,12 +1,12 @@
 <?php
 $main_path = Request::segment(1);
-loadHelper('akses'); 
-$list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
-					->select('id_komponen as value','nama_komponen as text')->orderby('id_komponen','asc')->get();
+loadHelper('akses,function'); 
+$list_kelompok = get_list_enum_values('soal_mode_kerja_eng','kelompok');
 ?>
 @extends('layout')
 @section("css")
 <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css" />
+
 @endsection
 @section("pagetitle")
 	 
@@ -16,10 +16,13 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 
 		<div class="row">
 			<div class="col-12">
+				<h6 class="card-title" style="background-color: rgb(90, 56, 145); color:white; padding:5px; margin-bottom:10px;">ENGLISH VERSION</h6>
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">Soal Karakteristik Pribadi</h5>
-						<h6 class="card-subtitle text-muted">Fitur Ini Digunakan Untuk Manajemen Soal / Pernyataan Tentang Karakteristik Pribadi </h6>
+						<h5 class="card-title">{{$pagetitle}}</h5>
+						<h6 class="card-subtitle text-muted">
+                            {{$smalltitle}}
+                         </h6>
 					</div>
 					<div class="card-body">
 						@if(ucc())
@@ -30,9 +33,12 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 							<thead>
 								<tr>
 									<th width="5%">#</th>									
-									<th>Pernyataan</th>
-									<th>Komponen</th>
-									<th width="15%">Actions</th>
+									<th>Kelompok</th>
+									<th>Pernyataan / Soal</th>
+									<th>Pilihan Jawaban</th>
+									<th>Nama Prioritas</th>
+									<th>Deskripsi</th>
+									<th width="10%">Actions</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -56,14 +62,21 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
  <!-- MODAL FORM TAMBAH -->
 {{ Form::bsOpen('form-tambah',url($main_path."/insert")) }}
 	{{Html::mOpenLG('modal-tambah','Tambah Soal')}}
-
+    {{ Form::bsSelect2('Kelompok','kelompok',$list_kelompok,'',true,'md-8')}}
     {{ Form::bsNumeric('Nomor Urut','urutan','',true,'md-8') }}
-    <div class="mb-3">
-        <label class="form-label">Pernyataan  <star>*</star> </label>
-        <div  id="pernyataan_tambah"></div>
-        <textarea style="display: none;" name="pernyataan" id="pernyataan"  required="required"></textarea>
-    </div>	
-    {{ Form::bsSelect2('Komponen Soal','id_komponen',$list_komponen,'',true,'md-8')}}	
+	{{ Form::bsTextArea('Soal','soal','',true,'md-8') }}
+	{{ Form::bsTextField('Aspek / Mode Kerja','mode_kerja','',true,'md-8') }}
+	<p>Gunakan tanda <b>:</b> untuk memisahkan pilihan jawaban dan nama prioritas</p>
+	{{ Form::bsTextField('Pilihan A : Prioritas A','pilihan_a','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan B : Prioritas B','pilihan_b','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan C : Prioritas C','pilihan_c','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan D : Prioritas D','pilihan_d','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan E : Prioritas E','pilihan_e','',true,'md-8') }}
+	<div class="mb-3">
+        <label class="form-label">Deskripsi <star>*</star> </label>
+        <div  id="deskripsi_tambah"></div>
+        <textarea style="display: none;" name="deskripsi" id="deskripsi"  required="required"></textarea>
+    </div>
 
 	{{Html::mCloseSubmitLG('Simpan')}}
 {{ Form::bsClose()}}
@@ -74,14 +87,21 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
  <!-- MODAL FORM TAMBAH -->
 {{ Form::bsOpen('form-edit',url($main_path."/update")) }}
 	{{Html::mOpenLG('modal-edit','Ubah Soal')}}
-
-    {{ Form::bsNumeric('Nomor Urut','urutan','',true,'md-8') }}
+    {{ Form::bsSelect2('Kelompok','kelompok',$list_kelompok,'',true,'md-8')}}
+	{{ Form::bsNumeric('Nomor Urut','urutan','',true,'md-8') }}
+	{{ Form::bsTextArea('Soal','soal','',true,'md-8') }}
+	{{ Form::bsTextField('Aspek / Mode Kerja','mode_kerja','',true,'md-8') }}
+	<p>Gunakan tanda <b>:</b> untuk memisahkan pilihan jawaban dan nama prioritas</p>
+	{{ Form::bsTextField('Pilihan A','pilihan_a','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan B','pilihan_b','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan C','pilihan_c','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan D','pilihan_d','',true,'md-8') }}
+	{{ Form::bsTextField('Pilihan E','pilihan_e','',true,'md-8') }}
     <div class="mb-3">
-        <label class="form-label">Pernyataan  <star>*</star> </label>
-        <div  id="pernyataan_edit"></div>
-        <textarea style="display: none;" name="pernyataan" id="pernyataan"  required="required"></textarea>
+        <label class="form-label">deskripsi  <star>*</star> </label>
+        <div  id="deskripsi_edit"></div>
+        <textarea style="display: none;" name="deskripsi" id="deskripsi"  required="required"></textarea>
     </div>	
-    {{ Form::bsSelect2('Komponen Soal','id_komponen',$list_komponen,'',true,'md-8')}}	
     {{ Form::bsHidden('uuid','') }}
 
 	{{Html::mCloseSubmitLG('Simpan')}}
@@ -97,7 +117,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 @endif
 
 
-{{Html::mOpenLG('modal-lihat-soal','Pernyataan')}}
+{{Html::mOpenLG('modal-lihat-soal','deskripsi')}}
 	<div id="panel-lihat-soal">
 		
 	</div>
@@ -117,12 +137,15 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			    responsive: true,
 			    fixedHeader: true,
 			    serverSide: true,
-			    ajax: "{{url('soal-karakteristik-pribadi/dt')}}",
+			    ajax: "{{url($main_path.'/dt')}}",
 			    "iDisplayLength": 25,
 			    columns: [
 			    	 {data:'DT_Row_Index' , orderable:false, searchable: false,sClass:""},
-			         {data:'pernyataan' , name:"pernyataan" , orderable:false, searchable: false,sClass:""},
-			         {data:'nama_komponen' , name:"nama_komponen" , orderable:false, searchable: false,sClass:"text-center"},
+			         {data:'kelompok' , name:"kelompok" , orderable:false, searchable: false,sClass:""},
+			         {data:'soal' , name:"soal" , orderable:false, searchable: false,sClass:""},
+			         {data:'pilihan_jawaban' , name:"pilihan_jawaban" , orderable:false, searchable: false,sClass:""},
+			         {data:'nama_prioritas' , name:"nama_prioritas" , orderable:false, searchable: false,sClass:""},
+			         {data:'deskripsi' , name:"deskripsi" , orderable:false, searchable: false,sClass:""},
 			         {data:'action' , orderable:false, searchable: false,sClass:"text-center"},
 			        ],
 			        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
@@ -138,35 +161,26 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			    initKonfirmDelete();;
 			});
 
-			//handle lihat soal
-			 $("#modal-lihat-soal").on('show.bs.modal', function(e){
-				$uuid  = $(e.relatedTarget).data('uuid');
-				$("#panel-lihat-soal").html('<center>Sedang Proses Ambil Data..</center>');
-				$.get("{{url('soal-karakteristik-pribadi/lihat-soal')}}/"+$uuid, function(respon){
-					 $("#panel-lihat-soal").html(respon);
-				})
-			});
-
 			@if(ucc())
 
-			 var quill_pernyataan_tambah = new Quill('#pernyataan_tambah', {
-			    placeholder: 'Tulis Isi Pernyataan.....',
+			 var quill_deskripsi_tambah = new Quill('#deskripsi_tambah', {
+			    placeholder: 'Tulis Isi deskripsi.....',
 			    theme: 'snow',
 			    modules: {
 				    toolbar: toolbarOptions
 				  }
 			  });
- 			 quill_pernyataan_tambah.on('text-change', function(delta, oldDelta, source) {
- 			 		$("#form-tambah #pernyataan").val($("#pernyataan_tambah .ql-editor").html());
+ 			 quill_deskripsi_tambah.on('text-change', function(delta, oldDelta, source) {
+ 			 		$("#form-tambah #deskripsi").val($("#deskripsi_tambah .ql-editor").html());
  			 });
 
 			$validator_form_tambah = $("#form-tambah").validate();
 			$("#modal-tambah").on('show.bs.modal', function(e){
 				$validator_form_tambah.resetForm();
-				$("#form-tambah").clearForm();
-                $('#form-tambah #id_komponen').selectize()[0].selectize.clear();
-				$("#pernyataan_tambah .ql-editor").html('');
-				$("#form-tambah #pernyataan").val('');
+				$("#form-tambah").clearForm(); 
+				$("#deskripsi_tambah .ql-editor").html('');
+                $('#form-tambah #kelompok').selectize()[0].selectize.clear();
+				$("#form-tambah #deskripsi").val('');
 				enableButton("#form-tambah button[type=submit]")
 			});
 
@@ -195,15 +209,15 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
  		
 		@if(ucu())
 
-		var quill_pernyataan_edit = new Quill('#pernyataan_edit', {
-		    placeholder: 'Tulis Isi Pernyataan.....',
+		var quill_deskripsi_edit = new Quill('#deskripsi_edit', {
+		    placeholder: 'Tulis Isi deskripsi.....',
 		    theme: 'snow',
 		    modules: {
 			    toolbar: toolbarOptions
 			  }
 		  });
-			 quill_pernyataan_edit.on('text-change', function(delta, oldDelta, source) {
-			 		$("#form-edit #pernyataan").val($("#pernyataan_edit .ql-editor").html());
+			 quill_deskripsi_edit.on('text-change', function(delta, oldDelta, source) {
+			 		$("#form-edit #deskripsi").val($("#deskripsi_edit .ql-editor").html());
 			 });
 
 		$validator_form_edit = $("#form-edit").validate();
@@ -212,13 +226,20 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			$validator_form_edit.resetForm();
 			$("#form-edit").clearForm();
 			disableButton("#form-edit button[type=submit]");
-			$("#pernyataan_edit .ql-editor").html('');
-			$.get("{{url('soal-karakteristik-pribadi/get-data')}}/"+$uuid, function(respon){
-				if(respon.status){
-                    $('#form-edit #id_komponen').selectize()[0].selectize.setValue(respon.data.id_komponen,false);
-					$('#form-edit #pernyataan').val(respon.data.pernyataan);
+			$("#deskripsi_edit .ql-editor").html('');
+			$.get("{{url($main_path.'/get-data')}}/"+$uuid, function(respon){
+				if(respon.status){ 
+					$('#form-edit #deskripsi').val(respon.data.deskripsi);
 					$('#form-edit #urutan').val(respon.data.urutan);
-					quill_pernyataan_edit.clipboard.dangerouslyPasteHTML(respon.data.pernyataan);				
+					quill_deskripsi_edit.clipboard.dangerouslyPasteHTML(respon.data.deskripsi);				
+					$('#form-edit #soal').val(respon.data.soal);
+					$('#form-edit #mode_kerja').val(respon.data.mode_kerja);
+					$('#form-edit #pilihan_a').val(respon.data.pilihan_a);
+					$('#form-edit #pilihan_b').val(respon.data.pilihan_b);
+					$('#form-edit #pilihan_c').val(respon.data.pilihan_c);
+					$('#form-edit #pilihan_d').val(respon.data.pilihan_d);
+					$('#form-edit #pilihan_e').val(respon.data.pilihan_e); 
+                    $('#form-edit #kelompok').selectize()[0].selectize.setValue(respon.data.kelompok,false);
 					$('#form-edit #uuid').val(respon.data.uuid);
 					enableButton("#form-edit button[type=submit]");
 				}else{
@@ -266,7 +287,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			$('.btn-konfirm-delete').on('click', function(e){
 				$uuid  = $(this).data('uuid');
 				 
-				$.get("{{url('soal-karakteristik-pribadi/get-data')}}/"+$uuid, function(respon){
+				$.get("{{url($main_path.'/get-data')}}/"+$uuid, function(respon){
 					if(respon.status){
 						$("#form-delete #uuid").val(respon.data.uuid);
 						$.confirm({

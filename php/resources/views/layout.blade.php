@@ -28,6 +28,7 @@
 		tr > td {
 			vertical-align:  top !important;
 		}
+		body[data-sidebar-behavior=compact] .sidebar-nav>.sidebar-item>.sidebar-dropdown {width: 300px !important;}
 	</style>
 	<!-- END SETTINGS -->
 </head>

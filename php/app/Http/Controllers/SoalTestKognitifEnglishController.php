@@ -8,14 +8,14 @@ use Session;
 use Datatables;
 use Crypt;
 
-class SoalTestKognitifController extends Controller
+class SoalTestKognitifEnglishController extends Controller
 {
      
     //######################### SOAL TEST KOGNITIF #####################################
     function index(){
     	$pagetitle = "Soal Test Kognitif";
     	$smalltitle = "Pengaturan Soal";
-    	return view('manajeman-soal.index-kognitif', compact('pagetitle','smalltitle'));
+    	return view('manajemen-soal-eng.index-kognitif', compact('pagetitle','smalltitle'));
     }
 
     function datatable(Request $r){
@@ -46,7 +46,7 @@ class SoalTestKognitifController extends Controller
             }   
         }
 
-         $sql_union = "select a.* from soal_kognitif as a where a.id_soal > 0 $filter  ";
+         $sql_union = "select a.* from soal_kognitif_eng as a where a.id_soal > 0 $filter  ";
          $query = DB::table(DB::raw("($sql_union) as x order by bidang, urutan asc"))
                     ->select([
                         'id_soal',
@@ -97,17 +97,17 @@ class SoalTestKognitifController extends Controller
 
     function view_soal($uuid){
         $soal = DB::select("SELECT a.*, b.isi_petunjuk FROM 
-                soal_kognitif as a LEFT JOIN petunjuk_soal as b on  a.id_petunjuk = b.id_petunjuk
+                soal_kognitif_eng as a LEFT JOIN petunjuk_soal as b on  a.id_petunjuk = b.id_petunjuk
                 where a.uuid = '$uuid'");
         if(count($soal)==1){
             $soal = $soal[0];
-            return view('manajeman-soal.view-soal-kognitif',compact('soal'));
+            return view('manajemen-soal-eng.view-soal-kognitif',compact('soal'));
         }
         return '<center><b>Maaf, Soal Tidak Ditemukan</b></center>';
     }
 
     function get_data($uuid){
-    	$data = DB::table('soal_kognitif')->where('uuid', $uuid)->first();
+    	$data = DB::table('soal_kognitif_eng')->where('uuid', $uuid)->first();
         if($data){
             $respon = array('status'=>true,'data'=>$data, 
             	'informasi'=>'Informasi Soal : '.$data->paket.' / '. $data->bidang. ' / '. 'Pertanyaan Ke '.$data->urutan);
@@ -141,7 +141,7 @@ class SoalTestKognitifController extends Controller
                 "pilihan_jawaban"=>trim($r->pilihan_jawaban), 
 	    		"uuid"=>$uuid);
 
-	    	DB::table('soal_kognitif')->insert($record);
+	    	DB::table('soal_kognitif_eng')->insert($record);
 	    	$respon = array('status'=>true,'message'=>'Soal Berhasil Ditambahkan!');
         	return response()->json($respon);
     	}else{
@@ -175,7 +175,7 @@ class SoalTestKognitifController extends Controller
                 "pilihan_jawaban"=>trim($r->pilihan_jawaban)
             );
 
-	    	DB::table('soal_kognitif')->where('uuid', $uuid)->update($record);
+	    	DB::table('soal_kognitif_eng')->where('uuid', $uuid)->update($record);
 	    	$respon = array('status'=>true,'message'=>'Soal Berhasil Disimpan!', 
 	    		'_token'=>csrf_token());
         	return response()->json($respon);
@@ -189,7 +189,7 @@ class SoalTestKognitifController extends Controller
         if($this->ucd()){
             loadHelper('format');
             $uuid = $r->uuid;
-            DB::table('soal_kognitif')->where('uuid', $uuid)->delete();
+            DB::table('soal_kognitif_eng')->where('uuid', $uuid)->delete();
             $respon = array('status'=>true,'message'=>'Data Berhasil Dihapus!');          
             return response()->json($respon);
         }else{

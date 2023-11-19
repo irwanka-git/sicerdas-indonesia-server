@@ -119,6 +119,16 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/delete', 'PetunjukSoalController@submit_delete');
 	});
 
+	//petunjuk-soal
+	Route::group(['prefix'=>'petunjuk-soal-iq-eng'], function(){
+		Route::get('/', 'PetunjukSoalControllerEnglish@index');
+		Route::get('/dt', 'PetunjukSoalControllerEnglish@datatable');
+		Route::get('/get-data/{uuid}', 'PetunjukSoalControllerEnglish@get_data');
+		Route::post('/insert', 'PetunjukSoalControllerEnglish@submit_insert');
+		Route::post('/update', 'PetunjukSoalControllerEnglish@submit_update');
+		Route::post('/delete', 'PetunjukSoalControllerEnglish@submit_delete');
+	});
+
 	//informasi-cerdas
 	//info-cerdas
 	Route::group(['prefix'=>'info-cerdas'], function(){
@@ -140,6 +150,18 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/insert', 'SoalTestKognitifController@submit_insert');
 		Route::post('/update', 'SoalTestKognitifController@submit_update');
 		Route::post('/delete', 'SoalTestKognitifController@submit_delete');
+		Route::post('/upload-gambar', 'UploadController@upload_gambar');
+	});
+
+	//soal-test-koginitif-english
+	Route::group(['prefix'=>'soal-kognitif-eng'], function(){
+		Route::get('/', 'SoalTestKognitifEnglishController@index');
+		Route::get('/dt', 'SoalTestKognitifEnglishController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalTestKognitifEnglishController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalTestKognitifEnglishController@get_data');
+		Route::post('/insert', 'SoalTestKognitifEnglishController@submit_insert');
+		Route::post('/update', 'SoalTestKognitifEnglishController@submit_update');
+		Route::post('/delete', 'SoalTestKognitifEnglishController@submit_delete');
 		Route::post('/upload-gambar', 'UploadController@upload_gambar');
 	});
 
@@ -221,6 +243,17 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/delete', 'SoalTipologiJungController@submit_delete');
 	});
 
+	//soal-tes-jung (MBTI KEPRIBADIAN TOPOLOGI JUNG) ENGLISH
+	Route::group(['prefix'=>'soal-mbti-eng'], function(){
+		Route::get('/', 'SoalTipologiJungControllerEnglish@index');
+		Route::get('/dt', 'SoalTipologiJungControllerEnglish@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalTipologiJungControllerEnglish@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalTipologiJungControllerEnglish@get_data');
+		Route::post('/insert', 'SoalTipologiJungControllerEnglish@submit_insert');
+		Route::post('/update', 'SoalTipologiJungControllerEnglish@submit_update');
+		Route::post('/delete', 'SoalTipologiJungControllerEnglish@submit_delete');
+	});
+
 
 	//soal-tes-jung (MBTI KEPRIBADIAN TOPOLOGI JUNG)
 	Route::group(['prefix'=>'interprestasi-kepribadian-jung'], function(){
@@ -254,6 +287,17 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/insert', 'SoalKarakterPribadiController@submit_insert');
 		Route::post('/update', 'SoalKarakterPribadiController@submit_update');
 		Route::post('/delete', 'SoalKarakterPribadiController@submit_delete');
+	});
+
+	//soal (KARAKTERISTIK PRIBADI) ENGLISH
+	Route::group(['prefix'=>'soal-karakteristik-pribadi-eng'], function(){
+		Route::get('/', 'SoalKarakterPribadiEnglishController@index');
+		Route::get('/dt', 'SoalKarakterPribadiEnglishController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalKarakterPribadiEnglishController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalKarakterPribadiEnglishController@get_data');
+		Route::post('/insert', 'SoalKarakterPribadiEnglishController@submit_insert');
+		Route::post('/update', 'SoalKarakterPribadiEnglishController@submit_update');
+		Route::post('/delete', 'SoalKarakterPribadiEnglishController@submit_delete');
 	});
 
 	//SOAL MINAT KULIAH EKSAKTA
@@ -518,6 +562,17 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/delete', 'SoalGayaPekerjaan@submit_delete');
 	});
 
+	//skala-gaya-pekerjaan
+	Route::group(['prefix'=>'soal-pola-pekerjaan-eng'], function(){
+		Route::get('/', 'SoalGayaPekerjaanEnglish@index');
+		Route::get('/dt', 'SoalGayaPekerjaanEnglish@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalGayaPekerjaanEnglish@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalGayaPekerjaanEnglish@get_data');
+		Route::post('/insert', 'SoalGayaPekerjaanEnglish@submit_insert');
+		Route::post('/update', 'SoalGayaPekerjaanEnglish@submit_update');
+		Route::post('/delete', 'SoalGayaPekerjaanEnglish@submit_delete');
+	});
+
 	///soal-pauli-kraeplin 
 	Route::group(['prefix'=>'soal-pauli-kraeplin'], function(){
 		Route::get('/', 'SoalPauliKraeplinController@index');
@@ -578,6 +633,15 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::post('/insert', 'SoalModeKerjaController@submit_insert');
 		Route::post('/update', 'SoalModeKerjaController@submit_update');
 		Route::post('/delete', 'SoalModeKerjaController@submit_delete');
+	});
+
+	Route::group(['prefix'=>'soal-moda-kerja-eng'], function(){
+		Route::get('/', 'SoalModeKerjaControllerEnglish@index');
+		Route::get('/dt', 'SoalModeKerjaControllerEnglish@datatable'); 
+		Route::get('/get-data/{uuid}', 'SoalModeKerjaControllerEnglish@get_data');
+		Route::post('/insert', 'SoalModeKerjaControllerEnglish@submit_insert');
+		Route::post('/update', 'SoalModeKerjaControllerEnglish@submit_update');
+		Route::post('/delete', 'SoalModeKerjaControllerEnglish@submit_delete');
 	});
 	
 	Route::group(['prefix'=>'soal-kepribadian-manajerial'], function(){

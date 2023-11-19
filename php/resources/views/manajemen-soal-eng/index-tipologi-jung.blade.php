@@ -1,8 +1,7 @@
 <?php
 $main_path = Request::segment(1);
-loadHelper('akses'); 
-$list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
-					->select('id_komponen as value','nama_komponen as text')->orderby('id_komponen','asc')->get();
+loadHelper('akses,function'); 
+$list_kolom = get_list_enum_values('soal_tipologi_jung','kolom');
 ?>
 @extends('layout')
 @section("css")
@@ -16,22 +15,24 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 
 		<div class="row">
 			<div class="col-12">
+				<h6 class="card-title" style="background-color: rgb(90, 56, 145); color:white; padding:5px; margin-bottom:10px;">ENGLISH VERSION</h6>
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">Soal Karakteristik Pribadi</h5>
-						<h6 class="card-subtitle text-muted">Fitur Ini Digunakan Untuk Manajemen Soal / Pernyataan Tentang Karakteristik Pribadi </h6>
+						<h5 class="card-title">Soal Tes Kepribadian Tipologi Jung MBTI</h5>
+						<h6 class="card-subtitle text-muted">Fitur Ini Digunakan Untuk Manajemen Soal / Pernyataan Tentang Tes Kepribadian Tipologi Jung MBTI</h6>
 					</div>
 					<div class="card-body">
 						@if(ucc())
-				   		{{Html::btnModal('<i class="la la-plus-circle"></i> Tambah Soal','modal-tambah','primary')}}
+				   		{{Html::btnModal('<i class="la la-plus-circle"></i> Tambah Pernyataan','modal-tambah','primary')}}
 				   		<hr>
 				   		@endif
 						<table id="datatable" class="table table-striped table-hover table-sm" style="width:100%">
 							<thead>
 								<tr>
-									<th width="5%">#</th>									
+									<th width="5%">No.</th>
 									<th>Pernyataan</th>
-									<th>Komponen</th>
+									<th width="30%">Pilihan</th>
+									<th width="10%">Kolom</th>
 									<th width="15%">Actions</th>
 								</tr>
 							</thead>
@@ -55,16 +56,17 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 @if(ucc())
  <!-- MODAL FORM TAMBAH -->
 {{ Form::bsOpen('form-tambah',url($main_path."/insert")) }}
-	{{Html::mOpenLG('modal-tambah','Tambah Soal')}}
+	{{Html::mOpenLG('modal-tambah','Tambah Pernyataan')}}
 
-    {{ Form::bsNumeric('Nomor Urut','urutan','',true,'md-8') }}
-    <div class="mb-3">
-        <label class="form-label">Pernyataan  <star>*</star> </label>
-        <div  id="pernyataan_tambah"></div>
-        <textarea style="display: none;" name="pernyataan" id="pernyataan"  required="required"></textarea>
-    </div>	
-    {{ Form::bsSelect2('Komponen Soal','id_komponen',$list_komponen,'',true,'md-8')}}	
-
+		{{ Form::bsNumeric('Nomor Urut','urutan','',true,'md-8') }}
+		{{ Form::bsSelect2('Kolom','kolom',$list_kolom,'',true,'md-8')}}
+		<div class="mb-3">
+			<label class="form-label">Pernyataan  <star>*</star> </label>
+			<div  id="pernyataan_tambah"></div>
+			<textarea style="display: none;" name="pernyataan" id="pernyataan"  required="required"></textarea>
+		</div>
+		{{ Form::bsTextField('Pilihan A','pilihan_a','',true,'md-8') }}
+		{{ Form::bsTextField('Pilihan B','pilihan_b','',true,'md-8') }}
 	{{Html::mCloseSubmitLG('Simpan')}}
 {{ Form::bsClose()}}
 @endif
@@ -75,15 +77,16 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 {{ Form::bsOpen('form-edit',url($main_path."/update")) }}
 	{{Html::mOpenLG('modal-edit','Ubah Soal')}}
 
-    {{ Form::bsNumeric('Nomor Urut','urutan','',true,'md-8') }}
-    <div class="mb-3">
-        <label class="form-label">Pernyataan  <star>*</star> </label>
-        <div  id="pernyataan_edit"></div>
-        <textarea style="display: none;" name="pernyataan" id="pernyataan"  required="required"></textarea>
-    </div>	
-    {{ Form::bsSelect2('Komponen Soal','id_komponen',$list_komponen,'',true,'md-8')}}	
-    {{ Form::bsHidden('uuid','') }}
-
+		{{ Form::bsNumeric('Nomor Urut','urutan','',true,'md-8') }}
+		{{ Form::bsSelect2('Kolom','kolom',$list_kolom,'',true,'md-8')}}
+		<div class="mb-3">
+			<label class="form-label">Pernyataan  <star>*</star> </label>
+			<div  id="pernyataan_edit"></div>
+			<textarea style="display: none;" name="pernyataan" id="pernyataan"  required="required"></textarea>
+		</div>
+		{{ Form::bsTextField('Pilihan A','pilihan_a','',true,'md-8') }}
+		{{ Form::bsTextField('Pilihan B','pilihan_b','',true,'md-8') }}
+		{{ Form::bsHidden('uuid','') }}
 	{{Html::mCloseSubmitLG('Simpan')}}
 {{ Form::bsClose()}}
 @endif
@@ -117,12 +120,13 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			    responsive: true,
 			    fixedHeader: true,
 			    serverSide: true,
-			    ajax: "{{url('soal-karakteristik-pribadi/dt')}}",
+			    ajax: "{{url($main_path.'/dt')}}",
 			    "iDisplayLength": 25,
 			    columns: [
-			    	 {data:'DT_Row_Index' , orderable:false, searchable: false,sClass:""},
+			         {data:'urutan' , name:"urutan" , orderable:false, searchable: false,sClass:"text-center"},
 			         {data:'pernyataan' , name:"pernyataan" , orderable:false, searchable: false,sClass:""},
-			         {data:'nama_komponen' , name:"nama_komponen" , orderable:false, searchable: false,sClass:"text-center"},
+			         {data:'pilihan' , name:"pilihan" , orderable:false, searchable: false,sClass:""},
+			         {data:'kolom' , name:"kolom" , orderable:false, searchable: false,sClass:"text-center"},
 			         {data:'action' , orderable:false, searchable: false,sClass:"text-center"},
 			        ],
 			        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
@@ -130,7 +134,9 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			        return nRow;
 			    },
 			    "drawCallback": function( settings ) {
+					@if(ucd())
 			        initKonfirmDelete();
+					@endif
 			    }
 			});
 
@@ -142,7 +148,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			 $("#modal-lihat-soal").on('show.bs.modal', function(e){
 				$uuid  = $(e.relatedTarget).data('uuid');
 				$("#panel-lihat-soal").html('<center>Sedang Proses Ambil Data..</center>');
-				$.get("{{url('soal-karakteristik-pribadi/lihat-soal')}}/"+$uuid, function(respon){
+				$.get("{{url($main_path.'/lihat-soal')}}/"+$uuid, function(respon){
 					 $("#panel-lihat-soal").html(respon);
 				})
 			});
@@ -164,9 +170,9 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			$("#modal-tambah").on('show.bs.modal', function(e){
 				$validator_form_tambah.resetForm();
 				$("#form-tambah").clearForm();
-                $('#form-tambah #id_komponen').selectize()[0].selectize.clear();
 				$("#pernyataan_tambah .ql-editor").html('');
 				$("#form-tambah #pernyataan").val('');
+				$('#form-tambah #kolom').selectize()[0].selectize.clear();
 				enableButton("#form-tambah button[type=submit]")
 			});
 
@@ -213,12 +219,15 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			$("#form-edit").clearForm();
 			disableButton("#form-edit button[type=submit]");
 			$("#pernyataan_edit .ql-editor").html('');
-			$.get("{{url('soal-karakteristik-pribadi/get-data')}}/"+$uuid, function(respon){
+			$('#form-edit #kolom').selectize()[0].selectize.clear();
+			$.get("{{url($main_path.'/get-data')}}/"+$uuid, function(respon){
 				if(respon.status){
-                    $('#form-edit #id_komponen').selectize()[0].selectize.setValue(respon.data.id_komponen,false);
-					$('#form-edit #pernyataan').val(respon.data.pernyataan);
 					$('#form-edit #urutan').val(respon.data.urutan);
-					quill_pernyataan_edit.clipboard.dangerouslyPasteHTML(respon.data.pernyataan);				
+					quill_pernyataan_edit.clipboard.dangerouslyPasteHTML(respon.data.pernyataan);
+					$('#form-edit #pernyataan').val(respon.data.pernyataan);
+					$('#form-edit #kolom').selectize()[0].selectize.setValue(respon.data.kolom,false);
+					$('#form-edit #pilihan_a').val(respon.data.pilihan_a);
+					$('#form-edit #pilihan_b').val(respon.data.pilihan_b);
 					$('#form-edit #uuid').val(respon.data.uuid);
 					enableButton("#form-edit button[type=submit]");
 				}else{
@@ -266,7 +275,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			$('.btn-konfirm-delete').on('click', function(e){
 				$uuid  = $(this).data('uuid');
 				 
-				$.get("{{url('soal-karakteristik-pribadi/get-data')}}/"+$uuid, function(respon){
+				$.get("{{url($main_path.'/get-data')}}/"+$uuid, function(respon){
 					if(respon.status){
 						$("#form-delete #uuid").val(respon.data.uuid);
 						$.confirm({

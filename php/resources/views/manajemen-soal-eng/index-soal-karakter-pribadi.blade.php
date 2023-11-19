@@ -1,7 +1,7 @@
 <?php
 $main_path = Request::segment(1);
 loadHelper('akses'); 
-$list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
+$list_komponen = DB::table('ref_komponen_karakteristik_pribadi_eng')
 					->select('id_komponen as value','nama_komponen as text')->orderby('id_komponen','asc')->get();
 ?>
 @extends('layout')
@@ -16,10 +16,11 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 
 		<div class="row">
 			<div class="col-12">
+				<h6 class="card-title" style="background-color: rgb(90, 56, 145); color:white; padding:5px; margin-bottom:10px;">ENGLISH VERSION</h6>
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">Soal Karakteristik Pribadi</h5>
-						<h6 class="card-subtitle text-muted">Fitur Ini Digunakan Untuk Manajemen Soal / Pernyataan Tentang Karakteristik Pribadi </h6>
+						<h5 class="card-title">Soal EQ Skala Karakteristik</h5>
+						<h6 class="card-subtitle text-muted">Fitur Ini Digunakan Untuk Manajemen Soal / Pernyataan Tentang EQ Skala Karakteristik </h6>
 					</div>
 					<div class="card-body">
 						@if(ucc())
@@ -117,7 +118,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			    responsive: true,
 			    fixedHeader: true,
 			    serverSide: true,
-			    ajax: "{{url('soal-karakteristik-pribadi/dt')}}",
+			    ajax: "{{url($main_path.'/dt')}}",
 			    "iDisplayLength": 25,
 			    columns: [
 			    	 {data:'DT_Row_Index' , orderable:false, searchable: false,sClass:""},
@@ -142,7 +143,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			 $("#modal-lihat-soal").on('show.bs.modal', function(e){
 				$uuid  = $(e.relatedTarget).data('uuid');
 				$("#panel-lihat-soal").html('<center>Sedang Proses Ambil Data..</center>');
-				$.get("{{url('soal-karakteristik-pribadi/lihat-soal')}}/"+$uuid, function(respon){
+				$.get("{{url($main_path.'/lihat-soal')}}/"+$uuid, function(respon){
 					 $("#panel-lihat-soal").html(respon);
 				})
 			});
@@ -213,7 +214,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			$("#form-edit").clearForm();
 			disableButton("#form-edit button[type=submit]");
 			$("#pernyataan_edit .ql-editor").html('');
-			$.get("{{url('soal-karakteristik-pribadi/get-data')}}/"+$uuid, function(respon){
+			$.get("{{url($main_path.'/get-data')}}/"+$uuid, function(respon){
 				if(respon.status){
                     $('#form-edit #id_komponen').selectize()[0].selectize.setValue(respon.data.id_komponen,false);
 					$('#form-edit #pernyataan').val(respon.data.pernyataan);
@@ -266,7 +267,7 @@ $list_komponen = DB::table('ref_komponen_karakteristik_pribadi')
 			$('.btn-konfirm-delete').on('click', function(e){
 				$uuid  = $(this).data('uuid');
 				 
-				$.get("{{url('soal-karakteristik-pribadi/get-data')}}/"+$uuid, function(respon){
+				$.get("{{url($main_path.'/get-data')}}/"+$uuid, function(respon){
 					if(respon.status){
 						$("#form-delete #uuid").val(respon.data.uuid);
 						$.confirm({
