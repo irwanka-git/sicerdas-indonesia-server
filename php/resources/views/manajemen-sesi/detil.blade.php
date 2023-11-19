@@ -60,6 +60,11 @@ $back_url = Request::get('back');
 						<br>
 						<i class="las la-tag"></i> {{$quiz->jenis_tes}}<br>
 						<i class="las la-code"></i> {{$quiz->kode}}-{{$quiz->id_quiz_template}}-{{$quiz->token}}<br>
+						@if($quiz->skoring_tabel=="")
+						<i class="las la-info"></i> <small>Sicerdas Versi 2</small><br>
+						@else
+						<i class="las la-info"></i> <small>Sicerdas Versi 1</small><br>
+						@endif
 						@if($quiz->nama_asesor)
 						<hr> Asesor: <br><b>{{$quiz->nama_asesor}}</b><br>
 						<small>SIPP: {{$quiz->nomor_sipp}}</small>
@@ -129,16 +134,23 @@ $back_url = Request::get('back');
 											<a class="dropdown-item" id="btn-kosongkan-peserta" href="#"><i class="las la-trash"></i> Kosongkan Peserta</a>
 											<a class="dropdown-item" id="btn-batal-skoring-all" href="#"><i class="las la-recycle"></i> Batalkan Skoring (Semua)</a>
 											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" id="btn-publish-all" href="#"><i class="las la-paper-plane"></i> Publish Hasil Tes (per 100 Peserta)</a>
+											@if($quiz->skoring_tabel!="")
+												<a class="dropdown-item" id="btn-publish-all" href="#"><i class="las la-paper-plane"></i> Publish Hasil Tes (per 100 Peserta)</a>
+											@else  
+												<a class="dropdown-item" id="btn-publish-all-versi2" href="#"><i class="las la-paper-plane"></i> Publish Hasil Tes (Semua Peserta)</a>
+											@endif
 											<a class="dropdown-item" id="btn-batal-publish-all" href="#"><i class="las la-paper-plane"></i> Batalkan Publish (Semua)</a>
 										@endif
-										<a class="dropdown-item" href="{{url('manajemen-sesi/export-excel/'.$quiz->uuid)}}"><i class="las la-file-excel"></i> Export Data Hasil (Excel)</a>
-										<a class="dropdown-item" href="#"
-										data-bs-toggle="modal" 
-										data-bs-target="#modal-download-all-report"><i class="las la-file-archive"></i> Download Report (Semua PDF)</a>
-										<a class="dropdown-item" href="#"
-										data-bs-toggle="modal" 
-										data-bs-target="#modal-download-all-report-doc"><i class="las la-file-archive"></i> Download Report (Semua Doc)</a>
+
+										@if($quiz->skoring_tabel!="")
+											<a class="dropdown-item" href="{{url('manajemen-sesi/export-excel/'.$quiz->uuid)}}"><i class="las la-file-excel"></i> Export Data Hasil (Excel)</a>
+											<a class="dropdown-item" href="#"
+											data-bs-toggle="modal" 
+											data-bs-target="#modal-download-all-report"><i class="las la-file-archive"></i> Download Report (Semua PDF)</a>
+											<a class="dropdown-item" href="#"
+											data-bs-toggle="modal" 
+											data-bs-target="#modal-download-all-report-doc"><i class="las la-file-archive"></i> Download Report (Semua Doc)</a>
+										@endif
 									</div>
 								</div>
 							</div>
