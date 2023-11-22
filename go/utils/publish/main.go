@@ -108,7 +108,7 @@ func main() {
 				os.Remove(fmt.Sprintf("templates/assets/qrcode/%v.png", nomor_seri))
 				//update no_seri
 				reportRepository.UpdateNomorSeriCetak(id_quiz, id_user, nomor_seri, url_firebase_result)
-				fmt.Printf("Upload: %v", url_firebase_result)
+				fmt.Printf("Berhasil Publish ke URL: %v", url_firebase_result)
 				fmt.Println()
 			}
 		}
