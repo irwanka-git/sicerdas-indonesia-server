@@ -1687,10 +1687,19 @@ class ManajemenSesiTesController extends Controller
         // echo $r->uuid;
         if($this->ucu()){
             $id_quiz = $r->id_quiz;
-            $record = array("id_quiz"=>$id_quiz, "status"=>0);
-            DB::table('publish_cron')->insert($record);
-            $respon = array('status'=>true,'message'=>'Publish Sesi Tes Sedang Diproses...');          
-            return response()->json($respon);
+            $cek_submit = DB::table("quiz_sesi_user")->where("id_quiz", $id_quiz)->where("submit", 1)->count();
+            $cek_skoring = DB::table("quiz_sesi_user")->where("id_quiz", $id_quiz)->where("skoring", 1)->count();
+
+            if ($cek_submit == $cek_skoring && $cek_skoring > 0) {
+                $record = array("id_quiz"=>$id_quiz, "status"=>0);
+                DB::table('publish_cron')->insert($record);
+                $respon = array('status'=>true,'message'=>'Publish Sesi Tes Sedang Diproses...');          
+                return response()->json($respon);
+            }else{
+                $respon = array('status'=>false,'message'=>'Mohon Tunggu Skoring Belum Lengkap');  
+                return response()->json($respon);
+            }
+    
         }
     }
 
