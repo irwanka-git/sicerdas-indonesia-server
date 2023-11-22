@@ -21,6 +21,7 @@ type QuizRepository interface {
 	GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error)
 	GetAllQuizTemplate() ([]*entity.QuizSesiTemplate, error)
 	GetAllQuizSesi() ([]*entity.Quiz, error)
+	GetlDetilQuizByID(id int) (*entity.Quiz, error)
 
 	UpdateURLFirebaseSoqalQuiz(token string, url string) error
 	UpdateGambarQuizTemplate(id int32, gambar string) error
@@ -123,6 +124,15 @@ func (*repo) GetlListQuizByUser(id int) ([]*entity.QuizUserApi, error) {
 func (*repo) GetlDetilQuizByToken(token string) (*entity.Quiz, error) {
 	var quiz *entity.Quiz
 	result := db.Table("quiz_sesi").Where("token = ?", token).First(&quiz)
+	if result.RowsAffected == 0 {
+		return nil, errors.New("data not found")
+	}
+	return quiz, nil
+}
+
+func (*repo) GetlDetilQuizByID(id int) (*entity.Quiz, error) {
+	var quiz *entity.Quiz
+	result := db.Table("quiz_sesi").Where("id_quiz = ?", id).First(&quiz)
 	if result.RowsAffected == 0 {
 		return nil, errors.New("data not found")
 	}

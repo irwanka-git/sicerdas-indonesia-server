@@ -114,7 +114,7 @@ class LoginController extends Controller
     function submit_login(Request $r){
 
         $validator  = Validator::make($r->all(), [
-            'g-recaptcha-response' => 'required|captcha',
+           // 'g-recaptcha-response' => 'required|captcha',
             'username'=>'required',
             'password'=>'required',
         ]);

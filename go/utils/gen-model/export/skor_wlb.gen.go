@@ -43,13 +43,6 @@ func newSkorWlb(db *gorm.DB, opts ...gen.DOOption) skorWlb {
 	_skorWlb.NilaiHubunganSosial = field.NewInt32(tableName, "nilai_hubungan_sosial")
 	_skorWlb.NilaiKesehatan = field.NewInt32(tableName, "nilai_kesehatan")
 	_skorWlb.NilaiRekanKerja = field.NewInt32(tableName, "nilai_rekan_kerja")
-	_skorWlb.KlasifikasiKedamaianHati = field.NewString(tableName, "klasifikasi_kedamaian_hati")
-	_skorWlb.KlasifikasiPengembanganDiri = field.NewString(tableName, "klasifikasi_pengembangan_diri")
-	_skorWlb.KlasifikasiIbadah = field.NewString(tableName, "klasifikasi_ibadah")
-	_skorWlb.KlasifikasiPendapatan = field.NewString(tableName, "klasifikasi_pendapatan")
-	_skorWlb.KlasifikasiHubunganSosial = field.NewString(tableName, "klasifikasi_hubungan_sosial")
-	_skorWlb.KlasifikasiKesehatan = field.NewString(tableName, "klasifikasi_kesehatan")
-	_skorWlb.KlasifikasiRekanKerja = field.NewString(tableName, "klasifikasi_rekan_kerja")
 
 	_skorWlb.fillFieldMap()
 
@@ -59,30 +52,23 @@ func newSkorWlb(db *gorm.DB, opts ...gen.DOOption) skorWlb {
 type skorWlb struct {
 	skorWlbDo skorWlbDo
 
-	ALL                         field.Asterisk
-	IDUser                      field.Int32
-	IDQuiz                      field.Int32
-	KedamaianHati               field.Int32
-	PengembanganDiri            field.Int32
-	Ibadah                      field.Int32
-	Pendapatan                  field.Int32
-	HubunganSosial              field.Int32
-	Kesehatan                   field.Int32
-	RekanKerja                  field.Int32
-	NilaiKedamaianHati          field.Int32
-	NilaiPengembanganDiri       field.Int32
-	NilaiIbadah                 field.Int32
-	NilaiPendapatan             field.Int32
-	NilaiHubunganSosial         field.Int32
-	NilaiKesehatan              field.Int32
-	NilaiRekanKerja             field.Int32
-	KlasifikasiKedamaianHati    field.String
-	KlasifikasiPengembanganDiri field.String
-	KlasifikasiIbadah           field.String
-	KlasifikasiPendapatan       field.String
-	KlasifikasiHubunganSosial   field.String
-	KlasifikasiKesehatan        field.String
-	KlasifikasiRekanKerja       field.String
+	ALL                   field.Asterisk
+	IDUser                field.Int32
+	IDQuiz                field.Int32
+	KedamaianHati         field.Int32
+	PengembanganDiri      field.Int32
+	Ibadah                field.Int32
+	Pendapatan            field.Int32
+	HubunganSosial        field.Int32
+	Kesehatan             field.Int32
+	RekanKerja            field.Int32
+	NilaiKedamaianHati    field.Int32
+	NilaiPengembanganDiri field.Int32
+	NilaiIbadah           field.Int32
+	NilaiPendapatan       field.Int32
+	NilaiHubunganSosial   field.Int32
+	NilaiKesehatan        field.Int32
+	NilaiRekanKerja       field.Int32
 
 	fieldMap map[string]field.Expr
 }
@@ -115,13 +101,6 @@ func (s *skorWlb) updateTableName(table string) *skorWlb {
 	s.NilaiHubunganSosial = field.NewInt32(table, "nilai_hubungan_sosial")
 	s.NilaiKesehatan = field.NewInt32(table, "nilai_kesehatan")
 	s.NilaiRekanKerja = field.NewInt32(table, "nilai_rekan_kerja")
-	s.KlasifikasiKedamaianHati = field.NewString(table, "klasifikasi_kedamaian_hati")
-	s.KlasifikasiPengembanganDiri = field.NewString(table, "klasifikasi_pengembangan_diri")
-	s.KlasifikasiIbadah = field.NewString(table, "klasifikasi_ibadah")
-	s.KlasifikasiPendapatan = field.NewString(table, "klasifikasi_pendapatan")
-	s.KlasifikasiHubunganSosial = field.NewString(table, "klasifikasi_hubungan_sosial")
-	s.KlasifikasiKesehatan = field.NewString(table, "klasifikasi_kesehatan")
-	s.KlasifikasiRekanKerja = field.NewString(table, "klasifikasi_rekan_kerja")
 
 	s.fillFieldMap()
 
@@ -146,7 +125,7 @@ func (s *skorWlb) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *skorWlb) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 23)
+	s.fieldMap = make(map[string]field.Expr, 16)
 	s.fieldMap["id_user"] = s.IDUser
 	s.fieldMap["id_quiz"] = s.IDQuiz
 	s.fieldMap["kedamaian_hati"] = s.KedamaianHati
@@ -163,13 +142,6 @@ func (s *skorWlb) fillFieldMap() {
 	s.fieldMap["nilai_hubungan_sosial"] = s.NilaiHubunganSosial
 	s.fieldMap["nilai_kesehatan"] = s.NilaiKesehatan
 	s.fieldMap["nilai_rekan_kerja"] = s.NilaiRekanKerja
-	s.fieldMap["klasifikasi_kedamaian_hati"] = s.KlasifikasiKedamaianHati
-	s.fieldMap["klasifikasi_pengembangan_diri"] = s.KlasifikasiPengembanganDiri
-	s.fieldMap["klasifikasi_ibadah"] = s.KlasifikasiIbadah
-	s.fieldMap["klasifikasi_pendapatan"] = s.KlasifikasiPendapatan
-	s.fieldMap["klasifikasi_hubungan_sosial"] = s.KlasifikasiHubunganSosial
-	s.fieldMap["klasifikasi_kesehatan"] = s.KlasifikasiKesehatan
-	s.fieldMap["klasifikasi_rekan_kerja"] = s.KlasifikasiRekanKerja
 }
 
 func (s skorWlb) clone(db *gorm.DB) skorWlb {

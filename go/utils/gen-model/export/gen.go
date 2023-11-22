@@ -17,512 +17,545 @@ import (
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:                               db,
-		Datum:                            newDatum(db, opts...),
-		Gambar:                           newGambar(db, opts...),
-		InfoCerda:                        newInfoCerda(db, opts...),
-		InterprestasiTipologiJung:        newInterprestasiTipologiJung(db, opts...),
-		Kontak:                           newKontak(db, opts...),
-		Lokasi:                           newLokasi(db, opts...),
-		Menu:                             newMenu(db, opts...),
-		ModelReport:                      newModelReport(db, opts...),
-		PetunjukSoal:                     newPetunjukSoal(db, opts...),
-		Province:                         newProvince(db, opts...),
-		QuizSesi:                         newQuizSesi(db, opts...),
-		QuizSesiAdditionalSkoring:        newQuizSesiAdditionalSkoring(db, opts...),
-		QuizSesiDetil:                    newQuizSesiDetil(db, opts...),
-		QuizSesiDetilTemplate:            newQuizSesiDetilTemplate(db, opts...),
-		QuizSesiMappingSmk:               newQuizSesiMappingSmk(db, opts...),
-		QuizSesiMaster:                   newQuizSesiMaster(db, opts...),
-		QuizSesiReport:                   newQuizSesiReport(db, opts...),
-		QuizSesiTemplate:                 newQuizSesiTemplate(db, opts...),
-		QuizSesiTemplateLampiran:         newQuizSesiTemplateLampiran(db, opts...),
-		QuizSesiTemplateReport:           newQuizSesiTemplateReport(db, opts...),
-		QuizSesiTtd:                      newQuizSesiTtd(db, opts...),
-		QuizSesiUser:                     newQuizSesiUser(db, opts...),
-		QuizSesiUserJawaban:              newQuizSesiUserJawaban(db, opts...),
-		QuizTemplateSaran:                newQuizTemplateSaran(db, opts...),
-		RefBidangKognitif:                newRefBidangKognitif(db, opts...),
-		RefGayaBelajar:                   newRefGayaBelajar(db, opts...),
-		RefKarakterPribadi:               newRefKarakterPribadi(db, opts...),
-		RefKecerdasanMajemuk:             newRefKecerdasanMajemuk(db, opts...),
-		RefKelasMinatSma:                 newRefKelasMinatSma(db, opts...),
-		RefKelompokMinatKuliah:           newRefKelompokMinatKuliah(db, opts...),
-		RefKelompokSikapPelajaran:        newRefKelompokSikapPelajaran(db, opts...),
-		RefKelompokTmi:                   newRefKelompokTmi(db, opts...),
-		RefKlasifikasiGayaKerja:          newRefKlasifikasiGayaKerja(db, opts...),
-		RefKlasifikasiKejiwaanDewasa:     newRefKlasifikasiKejiwaanDewasa(db, opts...),
-		RefKlasifikasiKesehatanMental:    newRefKlasifikasiKesehatanMental(db, opts...),
-		RefKlasifikasiMinatMan:           newRefKlasifikasiMinatMan(db, opts...),
-		RefKlasifikasiMinatSma:           newRefKlasifikasiMinatSma(db, opts...),
-		RefKlasifikasiTipologiJung:       newRefKlasifikasiTipologiJung(db, opts...),
-		RefKlasifikasiWlb:                newRefKlasifikasiWlb(db, opts...),
-		RefKomponenEq:                    newRefKomponenEq(db, opts...),
-		RefKomponenGayaPekerjaan:         newRefKomponenGayaPekerjaan(db, opts...),
-		RefKomponenKarakteristikPribadi:  newRefKomponenKarakteristikPribadi(db, opts...),
-		RefKomponenKepribadianManajerial: newRefKomponenKepribadianManajerial(db, opts...),
-		RefKonversiIq:                    newRefKonversiIq(db, opts...),
-		RefKonversiIq105:                 newRefKonversiIq105(db, opts...),
-		RefKonversiIq90:                  newRefKonversiIq90(db, opts...),
-		RefModelKejiwaanDewasa:           newRefModelKejiwaanDewasa(db, opts...),
-		RefModelKesehatanMental:          newRefModelKesehatanMental(db, opts...),
-		RefModelWlb:                      newRefModelWlb(db, opts...),
-		RefPilihanMinatMan:               newRefPilihanMinatMan(db, opts...),
-		RefPilihanMinatSma:               newRefPilihanMinatSma(db, opts...),
-		RefRangkingTmi:                   newRefRangkingTmi(db, opts...),
-		RefRekomendasiAkhirMan:           newRefRekomendasiAkhirMan(db, opts...),
-		RefRekomendasiAkhirPeminatanSma:  newRefRekomendasiAkhirPeminatanSma(db, opts...),
-		RefRekomendasiAkhirSma:           newRefRekomendasiAkhirSma(db, opts...),
-		RefRekomendasiAkhirSmaV2:         newRefRekomendasiAkhirSmaV2(db, opts...),
-		RefRekomendasiAkhirSmaV3:         newRefRekomendasiAkhirSmaV3(db, opts...),
-		RefRekomendasiMinatMan:           newRefRekomendasiMinatMan(db, opts...),
-		RefRekomendasiMinatSma:           newRefRekomendasiMinatSma(db, opts...),
-		RefRekomendasiMinatTmi:           newRefRekomendasiMinatTmi(db, opts...),
-		RefRekomendasiSikapPelajaran:     newRefRekomendasiSikapPelajaran(db, opts...),
-		RefSekolahDina:                   newRefSekolahDina(db, opts...),
-		RefSkalaKd15:                     newRefSkalaKd15(db, opts...),
-		RefSkalaKd20:                     newRefSkalaKd20(db, opts...),
-		RefSkalaKdCepatTeliti:            newRefSkalaKdCepatTeliti(db, opts...),
-		RefSkalaKdInformasiUmum:          newRefSkalaKdInformasiUmum(db, opts...),
-		RefSkalaKdPenalaranAbstrak:       newRefSkalaKdPenalaranAbstrak(db, opts...),
-		RefSkalaKdPenalaranKuantitatif:   newRefSkalaKdPenalaranKuantitatif(db, opts...),
-		RefSkalaKdPenalaranMekanika:      newRefSkalaKdPenalaranMekanika(db, opts...),
-		RefSkalaKdPenalaranSpasial:       newRefSkalaKdPenalaranSpasial(db, opts...),
-		RefSkalaKdPenalaranVerbal:        newRefSkalaKdPenalaranVerbal(db, opts...),
-		RefSkalaSikapPelajaran:           newRefSkalaSikapPelajaran(db, opts...),
-		RefSkalaSkorSsct:                 newRefSkalaSkorSsct(db, opts...),
-		RefSkorGayaBelajar:               newRefSkorGayaBelajar(db, opts...),
-		RefSkorGayaPekerjaan:             newRefSkorGayaPekerjaan(db, opts...),
-		RefSkorKarakterPribadi:           newRefSkorKarakterPribadi(db, opts...),
-		RefSkoringGayaPekerjaan:          newRefSkoringGayaPekerjaan(db, opts...),
-		RefSkoringKecerdasanMajemuk:      newRefSkoringKecerdasanMajemuk(db, opts...),
-		RefSkoringKejiwaanDewasa:         newRefSkoringKejiwaanDewasa(db, opts...),
-		RefSkoringKesehatanMental:        newRefSkoringKesehatanMental(db, opts...),
-		RefSkoringKuliahDina:             newRefSkoringKuliahDina(db, opts...),
-		RefSkoringTipologiJung:           newRefSkoringTipologiJung(db, opts...),
-		RefSkoringWlb:                    newRefSkoringWlb(db, opts...),
-		Regency:                          newRegency(db, opts...),
-		Role:                             newRole(db, opts...),
-		RoleMenu:                         newRoleMenu(db, opts...),
-		RunningCronjob:                   newRunningCronjob(db, opts...),
-		SeriCetakan:                      newSeriCetakan(db, opts...),
-		SeriCetakanDoc:                   newSeriCetakanDoc(db, opts...),
-		SkorDisc:                         newSkorDisc(db, opts...),
-		SkorGayaBelajar:                  newSkorGayaBelajar(db, opts...),
-		SkorGayaPekerjaan:                newSkorGayaPekerjaan(db, opts...),
-		SkorKarakteristikPribadi:         newSkorKarakteristikPribadi(db, opts...),
-		SkorKecerdasanMajemuk:            newSkorKecerdasanMajemuk(db, opts...),
-		SkorKejiwaanDewasa:               newSkorKejiwaanDewasa(db, opts...),
-		SkorKepribadianManajerial:        newSkorKepribadianManajerial(db, opts...),
-		SkorKesehatanMental:              newSkorKesehatanMental(db, opts...),
-		SkorKognitif:                     newSkorKognitif(db, opts...),
-		SkorKognitifPmk:                  newSkorKognitifPmk(db, opts...),
-		SkorKuliahAgama:                  newSkorKuliahAgama(db, opts...),
-		SkorKuliahAlam:                   newSkorKuliahAlam(db, opts...),
-		SkorKuliahDina:                   newSkorKuliahDina(db, opts...),
-		SkorKuliahSosial:                 newSkorKuliahSosial(db, opts...),
-		SkorMbti:                         newSkorMbti(db, opts...),
-		SkorMinatIndonesium:              newSkorMinatIndonesium(db, opts...),
-		SkorModeBelajar:                  newSkorModeBelajar(db, opts...),
-		SkorModeKerja:                    newSkorModeKerja(db, opts...),
-		SkorPeminatanMan:                 newSkorPeminatanMan(db, opts...),
-		SkorPeminatanSma:                 newSkorPeminatanSma(db, opts...),
-		SkorPeminatanSmk:                 newSkorPeminatanSmk(db, opts...),
-		SkorRekomKuliahA:                 newSkorRekomKuliahA(db, opts...),
-		SkorRekomKuliahB:                 newSkorRekomKuliahB(db, opts...),
-		SkorRekomPeminatanSma:            newSkorRekomPeminatanSma(db, opts...),
-		SkorSikapPelajaran:               newSkorSikapPelajaran(db, opts...),
-		SkorSikapPelajaranMk:             newSkorSikapPelajaranMk(db, opts...),
-		SkorSsct:                         newSkorSsct(db, opts...),
-		SkorSuasanaKerja:                 newSkorSuasanaKerja(db, opts...),
-		SkorWlb:                          newSkorWlb(db, opts...),
-		SkoringIqEq:                      newSkoringIqEq(db, opts...),
-		SkoringMinatLengkap:              newSkoringMinatLengkap(db, opts...),
-		SkoringMinatMan:                  newSkoringMinatMan(db, opts...),
-		SkoringMinatSma:                  newSkoringMinatSma(db, opts...),
-		SkoringMinatSmaV2:                newSkoringMinatSmaV2(db, opts...),
-		SkoringMinatSmaV3:                newSkoringMinatSmaV3(db, opts...),
-		SkoringMinatSmk:                  newSkoringMinatSmk(db, opts...),
-		SkoringMinatSmkV2:                newSkoringMinatSmkV2(db, opts...),
-		SkoringMinatVersi3:               newSkoringMinatVersi3(db, opts...),
-		SkoringPenjurusanKuliah:          newSkoringPenjurusanKuliah(db, opts...),
-		SkoringPenjurusanKuliahV2:        newSkoringPenjurusanKuliahV2(db, opts...),
-		SkoringPenjurusanKuliahV3:        newSkoringPenjurusanKuliahV3(db, opts...),
-		SkoringSeleksiKaryawan:           newSkoringSeleksiKaryawan(db, opts...),
-		SoalDisc:                         newSoalDisc(db, opts...),
-		SoalGayaBelajar:                  newSoalGayaBelajar(db, opts...),
-		SoalGayaPekerjaan:                newSoalGayaPekerjaan(db, opts...),
-		SoalKarakteristikPribadi:         newSoalKarakteristikPribadi(db, opts...),
-		SoalKecerdasanMajemuk:            newSoalKecerdasanMajemuk(db, opts...),
-		SoalKejiwaanDewasa:               newSoalKejiwaanDewasa(db, opts...),
-		SoalKepribadianManajerial:        newSoalKepribadianManajerial(db, opts...),
-		SoalKesehatanMental:              newSoalKesehatanMental(db, opts...),
-		SoalKognitif:                     newSoalKognitif(db, opts...),
-		SoalKraeplin:                     newSoalKraeplin(db, opts...),
-		SoalMinatKuliahAgama:             newSoalMinatKuliahAgama(db, opts...),
-		SoalMinatKuliahDina:              newSoalMinatKuliahDina(db, opts...),
-		SoalMinatKuliahEksaktum:          newSoalMinatKuliahEksaktum(db, opts...),
-		SoalMinatKuliahSosial:            newSoalMinatKuliahSosial(db, opts...),
-		SoalMinatKuliahSuasanaKerja:      newSoalMinatKuliahSuasanaKerja(db, opts...),
-		SoalModeBelajar:                  newSoalModeBelajar(db, opts...),
-		SoalModeKerja:                    newSoalModeKerja(db, opts...),
-		SoalPeminatanMan:                 newSoalPeminatanMan(db, opts...),
-		SoalPeminatanSma:                 newSoalPeminatanSma(db, opts...),
-		SoalPeminatanSmk:                 newSoalPeminatanSmk(db, opts...),
-		SoalSikapPelajaran:               newSoalSikapPelajaran(db, opts...),
-		SoalSikapPelajaranKuliah:         newSoalSikapPelajaranKuliah(db, opts...),
-		SoalSsctRemaja:                   newSoalSsctRemaja(db, opts...),
-		SoalTipologiJung:                 newSoalTipologiJung(db, opts...),
-		SoalTmi:                          newSoalTmi(db, opts...),
-		SoalWlb:                          newSoalWlb(db, opts...),
-		StatusCronjob:                    newStatusCronjob(db, opts...),
-		StatusSkoring:                    newStatusSkoring(db, opts...),
-		TarifPaket:                       newTarifPaket(db, opts...),
-		TarifPaketRinci:                  newTarifPaketRinci(db, opts...),
-		User:                             newUser(db, opts...),
-		UserRole:                         newUserRole(db, opts...),
-		UserUploadExcel:                  newUserUploadExcel(db, opts...),
+		db:                                 db,
+		Datum:                              newDatum(db, opts...),
+		Gambar:                             newGambar(db, opts...),
+		InfoCerda:                          newInfoCerda(db, opts...),
+		InterprestasiTipologiJung:          newInterprestasiTipologiJung(db, opts...),
+		InterprestasiTipologiJungEng:       newInterprestasiTipologiJungEng(db, opts...),
+		Kontak:                             newKontak(db, opts...),
+		Lokasi:                             newLokasi(db, opts...),
+		Menu:                               newMenu(db, opts...),
+		ModelReport:                        newModelReport(db, opts...),
+		PetunjukSoal:                       newPetunjukSoal(db, opts...),
+		PetunjukSoalEng:                    newPetunjukSoalEng(db, opts...),
+		Province:                           newProvince(db, opts...),
+		PublishCron:                        newPublishCron(db, opts...),
+		QuizSesi:                           newQuizSesi(db, opts...),
+		QuizSesiAdditionalSkoring:          newQuizSesiAdditionalSkoring(db, opts...),
+		QuizSesiDetil:                      newQuizSesiDetil(db, opts...),
+		QuizSesiDetilTemplate:              newQuizSesiDetilTemplate(db, opts...),
+		QuizSesiMappingSmk:                 newQuizSesiMappingSmk(db, opts...),
+		QuizSesiMaster:                     newQuizSesiMaster(db, opts...),
+		QuizSesiReport:                     newQuizSesiReport(db, opts...),
+		QuizSesiTemplate:                   newQuizSesiTemplate(db, opts...),
+		QuizSesiTemplateLampiran:           newQuizSesiTemplateLampiran(db, opts...),
+		QuizSesiTemplateReport:             newQuizSesiTemplateReport(db, opts...),
+		QuizSesiTtd:                        newQuizSesiTtd(db, opts...),
+		QuizSesiUser:                       newQuizSesiUser(db, opts...),
+		QuizSesiUserJawaban:                newQuizSesiUserJawaban(db, opts...),
+		QuizTemplateSaran:                  newQuizTemplateSaran(db, opts...),
+		RefBidangKognitif:                  newRefBidangKognitif(db, opts...),
+		RefGayaBelajar:                     newRefGayaBelajar(db, opts...),
+		RefKarakterPribadi:                 newRefKarakterPribadi(db, opts...),
+		RefKecerdasanMajemuk:               newRefKecerdasanMajemuk(db, opts...),
+		RefKelasMinatSma:                   newRefKelasMinatSma(db, opts...),
+		RefKelompokMinatKuliah:             newRefKelompokMinatKuliah(db, opts...),
+		RefKelompokSikapPelajaran:          newRefKelompokSikapPelajaran(db, opts...),
+		RefKelompokTmi:                     newRefKelompokTmi(db, opts...),
+		RefKlasifikasiGayaKerja:            newRefKlasifikasiGayaKerja(db, opts...),
+		RefKlasifikasiKejiwaanDewasa:       newRefKlasifikasiKejiwaanDewasa(db, opts...),
+		RefKlasifikasiKesehatanMental:      newRefKlasifikasiKesehatanMental(db, opts...),
+		RefKlasifikasiMinatMan:             newRefKlasifikasiMinatMan(db, opts...),
+		RefKlasifikasiMinatSma:             newRefKlasifikasiMinatSma(db, opts...),
+		RefKlasifikasiPribadiManajerial:    newRefKlasifikasiPribadiManajerial(db, opts...),
+		RefKlasifikasiTipologiJung:         newRefKlasifikasiTipologiJung(db, opts...),
+		RefKlasifikasiWlb:                  newRefKlasifikasiWlb(db, opts...),
+		RefKomponenEq:                      newRefKomponenEq(db, opts...),
+		RefKomponenGayaPekerjaan:           newRefKomponenGayaPekerjaan(db, opts...),
+		RefKomponenGayaPekerjaanEng:        newRefKomponenGayaPekerjaanEng(db, opts...),
+		RefKomponenKarakteristikPribadi:    newRefKomponenKarakteristikPribadi(db, opts...),
+		RefKomponenKarakteristikPribadiEng: newRefKomponenKarakteristikPribadiEng(db, opts...),
+		RefKomponenKepribadianManajerial:   newRefKomponenKepribadianManajerial(db, opts...),
+		RefKonversiIq:                      newRefKonversiIq(db, opts...),
+		RefKonversiIq105:                   newRefKonversiIq105(db, opts...),
+		RefKonversiIq90:                    newRefKonversiIq90(db, opts...),
+		RefModelKejiwaanDewasa:             newRefModelKejiwaanDewasa(db, opts...),
+		RefModelKesehatanMental:            newRefModelKesehatanMental(db, opts...),
+		RefModelWlb:                        newRefModelWlb(db, opts...),
+		RefPilihanMinatMan:                 newRefPilihanMinatMan(db, opts...),
+		RefPilihanMinatSma:                 newRefPilihanMinatSma(db, opts...),
+		RefRangkingTmi:                     newRefRangkingTmi(db, opts...),
+		RefRekomendasiAkhirMan:             newRefRekomendasiAkhirMan(db, opts...),
+		RefRekomendasiAkhirPeminatanSma:    newRefRekomendasiAkhirPeminatanSma(db, opts...),
+		RefRekomendasiAkhirSma:             newRefRekomendasiAkhirSma(db, opts...),
+		RefRekomendasiAkhirSmaV2:           newRefRekomendasiAkhirSmaV2(db, opts...),
+		RefRekomendasiAkhirSmaV3:           newRefRekomendasiAkhirSmaV3(db, opts...),
+		RefRekomendasiMinatMan:             newRefRekomendasiMinatMan(db, opts...),
+		RefRekomendasiMinatSma:             newRefRekomendasiMinatSma(db, opts...),
+		RefRekomendasiMinatTmi:             newRefRekomendasiMinatTmi(db, opts...),
+		RefRekomendasiSikapPelajaran:       newRefRekomendasiSikapPelajaran(db, opts...),
+		RefSekolahDina:                     newRefSekolahDina(db, opts...),
+		RefSkalaKd15:                       newRefSkalaKd15(db, opts...),
+		RefSkalaKd20:                       newRefSkalaKd20(db, opts...),
+		RefSkalaKdCepatTeliti:              newRefSkalaKdCepatTeliti(db, opts...),
+		RefSkalaKdInformasiUmum:            newRefSkalaKdInformasiUmum(db, opts...),
+		RefSkalaKdPenalaranAbstrak:         newRefSkalaKdPenalaranAbstrak(db, opts...),
+		RefSkalaKdPenalaranKuantitatif:     newRefSkalaKdPenalaranKuantitatif(db, opts...),
+		RefSkalaKdPenalaranMekanika:        newRefSkalaKdPenalaranMekanika(db, opts...),
+		RefSkalaKdPenalaranSpasial:         newRefSkalaKdPenalaranSpasial(db, opts...),
+		RefSkalaKdPenalaranVerbal:          newRefSkalaKdPenalaranVerbal(db, opts...),
+		RefSkalaSikapPelajaran:             newRefSkalaSikapPelajaran(db, opts...),
+		RefSkalaSkorSsct:                   newRefSkalaSkorSsct(db, opts...),
+		RefSkorGayaBelajar:                 newRefSkorGayaBelajar(db, opts...),
+		RefSkorGayaPekerjaan:               newRefSkorGayaPekerjaan(db, opts...),
+		RefSkorKarakterPribadi:             newRefSkorKarakterPribadi(db, opts...),
+		RefSkoringGayaPekerjaan:            newRefSkoringGayaPekerjaan(db, opts...),
+		RefSkoringKecerdasanMajemuk:        newRefSkoringKecerdasanMajemuk(db, opts...),
+		RefSkoringKejiwaanDewasa:           newRefSkoringKejiwaanDewasa(db, opts...),
+		RefSkoringKesehatanMental:          newRefSkoringKesehatanMental(db, opts...),
+		RefSkoringKuliahDina:               newRefSkoringKuliahDina(db, opts...),
+		RefSkoringTipologiJung:             newRefSkoringTipologiJung(db, opts...),
+		RefSkoringWlb:                      newRefSkoringWlb(db, opts...),
+		Regency:                            newRegency(db, opts...),
+		Role:                               newRole(db, opts...),
+		RoleMenu:                           newRoleMenu(db, opts...),
+		RunningCronjob:                     newRunningCronjob(db, opts...),
+		SeriCetakan:                        newSeriCetakan(db, opts...),
+		SeriCetakanDoc:                     newSeriCetakanDoc(db, opts...),
+		SkorDisc:                           newSkorDisc(db, opts...),
+		SkorGayaBelajar:                    newSkorGayaBelajar(db, opts...),
+		SkorGayaPekerjaan:                  newSkorGayaPekerjaan(db, opts...),
+		SkorKarakteristikPribadi:           newSkorKarakteristikPribadi(db, opts...),
+		SkorKecerdasanMajemuk:              newSkorKecerdasanMajemuk(db, opts...),
+		SkorKejiwaanDewasa:                 newSkorKejiwaanDewasa(db, opts...),
+		SkorKepribadianManajerial:          newSkorKepribadianManajerial(db, opts...),
+		SkorKesehatanMental:                newSkorKesehatanMental(db, opts...),
+		SkorKognitif:                       newSkorKognitif(db, opts...),
+		SkorKognitifPmk:                    newSkorKognitifPmk(db, opts...),
+		SkorKuliahAgama:                    newSkorKuliahAgama(db, opts...),
+		SkorKuliahAlam:                     newSkorKuliahAlam(db, opts...),
+		SkorKuliahDina:                     newSkorKuliahDina(db, opts...),
+		SkorKuliahSosial:                   newSkorKuliahSosial(db, opts...),
+		SkorMbti:                           newSkorMbti(db, opts...),
+		SkorMinatIndonesium:                newSkorMinatIndonesium(db, opts...),
+		SkorModeBelajar:                    newSkorModeBelajar(db, opts...),
+		SkorModeKerja:                      newSkorModeKerja(db, opts...),
+		SkorPeminatanMan:                   newSkorPeminatanMan(db, opts...),
+		SkorPeminatanSma:                   newSkorPeminatanSma(db, opts...),
+		SkorPeminatanSmk:                   newSkorPeminatanSmk(db, opts...),
+		SkorRekomKuliahA:                   newSkorRekomKuliahA(db, opts...),
+		SkorRekomKuliahB:                   newSkorRekomKuliahB(db, opts...),
+		SkorRekomPeminatanSma:              newSkorRekomPeminatanSma(db, opts...),
+		SkorSikapPelajaran:                 newSkorSikapPelajaran(db, opts...),
+		SkorSikapPelajaranMk:               newSkorSikapPelajaranMk(db, opts...),
+		SkorSsct:                           newSkorSsct(db, opts...),
+		SkorSuasanaKerja:                   newSkorSuasanaKerja(db, opts...),
+		SkorWlb:                            newSkorWlb(db, opts...),
+		SkoringIqEq:                        newSkoringIqEq(db, opts...),
+		SkoringMinatLengkap:                newSkoringMinatLengkap(db, opts...),
+		SkoringMinatMan:                    newSkoringMinatMan(db, opts...),
+		SkoringMinatSma:                    newSkoringMinatSma(db, opts...),
+		SkoringMinatSmaV2:                  newSkoringMinatSmaV2(db, opts...),
+		SkoringMinatSmaV3:                  newSkoringMinatSmaV3(db, opts...),
+		SkoringMinatSmk:                    newSkoringMinatSmk(db, opts...),
+		SkoringMinatSmkV2:                  newSkoringMinatSmkV2(db, opts...),
+		SkoringMinatVersi3:                 newSkoringMinatVersi3(db, opts...),
+		SkoringPenjurusanKuliah:            newSkoringPenjurusanKuliah(db, opts...),
+		SkoringPenjurusanKuliahV2:          newSkoringPenjurusanKuliahV2(db, opts...),
+		SkoringPenjurusanKuliahV3:          newSkoringPenjurusanKuliahV3(db, opts...),
+		SkoringSeleksiKaryawan:             newSkoringSeleksiKaryawan(db, opts...),
+		SoalDisc:                           newSoalDisc(db, opts...),
+		SoalGayaBelajar:                    newSoalGayaBelajar(db, opts...),
+		SoalGayaPekerjaan:                  newSoalGayaPekerjaan(db, opts...),
+		SoalGayaPekerjaanEng:               newSoalGayaPekerjaanEng(db, opts...),
+		SoalKarakteristikPribadi:           newSoalKarakteristikPribadi(db, opts...),
+		SoalKarakteristikPribadiEng:        newSoalKarakteristikPribadiEng(db, opts...),
+		SoalKecerdasanMajemuk:              newSoalKecerdasanMajemuk(db, opts...),
+		SoalKejiwaanDewasa:                 newSoalKejiwaanDewasa(db, opts...),
+		SoalKepribadianManajerial:          newSoalKepribadianManajerial(db, opts...),
+		SoalKesehatanMental:                newSoalKesehatanMental(db, opts...),
+		SoalKognitif:                       newSoalKognitif(db, opts...),
+		SoalKognitifEng:                    newSoalKognitifEng(db, opts...),
+		SoalKraeplin:                       newSoalKraeplin(db, opts...),
+		SoalMinatKuliahAgama:               newSoalMinatKuliahAgama(db, opts...),
+		SoalMinatKuliahDina:                newSoalMinatKuliahDina(db, opts...),
+		SoalMinatKuliahEksaktum:            newSoalMinatKuliahEksaktum(db, opts...),
+		SoalMinatKuliahSosial:              newSoalMinatKuliahSosial(db, opts...),
+		SoalMinatKuliahSuasanaKerja:        newSoalMinatKuliahSuasanaKerja(db, opts...),
+		SoalModeBelajar:                    newSoalModeBelajar(db, opts...),
+		SoalModeKerja:                      newSoalModeKerja(db, opts...),
+		SoalModeKerjaEng:                   newSoalModeKerjaEng(db, opts...),
+		SoalPeminatanMan:                   newSoalPeminatanMan(db, opts...),
+		SoalPeminatanSma:                   newSoalPeminatanSma(db, opts...),
+		SoalPeminatanSmk:                   newSoalPeminatanSmk(db, opts...),
+		SoalSikapPelajaran:                 newSoalSikapPelajaran(db, opts...),
+		SoalSikapPelajaranKuliah:           newSoalSikapPelajaranKuliah(db, opts...),
+		SoalSsctRemaja:                     newSoalSsctRemaja(db, opts...),
+		SoalTipologiJung:                   newSoalTipologiJung(db, opts...),
+		SoalTipologiJungEng:                newSoalTipologiJungEng(db, opts...),
+		SoalTmi:                            newSoalTmi(db, opts...),
+		SoalWlb:                            newSoalWlb(db, opts...),
+		StatusCronjob:                      newStatusCronjob(db, opts...),
+		StatusSkoring:                      newStatusSkoring(db, opts...),
+		TarifPaket:                         newTarifPaket(db, opts...),
+		TarifPaketRinci:                    newTarifPaketRinci(db, opts...),
+		User:                               newUser(db, opts...),
+		UserRole:                           newUserRole(db, opts...),
+		UserUploadExcel:                    newUserUploadExcel(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Datum                            datum
-	Gambar                           gambar
-	InfoCerda                        infoCerda
-	InterprestasiTipologiJung        interprestasiTipologiJung
-	Kontak                           kontak
-	Lokasi                           lokasi
-	Menu                             menu
-	ModelReport                      modelReport
-	PetunjukSoal                     petunjukSoal
-	Province                         province
-	QuizSesi                         quizSesi
-	QuizSesiAdditionalSkoring        quizSesiAdditionalSkoring
-	QuizSesiDetil                    quizSesiDetil
-	QuizSesiDetilTemplate            quizSesiDetilTemplate
-	QuizSesiMappingSmk               quizSesiMappingSmk
-	QuizSesiMaster                   quizSesiMaster
-	QuizSesiReport                   quizSesiReport
-	QuizSesiTemplate                 quizSesiTemplate
-	QuizSesiTemplateLampiran         quizSesiTemplateLampiran
-	QuizSesiTemplateReport           quizSesiTemplateReport
-	QuizSesiTtd                      quizSesiTtd
-	QuizSesiUser                     quizSesiUser
-	QuizSesiUserJawaban              quizSesiUserJawaban
-	QuizTemplateSaran                quizTemplateSaran
-	RefBidangKognitif                refBidangKognitif
-	RefGayaBelajar                   refGayaBelajar
-	RefKarakterPribadi               refKarakterPribadi
-	RefKecerdasanMajemuk             refKecerdasanMajemuk
-	RefKelasMinatSma                 refKelasMinatSma
-	RefKelompokMinatKuliah           refKelompokMinatKuliah
-	RefKelompokSikapPelajaran        refKelompokSikapPelajaran
-	RefKelompokTmi                   refKelompokTmi
-	RefKlasifikasiGayaKerja          refKlasifikasiGayaKerja
-	RefKlasifikasiKejiwaanDewasa     refKlasifikasiKejiwaanDewasa
-	RefKlasifikasiKesehatanMental    refKlasifikasiKesehatanMental
-	RefKlasifikasiMinatMan           refKlasifikasiMinatMan
-	RefKlasifikasiMinatSma           refKlasifikasiMinatSma
-	RefKlasifikasiTipologiJung       refKlasifikasiTipologiJung
-	RefKlasifikasiWlb                refKlasifikasiWlb
-	RefKomponenEq                    refKomponenEq
-	RefKomponenGayaPekerjaan         refKomponenGayaPekerjaan
-	RefKomponenKarakteristikPribadi  refKomponenKarakteristikPribadi
-	RefKomponenKepribadianManajerial refKomponenKepribadianManajerial
-	RefKonversiIq                    refKonversiIq
-	RefKonversiIq105                 refKonversiIq105
-	RefKonversiIq90                  refKonversiIq90
-	RefModelKejiwaanDewasa           refModelKejiwaanDewasa
-	RefModelKesehatanMental          refModelKesehatanMental
-	RefModelWlb                      refModelWlb
-	RefPilihanMinatMan               refPilihanMinatMan
-	RefPilihanMinatSma               refPilihanMinatSma
-	RefRangkingTmi                   refRangkingTmi
-	RefRekomendasiAkhirMan           refRekomendasiAkhirMan
-	RefRekomendasiAkhirPeminatanSma  refRekomendasiAkhirPeminatanSma
-	RefRekomendasiAkhirSma           refRekomendasiAkhirSma
-	RefRekomendasiAkhirSmaV2         refRekomendasiAkhirSmaV2
-	RefRekomendasiAkhirSmaV3         refRekomendasiAkhirSmaV3
-	RefRekomendasiMinatMan           refRekomendasiMinatMan
-	RefRekomendasiMinatSma           refRekomendasiMinatSma
-	RefRekomendasiMinatTmi           refRekomendasiMinatTmi
-	RefRekomendasiSikapPelajaran     refRekomendasiSikapPelajaran
-	RefSekolahDina                   refSekolahDina
-	RefSkalaKd15                     refSkalaKd15
-	RefSkalaKd20                     refSkalaKd20
-	RefSkalaKdCepatTeliti            refSkalaKdCepatTeliti
-	RefSkalaKdInformasiUmum          refSkalaKdInformasiUmum
-	RefSkalaKdPenalaranAbstrak       refSkalaKdPenalaranAbstrak
-	RefSkalaKdPenalaranKuantitatif   refSkalaKdPenalaranKuantitatif
-	RefSkalaKdPenalaranMekanika      refSkalaKdPenalaranMekanika
-	RefSkalaKdPenalaranSpasial       refSkalaKdPenalaranSpasial
-	RefSkalaKdPenalaranVerbal        refSkalaKdPenalaranVerbal
-	RefSkalaSikapPelajaran           refSkalaSikapPelajaran
-	RefSkalaSkorSsct                 refSkalaSkorSsct
-	RefSkorGayaBelajar               refSkorGayaBelajar
-	RefSkorGayaPekerjaan             refSkorGayaPekerjaan
-	RefSkorKarakterPribadi           refSkorKarakterPribadi
-	RefSkoringGayaPekerjaan          refSkoringGayaPekerjaan
-	RefSkoringKecerdasanMajemuk      refSkoringKecerdasanMajemuk
-	RefSkoringKejiwaanDewasa         refSkoringKejiwaanDewasa
-	RefSkoringKesehatanMental        refSkoringKesehatanMental
-	RefSkoringKuliahDina             refSkoringKuliahDina
-	RefSkoringTipologiJung           refSkoringTipologiJung
-	RefSkoringWlb                    refSkoringWlb
-	Regency                          regency
-	Role                             role
-	RoleMenu                         roleMenu
-	RunningCronjob                   runningCronjob
-	SeriCetakan                      seriCetakan
-	SeriCetakanDoc                   seriCetakanDoc
-	SkorDisc                         skorDisc
-	SkorGayaBelajar                  skorGayaBelajar
-	SkorGayaPekerjaan                skorGayaPekerjaan
-	SkorKarakteristikPribadi         skorKarakteristikPribadi
-	SkorKecerdasanMajemuk            skorKecerdasanMajemuk
-	SkorKejiwaanDewasa               skorKejiwaanDewasa
-	SkorKepribadianManajerial        skorKepribadianManajerial
-	SkorKesehatanMental              skorKesehatanMental
-	SkorKognitif                     skorKognitif
-	SkorKognitifPmk                  skorKognitifPmk
-	SkorKuliahAgama                  skorKuliahAgama
-	SkorKuliahAlam                   skorKuliahAlam
-	SkorKuliahDina                   skorKuliahDina
-	SkorKuliahSosial                 skorKuliahSosial
-	SkorMbti                         skorMbti
-	SkorMinatIndonesium              skorMinatIndonesium
-	SkorModeBelajar                  skorModeBelajar
-	SkorModeKerja                    skorModeKerja
-	SkorPeminatanMan                 skorPeminatanMan
-	SkorPeminatanSma                 skorPeminatanSma
-	SkorPeminatanSmk                 skorPeminatanSmk
-	SkorRekomKuliahA                 skorRekomKuliahA
-	SkorRekomKuliahB                 skorRekomKuliahB
-	SkorRekomPeminatanSma            skorRekomPeminatanSma
-	SkorSikapPelajaran               skorSikapPelajaran
-	SkorSikapPelajaranMk             skorSikapPelajaranMk
-	SkorSsct                         skorSsct
-	SkorSuasanaKerja                 skorSuasanaKerja
-	SkorWlb                          skorWlb
-	SkoringIqEq                      skoringIqEq
-	SkoringMinatLengkap              skoringMinatLengkap
-	SkoringMinatMan                  skoringMinatMan
-	SkoringMinatSma                  skoringMinatSma
-	SkoringMinatSmaV2                skoringMinatSmaV2
-	SkoringMinatSmaV3                skoringMinatSmaV3
-	SkoringMinatSmk                  skoringMinatSmk
-	SkoringMinatSmkV2                skoringMinatSmkV2
-	SkoringMinatVersi3               skoringMinatVersi3
-	SkoringPenjurusanKuliah          skoringPenjurusanKuliah
-	SkoringPenjurusanKuliahV2        skoringPenjurusanKuliahV2
-	SkoringPenjurusanKuliahV3        skoringPenjurusanKuliahV3
-	SkoringSeleksiKaryawan           skoringSeleksiKaryawan
-	SoalDisc                         soalDisc
-	SoalGayaBelajar                  soalGayaBelajar
-	SoalGayaPekerjaan                soalGayaPekerjaan
-	SoalKarakteristikPribadi         soalKarakteristikPribadi
-	SoalKecerdasanMajemuk            soalKecerdasanMajemuk
-	SoalKejiwaanDewasa               soalKejiwaanDewasa
-	SoalKepribadianManajerial        soalKepribadianManajerial
-	SoalKesehatanMental              soalKesehatanMental
-	SoalKognitif                     soalKognitif
-	SoalKraeplin                     soalKraeplin
-	SoalMinatKuliahAgama             soalMinatKuliahAgama
-	SoalMinatKuliahDina              soalMinatKuliahDina
-	SoalMinatKuliahEksaktum          soalMinatKuliahEksaktum
-	SoalMinatKuliahSosial            soalMinatKuliahSosial
-	SoalMinatKuliahSuasanaKerja      soalMinatKuliahSuasanaKerja
-	SoalModeBelajar                  soalModeBelajar
-	SoalModeKerja                    soalModeKerja
-	SoalPeminatanMan                 soalPeminatanMan
-	SoalPeminatanSma                 soalPeminatanSma
-	SoalPeminatanSmk                 soalPeminatanSmk
-	SoalSikapPelajaran               soalSikapPelajaran
-	SoalSikapPelajaranKuliah         soalSikapPelajaranKuliah
-	SoalSsctRemaja                   soalSsctRemaja
-	SoalTipologiJung                 soalTipologiJung
-	SoalTmi                          soalTmi
-	SoalWlb                          soalWlb
-	StatusCronjob                    statusCronjob
-	StatusSkoring                    statusSkoring
-	TarifPaket                       tarifPaket
-	TarifPaketRinci                  tarifPaketRinci
-	User                             user
-	UserRole                         userRole
-	UserUploadExcel                  userUploadExcel
+	Datum                              datum
+	Gambar                             gambar
+	InfoCerda                          infoCerda
+	InterprestasiTipologiJung          interprestasiTipologiJung
+	InterprestasiTipologiJungEng       interprestasiTipologiJungEng
+	Kontak                             kontak
+	Lokasi                             lokasi
+	Menu                               menu
+	ModelReport                        modelReport
+	PetunjukSoal                       petunjukSoal
+	PetunjukSoalEng                    petunjukSoalEng
+	Province                           province
+	PublishCron                        publishCron
+	QuizSesi                           quizSesi
+	QuizSesiAdditionalSkoring          quizSesiAdditionalSkoring
+	QuizSesiDetil                      quizSesiDetil
+	QuizSesiDetilTemplate              quizSesiDetilTemplate
+	QuizSesiMappingSmk                 quizSesiMappingSmk
+	QuizSesiMaster                     quizSesiMaster
+	QuizSesiReport                     quizSesiReport
+	QuizSesiTemplate                   quizSesiTemplate
+	QuizSesiTemplateLampiran           quizSesiTemplateLampiran
+	QuizSesiTemplateReport             quizSesiTemplateReport
+	QuizSesiTtd                        quizSesiTtd
+	QuizSesiUser                       quizSesiUser
+	QuizSesiUserJawaban                quizSesiUserJawaban
+	QuizTemplateSaran                  quizTemplateSaran
+	RefBidangKognitif                  refBidangKognitif
+	RefGayaBelajar                     refGayaBelajar
+	RefKarakterPribadi                 refKarakterPribadi
+	RefKecerdasanMajemuk               refKecerdasanMajemuk
+	RefKelasMinatSma                   refKelasMinatSma
+	RefKelompokMinatKuliah             refKelompokMinatKuliah
+	RefKelompokSikapPelajaran          refKelompokSikapPelajaran
+	RefKelompokTmi                     refKelompokTmi
+	RefKlasifikasiGayaKerja            refKlasifikasiGayaKerja
+	RefKlasifikasiKejiwaanDewasa       refKlasifikasiKejiwaanDewasa
+	RefKlasifikasiKesehatanMental      refKlasifikasiKesehatanMental
+	RefKlasifikasiMinatMan             refKlasifikasiMinatMan
+	RefKlasifikasiMinatSma             refKlasifikasiMinatSma
+	RefKlasifikasiPribadiManajerial    refKlasifikasiPribadiManajerial
+	RefKlasifikasiTipologiJung         refKlasifikasiTipologiJung
+	RefKlasifikasiWlb                  refKlasifikasiWlb
+	RefKomponenEq                      refKomponenEq
+	RefKomponenGayaPekerjaan           refKomponenGayaPekerjaan
+	RefKomponenGayaPekerjaanEng        refKomponenGayaPekerjaanEng
+	RefKomponenKarakteristikPribadi    refKomponenKarakteristikPribadi
+	RefKomponenKarakteristikPribadiEng refKomponenKarakteristikPribadiEng
+	RefKomponenKepribadianManajerial   refKomponenKepribadianManajerial
+	RefKonversiIq                      refKonversiIq
+	RefKonversiIq105                   refKonversiIq105
+	RefKonversiIq90                    refKonversiIq90
+	RefModelKejiwaanDewasa             refModelKejiwaanDewasa
+	RefModelKesehatanMental            refModelKesehatanMental
+	RefModelWlb                        refModelWlb
+	RefPilihanMinatMan                 refPilihanMinatMan
+	RefPilihanMinatSma                 refPilihanMinatSma
+	RefRangkingTmi                     refRangkingTmi
+	RefRekomendasiAkhirMan             refRekomendasiAkhirMan
+	RefRekomendasiAkhirPeminatanSma    refRekomendasiAkhirPeminatanSma
+	RefRekomendasiAkhirSma             refRekomendasiAkhirSma
+	RefRekomendasiAkhirSmaV2           refRekomendasiAkhirSmaV2
+	RefRekomendasiAkhirSmaV3           refRekomendasiAkhirSmaV3
+	RefRekomendasiMinatMan             refRekomendasiMinatMan
+	RefRekomendasiMinatSma             refRekomendasiMinatSma
+	RefRekomendasiMinatTmi             refRekomendasiMinatTmi
+	RefRekomendasiSikapPelajaran       refRekomendasiSikapPelajaran
+	RefSekolahDina                     refSekolahDina
+	RefSkalaKd15                       refSkalaKd15
+	RefSkalaKd20                       refSkalaKd20
+	RefSkalaKdCepatTeliti              refSkalaKdCepatTeliti
+	RefSkalaKdInformasiUmum            refSkalaKdInformasiUmum
+	RefSkalaKdPenalaranAbstrak         refSkalaKdPenalaranAbstrak
+	RefSkalaKdPenalaranKuantitatif     refSkalaKdPenalaranKuantitatif
+	RefSkalaKdPenalaranMekanika        refSkalaKdPenalaranMekanika
+	RefSkalaKdPenalaranSpasial         refSkalaKdPenalaranSpasial
+	RefSkalaKdPenalaranVerbal          refSkalaKdPenalaranVerbal
+	RefSkalaSikapPelajaran             refSkalaSikapPelajaran
+	RefSkalaSkorSsct                   refSkalaSkorSsct
+	RefSkorGayaBelajar                 refSkorGayaBelajar
+	RefSkorGayaPekerjaan               refSkorGayaPekerjaan
+	RefSkorKarakterPribadi             refSkorKarakterPribadi
+	RefSkoringGayaPekerjaan            refSkoringGayaPekerjaan
+	RefSkoringKecerdasanMajemuk        refSkoringKecerdasanMajemuk
+	RefSkoringKejiwaanDewasa           refSkoringKejiwaanDewasa
+	RefSkoringKesehatanMental          refSkoringKesehatanMental
+	RefSkoringKuliahDina               refSkoringKuliahDina
+	RefSkoringTipologiJung             refSkoringTipologiJung
+	RefSkoringWlb                      refSkoringWlb
+	Regency                            regency
+	Role                               role
+	RoleMenu                           roleMenu
+	RunningCronjob                     runningCronjob
+	SeriCetakan                        seriCetakan
+	SeriCetakanDoc                     seriCetakanDoc
+	SkorDisc                           skorDisc
+	SkorGayaBelajar                    skorGayaBelajar
+	SkorGayaPekerjaan                  skorGayaPekerjaan
+	SkorKarakteristikPribadi           skorKarakteristikPribadi
+	SkorKecerdasanMajemuk              skorKecerdasanMajemuk
+	SkorKejiwaanDewasa                 skorKejiwaanDewasa
+	SkorKepribadianManajerial          skorKepribadianManajerial
+	SkorKesehatanMental                skorKesehatanMental
+	SkorKognitif                       skorKognitif
+	SkorKognitifPmk                    skorKognitifPmk
+	SkorKuliahAgama                    skorKuliahAgama
+	SkorKuliahAlam                     skorKuliahAlam
+	SkorKuliahDina                     skorKuliahDina
+	SkorKuliahSosial                   skorKuliahSosial
+	SkorMbti                           skorMbti
+	SkorMinatIndonesium                skorMinatIndonesium
+	SkorModeBelajar                    skorModeBelajar
+	SkorModeKerja                      skorModeKerja
+	SkorPeminatanMan                   skorPeminatanMan
+	SkorPeminatanSma                   skorPeminatanSma
+	SkorPeminatanSmk                   skorPeminatanSmk
+	SkorRekomKuliahA                   skorRekomKuliahA
+	SkorRekomKuliahB                   skorRekomKuliahB
+	SkorRekomPeminatanSma              skorRekomPeminatanSma
+	SkorSikapPelajaran                 skorSikapPelajaran
+	SkorSikapPelajaranMk               skorSikapPelajaranMk
+	SkorSsct                           skorSsct
+	SkorSuasanaKerja                   skorSuasanaKerja
+	SkorWlb                            skorWlb
+	SkoringIqEq                        skoringIqEq
+	SkoringMinatLengkap                skoringMinatLengkap
+	SkoringMinatMan                    skoringMinatMan
+	SkoringMinatSma                    skoringMinatSma
+	SkoringMinatSmaV2                  skoringMinatSmaV2
+	SkoringMinatSmaV3                  skoringMinatSmaV3
+	SkoringMinatSmk                    skoringMinatSmk
+	SkoringMinatSmkV2                  skoringMinatSmkV2
+	SkoringMinatVersi3                 skoringMinatVersi3
+	SkoringPenjurusanKuliah            skoringPenjurusanKuliah
+	SkoringPenjurusanKuliahV2          skoringPenjurusanKuliahV2
+	SkoringPenjurusanKuliahV3          skoringPenjurusanKuliahV3
+	SkoringSeleksiKaryawan             skoringSeleksiKaryawan
+	SoalDisc                           soalDisc
+	SoalGayaBelajar                    soalGayaBelajar
+	SoalGayaPekerjaan                  soalGayaPekerjaan
+	SoalGayaPekerjaanEng               soalGayaPekerjaanEng
+	SoalKarakteristikPribadi           soalKarakteristikPribadi
+	SoalKarakteristikPribadiEng        soalKarakteristikPribadiEng
+	SoalKecerdasanMajemuk              soalKecerdasanMajemuk
+	SoalKejiwaanDewasa                 soalKejiwaanDewasa
+	SoalKepribadianManajerial          soalKepribadianManajerial
+	SoalKesehatanMental                soalKesehatanMental
+	SoalKognitif                       soalKognitif
+	SoalKognitifEng                    soalKognitifEng
+	SoalKraeplin                       soalKraeplin
+	SoalMinatKuliahAgama               soalMinatKuliahAgama
+	SoalMinatKuliahDina                soalMinatKuliahDina
+	SoalMinatKuliahEksaktum            soalMinatKuliahEksaktum
+	SoalMinatKuliahSosial              soalMinatKuliahSosial
+	SoalMinatKuliahSuasanaKerja        soalMinatKuliahSuasanaKerja
+	SoalModeBelajar                    soalModeBelajar
+	SoalModeKerja                      soalModeKerja
+	SoalModeKerjaEng                   soalModeKerjaEng
+	SoalPeminatanMan                   soalPeminatanMan
+	SoalPeminatanSma                   soalPeminatanSma
+	SoalPeminatanSmk                   soalPeminatanSmk
+	SoalSikapPelajaran                 soalSikapPelajaran
+	SoalSikapPelajaranKuliah           soalSikapPelajaranKuliah
+	SoalSsctRemaja                     soalSsctRemaja
+	SoalTipologiJung                   soalTipologiJung
+	SoalTipologiJungEng                soalTipologiJungEng
+	SoalTmi                            soalTmi
+	SoalWlb                            soalWlb
+	StatusCronjob                      statusCronjob
+	StatusSkoring                      statusSkoring
+	TarifPaket                         tarifPaket
+	TarifPaketRinci                    tarifPaketRinci
+	User                               user
+	UserRole                           userRole
+	UserUploadExcel                    userUploadExcel
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:                               db,
-		Datum:                            q.Datum.clone(db),
-		Gambar:                           q.Gambar.clone(db),
-		InfoCerda:                        q.InfoCerda.clone(db),
-		InterprestasiTipologiJung:        q.InterprestasiTipologiJung.clone(db),
-		Kontak:                           q.Kontak.clone(db),
-		Lokasi:                           q.Lokasi.clone(db),
-		Menu:                             q.Menu.clone(db),
-		ModelReport:                      q.ModelReport.clone(db),
-		PetunjukSoal:                     q.PetunjukSoal.clone(db),
-		Province:                         q.Province.clone(db),
-		QuizSesi:                         q.QuizSesi.clone(db),
-		QuizSesiAdditionalSkoring:        q.QuizSesiAdditionalSkoring.clone(db),
-		QuizSesiDetil:                    q.QuizSesiDetil.clone(db),
-		QuizSesiDetilTemplate:            q.QuizSesiDetilTemplate.clone(db),
-		QuizSesiMappingSmk:               q.QuizSesiMappingSmk.clone(db),
-		QuizSesiMaster:                   q.QuizSesiMaster.clone(db),
-		QuizSesiReport:                   q.QuizSesiReport.clone(db),
-		QuizSesiTemplate:                 q.QuizSesiTemplate.clone(db),
-		QuizSesiTemplateLampiran:         q.QuizSesiTemplateLampiran.clone(db),
-		QuizSesiTemplateReport:           q.QuizSesiTemplateReport.clone(db),
-		QuizSesiTtd:                      q.QuizSesiTtd.clone(db),
-		QuizSesiUser:                     q.QuizSesiUser.clone(db),
-		QuizSesiUserJawaban:              q.QuizSesiUserJawaban.clone(db),
-		QuizTemplateSaran:                q.QuizTemplateSaran.clone(db),
-		RefBidangKognitif:                q.RefBidangKognitif.clone(db),
-		RefGayaBelajar:                   q.RefGayaBelajar.clone(db),
-		RefKarakterPribadi:               q.RefKarakterPribadi.clone(db),
-		RefKecerdasanMajemuk:             q.RefKecerdasanMajemuk.clone(db),
-		RefKelasMinatSma:                 q.RefKelasMinatSma.clone(db),
-		RefKelompokMinatKuliah:           q.RefKelompokMinatKuliah.clone(db),
-		RefKelompokSikapPelajaran:        q.RefKelompokSikapPelajaran.clone(db),
-		RefKelompokTmi:                   q.RefKelompokTmi.clone(db),
-		RefKlasifikasiGayaKerja:          q.RefKlasifikasiGayaKerja.clone(db),
-		RefKlasifikasiKejiwaanDewasa:     q.RefKlasifikasiKejiwaanDewasa.clone(db),
-		RefKlasifikasiKesehatanMental:    q.RefKlasifikasiKesehatanMental.clone(db),
-		RefKlasifikasiMinatMan:           q.RefKlasifikasiMinatMan.clone(db),
-		RefKlasifikasiMinatSma:           q.RefKlasifikasiMinatSma.clone(db),
-		RefKlasifikasiTipologiJung:       q.RefKlasifikasiTipologiJung.clone(db),
-		RefKlasifikasiWlb:                q.RefKlasifikasiWlb.clone(db),
-		RefKomponenEq:                    q.RefKomponenEq.clone(db),
-		RefKomponenGayaPekerjaan:         q.RefKomponenGayaPekerjaan.clone(db),
-		RefKomponenKarakteristikPribadi:  q.RefKomponenKarakteristikPribadi.clone(db),
-		RefKomponenKepribadianManajerial: q.RefKomponenKepribadianManajerial.clone(db),
-		RefKonversiIq:                    q.RefKonversiIq.clone(db),
-		RefKonversiIq105:                 q.RefKonversiIq105.clone(db),
-		RefKonversiIq90:                  q.RefKonversiIq90.clone(db),
-		RefModelKejiwaanDewasa:           q.RefModelKejiwaanDewasa.clone(db),
-		RefModelKesehatanMental:          q.RefModelKesehatanMental.clone(db),
-		RefModelWlb:                      q.RefModelWlb.clone(db),
-		RefPilihanMinatMan:               q.RefPilihanMinatMan.clone(db),
-		RefPilihanMinatSma:               q.RefPilihanMinatSma.clone(db),
-		RefRangkingTmi:                   q.RefRangkingTmi.clone(db),
-		RefRekomendasiAkhirMan:           q.RefRekomendasiAkhirMan.clone(db),
-		RefRekomendasiAkhirPeminatanSma:  q.RefRekomendasiAkhirPeminatanSma.clone(db),
-		RefRekomendasiAkhirSma:           q.RefRekomendasiAkhirSma.clone(db),
-		RefRekomendasiAkhirSmaV2:         q.RefRekomendasiAkhirSmaV2.clone(db),
-		RefRekomendasiAkhirSmaV3:         q.RefRekomendasiAkhirSmaV3.clone(db),
-		RefRekomendasiMinatMan:           q.RefRekomendasiMinatMan.clone(db),
-		RefRekomendasiMinatSma:           q.RefRekomendasiMinatSma.clone(db),
-		RefRekomendasiMinatTmi:           q.RefRekomendasiMinatTmi.clone(db),
-		RefRekomendasiSikapPelajaran:     q.RefRekomendasiSikapPelajaran.clone(db),
-		RefSekolahDina:                   q.RefSekolahDina.clone(db),
-		RefSkalaKd15:                     q.RefSkalaKd15.clone(db),
-		RefSkalaKd20:                     q.RefSkalaKd20.clone(db),
-		RefSkalaKdCepatTeliti:            q.RefSkalaKdCepatTeliti.clone(db),
-		RefSkalaKdInformasiUmum:          q.RefSkalaKdInformasiUmum.clone(db),
-		RefSkalaKdPenalaranAbstrak:       q.RefSkalaKdPenalaranAbstrak.clone(db),
-		RefSkalaKdPenalaranKuantitatif:   q.RefSkalaKdPenalaranKuantitatif.clone(db),
-		RefSkalaKdPenalaranMekanika:      q.RefSkalaKdPenalaranMekanika.clone(db),
-		RefSkalaKdPenalaranSpasial:       q.RefSkalaKdPenalaranSpasial.clone(db),
-		RefSkalaKdPenalaranVerbal:        q.RefSkalaKdPenalaranVerbal.clone(db),
-		RefSkalaSikapPelajaran:           q.RefSkalaSikapPelajaran.clone(db),
-		RefSkalaSkorSsct:                 q.RefSkalaSkorSsct.clone(db),
-		RefSkorGayaBelajar:               q.RefSkorGayaBelajar.clone(db),
-		RefSkorGayaPekerjaan:             q.RefSkorGayaPekerjaan.clone(db),
-		RefSkorKarakterPribadi:           q.RefSkorKarakterPribadi.clone(db),
-		RefSkoringGayaPekerjaan:          q.RefSkoringGayaPekerjaan.clone(db),
-		RefSkoringKecerdasanMajemuk:      q.RefSkoringKecerdasanMajemuk.clone(db),
-		RefSkoringKejiwaanDewasa:         q.RefSkoringKejiwaanDewasa.clone(db),
-		RefSkoringKesehatanMental:        q.RefSkoringKesehatanMental.clone(db),
-		RefSkoringKuliahDina:             q.RefSkoringKuliahDina.clone(db),
-		RefSkoringTipologiJung:           q.RefSkoringTipologiJung.clone(db),
-		RefSkoringWlb:                    q.RefSkoringWlb.clone(db),
-		Regency:                          q.Regency.clone(db),
-		Role:                             q.Role.clone(db),
-		RoleMenu:                         q.RoleMenu.clone(db),
-		RunningCronjob:                   q.RunningCronjob.clone(db),
-		SeriCetakan:                      q.SeriCetakan.clone(db),
-		SeriCetakanDoc:                   q.SeriCetakanDoc.clone(db),
-		SkorDisc:                         q.SkorDisc.clone(db),
-		SkorGayaBelajar:                  q.SkorGayaBelajar.clone(db),
-		SkorGayaPekerjaan:                q.SkorGayaPekerjaan.clone(db),
-		SkorKarakteristikPribadi:         q.SkorKarakteristikPribadi.clone(db),
-		SkorKecerdasanMajemuk:            q.SkorKecerdasanMajemuk.clone(db),
-		SkorKejiwaanDewasa:               q.SkorKejiwaanDewasa.clone(db),
-		SkorKepribadianManajerial:        q.SkorKepribadianManajerial.clone(db),
-		SkorKesehatanMental:              q.SkorKesehatanMental.clone(db),
-		SkorKognitif:                     q.SkorKognitif.clone(db),
-		SkorKognitifPmk:                  q.SkorKognitifPmk.clone(db),
-		SkorKuliahAgama:                  q.SkorKuliahAgama.clone(db),
-		SkorKuliahAlam:                   q.SkorKuliahAlam.clone(db),
-		SkorKuliahDina:                   q.SkorKuliahDina.clone(db),
-		SkorKuliahSosial:                 q.SkorKuliahSosial.clone(db),
-		SkorMbti:                         q.SkorMbti.clone(db),
-		SkorMinatIndonesium:              q.SkorMinatIndonesium.clone(db),
-		SkorModeBelajar:                  q.SkorModeBelajar.clone(db),
-		SkorModeKerja:                    q.SkorModeKerja.clone(db),
-		SkorPeminatanMan:                 q.SkorPeminatanMan.clone(db),
-		SkorPeminatanSma:                 q.SkorPeminatanSma.clone(db),
-		SkorPeminatanSmk:                 q.SkorPeminatanSmk.clone(db),
-		SkorRekomKuliahA:                 q.SkorRekomKuliahA.clone(db),
-		SkorRekomKuliahB:                 q.SkorRekomKuliahB.clone(db),
-		SkorRekomPeminatanSma:            q.SkorRekomPeminatanSma.clone(db),
-		SkorSikapPelajaran:               q.SkorSikapPelajaran.clone(db),
-		SkorSikapPelajaranMk:             q.SkorSikapPelajaranMk.clone(db),
-		SkorSsct:                         q.SkorSsct.clone(db),
-		SkorSuasanaKerja:                 q.SkorSuasanaKerja.clone(db),
-		SkorWlb:                          q.SkorWlb.clone(db),
-		SkoringIqEq:                      q.SkoringIqEq.clone(db),
-		SkoringMinatLengkap:              q.SkoringMinatLengkap.clone(db),
-		SkoringMinatMan:                  q.SkoringMinatMan.clone(db),
-		SkoringMinatSma:                  q.SkoringMinatSma.clone(db),
-		SkoringMinatSmaV2:                q.SkoringMinatSmaV2.clone(db),
-		SkoringMinatSmaV3:                q.SkoringMinatSmaV3.clone(db),
-		SkoringMinatSmk:                  q.SkoringMinatSmk.clone(db),
-		SkoringMinatSmkV2:                q.SkoringMinatSmkV2.clone(db),
-		SkoringMinatVersi3:               q.SkoringMinatVersi3.clone(db),
-		SkoringPenjurusanKuliah:          q.SkoringPenjurusanKuliah.clone(db),
-		SkoringPenjurusanKuliahV2:        q.SkoringPenjurusanKuliahV2.clone(db),
-		SkoringPenjurusanKuliahV3:        q.SkoringPenjurusanKuliahV3.clone(db),
-		SkoringSeleksiKaryawan:           q.SkoringSeleksiKaryawan.clone(db),
-		SoalDisc:                         q.SoalDisc.clone(db),
-		SoalGayaBelajar:                  q.SoalGayaBelajar.clone(db),
-		SoalGayaPekerjaan:                q.SoalGayaPekerjaan.clone(db),
-		SoalKarakteristikPribadi:         q.SoalKarakteristikPribadi.clone(db),
-		SoalKecerdasanMajemuk:            q.SoalKecerdasanMajemuk.clone(db),
-		SoalKejiwaanDewasa:               q.SoalKejiwaanDewasa.clone(db),
-		SoalKepribadianManajerial:        q.SoalKepribadianManajerial.clone(db),
-		SoalKesehatanMental:              q.SoalKesehatanMental.clone(db),
-		SoalKognitif:                     q.SoalKognitif.clone(db),
-		SoalKraeplin:                     q.SoalKraeplin.clone(db),
-		SoalMinatKuliahAgama:             q.SoalMinatKuliahAgama.clone(db),
-		SoalMinatKuliahDina:              q.SoalMinatKuliahDina.clone(db),
-		SoalMinatKuliahEksaktum:          q.SoalMinatKuliahEksaktum.clone(db),
-		SoalMinatKuliahSosial:            q.SoalMinatKuliahSosial.clone(db),
-		SoalMinatKuliahSuasanaKerja:      q.SoalMinatKuliahSuasanaKerja.clone(db),
-		SoalModeBelajar:                  q.SoalModeBelajar.clone(db),
-		SoalModeKerja:                    q.SoalModeKerja.clone(db),
-		SoalPeminatanMan:                 q.SoalPeminatanMan.clone(db),
-		SoalPeminatanSma:                 q.SoalPeminatanSma.clone(db),
-		SoalPeminatanSmk:                 q.SoalPeminatanSmk.clone(db),
-		SoalSikapPelajaran:               q.SoalSikapPelajaran.clone(db),
-		SoalSikapPelajaranKuliah:         q.SoalSikapPelajaranKuliah.clone(db),
-		SoalSsctRemaja:                   q.SoalSsctRemaja.clone(db),
-		SoalTipologiJung:                 q.SoalTipologiJung.clone(db),
-		SoalTmi:                          q.SoalTmi.clone(db),
-		SoalWlb:                          q.SoalWlb.clone(db),
-		StatusCronjob:                    q.StatusCronjob.clone(db),
-		StatusSkoring:                    q.StatusSkoring.clone(db),
-		TarifPaket:                       q.TarifPaket.clone(db),
-		TarifPaketRinci:                  q.TarifPaketRinci.clone(db),
-		User:                             q.User.clone(db),
-		UserRole:                         q.UserRole.clone(db),
-		UserUploadExcel:                  q.UserUploadExcel.clone(db),
+		db:                                 db,
+		Datum:                              q.Datum.clone(db),
+		Gambar:                             q.Gambar.clone(db),
+		InfoCerda:                          q.InfoCerda.clone(db),
+		InterprestasiTipologiJung:          q.InterprestasiTipologiJung.clone(db),
+		InterprestasiTipologiJungEng:       q.InterprestasiTipologiJungEng.clone(db),
+		Kontak:                             q.Kontak.clone(db),
+		Lokasi:                             q.Lokasi.clone(db),
+		Menu:                               q.Menu.clone(db),
+		ModelReport:                        q.ModelReport.clone(db),
+		PetunjukSoal:                       q.PetunjukSoal.clone(db),
+		PetunjukSoalEng:                    q.PetunjukSoalEng.clone(db),
+		Province:                           q.Province.clone(db),
+		PublishCron:                        q.PublishCron.clone(db),
+		QuizSesi:                           q.QuizSesi.clone(db),
+		QuizSesiAdditionalSkoring:          q.QuizSesiAdditionalSkoring.clone(db),
+		QuizSesiDetil:                      q.QuizSesiDetil.clone(db),
+		QuizSesiDetilTemplate:              q.QuizSesiDetilTemplate.clone(db),
+		QuizSesiMappingSmk:                 q.QuizSesiMappingSmk.clone(db),
+		QuizSesiMaster:                     q.QuizSesiMaster.clone(db),
+		QuizSesiReport:                     q.QuizSesiReport.clone(db),
+		QuizSesiTemplate:                   q.QuizSesiTemplate.clone(db),
+		QuizSesiTemplateLampiran:           q.QuizSesiTemplateLampiran.clone(db),
+		QuizSesiTemplateReport:             q.QuizSesiTemplateReport.clone(db),
+		QuizSesiTtd:                        q.QuizSesiTtd.clone(db),
+		QuizSesiUser:                       q.QuizSesiUser.clone(db),
+		QuizSesiUserJawaban:                q.QuizSesiUserJawaban.clone(db),
+		QuizTemplateSaran:                  q.QuizTemplateSaran.clone(db),
+		RefBidangKognitif:                  q.RefBidangKognitif.clone(db),
+		RefGayaBelajar:                     q.RefGayaBelajar.clone(db),
+		RefKarakterPribadi:                 q.RefKarakterPribadi.clone(db),
+		RefKecerdasanMajemuk:               q.RefKecerdasanMajemuk.clone(db),
+		RefKelasMinatSma:                   q.RefKelasMinatSma.clone(db),
+		RefKelompokMinatKuliah:             q.RefKelompokMinatKuliah.clone(db),
+		RefKelompokSikapPelajaran:          q.RefKelompokSikapPelajaran.clone(db),
+		RefKelompokTmi:                     q.RefKelompokTmi.clone(db),
+		RefKlasifikasiGayaKerja:            q.RefKlasifikasiGayaKerja.clone(db),
+		RefKlasifikasiKejiwaanDewasa:       q.RefKlasifikasiKejiwaanDewasa.clone(db),
+		RefKlasifikasiKesehatanMental:      q.RefKlasifikasiKesehatanMental.clone(db),
+		RefKlasifikasiMinatMan:             q.RefKlasifikasiMinatMan.clone(db),
+		RefKlasifikasiMinatSma:             q.RefKlasifikasiMinatSma.clone(db),
+		RefKlasifikasiPribadiManajerial:    q.RefKlasifikasiPribadiManajerial.clone(db),
+		RefKlasifikasiTipologiJung:         q.RefKlasifikasiTipologiJung.clone(db),
+		RefKlasifikasiWlb:                  q.RefKlasifikasiWlb.clone(db),
+		RefKomponenEq:                      q.RefKomponenEq.clone(db),
+		RefKomponenGayaPekerjaan:           q.RefKomponenGayaPekerjaan.clone(db),
+		RefKomponenGayaPekerjaanEng:        q.RefKomponenGayaPekerjaanEng.clone(db),
+		RefKomponenKarakteristikPribadi:    q.RefKomponenKarakteristikPribadi.clone(db),
+		RefKomponenKarakteristikPribadiEng: q.RefKomponenKarakteristikPribadiEng.clone(db),
+		RefKomponenKepribadianManajerial:   q.RefKomponenKepribadianManajerial.clone(db),
+		RefKonversiIq:                      q.RefKonversiIq.clone(db),
+		RefKonversiIq105:                   q.RefKonversiIq105.clone(db),
+		RefKonversiIq90:                    q.RefKonversiIq90.clone(db),
+		RefModelKejiwaanDewasa:             q.RefModelKejiwaanDewasa.clone(db),
+		RefModelKesehatanMental:            q.RefModelKesehatanMental.clone(db),
+		RefModelWlb:                        q.RefModelWlb.clone(db),
+		RefPilihanMinatMan:                 q.RefPilihanMinatMan.clone(db),
+		RefPilihanMinatSma:                 q.RefPilihanMinatSma.clone(db),
+		RefRangkingTmi:                     q.RefRangkingTmi.clone(db),
+		RefRekomendasiAkhirMan:             q.RefRekomendasiAkhirMan.clone(db),
+		RefRekomendasiAkhirPeminatanSma:    q.RefRekomendasiAkhirPeminatanSma.clone(db),
+		RefRekomendasiAkhirSma:             q.RefRekomendasiAkhirSma.clone(db),
+		RefRekomendasiAkhirSmaV2:           q.RefRekomendasiAkhirSmaV2.clone(db),
+		RefRekomendasiAkhirSmaV3:           q.RefRekomendasiAkhirSmaV3.clone(db),
+		RefRekomendasiMinatMan:             q.RefRekomendasiMinatMan.clone(db),
+		RefRekomendasiMinatSma:             q.RefRekomendasiMinatSma.clone(db),
+		RefRekomendasiMinatTmi:             q.RefRekomendasiMinatTmi.clone(db),
+		RefRekomendasiSikapPelajaran:       q.RefRekomendasiSikapPelajaran.clone(db),
+		RefSekolahDina:                     q.RefSekolahDina.clone(db),
+		RefSkalaKd15:                       q.RefSkalaKd15.clone(db),
+		RefSkalaKd20:                       q.RefSkalaKd20.clone(db),
+		RefSkalaKdCepatTeliti:              q.RefSkalaKdCepatTeliti.clone(db),
+		RefSkalaKdInformasiUmum:            q.RefSkalaKdInformasiUmum.clone(db),
+		RefSkalaKdPenalaranAbstrak:         q.RefSkalaKdPenalaranAbstrak.clone(db),
+		RefSkalaKdPenalaranKuantitatif:     q.RefSkalaKdPenalaranKuantitatif.clone(db),
+		RefSkalaKdPenalaranMekanika:        q.RefSkalaKdPenalaranMekanika.clone(db),
+		RefSkalaKdPenalaranSpasial:         q.RefSkalaKdPenalaranSpasial.clone(db),
+		RefSkalaKdPenalaranVerbal:          q.RefSkalaKdPenalaranVerbal.clone(db),
+		RefSkalaSikapPelajaran:             q.RefSkalaSikapPelajaran.clone(db),
+		RefSkalaSkorSsct:                   q.RefSkalaSkorSsct.clone(db),
+		RefSkorGayaBelajar:                 q.RefSkorGayaBelajar.clone(db),
+		RefSkorGayaPekerjaan:               q.RefSkorGayaPekerjaan.clone(db),
+		RefSkorKarakterPribadi:             q.RefSkorKarakterPribadi.clone(db),
+		RefSkoringGayaPekerjaan:            q.RefSkoringGayaPekerjaan.clone(db),
+		RefSkoringKecerdasanMajemuk:        q.RefSkoringKecerdasanMajemuk.clone(db),
+		RefSkoringKejiwaanDewasa:           q.RefSkoringKejiwaanDewasa.clone(db),
+		RefSkoringKesehatanMental:          q.RefSkoringKesehatanMental.clone(db),
+		RefSkoringKuliahDina:               q.RefSkoringKuliahDina.clone(db),
+		RefSkoringTipologiJung:             q.RefSkoringTipologiJung.clone(db),
+		RefSkoringWlb:                      q.RefSkoringWlb.clone(db),
+		Regency:                            q.Regency.clone(db),
+		Role:                               q.Role.clone(db),
+		RoleMenu:                           q.RoleMenu.clone(db),
+		RunningCronjob:                     q.RunningCronjob.clone(db),
+		SeriCetakan:                        q.SeriCetakan.clone(db),
+		SeriCetakanDoc:                     q.SeriCetakanDoc.clone(db),
+		SkorDisc:                           q.SkorDisc.clone(db),
+		SkorGayaBelajar:                    q.SkorGayaBelajar.clone(db),
+		SkorGayaPekerjaan:                  q.SkorGayaPekerjaan.clone(db),
+		SkorKarakteristikPribadi:           q.SkorKarakteristikPribadi.clone(db),
+		SkorKecerdasanMajemuk:              q.SkorKecerdasanMajemuk.clone(db),
+		SkorKejiwaanDewasa:                 q.SkorKejiwaanDewasa.clone(db),
+		SkorKepribadianManajerial:          q.SkorKepribadianManajerial.clone(db),
+		SkorKesehatanMental:                q.SkorKesehatanMental.clone(db),
+		SkorKognitif:                       q.SkorKognitif.clone(db),
+		SkorKognitifPmk:                    q.SkorKognitifPmk.clone(db),
+		SkorKuliahAgama:                    q.SkorKuliahAgama.clone(db),
+		SkorKuliahAlam:                     q.SkorKuliahAlam.clone(db),
+		SkorKuliahDina:                     q.SkorKuliahDina.clone(db),
+		SkorKuliahSosial:                   q.SkorKuliahSosial.clone(db),
+		SkorMbti:                           q.SkorMbti.clone(db),
+		SkorMinatIndonesium:                q.SkorMinatIndonesium.clone(db),
+		SkorModeBelajar:                    q.SkorModeBelajar.clone(db),
+		SkorModeKerja:                      q.SkorModeKerja.clone(db),
+		SkorPeminatanMan:                   q.SkorPeminatanMan.clone(db),
+		SkorPeminatanSma:                   q.SkorPeminatanSma.clone(db),
+		SkorPeminatanSmk:                   q.SkorPeminatanSmk.clone(db),
+		SkorRekomKuliahA:                   q.SkorRekomKuliahA.clone(db),
+		SkorRekomKuliahB:                   q.SkorRekomKuliahB.clone(db),
+		SkorRekomPeminatanSma:              q.SkorRekomPeminatanSma.clone(db),
+		SkorSikapPelajaran:                 q.SkorSikapPelajaran.clone(db),
+		SkorSikapPelajaranMk:               q.SkorSikapPelajaranMk.clone(db),
+		SkorSsct:                           q.SkorSsct.clone(db),
+		SkorSuasanaKerja:                   q.SkorSuasanaKerja.clone(db),
+		SkorWlb:                            q.SkorWlb.clone(db),
+		SkoringIqEq:                        q.SkoringIqEq.clone(db),
+		SkoringMinatLengkap:                q.SkoringMinatLengkap.clone(db),
+		SkoringMinatMan:                    q.SkoringMinatMan.clone(db),
+		SkoringMinatSma:                    q.SkoringMinatSma.clone(db),
+		SkoringMinatSmaV2:                  q.SkoringMinatSmaV2.clone(db),
+		SkoringMinatSmaV3:                  q.SkoringMinatSmaV3.clone(db),
+		SkoringMinatSmk:                    q.SkoringMinatSmk.clone(db),
+		SkoringMinatSmkV2:                  q.SkoringMinatSmkV2.clone(db),
+		SkoringMinatVersi3:                 q.SkoringMinatVersi3.clone(db),
+		SkoringPenjurusanKuliah:            q.SkoringPenjurusanKuliah.clone(db),
+		SkoringPenjurusanKuliahV2:          q.SkoringPenjurusanKuliahV2.clone(db),
+		SkoringPenjurusanKuliahV3:          q.SkoringPenjurusanKuliahV3.clone(db),
+		SkoringSeleksiKaryawan:             q.SkoringSeleksiKaryawan.clone(db),
+		SoalDisc:                           q.SoalDisc.clone(db),
+		SoalGayaBelajar:                    q.SoalGayaBelajar.clone(db),
+		SoalGayaPekerjaan:                  q.SoalGayaPekerjaan.clone(db),
+		SoalGayaPekerjaanEng:               q.SoalGayaPekerjaanEng.clone(db),
+		SoalKarakteristikPribadi:           q.SoalKarakteristikPribadi.clone(db),
+		SoalKarakteristikPribadiEng:        q.SoalKarakteristikPribadiEng.clone(db),
+		SoalKecerdasanMajemuk:              q.SoalKecerdasanMajemuk.clone(db),
+		SoalKejiwaanDewasa:                 q.SoalKejiwaanDewasa.clone(db),
+		SoalKepribadianManajerial:          q.SoalKepribadianManajerial.clone(db),
+		SoalKesehatanMental:                q.SoalKesehatanMental.clone(db),
+		SoalKognitif:                       q.SoalKognitif.clone(db),
+		SoalKognitifEng:                    q.SoalKognitifEng.clone(db),
+		SoalKraeplin:                       q.SoalKraeplin.clone(db),
+		SoalMinatKuliahAgama:               q.SoalMinatKuliahAgama.clone(db),
+		SoalMinatKuliahDina:                q.SoalMinatKuliahDina.clone(db),
+		SoalMinatKuliahEksaktum:            q.SoalMinatKuliahEksaktum.clone(db),
+		SoalMinatKuliahSosial:              q.SoalMinatKuliahSosial.clone(db),
+		SoalMinatKuliahSuasanaKerja:        q.SoalMinatKuliahSuasanaKerja.clone(db),
+		SoalModeBelajar:                    q.SoalModeBelajar.clone(db),
+		SoalModeKerja:                      q.SoalModeKerja.clone(db),
+		SoalModeKerjaEng:                   q.SoalModeKerjaEng.clone(db),
+		SoalPeminatanMan:                   q.SoalPeminatanMan.clone(db),
+		SoalPeminatanSma:                   q.SoalPeminatanSma.clone(db),
+		SoalPeminatanSmk:                   q.SoalPeminatanSmk.clone(db),
+		SoalSikapPelajaran:                 q.SoalSikapPelajaran.clone(db),
+		SoalSikapPelajaranKuliah:           q.SoalSikapPelajaranKuliah.clone(db),
+		SoalSsctRemaja:                     q.SoalSsctRemaja.clone(db),
+		SoalTipologiJung:                   q.SoalTipologiJung.clone(db),
+		SoalTipologiJungEng:                q.SoalTipologiJungEng.clone(db),
+		SoalTmi:                            q.SoalTmi.clone(db),
+		SoalWlb:                            q.SoalWlb.clone(db),
+		StatusCronjob:                      q.StatusCronjob.clone(db),
+		StatusSkoring:                      q.StatusSkoring.clone(db),
+		TarifPaket:                         q.TarifPaket.clone(db),
+		TarifPaketRinci:                    q.TarifPaketRinci.clone(db),
+		User:                               q.User.clone(db),
+		UserRole:                           q.UserRole.clone(db),
+		UserUploadExcel:                    q.UserUploadExcel.clone(db),
 	}
 }
 
@@ -536,507 +569,540 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:                               db,
-		Datum:                            q.Datum.replaceDB(db),
-		Gambar:                           q.Gambar.replaceDB(db),
-		InfoCerda:                        q.InfoCerda.replaceDB(db),
-		InterprestasiTipologiJung:        q.InterprestasiTipologiJung.replaceDB(db),
-		Kontak:                           q.Kontak.replaceDB(db),
-		Lokasi:                           q.Lokasi.replaceDB(db),
-		Menu:                             q.Menu.replaceDB(db),
-		ModelReport:                      q.ModelReport.replaceDB(db),
-		PetunjukSoal:                     q.PetunjukSoal.replaceDB(db),
-		Province:                         q.Province.replaceDB(db),
-		QuizSesi:                         q.QuizSesi.replaceDB(db),
-		QuizSesiAdditionalSkoring:        q.QuizSesiAdditionalSkoring.replaceDB(db),
-		QuizSesiDetil:                    q.QuizSesiDetil.replaceDB(db),
-		QuizSesiDetilTemplate:            q.QuizSesiDetilTemplate.replaceDB(db),
-		QuizSesiMappingSmk:               q.QuizSesiMappingSmk.replaceDB(db),
-		QuizSesiMaster:                   q.QuizSesiMaster.replaceDB(db),
-		QuizSesiReport:                   q.QuizSesiReport.replaceDB(db),
-		QuizSesiTemplate:                 q.QuizSesiTemplate.replaceDB(db),
-		QuizSesiTemplateLampiran:         q.QuizSesiTemplateLampiran.replaceDB(db),
-		QuizSesiTemplateReport:           q.QuizSesiTemplateReport.replaceDB(db),
-		QuizSesiTtd:                      q.QuizSesiTtd.replaceDB(db),
-		QuizSesiUser:                     q.QuizSesiUser.replaceDB(db),
-		QuizSesiUserJawaban:              q.QuizSesiUserJawaban.replaceDB(db),
-		QuizTemplateSaran:                q.QuizTemplateSaran.replaceDB(db),
-		RefBidangKognitif:                q.RefBidangKognitif.replaceDB(db),
-		RefGayaBelajar:                   q.RefGayaBelajar.replaceDB(db),
-		RefKarakterPribadi:               q.RefKarakterPribadi.replaceDB(db),
-		RefKecerdasanMajemuk:             q.RefKecerdasanMajemuk.replaceDB(db),
-		RefKelasMinatSma:                 q.RefKelasMinatSma.replaceDB(db),
-		RefKelompokMinatKuliah:           q.RefKelompokMinatKuliah.replaceDB(db),
-		RefKelompokSikapPelajaran:        q.RefKelompokSikapPelajaran.replaceDB(db),
-		RefKelompokTmi:                   q.RefKelompokTmi.replaceDB(db),
-		RefKlasifikasiGayaKerja:          q.RefKlasifikasiGayaKerja.replaceDB(db),
-		RefKlasifikasiKejiwaanDewasa:     q.RefKlasifikasiKejiwaanDewasa.replaceDB(db),
-		RefKlasifikasiKesehatanMental:    q.RefKlasifikasiKesehatanMental.replaceDB(db),
-		RefKlasifikasiMinatMan:           q.RefKlasifikasiMinatMan.replaceDB(db),
-		RefKlasifikasiMinatSma:           q.RefKlasifikasiMinatSma.replaceDB(db),
-		RefKlasifikasiTipologiJung:       q.RefKlasifikasiTipologiJung.replaceDB(db),
-		RefKlasifikasiWlb:                q.RefKlasifikasiWlb.replaceDB(db),
-		RefKomponenEq:                    q.RefKomponenEq.replaceDB(db),
-		RefKomponenGayaPekerjaan:         q.RefKomponenGayaPekerjaan.replaceDB(db),
-		RefKomponenKarakteristikPribadi:  q.RefKomponenKarakteristikPribadi.replaceDB(db),
-		RefKomponenKepribadianManajerial: q.RefKomponenKepribadianManajerial.replaceDB(db),
-		RefKonversiIq:                    q.RefKonversiIq.replaceDB(db),
-		RefKonversiIq105:                 q.RefKonversiIq105.replaceDB(db),
-		RefKonversiIq90:                  q.RefKonversiIq90.replaceDB(db),
-		RefModelKejiwaanDewasa:           q.RefModelKejiwaanDewasa.replaceDB(db),
-		RefModelKesehatanMental:          q.RefModelKesehatanMental.replaceDB(db),
-		RefModelWlb:                      q.RefModelWlb.replaceDB(db),
-		RefPilihanMinatMan:               q.RefPilihanMinatMan.replaceDB(db),
-		RefPilihanMinatSma:               q.RefPilihanMinatSma.replaceDB(db),
-		RefRangkingTmi:                   q.RefRangkingTmi.replaceDB(db),
-		RefRekomendasiAkhirMan:           q.RefRekomendasiAkhirMan.replaceDB(db),
-		RefRekomendasiAkhirPeminatanSma:  q.RefRekomendasiAkhirPeminatanSma.replaceDB(db),
-		RefRekomendasiAkhirSma:           q.RefRekomendasiAkhirSma.replaceDB(db),
-		RefRekomendasiAkhirSmaV2:         q.RefRekomendasiAkhirSmaV2.replaceDB(db),
-		RefRekomendasiAkhirSmaV3:         q.RefRekomendasiAkhirSmaV3.replaceDB(db),
-		RefRekomendasiMinatMan:           q.RefRekomendasiMinatMan.replaceDB(db),
-		RefRekomendasiMinatSma:           q.RefRekomendasiMinatSma.replaceDB(db),
-		RefRekomendasiMinatTmi:           q.RefRekomendasiMinatTmi.replaceDB(db),
-		RefRekomendasiSikapPelajaran:     q.RefRekomendasiSikapPelajaran.replaceDB(db),
-		RefSekolahDina:                   q.RefSekolahDina.replaceDB(db),
-		RefSkalaKd15:                     q.RefSkalaKd15.replaceDB(db),
-		RefSkalaKd20:                     q.RefSkalaKd20.replaceDB(db),
-		RefSkalaKdCepatTeliti:            q.RefSkalaKdCepatTeliti.replaceDB(db),
-		RefSkalaKdInformasiUmum:          q.RefSkalaKdInformasiUmum.replaceDB(db),
-		RefSkalaKdPenalaranAbstrak:       q.RefSkalaKdPenalaranAbstrak.replaceDB(db),
-		RefSkalaKdPenalaranKuantitatif:   q.RefSkalaKdPenalaranKuantitatif.replaceDB(db),
-		RefSkalaKdPenalaranMekanika:      q.RefSkalaKdPenalaranMekanika.replaceDB(db),
-		RefSkalaKdPenalaranSpasial:       q.RefSkalaKdPenalaranSpasial.replaceDB(db),
-		RefSkalaKdPenalaranVerbal:        q.RefSkalaKdPenalaranVerbal.replaceDB(db),
-		RefSkalaSikapPelajaran:           q.RefSkalaSikapPelajaran.replaceDB(db),
-		RefSkalaSkorSsct:                 q.RefSkalaSkorSsct.replaceDB(db),
-		RefSkorGayaBelajar:               q.RefSkorGayaBelajar.replaceDB(db),
-		RefSkorGayaPekerjaan:             q.RefSkorGayaPekerjaan.replaceDB(db),
-		RefSkorKarakterPribadi:           q.RefSkorKarakterPribadi.replaceDB(db),
-		RefSkoringGayaPekerjaan:          q.RefSkoringGayaPekerjaan.replaceDB(db),
-		RefSkoringKecerdasanMajemuk:      q.RefSkoringKecerdasanMajemuk.replaceDB(db),
-		RefSkoringKejiwaanDewasa:         q.RefSkoringKejiwaanDewasa.replaceDB(db),
-		RefSkoringKesehatanMental:        q.RefSkoringKesehatanMental.replaceDB(db),
-		RefSkoringKuliahDina:             q.RefSkoringKuliahDina.replaceDB(db),
-		RefSkoringTipologiJung:           q.RefSkoringTipologiJung.replaceDB(db),
-		RefSkoringWlb:                    q.RefSkoringWlb.replaceDB(db),
-		Regency:                          q.Regency.replaceDB(db),
-		Role:                             q.Role.replaceDB(db),
-		RoleMenu:                         q.RoleMenu.replaceDB(db),
-		RunningCronjob:                   q.RunningCronjob.replaceDB(db),
-		SeriCetakan:                      q.SeriCetakan.replaceDB(db),
-		SeriCetakanDoc:                   q.SeriCetakanDoc.replaceDB(db),
-		SkorDisc:                         q.SkorDisc.replaceDB(db),
-		SkorGayaBelajar:                  q.SkorGayaBelajar.replaceDB(db),
-		SkorGayaPekerjaan:                q.SkorGayaPekerjaan.replaceDB(db),
-		SkorKarakteristikPribadi:         q.SkorKarakteristikPribadi.replaceDB(db),
-		SkorKecerdasanMajemuk:            q.SkorKecerdasanMajemuk.replaceDB(db),
-		SkorKejiwaanDewasa:               q.SkorKejiwaanDewasa.replaceDB(db),
-		SkorKepribadianManajerial:        q.SkorKepribadianManajerial.replaceDB(db),
-		SkorKesehatanMental:              q.SkorKesehatanMental.replaceDB(db),
-		SkorKognitif:                     q.SkorKognitif.replaceDB(db),
-		SkorKognitifPmk:                  q.SkorKognitifPmk.replaceDB(db),
-		SkorKuliahAgama:                  q.SkorKuliahAgama.replaceDB(db),
-		SkorKuliahAlam:                   q.SkorKuliahAlam.replaceDB(db),
-		SkorKuliahDina:                   q.SkorKuliahDina.replaceDB(db),
-		SkorKuliahSosial:                 q.SkorKuliahSosial.replaceDB(db),
-		SkorMbti:                         q.SkorMbti.replaceDB(db),
-		SkorMinatIndonesium:              q.SkorMinatIndonesium.replaceDB(db),
-		SkorModeBelajar:                  q.SkorModeBelajar.replaceDB(db),
-		SkorModeKerja:                    q.SkorModeKerja.replaceDB(db),
-		SkorPeminatanMan:                 q.SkorPeminatanMan.replaceDB(db),
-		SkorPeminatanSma:                 q.SkorPeminatanSma.replaceDB(db),
-		SkorPeminatanSmk:                 q.SkorPeminatanSmk.replaceDB(db),
-		SkorRekomKuliahA:                 q.SkorRekomKuliahA.replaceDB(db),
-		SkorRekomKuliahB:                 q.SkorRekomKuliahB.replaceDB(db),
-		SkorRekomPeminatanSma:            q.SkorRekomPeminatanSma.replaceDB(db),
-		SkorSikapPelajaran:               q.SkorSikapPelajaran.replaceDB(db),
-		SkorSikapPelajaranMk:             q.SkorSikapPelajaranMk.replaceDB(db),
-		SkorSsct:                         q.SkorSsct.replaceDB(db),
-		SkorSuasanaKerja:                 q.SkorSuasanaKerja.replaceDB(db),
-		SkorWlb:                          q.SkorWlb.replaceDB(db),
-		SkoringIqEq:                      q.SkoringIqEq.replaceDB(db),
-		SkoringMinatLengkap:              q.SkoringMinatLengkap.replaceDB(db),
-		SkoringMinatMan:                  q.SkoringMinatMan.replaceDB(db),
-		SkoringMinatSma:                  q.SkoringMinatSma.replaceDB(db),
-		SkoringMinatSmaV2:                q.SkoringMinatSmaV2.replaceDB(db),
-		SkoringMinatSmaV3:                q.SkoringMinatSmaV3.replaceDB(db),
-		SkoringMinatSmk:                  q.SkoringMinatSmk.replaceDB(db),
-		SkoringMinatSmkV2:                q.SkoringMinatSmkV2.replaceDB(db),
-		SkoringMinatVersi3:               q.SkoringMinatVersi3.replaceDB(db),
-		SkoringPenjurusanKuliah:          q.SkoringPenjurusanKuliah.replaceDB(db),
-		SkoringPenjurusanKuliahV2:        q.SkoringPenjurusanKuliahV2.replaceDB(db),
-		SkoringPenjurusanKuliahV3:        q.SkoringPenjurusanKuliahV3.replaceDB(db),
-		SkoringSeleksiKaryawan:           q.SkoringSeleksiKaryawan.replaceDB(db),
-		SoalDisc:                         q.SoalDisc.replaceDB(db),
-		SoalGayaBelajar:                  q.SoalGayaBelajar.replaceDB(db),
-		SoalGayaPekerjaan:                q.SoalGayaPekerjaan.replaceDB(db),
-		SoalKarakteristikPribadi:         q.SoalKarakteristikPribadi.replaceDB(db),
-		SoalKecerdasanMajemuk:            q.SoalKecerdasanMajemuk.replaceDB(db),
-		SoalKejiwaanDewasa:               q.SoalKejiwaanDewasa.replaceDB(db),
-		SoalKepribadianManajerial:        q.SoalKepribadianManajerial.replaceDB(db),
-		SoalKesehatanMental:              q.SoalKesehatanMental.replaceDB(db),
-		SoalKognitif:                     q.SoalKognitif.replaceDB(db),
-		SoalKraeplin:                     q.SoalKraeplin.replaceDB(db),
-		SoalMinatKuliahAgama:             q.SoalMinatKuliahAgama.replaceDB(db),
-		SoalMinatKuliahDina:              q.SoalMinatKuliahDina.replaceDB(db),
-		SoalMinatKuliahEksaktum:          q.SoalMinatKuliahEksaktum.replaceDB(db),
-		SoalMinatKuliahSosial:            q.SoalMinatKuliahSosial.replaceDB(db),
-		SoalMinatKuliahSuasanaKerja:      q.SoalMinatKuliahSuasanaKerja.replaceDB(db),
-		SoalModeBelajar:                  q.SoalModeBelajar.replaceDB(db),
-		SoalModeKerja:                    q.SoalModeKerja.replaceDB(db),
-		SoalPeminatanMan:                 q.SoalPeminatanMan.replaceDB(db),
-		SoalPeminatanSma:                 q.SoalPeminatanSma.replaceDB(db),
-		SoalPeminatanSmk:                 q.SoalPeminatanSmk.replaceDB(db),
-		SoalSikapPelajaran:               q.SoalSikapPelajaran.replaceDB(db),
-		SoalSikapPelajaranKuliah:         q.SoalSikapPelajaranKuliah.replaceDB(db),
-		SoalSsctRemaja:                   q.SoalSsctRemaja.replaceDB(db),
-		SoalTipologiJung:                 q.SoalTipologiJung.replaceDB(db),
-		SoalTmi:                          q.SoalTmi.replaceDB(db),
-		SoalWlb:                          q.SoalWlb.replaceDB(db),
-		StatusCronjob:                    q.StatusCronjob.replaceDB(db),
-		StatusSkoring:                    q.StatusSkoring.replaceDB(db),
-		TarifPaket:                       q.TarifPaket.replaceDB(db),
-		TarifPaketRinci:                  q.TarifPaketRinci.replaceDB(db),
-		User:                             q.User.replaceDB(db),
-		UserRole:                         q.UserRole.replaceDB(db),
-		UserUploadExcel:                  q.UserUploadExcel.replaceDB(db),
+		db:                                 db,
+		Datum:                              q.Datum.replaceDB(db),
+		Gambar:                             q.Gambar.replaceDB(db),
+		InfoCerda:                          q.InfoCerda.replaceDB(db),
+		InterprestasiTipologiJung:          q.InterprestasiTipologiJung.replaceDB(db),
+		InterprestasiTipologiJungEng:       q.InterprestasiTipologiJungEng.replaceDB(db),
+		Kontak:                             q.Kontak.replaceDB(db),
+		Lokasi:                             q.Lokasi.replaceDB(db),
+		Menu:                               q.Menu.replaceDB(db),
+		ModelReport:                        q.ModelReport.replaceDB(db),
+		PetunjukSoal:                       q.PetunjukSoal.replaceDB(db),
+		PetunjukSoalEng:                    q.PetunjukSoalEng.replaceDB(db),
+		Province:                           q.Province.replaceDB(db),
+		PublishCron:                        q.PublishCron.replaceDB(db),
+		QuizSesi:                           q.QuizSesi.replaceDB(db),
+		QuizSesiAdditionalSkoring:          q.QuizSesiAdditionalSkoring.replaceDB(db),
+		QuizSesiDetil:                      q.QuizSesiDetil.replaceDB(db),
+		QuizSesiDetilTemplate:              q.QuizSesiDetilTemplate.replaceDB(db),
+		QuizSesiMappingSmk:                 q.QuizSesiMappingSmk.replaceDB(db),
+		QuizSesiMaster:                     q.QuizSesiMaster.replaceDB(db),
+		QuizSesiReport:                     q.QuizSesiReport.replaceDB(db),
+		QuizSesiTemplate:                   q.QuizSesiTemplate.replaceDB(db),
+		QuizSesiTemplateLampiran:           q.QuizSesiTemplateLampiran.replaceDB(db),
+		QuizSesiTemplateReport:             q.QuizSesiTemplateReport.replaceDB(db),
+		QuizSesiTtd:                        q.QuizSesiTtd.replaceDB(db),
+		QuizSesiUser:                       q.QuizSesiUser.replaceDB(db),
+		QuizSesiUserJawaban:                q.QuizSesiUserJawaban.replaceDB(db),
+		QuizTemplateSaran:                  q.QuizTemplateSaran.replaceDB(db),
+		RefBidangKognitif:                  q.RefBidangKognitif.replaceDB(db),
+		RefGayaBelajar:                     q.RefGayaBelajar.replaceDB(db),
+		RefKarakterPribadi:                 q.RefKarakterPribadi.replaceDB(db),
+		RefKecerdasanMajemuk:               q.RefKecerdasanMajemuk.replaceDB(db),
+		RefKelasMinatSma:                   q.RefKelasMinatSma.replaceDB(db),
+		RefKelompokMinatKuliah:             q.RefKelompokMinatKuliah.replaceDB(db),
+		RefKelompokSikapPelajaran:          q.RefKelompokSikapPelajaran.replaceDB(db),
+		RefKelompokTmi:                     q.RefKelompokTmi.replaceDB(db),
+		RefKlasifikasiGayaKerja:            q.RefKlasifikasiGayaKerja.replaceDB(db),
+		RefKlasifikasiKejiwaanDewasa:       q.RefKlasifikasiKejiwaanDewasa.replaceDB(db),
+		RefKlasifikasiKesehatanMental:      q.RefKlasifikasiKesehatanMental.replaceDB(db),
+		RefKlasifikasiMinatMan:             q.RefKlasifikasiMinatMan.replaceDB(db),
+		RefKlasifikasiMinatSma:             q.RefKlasifikasiMinatSma.replaceDB(db),
+		RefKlasifikasiPribadiManajerial:    q.RefKlasifikasiPribadiManajerial.replaceDB(db),
+		RefKlasifikasiTipologiJung:         q.RefKlasifikasiTipologiJung.replaceDB(db),
+		RefKlasifikasiWlb:                  q.RefKlasifikasiWlb.replaceDB(db),
+		RefKomponenEq:                      q.RefKomponenEq.replaceDB(db),
+		RefKomponenGayaPekerjaan:           q.RefKomponenGayaPekerjaan.replaceDB(db),
+		RefKomponenGayaPekerjaanEng:        q.RefKomponenGayaPekerjaanEng.replaceDB(db),
+		RefKomponenKarakteristikPribadi:    q.RefKomponenKarakteristikPribadi.replaceDB(db),
+		RefKomponenKarakteristikPribadiEng: q.RefKomponenKarakteristikPribadiEng.replaceDB(db),
+		RefKomponenKepribadianManajerial:   q.RefKomponenKepribadianManajerial.replaceDB(db),
+		RefKonversiIq:                      q.RefKonversiIq.replaceDB(db),
+		RefKonversiIq105:                   q.RefKonversiIq105.replaceDB(db),
+		RefKonversiIq90:                    q.RefKonversiIq90.replaceDB(db),
+		RefModelKejiwaanDewasa:             q.RefModelKejiwaanDewasa.replaceDB(db),
+		RefModelKesehatanMental:            q.RefModelKesehatanMental.replaceDB(db),
+		RefModelWlb:                        q.RefModelWlb.replaceDB(db),
+		RefPilihanMinatMan:                 q.RefPilihanMinatMan.replaceDB(db),
+		RefPilihanMinatSma:                 q.RefPilihanMinatSma.replaceDB(db),
+		RefRangkingTmi:                     q.RefRangkingTmi.replaceDB(db),
+		RefRekomendasiAkhirMan:             q.RefRekomendasiAkhirMan.replaceDB(db),
+		RefRekomendasiAkhirPeminatanSma:    q.RefRekomendasiAkhirPeminatanSma.replaceDB(db),
+		RefRekomendasiAkhirSma:             q.RefRekomendasiAkhirSma.replaceDB(db),
+		RefRekomendasiAkhirSmaV2:           q.RefRekomendasiAkhirSmaV2.replaceDB(db),
+		RefRekomendasiAkhirSmaV3:           q.RefRekomendasiAkhirSmaV3.replaceDB(db),
+		RefRekomendasiMinatMan:             q.RefRekomendasiMinatMan.replaceDB(db),
+		RefRekomendasiMinatSma:             q.RefRekomendasiMinatSma.replaceDB(db),
+		RefRekomendasiMinatTmi:             q.RefRekomendasiMinatTmi.replaceDB(db),
+		RefRekomendasiSikapPelajaran:       q.RefRekomendasiSikapPelajaran.replaceDB(db),
+		RefSekolahDina:                     q.RefSekolahDina.replaceDB(db),
+		RefSkalaKd15:                       q.RefSkalaKd15.replaceDB(db),
+		RefSkalaKd20:                       q.RefSkalaKd20.replaceDB(db),
+		RefSkalaKdCepatTeliti:              q.RefSkalaKdCepatTeliti.replaceDB(db),
+		RefSkalaKdInformasiUmum:            q.RefSkalaKdInformasiUmum.replaceDB(db),
+		RefSkalaKdPenalaranAbstrak:         q.RefSkalaKdPenalaranAbstrak.replaceDB(db),
+		RefSkalaKdPenalaranKuantitatif:     q.RefSkalaKdPenalaranKuantitatif.replaceDB(db),
+		RefSkalaKdPenalaranMekanika:        q.RefSkalaKdPenalaranMekanika.replaceDB(db),
+		RefSkalaKdPenalaranSpasial:         q.RefSkalaKdPenalaranSpasial.replaceDB(db),
+		RefSkalaKdPenalaranVerbal:          q.RefSkalaKdPenalaranVerbal.replaceDB(db),
+		RefSkalaSikapPelajaran:             q.RefSkalaSikapPelajaran.replaceDB(db),
+		RefSkalaSkorSsct:                   q.RefSkalaSkorSsct.replaceDB(db),
+		RefSkorGayaBelajar:                 q.RefSkorGayaBelajar.replaceDB(db),
+		RefSkorGayaPekerjaan:               q.RefSkorGayaPekerjaan.replaceDB(db),
+		RefSkorKarakterPribadi:             q.RefSkorKarakterPribadi.replaceDB(db),
+		RefSkoringGayaPekerjaan:            q.RefSkoringGayaPekerjaan.replaceDB(db),
+		RefSkoringKecerdasanMajemuk:        q.RefSkoringKecerdasanMajemuk.replaceDB(db),
+		RefSkoringKejiwaanDewasa:           q.RefSkoringKejiwaanDewasa.replaceDB(db),
+		RefSkoringKesehatanMental:          q.RefSkoringKesehatanMental.replaceDB(db),
+		RefSkoringKuliahDina:               q.RefSkoringKuliahDina.replaceDB(db),
+		RefSkoringTipologiJung:             q.RefSkoringTipologiJung.replaceDB(db),
+		RefSkoringWlb:                      q.RefSkoringWlb.replaceDB(db),
+		Regency:                            q.Regency.replaceDB(db),
+		Role:                               q.Role.replaceDB(db),
+		RoleMenu:                           q.RoleMenu.replaceDB(db),
+		RunningCronjob:                     q.RunningCronjob.replaceDB(db),
+		SeriCetakan:                        q.SeriCetakan.replaceDB(db),
+		SeriCetakanDoc:                     q.SeriCetakanDoc.replaceDB(db),
+		SkorDisc:                           q.SkorDisc.replaceDB(db),
+		SkorGayaBelajar:                    q.SkorGayaBelajar.replaceDB(db),
+		SkorGayaPekerjaan:                  q.SkorGayaPekerjaan.replaceDB(db),
+		SkorKarakteristikPribadi:           q.SkorKarakteristikPribadi.replaceDB(db),
+		SkorKecerdasanMajemuk:              q.SkorKecerdasanMajemuk.replaceDB(db),
+		SkorKejiwaanDewasa:                 q.SkorKejiwaanDewasa.replaceDB(db),
+		SkorKepribadianManajerial:          q.SkorKepribadianManajerial.replaceDB(db),
+		SkorKesehatanMental:                q.SkorKesehatanMental.replaceDB(db),
+		SkorKognitif:                       q.SkorKognitif.replaceDB(db),
+		SkorKognitifPmk:                    q.SkorKognitifPmk.replaceDB(db),
+		SkorKuliahAgama:                    q.SkorKuliahAgama.replaceDB(db),
+		SkorKuliahAlam:                     q.SkorKuliahAlam.replaceDB(db),
+		SkorKuliahDina:                     q.SkorKuliahDina.replaceDB(db),
+		SkorKuliahSosial:                   q.SkorKuliahSosial.replaceDB(db),
+		SkorMbti:                           q.SkorMbti.replaceDB(db),
+		SkorMinatIndonesium:                q.SkorMinatIndonesium.replaceDB(db),
+		SkorModeBelajar:                    q.SkorModeBelajar.replaceDB(db),
+		SkorModeKerja:                      q.SkorModeKerja.replaceDB(db),
+		SkorPeminatanMan:                   q.SkorPeminatanMan.replaceDB(db),
+		SkorPeminatanSma:                   q.SkorPeminatanSma.replaceDB(db),
+		SkorPeminatanSmk:                   q.SkorPeminatanSmk.replaceDB(db),
+		SkorRekomKuliahA:                   q.SkorRekomKuliahA.replaceDB(db),
+		SkorRekomKuliahB:                   q.SkorRekomKuliahB.replaceDB(db),
+		SkorRekomPeminatanSma:              q.SkorRekomPeminatanSma.replaceDB(db),
+		SkorSikapPelajaran:                 q.SkorSikapPelajaran.replaceDB(db),
+		SkorSikapPelajaranMk:               q.SkorSikapPelajaranMk.replaceDB(db),
+		SkorSsct:                           q.SkorSsct.replaceDB(db),
+		SkorSuasanaKerja:                   q.SkorSuasanaKerja.replaceDB(db),
+		SkorWlb:                            q.SkorWlb.replaceDB(db),
+		SkoringIqEq:                        q.SkoringIqEq.replaceDB(db),
+		SkoringMinatLengkap:                q.SkoringMinatLengkap.replaceDB(db),
+		SkoringMinatMan:                    q.SkoringMinatMan.replaceDB(db),
+		SkoringMinatSma:                    q.SkoringMinatSma.replaceDB(db),
+		SkoringMinatSmaV2:                  q.SkoringMinatSmaV2.replaceDB(db),
+		SkoringMinatSmaV3:                  q.SkoringMinatSmaV3.replaceDB(db),
+		SkoringMinatSmk:                    q.SkoringMinatSmk.replaceDB(db),
+		SkoringMinatSmkV2:                  q.SkoringMinatSmkV2.replaceDB(db),
+		SkoringMinatVersi3:                 q.SkoringMinatVersi3.replaceDB(db),
+		SkoringPenjurusanKuliah:            q.SkoringPenjurusanKuliah.replaceDB(db),
+		SkoringPenjurusanKuliahV2:          q.SkoringPenjurusanKuliahV2.replaceDB(db),
+		SkoringPenjurusanKuliahV3:          q.SkoringPenjurusanKuliahV3.replaceDB(db),
+		SkoringSeleksiKaryawan:             q.SkoringSeleksiKaryawan.replaceDB(db),
+		SoalDisc:                           q.SoalDisc.replaceDB(db),
+		SoalGayaBelajar:                    q.SoalGayaBelajar.replaceDB(db),
+		SoalGayaPekerjaan:                  q.SoalGayaPekerjaan.replaceDB(db),
+		SoalGayaPekerjaanEng:               q.SoalGayaPekerjaanEng.replaceDB(db),
+		SoalKarakteristikPribadi:           q.SoalKarakteristikPribadi.replaceDB(db),
+		SoalKarakteristikPribadiEng:        q.SoalKarakteristikPribadiEng.replaceDB(db),
+		SoalKecerdasanMajemuk:              q.SoalKecerdasanMajemuk.replaceDB(db),
+		SoalKejiwaanDewasa:                 q.SoalKejiwaanDewasa.replaceDB(db),
+		SoalKepribadianManajerial:          q.SoalKepribadianManajerial.replaceDB(db),
+		SoalKesehatanMental:                q.SoalKesehatanMental.replaceDB(db),
+		SoalKognitif:                       q.SoalKognitif.replaceDB(db),
+		SoalKognitifEng:                    q.SoalKognitifEng.replaceDB(db),
+		SoalKraeplin:                       q.SoalKraeplin.replaceDB(db),
+		SoalMinatKuliahAgama:               q.SoalMinatKuliahAgama.replaceDB(db),
+		SoalMinatKuliahDina:                q.SoalMinatKuliahDina.replaceDB(db),
+		SoalMinatKuliahEksaktum:            q.SoalMinatKuliahEksaktum.replaceDB(db),
+		SoalMinatKuliahSosial:              q.SoalMinatKuliahSosial.replaceDB(db),
+		SoalMinatKuliahSuasanaKerja:        q.SoalMinatKuliahSuasanaKerja.replaceDB(db),
+		SoalModeBelajar:                    q.SoalModeBelajar.replaceDB(db),
+		SoalModeKerja:                      q.SoalModeKerja.replaceDB(db),
+		SoalModeKerjaEng:                   q.SoalModeKerjaEng.replaceDB(db),
+		SoalPeminatanMan:                   q.SoalPeminatanMan.replaceDB(db),
+		SoalPeminatanSma:                   q.SoalPeminatanSma.replaceDB(db),
+		SoalPeminatanSmk:                   q.SoalPeminatanSmk.replaceDB(db),
+		SoalSikapPelajaran:                 q.SoalSikapPelajaran.replaceDB(db),
+		SoalSikapPelajaranKuliah:           q.SoalSikapPelajaranKuliah.replaceDB(db),
+		SoalSsctRemaja:                     q.SoalSsctRemaja.replaceDB(db),
+		SoalTipologiJung:                   q.SoalTipologiJung.replaceDB(db),
+		SoalTipologiJungEng:                q.SoalTipologiJungEng.replaceDB(db),
+		SoalTmi:                            q.SoalTmi.replaceDB(db),
+		SoalWlb:                            q.SoalWlb.replaceDB(db),
+		StatusCronjob:                      q.StatusCronjob.replaceDB(db),
+		StatusSkoring:                      q.StatusSkoring.replaceDB(db),
+		TarifPaket:                         q.TarifPaket.replaceDB(db),
+		TarifPaketRinci:                    q.TarifPaketRinci.replaceDB(db),
+		User:                               q.User.replaceDB(db),
+		UserRole:                           q.UserRole.replaceDB(db),
+		UserUploadExcel:                    q.UserUploadExcel.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Datum                            *datumDo
-	Gambar                           *gambarDo
-	InfoCerda                        *infoCerdaDo
-	InterprestasiTipologiJung        *interprestasiTipologiJungDo
-	Kontak                           *kontakDo
-	Lokasi                           *lokasiDo
-	Menu                             *menuDo
-	ModelReport                      *modelReportDo
-	PetunjukSoal                     *petunjukSoalDo
-	Province                         *provinceDo
-	QuizSesi                         *quizSesiDo
-	QuizSesiAdditionalSkoring        *quizSesiAdditionalSkoringDo
-	QuizSesiDetil                    *quizSesiDetilDo
-	QuizSesiDetilTemplate            *quizSesiDetilTemplateDo
-	QuizSesiMappingSmk               *quizSesiMappingSmkDo
-	QuizSesiMaster                   *quizSesiMasterDo
-	QuizSesiReport                   *quizSesiReportDo
-	QuizSesiTemplate                 *quizSesiTemplateDo
-	QuizSesiTemplateLampiran         *quizSesiTemplateLampiranDo
-	QuizSesiTemplateReport           *quizSesiTemplateReportDo
-	QuizSesiTtd                      *quizSesiTtdDo
-	QuizSesiUser                     *quizSesiUserDo
-	QuizSesiUserJawaban              *quizSesiUserJawabanDo
-	QuizTemplateSaran                *quizTemplateSaranDo
-	RefBidangKognitif                *refBidangKognitifDo
-	RefGayaBelajar                   *refGayaBelajarDo
-	RefKarakterPribadi               *refKarakterPribadiDo
-	RefKecerdasanMajemuk             *refKecerdasanMajemukDo
-	RefKelasMinatSma                 *refKelasMinatSmaDo
-	RefKelompokMinatKuliah           *refKelompokMinatKuliahDo
-	RefKelompokSikapPelajaran        *refKelompokSikapPelajaranDo
-	RefKelompokTmi                   *refKelompokTmiDo
-	RefKlasifikasiGayaKerja          *refKlasifikasiGayaKerjaDo
-	RefKlasifikasiKejiwaanDewasa     *refKlasifikasiKejiwaanDewasaDo
-	RefKlasifikasiKesehatanMental    *refKlasifikasiKesehatanMentalDo
-	RefKlasifikasiMinatMan           *refKlasifikasiMinatManDo
-	RefKlasifikasiMinatSma           *refKlasifikasiMinatSmaDo
-	RefKlasifikasiTipologiJung       *refKlasifikasiTipologiJungDo
-	RefKlasifikasiWlb                *refKlasifikasiWlbDo
-	RefKomponenEq                    *refKomponenEqDo
-	RefKomponenGayaPekerjaan         *refKomponenGayaPekerjaanDo
-	RefKomponenKarakteristikPribadi  *refKomponenKarakteristikPribadiDo
-	RefKomponenKepribadianManajerial *refKomponenKepribadianManajerialDo
-	RefKonversiIq                    *refKonversiIqDo
-	RefKonversiIq105                 *refKonversiIq105Do
-	RefKonversiIq90                  *refKonversiIq90Do
-	RefModelKejiwaanDewasa           *refModelKejiwaanDewasaDo
-	RefModelKesehatanMental          *refModelKesehatanMentalDo
-	RefModelWlb                      *refModelWlbDo
-	RefPilihanMinatMan               *refPilihanMinatManDo
-	RefPilihanMinatSma               *refPilihanMinatSmaDo
-	RefRangkingTmi                   *refRangkingTmiDo
-	RefRekomendasiAkhirMan           *refRekomendasiAkhirManDo
-	RefRekomendasiAkhirPeminatanSma  *refRekomendasiAkhirPeminatanSmaDo
-	RefRekomendasiAkhirSma           *refRekomendasiAkhirSmaDo
-	RefRekomendasiAkhirSmaV2         *refRekomendasiAkhirSmaV2Do
-	RefRekomendasiAkhirSmaV3         *refRekomendasiAkhirSmaV3Do
-	RefRekomendasiMinatMan           *refRekomendasiMinatManDo
-	RefRekomendasiMinatSma           *refRekomendasiMinatSmaDo
-	RefRekomendasiMinatTmi           *refRekomendasiMinatTmiDo
-	RefRekomendasiSikapPelajaran     *refRekomendasiSikapPelajaranDo
-	RefSekolahDina                   *refSekolahDinaDo
-	RefSkalaKd15                     *refSkalaKd15Do
-	RefSkalaKd20                     *refSkalaKd20Do
-	RefSkalaKdCepatTeliti            *refSkalaKdCepatTelitiDo
-	RefSkalaKdInformasiUmum          *refSkalaKdInformasiUmumDo
-	RefSkalaKdPenalaranAbstrak       *refSkalaKdPenalaranAbstrakDo
-	RefSkalaKdPenalaranKuantitatif   *refSkalaKdPenalaranKuantitatifDo
-	RefSkalaKdPenalaranMekanika      *refSkalaKdPenalaranMekanikaDo
-	RefSkalaKdPenalaranSpasial       *refSkalaKdPenalaranSpasialDo
-	RefSkalaKdPenalaranVerbal        *refSkalaKdPenalaranVerbalDo
-	RefSkalaSikapPelajaran           *refSkalaSikapPelajaranDo
-	RefSkalaSkorSsct                 *refSkalaSkorSsctDo
-	RefSkorGayaBelajar               *refSkorGayaBelajarDo
-	RefSkorGayaPekerjaan             *refSkorGayaPekerjaanDo
-	RefSkorKarakterPribadi           *refSkorKarakterPribadiDo
-	RefSkoringGayaPekerjaan          *refSkoringGayaPekerjaanDo
-	RefSkoringKecerdasanMajemuk      *refSkoringKecerdasanMajemukDo
-	RefSkoringKejiwaanDewasa         *refSkoringKejiwaanDewasaDo
-	RefSkoringKesehatanMental        *refSkoringKesehatanMentalDo
-	RefSkoringKuliahDina             *refSkoringKuliahDinaDo
-	RefSkoringTipologiJung           *refSkoringTipologiJungDo
-	RefSkoringWlb                    *refSkoringWlbDo
-	Regency                          *regencyDo
-	Role                             *roleDo
-	RoleMenu                         *roleMenuDo
-	RunningCronjob                   *runningCronjobDo
-	SeriCetakan                      *seriCetakanDo
-	SeriCetakanDoc                   *seriCetakanDocDo
-	SkorDisc                         *skorDiscDo
-	SkorGayaBelajar                  *skorGayaBelajarDo
-	SkorGayaPekerjaan                *skorGayaPekerjaanDo
-	SkorKarakteristikPribadi         *skorKarakteristikPribadiDo
-	SkorKecerdasanMajemuk            *skorKecerdasanMajemukDo
-	SkorKejiwaanDewasa               *skorKejiwaanDewasaDo
-	SkorKepribadianManajerial        *skorKepribadianManajerialDo
-	SkorKesehatanMental              *skorKesehatanMentalDo
-	SkorKognitif                     *skorKognitifDo
-	SkorKognitifPmk                  *skorKognitifPmkDo
-	SkorKuliahAgama                  *skorKuliahAgamaDo
-	SkorKuliahAlam                   *skorKuliahAlamDo
-	SkorKuliahDina                   *skorKuliahDinaDo
-	SkorKuliahSosial                 *skorKuliahSosialDo
-	SkorMbti                         *skorMbtiDo
-	SkorMinatIndonesium              *skorMinatIndonesiumDo
-	SkorModeBelajar                  *skorModeBelajarDo
-	SkorModeKerja                    *skorModeKerjaDo
-	SkorPeminatanMan                 *skorPeminatanManDo
-	SkorPeminatanSma                 *skorPeminatanSmaDo
-	SkorPeminatanSmk                 *skorPeminatanSmkDo
-	SkorRekomKuliahA                 *skorRekomKuliahADo
-	SkorRekomKuliahB                 *skorRekomKuliahBDo
-	SkorRekomPeminatanSma            *skorRekomPeminatanSmaDo
-	SkorSikapPelajaran               *skorSikapPelajaranDo
-	SkorSikapPelajaranMk             *skorSikapPelajaranMkDo
-	SkorSsct                         *skorSsctDo
-	SkorSuasanaKerja                 *skorSuasanaKerjaDo
-	SkorWlb                          *skorWlbDo
-	SkoringIqEq                      *skoringIqEqDo
-	SkoringMinatLengkap              *skoringMinatLengkapDo
-	SkoringMinatMan                  *skoringMinatManDo
-	SkoringMinatSma                  *skoringMinatSmaDo
-	SkoringMinatSmaV2                *skoringMinatSmaV2Do
-	SkoringMinatSmaV3                *skoringMinatSmaV3Do
-	SkoringMinatSmk                  *skoringMinatSmkDo
-	SkoringMinatSmkV2                *skoringMinatSmkV2Do
-	SkoringMinatVersi3               *skoringMinatVersi3Do
-	SkoringPenjurusanKuliah          *skoringPenjurusanKuliahDo
-	SkoringPenjurusanKuliahV2        *skoringPenjurusanKuliahV2Do
-	SkoringPenjurusanKuliahV3        *skoringPenjurusanKuliahV3Do
-	SkoringSeleksiKaryawan           *skoringSeleksiKaryawanDo
-	SoalDisc                         *soalDiscDo
-	SoalGayaBelajar                  *soalGayaBelajarDo
-	SoalGayaPekerjaan                *soalGayaPekerjaanDo
-	SoalKarakteristikPribadi         *soalKarakteristikPribadiDo
-	SoalKecerdasanMajemuk            *soalKecerdasanMajemukDo
-	SoalKejiwaanDewasa               *soalKejiwaanDewasaDo
-	SoalKepribadianManajerial        *soalKepribadianManajerialDo
-	SoalKesehatanMental              *soalKesehatanMentalDo
-	SoalKognitif                     *soalKognitifDo
-	SoalKraeplin                     *soalKraeplinDo
-	SoalMinatKuliahAgama             *soalMinatKuliahAgamaDo
-	SoalMinatKuliahDina              *soalMinatKuliahDinaDo
-	SoalMinatKuliahEksaktum          *soalMinatKuliahEksaktumDo
-	SoalMinatKuliahSosial            *soalMinatKuliahSosialDo
-	SoalMinatKuliahSuasanaKerja      *soalMinatKuliahSuasanaKerjaDo
-	SoalModeBelajar                  *soalModeBelajarDo
-	SoalModeKerja                    *soalModeKerjaDo
-	SoalPeminatanMan                 *soalPeminatanManDo
-	SoalPeminatanSma                 *soalPeminatanSmaDo
-	SoalPeminatanSmk                 *soalPeminatanSmkDo
-	SoalSikapPelajaran               *soalSikapPelajaranDo
-	SoalSikapPelajaranKuliah         *soalSikapPelajaranKuliahDo
-	SoalSsctRemaja                   *soalSsctRemajaDo
-	SoalTipologiJung                 *soalTipologiJungDo
-	SoalTmi                          *soalTmiDo
-	SoalWlb                          *soalWlbDo
-	StatusCronjob                    *statusCronjobDo
-	StatusSkoring                    *statusSkoringDo
-	TarifPaket                       *tarifPaketDo
-	TarifPaketRinci                  *tarifPaketRinciDo
-	User                             *userDo
-	UserRole                         *userRoleDo
-	UserUploadExcel                  *userUploadExcelDo
+	Datum                              *datumDo
+	Gambar                             *gambarDo
+	InfoCerda                          *infoCerdaDo
+	InterprestasiTipologiJung          *interprestasiTipologiJungDo
+	InterprestasiTipologiJungEng       *interprestasiTipologiJungEngDo
+	Kontak                             *kontakDo
+	Lokasi                             *lokasiDo
+	Menu                               *menuDo
+	ModelReport                        *modelReportDo
+	PetunjukSoal                       *petunjukSoalDo
+	PetunjukSoalEng                    *petunjukSoalEngDo
+	Province                           *provinceDo
+	PublishCron                        *publishCronDo
+	QuizSesi                           *quizSesiDo
+	QuizSesiAdditionalSkoring          *quizSesiAdditionalSkoringDo
+	QuizSesiDetil                      *quizSesiDetilDo
+	QuizSesiDetilTemplate              *quizSesiDetilTemplateDo
+	QuizSesiMappingSmk                 *quizSesiMappingSmkDo
+	QuizSesiMaster                     *quizSesiMasterDo
+	QuizSesiReport                     *quizSesiReportDo
+	QuizSesiTemplate                   *quizSesiTemplateDo
+	QuizSesiTemplateLampiran           *quizSesiTemplateLampiranDo
+	QuizSesiTemplateReport             *quizSesiTemplateReportDo
+	QuizSesiTtd                        *quizSesiTtdDo
+	QuizSesiUser                       *quizSesiUserDo
+	QuizSesiUserJawaban                *quizSesiUserJawabanDo
+	QuizTemplateSaran                  *quizTemplateSaranDo
+	RefBidangKognitif                  *refBidangKognitifDo
+	RefGayaBelajar                     *refGayaBelajarDo
+	RefKarakterPribadi                 *refKarakterPribadiDo
+	RefKecerdasanMajemuk               *refKecerdasanMajemukDo
+	RefKelasMinatSma                   *refKelasMinatSmaDo
+	RefKelompokMinatKuliah             *refKelompokMinatKuliahDo
+	RefKelompokSikapPelajaran          *refKelompokSikapPelajaranDo
+	RefKelompokTmi                     *refKelompokTmiDo
+	RefKlasifikasiGayaKerja            *refKlasifikasiGayaKerjaDo
+	RefKlasifikasiKejiwaanDewasa       *refKlasifikasiKejiwaanDewasaDo
+	RefKlasifikasiKesehatanMental      *refKlasifikasiKesehatanMentalDo
+	RefKlasifikasiMinatMan             *refKlasifikasiMinatManDo
+	RefKlasifikasiMinatSma             *refKlasifikasiMinatSmaDo
+	RefKlasifikasiPribadiManajerial    *refKlasifikasiPribadiManajerialDo
+	RefKlasifikasiTipologiJung         *refKlasifikasiTipologiJungDo
+	RefKlasifikasiWlb                  *refKlasifikasiWlbDo
+	RefKomponenEq                      *refKomponenEqDo
+	RefKomponenGayaPekerjaan           *refKomponenGayaPekerjaanDo
+	RefKomponenGayaPekerjaanEng        *refKomponenGayaPekerjaanEngDo
+	RefKomponenKarakteristikPribadi    *refKomponenKarakteristikPribadiDo
+	RefKomponenKarakteristikPribadiEng *refKomponenKarakteristikPribadiEngDo
+	RefKomponenKepribadianManajerial   *refKomponenKepribadianManajerialDo
+	RefKonversiIq                      *refKonversiIqDo
+	RefKonversiIq105                   *refKonversiIq105Do
+	RefKonversiIq90                    *refKonversiIq90Do
+	RefModelKejiwaanDewasa             *refModelKejiwaanDewasaDo
+	RefModelKesehatanMental            *refModelKesehatanMentalDo
+	RefModelWlb                        *refModelWlbDo
+	RefPilihanMinatMan                 *refPilihanMinatManDo
+	RefPilihanMinatSma                 *refPilihanMinatSmaDo
+	RefRangkingTmi                     *refRangkingTmiDo
+	RefRekomendasiAkhirMan             *refRekomendasiAkhirManDo
+	RefRekomendasiAkhirPeminatanSma    *refRekomendasiAkhirPeminatanSmaDo
+	RefRekomendasiAkhirSma             *refRekomendasiAkhirSmaDo
+	RefRekomendasiAkhirSmaV2           *refRekomendasiAkhirSmaV2Do
+	RefRekomendasiAkhirSmaV3           *refRekomendasiAkhirSmaV3Do
+	RefRekomendasiMinatMan             *refRekomendasiMinatManDo
+	RefRekomendasiMinatSma             *refRekomendasiMinatSmaDo
+	RefRekomendasiMinatTmi             *refRekomendasiMinatTmiDo
+	RefRekomendasiSikapPelajaran       *refRekomendasiSikapPelajaranDo
+	RefSekolahDina                     *refSekolahDinaDo
+	RefSkalaKd15                       *refSkalaKd15Do
+	RefSkalaKd20                       *refSkalaKd20Do
+	RefSkalaKdCepatTeliti              *refSkalaKdCepatTelitiDo
+	RefSkalaKdInformasiUmum            *refSkalaKdInformasiUmumDo
+	RefSkalaKdPenalaranAbstrak         *refSkalaKdPenalaranAbstrakDo
+	RefSkalaKdPenalaranKuantitatif     *refSkalaKdPenalaranKuantitatifDo
+	RefSkalaKdPenalaranMekanika        *refSkalaKdPenalaranMekanikaDo
+	RefSkalaKdPenalaranSpasial         *refSkalaKdPenalaranSpasialDo
+	RefSkalaKdPenalaranVerbal          *refSkalaKdPenalaranVerbalDo
+	RefSkalaSikapPelajaran             *refSkalaSikapPelajaranDo
+	RefSkalaSkorSsct                   *refSkalaSkorSsctDo
+	RefSkorGayaBelajar                 *refSkorGayaBelajarDo
+	RefSkorGayaPekerjaan               *refSkorGayaPekerjaanDo
+	RefSkorKarakterPribadi             *refSkorKarakterPribadiDo
+	RefSkoringGayaPekerjaan            *refSkoringGayaPekerjaanDo
+	RefSkoringKecerdasanMajemuk        *refSkoringKecerdasanMajemukDo
+	RefSkoringKejiwaanDewasa           *refSkoringKejiwaanDewasaDo
+	RefSkoringKesehatanMental          *refSkoringKesehatanMentalDo
+	RefSkoringKuliahDina               *refSkoringKuliahDinaDo
+	RefSkoringTipologiJung             *refSkoringTipologiJungDo
+	RefSkoringWlb                      *refSkoringWlbDo
+	Regency                            *regencyDo
+	Role                               *roleDo
+	RoleMenu                           *roleMenuDo
+	RunningCronjob                     *runningCronjobDo
+	SeriCetakan                        *seriCetakanDo
+	SeriCetakanDoc                     *seriCetakanDocDo
+	SkorDisc                           *skorDiscDo
+	SkorGayaBelajar                    *skorGayaBelajarDo
+	SkorGayaPekerjaan                  *skorGayaPekerjaanDo
+	SkorKarakteristikPribadi           *skorKarakteristikPribadiDo
+	SkorKecerdasanMajemuk              *skorKecerdasanMajemukDo
+	SkorKejiwaanDewasa                 *skorKejiwaanDewasaDo
+	SkorKepribadianManajerial          *skorKepribadianManajerialDo
+	SkorKesehatanMental                *skorKesehatanMentalDo
+	SkorKognitif                       *skorKognitifDo
+	SkorKognitifPmk                    *skorKognitifPmkDo
+	SkorKuliahAgama                    *skorKuliahAgamaDo
+	SkorKuliahAlam                     *skorKuliahAlamDo
+	SkorKuliahDina                     *skorKuliahDinaDo
+	SkorKuliahSosial                   *skorKuliahSosialDo
+	SkorMbti                           *skorMbtiDo
+	SkorMinatIndonesium                *skorMinatIndonesiumDo
+	SkorModeBelajar                    *skorModeBelajarDo
+	SkorModeKerja                      *skorModeKerjaDo
+	SkorPeminatanMan                   *skorPeminatanManDo
+	SkorPeminatanSma                   *skorPeminatanSmaDo
+	SkorPeminatanSmk                   *skorPeminatanSmkDo
+	SkorRekomKuliahA                   *skorRekomKuliahADo
+	SkorRekomKuliahB                   *skorRekomKuliahBDo
+	SkorRekomPeminatanSma              *skorRekomPeminatanSmaDo
+	SkorSikapPelajaran                 *skorSikapPelajaranDo
+	SkorSikapPelajaranMk               *skorSikapPelajaranMkDo
+	SkorSsct                           *skorSsctDo
+	SkorSuasanaKerja                   *skorSuasanaKerjaDo
+	SkorWlb                            *skorWlbDo
+	SkoringIqEq                        *skoringIqEqDo
+	SkoringMinatLengkap                *skoringMinatLengkapDo
+	SkoringMinatMan                    *skoringMinatManDo
+	SkoringMinatSma                    *skoringMinatSmaDo
+	SkoringMinatSmaV2                  *skoringMinatSmaV2Do
+	SkoringMinatSmaV3                  *skoringMinatSmaV3Do
+	SkoringMinatSmk                    *skoringMinatSmkDo
+	SkoringMinatSmkV2                  *skoringMinatSmkV2Do
+	SkoringMinatVersi3                 *skoringMinatVersi3Do
+	SkoringPenjurusanKuliah            *skoringPenjurusanKuliahDo
+	SkoringPenjurusanKuliahV2          *skoringPenjurusanKuliahV2Do
+	SkoringPenjurusanKuliahV3          *skoringPenjurusanKuliahV3Do
+	SkoringSeleksiKaryawan             *skoringSeleksiKaryawanDo
+	SoalDisc                           *soalDiscDo
+	SoalGayaBelajar                    *soalGayaBelajarDo
+	SoalGayaPekerjaan                  *soalGayaPekerjaanDo
+	SoalGayaPekerjaanEng               *soalGayaPekerjaanEngDo
+	SoalKarakteristikPribadi           *soalKarakteristikPribadiDo
+	SoalKarakteristikPribadiEng        *soalKarakteristikPribadiEngDo
+	SoalKecerdasanMajemuk              *soalKecerdasanMajemukDo
+	SoalKejiwaanDewasa                 *soalKejiwaanDewasaDo
+	SoalKepribadianManajerial          *soalKepribadianManajerialDo
+	SoalKesehatanMental                *soalKesehatanMentalDo
+	SoalKognitif                       *soalKognitifDo
+	SoalKognitifEng                    *soalKognitifEngDo
+	SoalKraeplin                       *soalKraeplinDo
+	SoalMinatKuliahAgama               *soalMinatKuliahAgamaDo
+	SoalMinatKuliahDina                *soalMinatKuliahDinaDo
+	SoalMinatKuliahEksaktum            *soalMinatKuliahEksaktumDo
+	SoalMinatKuliahSosial              *soalMinatKuliahSosialDo
+	SoalMinatKuliahSuasanaKerja        *soalMinatKuliahSuasanaKerjaDo
+	SoalModeBelajar                    *soalModeBelajarDo
+	SoalModeKerja                      *soalModeKerjaDo
+	SoalModeKerjaEng                   *soalModeKerjaEngDo
+	SoalPeminatanMan                   *soalPeminatanManDo
+	SoalPeminatanSma                   *soalPeminatanSmaDo
+	SoalPeminatanSmk                   *soalPeminatanSmkDo
+	SoalSikapPelajaran                 *soalSikapPelajaranDo
+	SoalSikapPelajaranKuliah           *soalSikapPelajaranKuliahDo
+	SoalSsctRemaja                     *soalSsctRemajaDo
+	SoalTipologiJung                   *soalTipologiJungDo
+	SoalTipologiJungEng                *soalTipologiJungEngDo
+	SoalTmi                            *soalTmiDo
+	SoalWlb                            *soalWlbDo
+	StatusCronjob                      *statusCronjobDo
+	StatusSkoring                      *statusSkoringDo
+	TarifPaket                         *tarifPaketDo
+	TarifPaketRinci                    *tarifPaketRinciDo
+	User                               *userDo
+	UserRole                           *userRoleDo
+	UserUploadExcel                    *userUploadExcelDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Datum:                            q.Datum.WithContext(ctx),
-		Gambar:                           q.Gambar.WithContext(ctx),
-		InfoCerda:                        q.InfoCerda.WithContext(ctx),
-		InterprestasiTipologiJung:        q.InterprestasiTipologiJung.WithContext(ctx),
-		Kontak:                           q.Kontak.WithContext(ctx),
-		Lokasi:                           q.Lokasi.WithContext(ctx),
-		Menu:                             q.Menu.WithContext(ctx),
-		ModelReport:                      q.ModelReport.WithContext(ctx),
-		PetunjukSoal:                     q.PetunjukSoal.WithContext(ctx),
-		Province:                         q.Province.WithContext(ctx),
-		QuizSesi:                         q.QuizSesi.WithContext(ctx),
-		QuizSesiAdditionalSkoring:        q.QuizSesiAdditionalSkoring.WithContext(ctx),
-		QuizSesiDetil:                    q.QuizSesiDetil.WithContext(ctx),
-		QuizSesiDetilTemplate:            q.QuizSesiDetilTemplate.WithContext(ctx),
-		QuizSesiMappingSmk:               q.QuizSesiMappingSmk.WithContext(ctx),
-		QuizSesiMaster:                   q.QuizSesiMaster.WithContext(ctx),
-		QuizSesiReport:                   q.QuizSesiReport.WithContext(ctx),
-		QuizSesiTemplate:                 q.QuizSesiTemplate.WithContext(ctx),
-		QuizSesiTemplateLampiran:         q.QuizSesiTemplateLampiran.WithContext(ctx),
-		QuizSesiTemplateReport:           q.QuizSesiTemplateReport.WithContext(ctx),
-		QuizSesiTtd:                      q.QuizSesiTtd.WithContext(ctx),
-		QuizSesiUser:                     q.QuizSesiUser.WithContext(ctx),
-		QuizSesiUserJawaban:              q.QuizSesiUserJawaban.WithContext(ctx),
-		QuizTemplateSaran:                q.QuizTemplateSaran.WithContext(ctx),
-		RefBidangKognitif:                q.RefBidangKognitif.WithContext(ctx),
-		RefGayaBelajar:                   q.RefGayaBelajar.WithContext(ctx),
-		RefKarakterPribadi:               q.RefKarakterPribadi.WithContext(ctx),
-		RefKecerdasanMajemuk:             q.RefKecerdasanMajemuk.WithContext(ctx),
-		RefKelasMinatSma:                 q.RefKelasMinatSma.WithContext(ctx),
-		RefKelompokMinatKuliah:           q.RefKelompokMinatKuliah.WithContext(ctx),
-		RefKelompokSikapPelajaran:        q.RefKelompokSikapPelajaran.WithContext(ctx),
-		RefKelompokTmi:                   q.RefKelompokTmi.WithContext(ctx),
-		RefKlasifikasiGayaKerja:          q.RefKlasifikasiGayaKerja.WithContext(ctx),
-		RefKlasifikasiKejiwaanDewasa:     q.RefKlasifikasiKejiwaanDewasa.WithContext(ctx),
-		RefKlasifikasiKesehatanMental:    q.RefKlasifikasiKesehatanMental.WithContext(ctx),
-		RefKlasifikasiMinatMan:           q.RefKlasifikasiMinatMan.WithContext(ctx),
-		RefKlasifikasiMinatSma:           q.RefKlasifikasiMinatSma.WithContext(ctx),
-		RefKlasifikasiTipologiJung:       q.RefKlasifikasiTipologiJung.WithContext(ctx),
-		RefKlasifikasiWlb:                q.RefKlasifikasiWlb.WithContext(ctx),
-		RefKomponenEq:                    q.RefKomponenEq.WithContext(ctx),
-		RefKomponenGayaPekerjaan:         q.RefKomponenGayaPekerjaan.WithContext(ctx),
-		RefKomponenKarakteristikPribadi:  q.RefKomponenKarakteristikPribadi.WithContext(ctx),
-		RefKomponenKepribadianManajerial: q.RefKomponenKepribadianManajerial.WithContext(ctx),
-		RefKonversiIq:                    q.RefKonversiIq.WithContext(ctx),
-		RefKonversiIq105:                 q.RefKonversiIq105.WithContext(ctx),
-		RefKonversiIq90:                  q.RefKonversiIq90.WithContext(ctx),
-		RefModelKejiwaanDewasa:           q.RefModelKejiwaanDewasa.WithContext(ctx),
-		RefModelKesehatanMental:          q.RefModelKesehatanMental.WithContext(ctx),
-		RefModelWlb:                      q.RefModelWlb.WithContext(ctx),
-		RefPilihanMinatMan:               q.RefPilihanMinatMan.WithContext(ctx),
-		RefPilihanMinatSma:               q.RefPilihanMinatSma.WithContext(ctx),
-		RefRangkingTmi:                   q.RefRangkingTmi.WithContext(ctx),
-		RefRekomendasiAkhirMan:           q.RefRekomendasiAkhirMan.WithContext(ctx),
-		RefRekomendasiAkhirPeminatanSma:  q.RefRekomendasiAkhirPeminatanSma.WithContext(ctx),
-		RefRekomendasiAkhirSma:           q.RefRekomendasiAkhirSma.WithContext(ctx),
-		RefRekomendasiAkhirSmaV2:         q.RefRekomendasiAkhirSmaV2.WithContext(ctx),
-		RefRekomendasiAkhirSmaV3:         q.RefRekomendasiAkhirSmaV3.WithContext(ctx),
-		RefRekomendasiMinatMan:           q.RefRekomendasiMinatMan.WithContext(ctx),
-		RefRekomendasiMinatSma:           q.RefRekomendasiMinatSma.WithContext(ctx),
-		RefRekomendasiMinatTmi:           q.RefRekomendasiMinatTmi.WithContext(ctx),
-		RefRekomendasiSikapPelajaran:     q.RefRekomendasiSikapPelajaran.WithContext(ctx),
-		RefSekolahDina:                   q.RefSekolahDina.WithContext(ctx),
-		RefSkalaKd15:                     q.RefSkalaKd15.WithContext(ctx),
-		RefSkalaKd20:                     q.RefSkalaKd20.WithContext(ctx),
-		RefSkalaKdCepatTeliti:            q.RefSkalaKdCepatTeliti.WithContext(ctx),
-		RefSkalaKdInformasiUmum:          q.RefSkalaKdInformasiUmum.WithContext(ctx),
-		RefSkalaKdPenalaranAbstrak:       q.RefSkalaKdPenalaranAbstrak.WithContext(ctx),
-		RefSkalaKdPenalaranKuantitatif:   q.RefSkalaKdPenalaranKuantitatif.WithContext(ctx),
-		RefSkalaKdPenalaranMekanika:      q.RefSkalaKdPenalaranMekanika.WithContext(ctx),
-		RefSkalaKdPenalaranSpasial:       q.RefSkalaKdPenalaranSpasial.WithContext(ctx),
-		RefSkalaKdPenalaranVerbal:        q.RefSkalaKdPenalaranVerbal.WithContext(ctx),
-		RefSkalaSikapPelajaran:           q.RefSkalaSikapPelajaran.WithContext(ctx),
-		RefSkalaSkorSsct:                 q.RefSkalaSkorSsct.WithContext(ctx),
-		RefSkorGayaBelajar:               q.RefSkorGayaBelajar.WithContext(ctx),
-		RefSkorGayaPekerjaan:             q.RefSkorGayaPekerjaan.WithContext(ctx),
-		RefSkorKarakterPribadi:           q.RefSkorKarakterPribadi.WithContext(ctx),
-		RefSkoringGayaPekerjaan:          q.RefSkoringGayaPekerjaan.WithContext(ctx),
-		RefSkoringKecerdasanMajemuk:      q.RefSkoringKecerdasanMajemuk.WithContext(ctx),
-		RefSkoringKejiwaanDewasa:         q.RefSkoringKejiwaanDewasa.WithContext(ctx),
-		RefSkoringKesehatanMental:        q.RefSkoringKesehatanMental.WithContext(ctx),
-		RefSkoringKuliahDina:             q.RefSkoringKuliahDina.WithContext(ctx),
-		RefSkoringTipologiJung:           q.RefSkoringTipologiJung.WithContext(ctx),
-		RefSkoringWlb:                    q.RefSkoringWlb.WithContext(ctx),
-		Regency:                          q.Regency.WithContext(ctx),
-		Role:                             q.Role.WithContext(ctx),
-		RoleMenu:                         q.RoleMenu.WithContext(ctx),
-		RunningCronjob:                   q.RunningCronjob.WithContext(ctx),
-		SeriCetakan:                      q.SeriCetakan.WithContext(ctx),
-		SeriCetakanDoc:                   q.SeriCetakanDoc.WithContext(ctx),
-		SkorDisc:                         q.SkorDisc.WithContext(ctx),
-		SkorGayaBelajar:                  q.SkorGayaBelajar.WithContext(ctx),
-		SkorGayaPekerjaan:                q.SkorGayaPekerjaan.WithContext(ctx),
-		SkorKarakteristikPribadi:         q.SkorKarakteristikPribadi.WithContext(ctx),
-		SkorKecerdasanMajemuk:            q.SkorKecerdasanMajemuk.WithContext(ctx),
-		SkorKejiwaanDewasa:               q.SkorKejiwaanDewasa.WithContext(ctx),
-		SkorKepribadianManajerial:        q.SkorKepribadianManajerial.WithContext(ctx),
-		SkorKesehatanMental:              q.SkorKesehatanMental.WithContext(ctx),
-		SkorKognitif:                     q.SkorKognitif.WithContext(ctx),
-		SkorKognitifPmk:                  q.SkorKognitifPmk.WithContext(ctx),
-		SkorKuliahAgama:                  q.SkorKuliahAgama.WithContext(ctx),
-		SkorKuliahAlam:                   q.SkorKuliahAlam.WithContext(ctx),
-		SkorKuliahDina:                   q.SkorKuliahDina.WithContext(ctx),
-		SkorKuliahSosial:                 q.SkorKuliahSosial.WithContext(ctx),
-		SkorMbti:                         q.SkorMbti.WithContext(ctx),
-		SkorMinatIndonesium:              q.SkorMinatIndonesium.WithContext(ctx),
-		SkorModeBelajar:                  q.SkorModeBelajar.WithContext(ctx),
-		SkorModeKerja:                    q.SkorModeKerja.WithContext(ctx),
-		SkorPeminatanMan:                 q.SkorPeminatanMan.WithContext(ctx),
-		SkorPeminatanSma:                 q.SkorPeminatanSma.WithContext(ctx),
-		SkorPeminatanSmk:                 q.SkorPeminatanSmk.WithContext(ctx),
-		SkorRekomKuliahA:                 q.SkorRekomKuliahA.WithContext(ctx),
-		SkorRekomKuliahB:                 q.SkorRekomKuliahB.WithContext(ctx),
-		SkorRekomPeminatanSma:            q.SkorRekomPeminatanSma.WithContext(ctx),
-		SkorSikapPelajaran:               q.SkorSikapPelajaran.WithContext(ctx),
-		SkorSikapPelajaranMk:             q.SkorSikapPelajaranMk.WithContext(ctx),
-		SkorSsct:                         q.SkorSsct.WithContext(ctx),
-		SkorSuasanaKerja:                 q.SkorSuasanaKerja.WithContext(ctx),
-		SkorWlb:                          q.SkorWlb.WithContext(ctx),
-		SkoringIqEq:                      q.SkoringIqEq.WithContext(ctx),
-		SkoringMinatLengkap:              q.SkoringMinatLengkap.WithContext(ctx),
-		SkoringMinatMan:                  q.SkoringMinatMan.WithContext(ctx),
-		SkoringMinatSma:                  q.SkoringMinatSma.WithContext(ctx),
-		SkoringMinatSmaV2:                q.SkoringMinatSmaV2.WithContext(ctx),
-		SkoringMinatSmaV3:                q.SkoringMinatSmaV3.WithContext(ctx),
-		SkoringMinatSmk:                  q.SkoringMinatSmk.WithContext(ctx),
-		SkoringMinatSmkV2:                q.SkoringMinatSmkV2.WithContext(ctx),
-		SkoringMinatVersi3:               q.SkoringMinatVersi3.WithContext(ctx),
-		SkoringPenjurusanKuliah:          q.SkoringPenjurusanKuliah.WithContext(ctx),
-		SkoringPenjurusanKuliahV2:        q.SkoringPenjurusanKuliahV2.WithContext(ctx),
-		SkoringPenjurusanKuliahV3:        q.SkoringPenjurusanKuliahV3.WithContext(ctx),
-		SkoringSeleksiKaryawan:           q.SkoringSeleksiKaryawan.WithContext(ctx),
-		SoalDisc:                         q.SoalDisc.WithContext(ctx),
-		SoalGayaBelajar:                  q.SoalGayaBelajar.WithContext(ctx),
-		SoalGayaPekerjaan:                q.SoalGayaPekerjaan.WithContext(ctx),
-		SoalKarakteristikPribadi:         q.SoalKarakteristikPribadi.WithContext(ctx),
-		SoalKecerdasanMajemuk:            q.SoalKecerdasanMajemuk.WithContext(ctx),
-		SoalKejiwaanDewasa:               q.SoalKejiwaanDewasa.WithContext(ctx),
-		SoalKepribadianManajerial:        q.SoalKepribadianManajerial.WithContext(ctx),
-		SoalKesehatanMental:              q.SoalKesehatanMental.WithContext(ctx),
-		SoalKognitif:                     q.SoalKognitif.WithContext(ctx),
-		SoalKraeplin:                     q.SoalKraeplin.WithContext(ctx),
-		SoalMinatKuliahAgama:             q.SoalMinatKuliahAgama.WithContext(ctx),
-		SoalMinatKuliahDina:              q.SoalMinatKuliahDina.WithContext(ctx),
-		SoalMinatKuliahEksaktum:          q.SoalMinatKuliahEksaktum.WithContext(ctx),
-		SoalMinatKuliahSosial:            q.SoalMinatKuliahSosial.WithContext(ctx),
-		SoalMinatKuliahSuasanaKerja:      q.SoalMinatKuliahSuasanaKerja.WithContext(ctx),
-		SoalModeBelajar:                  q.SoalModeBelajar.WithContext(ctx),
-		SoalModeKerja:                    q.SoalModeKerja.WithContext(ctx),
-		SoalPeminatanMan:                 q.SoalPeminatanMan.WithContext(ctx),
-		SoalPeminatanSma:                 q.SoalPeminatanSma.WithContext(ctx),
-		SoalPeminatanSmk:                 q.SoalPeminatanSmk.WithContext(ctx),
-		SoalSikapPelajaran:               q.SoalSikapPelajaran.WithContext(ctx),
-		SoalSikapPelajaranKuliah:         q.SoalSikapPelajaranKuliah.WithContext(ctx),
-		SoalSsctRemaja:                   q.SoalSsctRemaja.WithContext(ctx),
-		SoalTipologiJung:                 q.SoalTipologiJung.WithContext(ctx),
-		SoalTmi:                          q.SoalTmi.WithContext(ctx),
-		SoalWlb:                          q.SoalWlb.WithContext(ctx),
-		StatusCronjob:                    q.StatusCronjob.WithContext(ctx),
-		StatusSkoring:                    q.StatusSkoring.WithContext(ctx),
-		TarifPaket:                       q.TarifPaket.WithContext(ctx),
-		TarifPaketRinci:                  q.TarifPaketRinci.WithContext(ctx),
-		User:                             q.User.WithContext(ctx),
-		UserRole:                         q.UserRole.WithContext(ctx),
-		UserUploadExcel:                  q.UserUploadExcel.WithContext(ctx),
+		Datum:                              q.Datum.WithContext(ctx),
+		Gambar:                             q.Gambar.WithContext(ctx),
+		InfoCerda:                          q.InfoCerda.WithContext(ctx),
+		InterprestasiTipologiJung:          q.InterprestasiTipologiJung.WithContext(ctx),
+		InterprestasiTipologiJungEng:       q.InterprestasiTipologiJungEng.WithContext(ctx),
+		Kontak:                             q.Kontak.WithContext(ctx),
+		Lokasi:                             q.Lokasi.WithContext(ctx),
+		Menu:                               q.Menu.WithContext(ctx),
+		ModelReport:                        q.ModelReport.WithContext(ctx),
+		PetunjukSoal:                       q.PetunjukSoal.WithContext(ctx),
+		PetunjukSoalEng:                    q.PetunjukSoalEng.WithContext(ctx),
+		Province:                           q.Province.WithContext(ctx),
+		PublishCron:                        q.PublishCron.WithContext(ctx),
+		QuizSesi:                           q.QuizSesi.WithContext(ctx),
+		QuizSesiAdditionalSkoring:          q.QuizSesiAdditionalSkoring.WithContext(ctx),
+		QuizSesiDetil:                      q.QuizSesiDetil.WithContext(ctx),
+		QuizSesiDetilTemplate:              q.QuizSesiDetilTemplate.WithContext(ctx),
+		QuizSesiMappingSmk:                 q.QuizSesiMappingSmk.WithContext(ctx),
+		QuizSesiMaster:                     q.QuizSesiMaster.WithContext(ctx),
+		QuizSesiReport:                     q.QuizSesiReport.WithContext(ctx),
+		QuizSesiTemplate:                   q.QuizSesiTemplate.WithContext(ctx),
+		QuizSesiTemplateLampiran:           q.QuizSesiTemplateLampiran.WithContext(ctx),
+		QuizSesiTemplateReport:             q.QuizSesiTemplateReport.WithContext(ctx),
+		QuizSesiTtd:                        q.QuizSesiTtd.WithContext(ctx),
+		QuizSesiUser:                       q.QuizSesiUser.WithContext(ctx),
+		QuizSesiUserJawaban:                q.QuizSesiUserJawaban.WithContext(ctx),
+		QuizTemplateSaran:                  q.QuizTemplateSaran.WithContext(ctx),
+		RefBidangKognitif:                  q.RefBidangKognitif.WithContext(ctx),
+		RefGayaBelajar:                     q.RefGayaBelajar.WithContext(ctx),
+		RefKarakterPribadi:                 q.RefKarakterPribadi.WithContext(ctx),
+		RefKecerdasanMajemuk:               q.RefKecerdasanMajemuk.WithContext(ctx),
+		RefKelasMinatSma:                   q.RefKelasMinatSma.WithContext(ctx),
+		RefKelompokMinatKuliah:             q.RefKelompokMinatKuliah.WithContext(ctx),
+		RefKelompokSikapPelajaran:          q.RefKelompokSikapPelajaran.WithContext(ctx),
+		RefKelompokTmi:                     q.RefKelompokTmi.WithContext(ctx),
+		RefKlasifikasiGayaKerja:            q.RefKlasifikasiGayaKerja.WithContext(ctx),
+		RefKlasifikasiKejiwaanDewasa:       q.RefKlasifikasiKejiwaanDewasa.WithContext(ctx),
+		RefKlasifikasiKesehatanMental:      q.RefKlasifikasiKesehatanMental.WithContext(ctx),
+		RefKlasifikasiMinatMan:             q.RefKlasifikasiMinatMan.WithContext(ctx),
+		RefKlasifikasiMinatSma:             q.RefKlasifikasiMinatSma.WithContext(ctx),
+		RefKlasifikasiPribadiManajerial:    q.RefKlasifikasiPribadiManajerial.WithContext(ctx),
+		RefKlasifikasiTipologiJung:         q.RefKlasifikasiTipologiJung.WithContext(ctx),
+		RefKlasifikasiWlb:                  q.RefKlasifikasiWlb.WithContext(ctx),
+		RefKomponenEq:                      q.RefKomponenEq.WithContext(ctx),
+		RefKomponenGayaPekerjaan:           q.RefKomponenGayaPekerjaan.WithContext(ctx),
+		RefKomponenGayaPekerjaanEng:        q.RefKomponenGayaPekerjaanEng.WithContext(ctx),
+		RefKomponenKarakteristikPribadi:    q.RefKomponenKarakteristikPribadi.WithContext(ctx),
+		RefKomponenKarakteristikPribadiEng: q.RefKomponenKarakteristikPribadiEng.WithContext(ctx),
+		RefKomponenKepribadianManajerial:   q.RefKomponenKepribadianManajerial.WithContext(ctx),
+		RefKonversiIq:                      q.RefKonversiIq.WithContext(ctx),
+		RefKonversiIq105:                   q.RefKonversiIq105.WithContext(ctx),
+		RefKonversiIq90:                    q.RefKonversiIq90.WithContext(ctx),
+		RefModelKejiwaanDewasa:             q.RefModelKejiwaanDewasa.WithContext(ctx),
+		RefModelKesehatanMental:            q.RefModelKesehatanMental.WithContext(ctx),
+		RefModelWlb:                        q.RefModelWlb.WithContext(ctx),
+		RefPilihanMinatMan:                 q.RefPilihanMinatMan.WithContext(ctx),
+		RefPilihanMinatSma:                 q.RefPilihanMinatSma.WithContext(ctx),
+		RefRangkingTmi:                     q.RefRangkingTmi.WithContext(ctx),
+		RefRekomendasiAkhirMan:             q.RefRekomendasiAkhirMan.WithContext(ctx),
+		RefRekomendasiAkhirPeminatanSma:    q.RefRekomendasiAkhirPeminatanSma.WithContext(ctx),
+		RefRekomendasiAkhirSma:             q.RefRekomendasiAkhirSma.WithContext(ctx),
+		RefRekomendasiAkhirSmaV2:           q.RefRekomendasiAkhirSmaV2.WithContext(ctx),
+		RefRekomendasiAkhirSmaV3:           q.RefRekomendasiAkhirSmaV3.WithContext(ctx),
+		RefRekomendasiMinatMan:             q.RefRekomendasiMinatMan.WithContext(ctx),
+		RefRekomendasiMinatSma:             q.RefRekomendasiMinatSma.WithContext(ctx),
+		RefRekomendasiMinatTmi:             q.RefRekomendasiMinatTmi.WithContext(ctx),
+		RefRekomendasiSikapPelajaran:       q.RefRekomendasiSikapPelajaran.WithContext(ctx),
+		RefSekolahDina:                     q.RefSekolahDina.WithContext(ctx),
+		RefSkalaKd15:                       q.RefSkalaKd15.WithContext(ctx),
+		RefSkalaKd20:                       q.RefSkalaKd20.WithContext(ctx),
+		RefSkalaKdCepatTeliti:              q.RefSkalaKdCepatTeliti.WithContext(ctx),
+		RefSkalaKdInformasiUmum:            q.RefSkalaKdInformasiUmum.WithContext(ctx),
+		RefSkalaKdPenalaranAbstrak:         q.RefSkalaKdPenalaranAbstrak.WithContext(ctx),
+		RefSkalaKdPenalaranKuantitatif:     q.RefSkalaKdPenalaranKuantitatif.WithContext(ctx),
+		RefSkalaKdPenalaranMekanika:        q.RefSkalaKdPenalaranMekanika.WithContext(ctx),
+		RefSkalaKdPenalaranSpasial:         q.RefSkalaKdPenalaranSpasial.WithContext(ctx),
+		RefSkalaKdPenalaranVerbal:          q.RefSkalaKdPenalaranVerbal.WithContext(ctx),
+		RefSkalaSikapPelajaran:             q.RefSkalaSikapPelajaran.WithContext(ctx),
+		RefSkalaSkorSsct:                   q.RefSkalaSkorSsct.WithContext(ctx),
+		RefSkorGayaBelajar:                 q.RefSkorGayaBelajar.WithContext(ctx),
+		RefSkorGayaPekerjaan:               q.RefSkorGayaPekerjaan.WithContext(ctx),
+		RefSkorKarakterPribadi:             q.RefSkorKarakterPribadi.WithContext(ctx),
+		RefSkoringGayaPekerjaan:            q.RefSkoringGayaPekerjaan.WithContext(ctx),
+		RefSkoringKecerdasanMajemuk:        q.RefSkoringKecerdasanMajemuk.WithContext(ctx),
+		RefSkoringKejiwaanDewasa:           q.RefSkoringKejiwaanDewasa.WithContext(ctx),
+		RefSkoringKesehatanMental:          q.RefSkoringKesehatanMental.WithContext(ctx),
+		RefSkoringKuliahDina:               q.RefSkoringKuliahDina.WithContext(ctx),
+		RefSkoringTipologiJung:             q.RefSkoringTipologiJung.WithContext(ctx),
+		RefSkoringWlb:                      q.RefSkoringWlb.WithContext(ctx),
+		Regency:                            q.Regency.WithContext(ctx),
+		Role:                               q.Role.WithContext(ctx),
+		RoleMenu:                           q.RoleMenu.WithContext(ctx),
+		RunningCronjob:                     q.RunningCronjob.WithContext(ctx),
+		SeriCetakan:                        q.SeriCetakan.WithContext(ctx),
+		SeriCetakanDoc:                     q.SeriCetakanDoc.WithContext(ctx),
+		SkorDisc:                           q.SkorDisc.WithContext(ctx),
+		SkorGayaBelajar:                    q.SkorGayaBelajar.WithContext(ctx),
+		SkorGayaPekerjaan:                  q.SkorGayaPekerjaan.WithContext(ctx),
+		SkorKarakteristikPribadi:           q.SkorKarakteristikPribadi.WithContext(ctx),
+		SkorKecerdasanMajemuk:              q.SkorKecerdasanMajemuk.WithContext(ctx),
+		SkorKejiwaanDewasa:                 q.SkorKejiwaanDewasa.WithContext(ctx),
+		SkorKepribadianManajerial:          q.SkorKepribadianManajerial.WithContext(ctx),
+		SkorKesehatanMental:                q.SkorKesehatanMental.WithContext(ctx),
+		SkorKognitif:                       q.SkorKognitif.WithContext(ctx),
+		SkorKognitifPmk:                    q.SkorKognitifPmk.WithContext(ctx),
+		SkorKuliahAgama:                    q.SkorKuliahAgama.WithContext(ctx),
+		SkorKuliahAlam:                     q.SkorKuliahAlam.WithContext(ctx),
+		SkorKuliahDina:                     q.SkorKuliahDina.WithContext(ctx),
+		SkorKuliahSosial:                   q.SkorKuliahSosial.WithContext(ctx),
+		SkorMbti:                           q.SkorMbti.WithContext(ctx),
+		SkorMinatIndonesium:                q.SkorMinatIndonesium.WithContext(ctx),
+		SkorModeBelajar:                    q.SkorModeBelajar.WithContext(ctx),
+		SkorModeKerja:                      q.SkorModeKerja.WithContext(ctx),
+		SkorPeminatanMan:                   q.SkorPeminatanMan.WithContext(ctx),
+		SkorPeminatanSma:                   q.SkorPeminatanSma.WithContext(ctx),
+		SkorPeminatanSmk:                   q.SkorPeminatanSmk.WithContext(ctx),
+		SkorRekomKuliahA:                   q.SkorRekomKuliahA.WithContext(ctx),
+		SkorRekomKuliahB:                   q.SkorRekomKuliahB.WithContext(ctx),
+		SkorRekomPeminatanSma:              q.SkorRekomPeminatanSma.WithContext(ctx),
+		SkorSikapPelajaran:                 q.SkorSikapPelajaran.WithContext(ctx),
+		SkorSikapPelajaranMk:               q.SkorSikapPelajaranMk.WithContext(ctx),
+		SkorSsct:                           q.SkorSsct.WithContext(ctx),
+		SkorSuasanaKerja:                   q.SkorSuasanaKerja.WithContext(ctx),
+		SkorWlb:                            q.SkorWlb.WithContext(ctx),
+		SkoringIqEq:                        q.SkoringIqEq.WithContext(ctx),
+		SkoringMinatLengkap:                q.SkoringMinatLengkap.WithContext(ctx),
+		SkoringMinatMan:                    q.SkoringMinatMan.WithContext(ctx),
+		SkoringMinatSma:                    q.SkoringMinatSma.WithContext(ctx),
+		SkoringMinatSmaV2:                  q.SkoringMinatSmaV2.WithContext(ctx),
+		SkoringMinatSmaV3:                  q.SkoringMinatSmaV3.WithContext(ctx),
+		SkoringMinatSmk:                    q.SkoringMinatSmk.WithContext(ctx),
+		SkoringMinatSmkV2:                  q.SkoringMinatSmkV2.WithContext(ctx),
+		SkoringMinatVersi3:                 q.SkoringMinatVersi3.WithContext(ctx),
+		SkoringPenjurusanKuliah:            q.SkoringPenjurusanKuliah.WithContext(ctx),
+		SkoringPenjurusanKuliahV2:          q.SkoringPenjurusanKuliahV2.WithContext(ctx),
+		SkoringPenjurusanKuliahV3:          q.SkoringPenjurusanKuliahV3.WithContext(ctx),
+		SkoringSeleksiKaryawan:             q.SkoringSeleksiKaryawan.WithContext(ctx),
+		SoalDisc:                           q.SoalDisc.WithContext(ctx),
+		SoalGayaBelajar:                    q.SoalGayaBelajar.WithContext(ctx),
+		SoalGayaPekerjaan:                  q.SoalGayaPekerjaan.WithContext(ctx),
+		SoalGayaPekerjaanEng:               q.SoalGayaPekerjaanEng.WithContext(ctx),
+		SoalKarakteristikPribadi:           q.SoalKarakteristikPribadi.WithContext(ctx),
+		SoalKarakteristikPribadiEng:        q.SoalKarakteristikPribadiEng.WithContext(ctx),
+		SoalKecerdasanMajemuk:              q.SoalKecerdasanMajemuk.WithContext(ctx),
+		SoalKejiwaanDewasa:                 q.SoalKejiwaanDewasa.WithContext(ctx),
+		SoalKepribadianManajerial:          q.SoalKepribadianManajerial.WithContext(ctx),
+		SoalKesehatanMental:                q.SoalKesehatanMental.WithContext(ctx),
+		SoalKognitif:                       q.SoalKognitif.WithContext(ctx),
+		SoalKognitifEng:                    q.SoalKognitifEng.WithContext(ctx),
+		SoalKraeplin:                       q.SoalKraeplin.WithContext(ctx),
+		SoalMinatKuliahAgama:               q.SoalMinatKuliahAgama.WithContext(ctx),
+		SoalMinatKuliahDina:                q.SoalMinatKuliahDina.WithContext(ctx),
+		SoalMinatKuliahEksaktum:            q.SoalMinatKuliahEksaktum.WithContext(ctx),
+		SoalMinatKuliahSosial:              q.SoalMinatKuliahSosial.WithContext(ctx),
+		SoalMinatKuliahSuasanaKerja:        q.SoalMinatKuliahSuasanaKerja.WithContext(ctx),
+		SoalModeBelajar:                    q.SoalModeBelajar.WithContext(ctx),
+		SoalModeKerja:                      q.SoalModeKerja.WithContext(ctx),
+		SoalModeKerjaEng:                   q.SoalModeKerjaEng.WithContext(ctx),
+		SoalPeminatanMan:                   q.SoalPeminatanMan.WithContext(ctx),
+		SoalPeminatanSma:                   q.SoalPeminatanSma.WithContext(ctx),
+		SoalPeminatanSmk:                   q.SoalPeminatanSmk.WithContext(ctx),
+		SoalSikapPelajaran:                 q.SoalSikapPelajaran.WithContext(ctx),
+		SoalSikapPelajaranKuliah:           q.SoalSikapPelajaranKuliah.WithContext(ctx),
+		SoalSsctRemaja:                     q.SoalSsctRemaja.WithContext(ctx),
+		SoalTipologiJung:                   q.SoalTipologiJung.WithContext(ctx),
+		SoalTipologiJungEng:                q.SoalTipologiJungEng.WithContext(ctx),
+		SoalTmi:                            q.SoalTmi.WithContext(ctx),
+		SoalWlb:                            q.SoalWlb.WithContext(ctx),
+		StatusCronjob:                      q.StatusCronjob.WithContext(ctx),
+		StatusSkoring:                      q.StatusSkoring.WithContext(ctx),
+		TarifPaket:                         q.TarifPaket.WithContext(ctx),
+		TarifPaketRinci:                    q.TarifPaketRinci.WithContext(ctx),
+		User:                               q.User.WithContext(ctx),
+		UserRole:                           q.UserRole.WithContext(ctx),
+		UserUploadExcel:                    q.UserUploadExcel.WithContext(ctx),
 	}
 }
 

@@ -35,6 +35,10 @@ type ReportRepository interface {
 	GetDetailReportLampiran(id_report int, id_quiz_template int) *entity.QuizSesiReport
 	GetQuizUserDummyFromTemplate(id_quiz_template int32) (*entity.QuizSesiUser, error)
 	GetQuizUserDummyFromTemplateByUUID(uuid string) (*entity.QuizSesiUser, error)
+	GetStatusForRunPublish() int
+	SetRunPublishIDQuiz(id_quiz int) error
+	ClearPublishCronjobIDQUiz(id_quiz int) error
+	GetIDUserForPublish(id_quiz int) []int
 
 	GetRefBidangKognitif() ([]*entity.RefBidangKognitif, error)
 	GetSkoringKognitif(id_quiz int, id_user int) (*entity.SkorKognitif, error)
@@ -84,6 +88,34 @@ type ReportRepository interface {
 
 func NewReportRepository() ReportRepository {
 	return &repo{}
+}
+
+func (*repo) SetRunPublishIDQuiz(id_quiz int) error {
+	// var quiz *entity.PublishCron
+	db.Table("publish_cron").Where("id_quiz = ?", id_quiz).Update("status", 1)
+	return nil
+}
+
+func (*repo) ClearPublishCronjobIDQUiz(id_quiz int) error {
+	var quiz *entity.PublishCron
+	db.Table("publish_cron").Where("id_quiz = ?", id_quiz).Delete(&quiz)
+	return nil
+}
+
+func (*repo) GetStatusForRunPublish() int {
+	var cron *entity.PublishCron
+	db.Table("publish_cron").Where("status = ?", 0).First(&cron)
+	return int(cron.IDQuiz)
+}
+
+func (*repo) GetIDUserForPublish(id_quiz int) []int {
+	var users []*entity.QuizSesiUser
+	var id_user = []int{}
+	db.Table("quiz_sesi_user").Where("id_quiz = ?", id_quiz).Where("submit = ? ", 1).Where("status_hasil = ?", 0).Scan(&users)
+	for i := 0; i < len(users); i++ {
+		id_user = append(id_user, int(users[i].IDUser))
+	}
+	return id_user
 }
 
 func (*repo) GetRefBidangKognitif() ([]*entity.RefBidangKognitif, error) {
@@ -155,7 +187,7 @@ func (*repo) UpdateNomorSeriCetak(id_quiz int, id_user int, nomor_seri string, f
 
 func (*repo) GetDetilQuizCetak(id_quiz int) (*entity.QuizSesi, error) {
 	var quiz *entity.QuizSesi
-	db.Table("quiz_sesi as a").Select("a.token, a.ttd_asesor, a.id_quiz, a.nama_asesor, a.kota, a.nomor_sipp,  a.id_user_biro,  a.nama_sesi, a.id_quiz_template,  c.nama_lokasi as lokasi, a.tanggal").
+	db.Table("quiz_sesi as a").Select("a.token, a.ttd_asesor, a.id_quiz, a.model_report, a.nama_asesor, a.kota, a.nomor_sipp,  a.id_user_biro,  a.nama_sesi, a.id_quiz_template,  c.nama_lokasi as lokasi, a.tanggal").
 		Joins("left join lokasi as c on c.id_lokasi = a.id_lokasi").
 		Where("a.id_quiz = ?", id_quiz).
 		First(&quiz)

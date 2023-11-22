@@ -1574,7 +1574,8 @@ class ManajemenSesiTesController extends Controller
         $quiz = DB::table('quiz_sesi')->where('uuid', $uuid)->first();
 
         DB::table('quiz_sesi_user')->where('id_quiz', $quiz->id_quiz)->update(['status_hasil'=>0]);
-
+        //publish versi 2
+        DB::table('publish_cron')->where('id_quiz', $quiz->id_quiz)->delete();
         $respon = array('status'=>true,'message'=>'Berhasil Batalkan Publish Hasil Tes Peserta');
         return response()->json($respon);
     }
@@ -1686,7 +1687,9 @@ class ManajemenSesiTesController extends Controller
         // echo $r->uuid;
         if($this->ucu()){
             $id_quiz = $r->id_quiz;
-            $respon = array('status'=>true,'message'=>'Sesi Tes Peserta Berhasil Di-Reset!');          
+            $record = array("id_quiz"=>$id_quiz, "status"=>0);
+            DB::table('publish_cron')->insert($record);
+            $respon = array('status'=>true,'message'=>'Publish Sesi Tes Sedang Diproses...');          
             return response()->json($respon);
         }
     }

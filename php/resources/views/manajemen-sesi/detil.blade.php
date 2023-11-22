@@ -137,7 +137,7 @@ $back_url = Request::get('back');
 											@if($quiz->skoring_tabel!="")
 												<a class="dropdown-item" id="btn-publish-all" href="#"><i class="las la-paper-plane"></i> Publish Hasil Tes (per 100 Peserta)</a>
 											@else  
-												<a class="dropdown-item" id="btn-publish-all-versi2" href="#"><i class="las la-paper-plane"></i> Publish Hasil Tes (Semua Peserta)</a>
+												<a class="dropdown-item" id="btn-publish-all-v2" href="#"><i class="las la-paper-plane"></i> Publish Hasil Tes (Semua Peserta)</a>
 											@endif
 											<a class="dropdown-item" id="btn-batal-publish-all" href="#"><i class="las la-paper-plane"></i> Batalkan Publish (Semua)</a>
 										@endif
@@ -437,6 +437,10 @@ $back_url = Request::get('back');
 
 {{ Form::bsOpen('form-publish-all',url($main_path."/publish-all-peserta")) }}
 {{ Form::bsHidden('uuid',$quiz->uuid) }}
+{{ Form::bsClose()}}
+
+{{ Form::bsOpen('form-publish-all-v2',url($main_path."/publish-hasil-peserta-all-v2")) }}
+{{ Form::bsHidden('id_quiz',$quiz->id_quiz) }}
 {{ Form::bsClose()}}
 
 {{ Form::bsOpen('form-batal-publish-all',url($main_path."/batal-publish-all-peserta")) }}
@@ -1392,6 +1396,25 @@ $back_url = Request::get('back');
 				});
 			});
 
+			$("#btn-publish-all-v2").on('click', function(){
+				$.confirm({
+					title: 'Konfirmasi',
+					content: 'Anda Yakin Ingin Publish Hasil Tes Semua Peserta?',
+					buttons: {
+						cancel: {
+							text: 'Batalkan'
+						},
+						confirm: {
+							text: 'Ya, Lanjutkan',
+							btnClass: 'btn-primary',
+							action: function() {
+								$("#form-publish-all-v2").submit();
+							}
+						},
+					}
+				});
+			});
+
 			$("#btn-batal-publish-all").on('click', function(){
 				$.confirm({
 					title: 'Konfirmasi',
@@ -1431,6 +1454,21 @@ $back_url = Request::get('back');
 			});
 
 			$('#form-publish-all').ajaxForm({
+				beforeSubmit: function() {},
+				success: function($respon) {
+					if ($respon.status == true) {
+						successNotify($respon.message);
+						$tabel_peserta.ajax.reload(null, true);
+					} else {
+						errorNotify($respon.message);
+					}
+				},
+				error: function() {
+					errorNotify('Terjadi Kesalahan!');
+				}
+			});
+
+			$('#form-publish-all-v2').ajaxForm({
 				beforeSubmit: function() {},
 				success: function($respon) {
 					if ($respon.status == true) {

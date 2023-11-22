@@ -307,3 +307,9 @@ type ResultSkorKejiwaanDewasa struct {
 	Klasifikasi int    `json:"klasifikasi"`
 	Skor        int    `json:"skor"`
 }
+
+type PublishCron struct {
+	ID     int32 `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	IDQuiz int32 `gorm:"column:id_quiz" json:"id_quiz"`
+	Status int32 `gorm:"column:status" json:"status"`
+}
