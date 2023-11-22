@@ -1682,6 +1682,15 @@ class ManajemenSesiTesController extends Controller
         }
     }
 
+    function pubish_hasil_peserta_all_v2(Request $r){
+        // echo $r->uuid;
+        if($this->ucu()){
+            $id_quiz = $r->id_quiz;
+            $respon = array('status'=>true,'message'=>'Sesi Tes Peserta Berhasil Di-Reset!');          
+            return response()->json($respon);
+        }
+    }
+
     function batalkan_pubish_hasil_peserta_v2(Request $r){
         if($this->ucu()){
             $uuid = $r->uuid;

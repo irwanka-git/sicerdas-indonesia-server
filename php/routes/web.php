@@ -489,6 +489,7 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
  		Route::post('/publish-all-peserta', 'ManajemenSesiTesController@publish_all_peserta');
 		//versi 2
 		Route::post('/publish-hasil-peserta-v2', 'ManajemenSesiTesController@pubish_hasil_peserta_v2');
+		Route::post('/publish-hasil-peserta-all-v2', 'ManajemenSesiTesController@pubish_hasil_peserta_all_v2');
 		Route::post('/batalkan-publish-hasil-peserta-v2', 'ManajemenSesiTesController@batalkan_pubish_hasil_peserta_v2');
 		//end versi 2
  		Route::post('/batal-publish-all-peserta', 'ManajemenSesiTesController@batal_publish_all_peserta');
