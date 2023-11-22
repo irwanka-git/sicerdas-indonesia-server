@@ -132,7 +132,7 @@ func (*repo) UploadSoalQuizToFirebase(src string, directory string) (string, err
 	// fmt.Println(result_url)
 	errRemove := os.Remove(src)
 	if errRemove != nil {
-		return "", errors.New("Gagal hapus file asli")
+		return "", errors.New("gagal hapus file asli")
 	}
 	// fmt.Println("Berhasil Hapus File Backup (Original)")
 	defer wc.Close()

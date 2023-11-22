@@ -46,7 +46,7 @@ func (*repo) AuthLogin(credentials *entity.Credentials) (*entity.User, error) {
 	}
 	errPassword := bcrypt.CompareHashAndPassword([]byte(userCek.Password), []byte(credentials.Password))
 	if errPassword != nil {
-		return nil, errors.New("Password tidak valid")
+		return nil, errors.New("password tidak valid")
 	}
 	return userCek, nil
 }
