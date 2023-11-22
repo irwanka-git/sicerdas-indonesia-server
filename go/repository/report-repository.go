@@ -111,7 +111,7 @@ func (*repo) GetStatusForRunPublish() int {
 func (*repo) GetIDUserForPublish(id_quiz int) []int {
 	var users []*entity.QuizSesiUser
 	var id_user = []int{}
-	db.Table("quiz_sesi_user").Where("id_quiz = ?", id_quiz).Where("submit = ? ", 1).Where("status_hasil = ?", 0).Scan(&users)
+	db.Table("quiz_sesi_user").Where("id_quiz = ?", id_quiz).Where("submit = ? ", 1).Where("skoring = ?", 1).Where("status_hasil = ?", 0).Scan(&users)
 	for i := 0; i < len(users); i++ {
 		id_user = append(id_user, int(users[i].IDUser))
 	}
