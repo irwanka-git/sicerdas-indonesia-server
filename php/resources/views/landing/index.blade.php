@@ -60,6 +60,8 @@
                         </li>
                     </ul>
                 </div>
+ 
+            
             </div>
         </nav>
     </header>
@@ -73,8 +75,13 @@
                     Sicerdas Indonesia
                 </div> 
                 
+              
+
                 <h3 class="max-w-2xl mb-4 text-2xl font-bold leading-none tracking-tight md:text-3xl xl:text-3xl dark:text-white">
                     Layanan Psikotes Terpadu <br>Cepat Murah dan Akurat.</h3>
+
+               
+
                 <p class="max-w-2xl mb-6 font-light text-white-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
                     Layanan Tes psikologi untuk penjurusan dan minat bakat. Penjurusan kuliah memberikan rekomendasi jurusan di perguruan tinggi umum, sekolah kedinasan dan uin/iain. Penjurusan SMA rekomendasi untuk peminatan di SMA, MAN maupun SMK. Minat bakat terkait dengan pengembangan diri, bakat/kecerdasan majemuk dan potensi karier masa depan.
                     Direkomendasikan untuk Siswa SMA, SMP maupun Mahasiswa
@@ -90,10 +97,18 @@
                    <a target="_blank" href="https://shorturl.at/efklT" class=" bg-white inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                     <i class="lab la-windows"></i>&nbsp;&nbsp;Windows (Desktop)
                    </a>  
+                 
                 </div>
+
+                <h2 class="mt-6  max-w-2xl text-xl text-red-500">
+                    <b>AVAILABLE IN ENGLISH VERSION</b>
+                    </h2> 
+               
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+               
                 <img src="{{url('asset-landing/svg/8.svg')}}" alt="hero image">
+               
             </div>                
         </div>
     </section>
@@ -103,7 +118,7 @@
     <section  id="feature"  class="bg-white dark:bg-gray-800 pb-4">
         <div class="max-w-screen-xl px-4 pb-8 mx-auto space-y-12">
                 <div class="text-gray-500 px-4 pt-8 sm:text-lg dark:text-gray-400">
-                    <h4 class="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layanan Tes Psikotes</h4>
+                    <h4 class="mb-4 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Layanan Tes Psikotes <br><small><b>Available in English Version</b></small></h4>
                         <p class="mb-8 font-light lg:text-xl">Beberapa Paket Tes yang tersedia:</p>
                     <!-- List -->
                     <?php
