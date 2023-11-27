@@ -42,7 +42,7 @@ func (*repo) AuthLogin(credentials *entity.Credentials) (*entity.User, error) {
 	var userCek *entity.User
 	result := db.Table("users").Where("username = ?", credentials.Username).First(&userCek)
 	if result.RowsAffected == 0 {
-		return nil, errors.New("User ID tidak ditemukan, silahkan hubungi admin")
+		return nil, errors.New("user ID tidak ditemukan, silahkan hubungi admin")
 	}
 	errPassword := bcrypt.CompareHashAndPassword([]byte(userCek.Password), []byte(credentials.Password))
 	if errPassword != nil {
