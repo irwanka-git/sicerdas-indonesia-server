@@ -71,7 +71,7 @@ class SoalKarakterPribadiEnglishController  extends Controller
 
     function view_soal($uuid){
         // $soal = DB::table('soal_karakteristik_pribadi_eng')->where('uuid', $uuid)->first();
-        $soal=DB::select("select a.*, b.nama_komponen  from soal_karakteristik_pribadi_eng as a, ref_komponen_karakteristik_pribadi as b where a.id_komponen = b.id_komponen and a.uuid ='$uuid' ");
+        $soal=DB::select("select a.*, b.nama_komponen  from soal_karakteristik_pribadi_eng as a, ref_komponen_karakteristik_pribadi_eng as b where a.id_komponen = b.id_komponen and a.uuid ='$uuid' ");
         if(count($soal)==1){
             $soal=$soal[0];
 

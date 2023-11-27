@@ -230,6 +230,15 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 			listSoal = append(listSoal, currentList...)
 		}
 
+		//english
+		//soal-kognitif-eng
+		if splitSoal[1] == "soal-kognitif-eng" && len(splitSoal) == 4 {
+			paket := splitSoal[2]
+			bidang := splitSoal[3]
+			currentList, _ := soalSessionRepo.GetSoalKognitifEng(paket, bidang, token)
+			listSoal = append(listSoal, currentList...)
+		}
+
 		//pola : /soal-skala-peminatan-smk
 		if splitSoal[1] == "soal-skala-peminatan-smk" && len(splitSoal) == 2 {
 			currentList, _ := soalSessionRepo.GetSoalPeminatanSMK(quiz.IDQuiz, "", false, token)
@@ -299,6 +308,13 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 		//pola: /soal-tes-karakteristik-pribadi-demo
 		if splitSoal[1] == "soal-tes-karakteristik-pribadi-demo" {
 			currentList, _ := soalSessionRepo.GetSoalKarakteristikPribadi(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		//english
+		//pola: /soal-tes-karakteristik-pribadi-eng
+		if splitSoal[1] == "soal-tes-karakteristik-pribadi-eng" {
+			currentList, _ := soalSessionRepo.GetSoalKarakteristikPribadiEng(token, false)
 			listSoal = append(listSoal, currentList...)
 		}
 

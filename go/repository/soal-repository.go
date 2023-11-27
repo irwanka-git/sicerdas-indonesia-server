@@ -15,12 +15,14 @@ type SoalRepository interface {
 	//for api
 	GetSoalBreak(token string) ([]*entity.SoalSession, error)
 	GetSoalKognitif(paket string, bidang string, token string) ([]*entity.SoalSession, error)
+	GetSoalKognitifEng(paket string, bidang string, token string) ([]*entity.SoalSession, error)
 	GetSoalPeminatanSMK(id_quiz int32, paket string, demo bool, token string) ([]*entity.SoalSession, error)
 	GetSoalSikapPelajaran(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalSikapPelajaranKuliah(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalTesMinatIndonesia(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalTipologiJung(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKarakteristikPribadi(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalKarakteristikPribadiEng(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalSkalaPeminatanSMA(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalSkalaPeminatanMAN(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalMinatKuliahEksakta(token string, demo bool) ([]*entity.SoalSession, error)
@@ -103,6 +105,127 @@ func (*repo) GetSoalKognitif(paket string, bidang string, token string) ([]*enti
 			FROM
 				soal_kognitif AS a
 				LEFT JOIN petunjuk_soal AS b ON a.id_petunjuk = b.id_petunjuk 
+				LEFT JOIN gambar AS c ON a.pertanyaan_gambar = c.filename 
+				where a.bidang = ?
+				and a.paket =  ?
+			ORDER BY
+				bidang, urutan`, bidang, paket).Scan(&listResultSoal)
+
+	for i := 0; i < len(listResultSoal); i++ {
+		var prefix_kategori = "KOGNITIF_"
+		if paket != "NON" {
+			prefix_kategori = prefix_kategori + paket + "_"
+		}
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Pertanyaan)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		if listResultSoal[i].ImageBase64 != "" {
+			var typeImage = "data:image/jpg;base64"
+			if listResultSoal[i].TypeImage == "image/png" {
+				typeImage = "data:image/png;base64"
+			}
+			var src = fmt.Sprintf("%s,%s", typeImage, listResultSoal[i].ImageBase64)
+			var gambar = "<br><img width=\"100%\"" + fmt.Sprintf(" src=\"%v\"", src) + ">"
+			gambar = html.UnescapeString(gambar)
+			pertanyaan = pertanyaan + gambar
+		}
+
+		var pilihan = []*entity.PilihanJawaban{}
+		if listResultSoal[i].PilihanA != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].PilihanA
+			tmp.Value = "A"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanB != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].PilihanB
+			tmp.Value = "B"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanC != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].PilihanC
+			tmp.Value = "C"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanD != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].PilihanD
+			tmp.Value = "D"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanE != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].PilihanE
+			tmp.Value = "E"
+			pilihan = append(pilihan, &tmp)
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Kategori = prefix_kategori + bidang
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+
+		soal.Gambar = ""
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Urutan)
+
+		soal.Uuid = listResultSoal[i].Uuid
+
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Sp3 = ""
+
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		if listResultSoal[i].IsiPetunjuk != "" {
+			soal.Petunjuk = listResultSoal[i].IsiPetunjuk
+		}
+		soal.Mode = "PG"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+
+	return listSoal, nil
+}
+
+func (*repo) GetSoalKognitifEng(paket string, bidang string, token string) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listResultSoal []struct {
+		Urutan      int    `json:"urutan"`
+		Uuid        string `json:"uuid"`
+		Bidang      string `json:"bidang"`
+		Pertanyaan  string `json:"pertanyaan"`
+		ImageBase64 string `json:"image_base64"`
+		TypeImage   string `json:"type_image"`
+		PilihanA    string `json:"pilihan_a"`
+		PilihanB    string `json:"pilihan_b"`
+		PilihanC    string `json:"pilihan_c"`
+		PilihanD    string `json:"pilihan_d"`
+		PilihanE    string `json:"pilihan_e"`
+		IsiPetunjuk string `json:"isi_petunjuk"`
+	}
+	db.Raw(`SELECT
+				a.urutan,
+				a.uuid,
+				a.bidang,
+				a.pertanyaan,
+				c.image_base64,
+				c.type as type_image,
+				a.pilihan_a,
+				a.pilihan_b,
+				a.pilihan_c,
+				a.pilihan_d,
+				a.pilihan_e,
+				b.isi_petunjuk 
+			FROM
+				soal_kognitif_eng AS a
+				LEFT JOIN petunjuk_soal_eng AS b ON a.id_petunjuk = b.id_petunjuk 
 				LEFT JOIN gambar AS c ON a.pertanyaan_gambar = c.filename 
 				where a.bidang = ?
 				and a.paket =  ?
@@ -624,6 +747,99 @@ func (*repo) GetSoalKarakteristikPribadi(token string, demo bool) ([]*entity.Soa
 					a.pilihan_4
 				FROM
 					soal_karakteristik_pribadi as a
+					order by a.urutan`).Scan(&listResultSoal)
+	}
+	for i := 0; i < len(listResultSoal); i++ {
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Pernyataan)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		var pilihan = []*entity.PilihanJawaban{}
+
+		if listResultSoal[i].Pilihan_1 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].Pilihan_1
+			tmp.Value = "A"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].Pilihan_2 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].Pilihan_2
+			tmp.Value = "B"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].Pilihan_3 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].Pilihan_3
+			tmp.Value = "C"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].Pilihan_4 != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].Pilihan_4
+			tmp.Value = "D"
+			pilihan = append(pilihan, &tmp)
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Urutan)
+		soal.Kategori = "SKALA_TES_KARAKTERISTIK_PRIBADI"
+
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Uuid = listResultSoal[i].Uuid
+
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Sp3 = ""
+
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PG"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+	return listSoal, nil
+}
+
+func (*repo) GetSoalKarakteristikPribadiEng(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listResultSoal []struct {
+		Urutan     int32  `json:"urutan"`
+		Uuid       string `json:"uuid"`
+		Pernyataan string `json:"pernyataan"`
+		Pilihan_1  string `json:"pilihan_1"`
+		Pilihan_2  string `json:"pilihan_2"`
+		Pilihan_3  string `json:"pilihan_3"`
+		Pilihan_4  string `json:"pilihan_4"`
+	}
+
+	if demo {
+		db.Raw(`SELECT a.urutan,
+				a.uuid,
+				a.pernyataan,
+				a.pilihan_1,
+				a.pilihan_2,
+				a.pilihan_3,
+				a.pilihan_4
+				FROM
+					soal_karakteristik_pribadi_eng as a order by a.urutan limit 3 `).Scan(&listResultSoal)
+	} else {
+		db.Raw(`SELECT a.urutan,
+					a.uuid,
+					a.pernyataan,
+					a.pilihan_1,
+					a.pilihan_2,
+					a.pilihan_3,
+					a.pilihan_4
+				FROM
+					soal_karakteristik_pribadi_eng as a
 					order by a.urutan`).Scan(&listResultSoal)
 	}
 	for i := 0; i < len(listResultSoal); i++ {
