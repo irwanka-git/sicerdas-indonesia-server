@@ -21,6 +21,7 @@ type SoalRepository interface {
 	GetSoalSikapPelajaranKuliah(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalTesMinatIndonesia(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalTipologiJung(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalTipologiJungEng(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKarakteristikPribadi(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKarakteristikPribadiEng(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalSkalaPeminatanSMA(token string, demo bool) ([]*entity.SoalSession, error)
@@ -32,9 +33,11 @@ type SoalRepository interface {
 	GetSoalSuasanaKerja(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKecerdasanMajemuk(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalGayaPekerjaan(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalGayaPekerjaanEng(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalGayaBelajar(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalTesModeBelajar(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalTesModeKerja(token string, demo bool) ([]*entity.SoalSession, error)
+	GetSoalTesModeKerjaEng(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalSSCTRemaja(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKesehatanMentalID(token string, demo bool) ([]*entity.SoalSession, error)
 	GetSoalKejiwaanDewasaID(token string, demo bool) ([]*entity.SoalSession, error)
@@ -715,6 +718,83 @@ func (*repo) GetSoalTipologiJung(token string, demo bool) ([]*entity.SoalSession
 	return listSoal, nil
 }
 
+func (*repo) GetSoalTipologiJungEng(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listResultSoal []struct {
+		Urutan     int32  `json:"urutan"`
+		Uuid       string `json:"uuid"`
+		Pernyataan string `json:"pernyataan"`
+		PilihanA   string `json:"pilihan_a"`
+		PilihanB   string `json:"pilihan_b"`
+	}
+
+	if demo {
+		db.Raw(`SELECT
+					a.urutan,
+					a.uuid,
+					a.pernyataan,
+					a.pilihan_a,			
+					a.pilihan_b
+				FROM
+					soal_tipologi_jung_eng as a order by a.urutan limit 3 `).Scan(&listResultSoal)
+	} else {
+		db.Raw(`SELECT
+					a.urutan,
+					a.uuid,
+					a.pernyataan,
+					a.pilihan_a,			
+					a.pilihan_b
+				FROM
+				soal_tipologi_jung_eng as a
+					order by a.urutan`).Scan(&listResultSoal)
+	}
+	for i := 0; i < len(listResultSoal); i++ {
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Pernyataan)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		var pilihan = []*entity.PilihanJawaban{}
+		if listResultSoal[i].PilihanA != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].PilihanA
+			tmp.Value = "A"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanB != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = listResultSoal[i].PilihanB
+			tmp.Value = "B"
+			pilihan = append(pilihan, &tmp)
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Urutan)
+		soal.Kategori = "SKALA_TES_TIPOLOGI_JUNG"
+
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Uuid = listResultSoal[i].Uuid
+
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Sp3 = ""
+
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PG"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+	return listSoal, nil
+}
+
 func (*repo) GetSoalKarakteristikPribadi(token string, demo bool) ([]*entity.SoalSession, error) {
 	var listSoal = []*entity.SoalSession{}
 	var listResultSoal []struct {
@@ -842,6 +922,7 @@ func (*repo) GetSoalKarakteristikPribadiEng(token string, demo bool) ([]*entity.
 					soal_karakteristik_pribadi_eng as a
 					order by a.urutan`).Scan(&listResultSoal)
 	}
+
 	for i := 0; i < len(listResultSoal); i++ {
 		var pertanyaan = ""
 		pertanyaan = html.UnescapeString(listResultSoal[i].Pernyataan)
@@ -1756,6 +1837,84 @@ func (*repo) GetSoalGayaPekerjaan(token string, demo bool) ([]*entity.SoalSessio
 	return listSoal, nil
 }
 
+func (*repo) GetSoalGayaPekerjaanEng(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listResultSoal []struct {
+		Nomor     int32  `json:"urutan"`
+		Uuid      string `json:"uuid"`
+		Deskripsi string `json:"pernyataan"`
+	}
+
+	if demo {
+		db.Raw(`SELECT
+					a.nomor,
+					a.deskripsi, 
+					a.uuid
+				FROM
+					soal_gaya_pekerjaan_eng as a order by a.nomor limit 2`).Scan(&listResultSoal)
+	} else {
+		db.Raw(`SELECT
+				a.nomor,
+				a.deskripsi, 
+				a.uuid
+			FROM
+				soal_gaya_pekerjaan_eng as a
+				order by a.nomor asc`).Scan(&listResultSoal)
+	}
+	var listPilihanJawaban []struct {
+		Jawaban string `json:"jawaban"`
+		Respon  string `json:"respon"`
+	}
+
+	db.Raw(`SELECT
+				a.jawaban,
+				a.respon_eng as respon
+			FROM
+			ref_skor_gaya_pekerjaan as a
+				order by a.jawaban asc`).Scan(&listPilihanJawaban)
+
+	var pilihan = []*entity.PilihanJawaban{}
+	for i := 0; i < len(listPilihanJawaban); i++ {
+		// pilihan = append(pilihan)
+		var tmp = entity.PilihanJawaban{}
+		tmp.Text = listPilihanJawaban[i].Respon
+		tmp.Value = listPilihanJawaban[i].Jawaban
+		pilihan = append(pilihan, &tmp)
+	}
+	// fmt.Println(pilihan)
+
+	for i := 0; i < len(listResultSoal); i++ {
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Deskripsi)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Nomor)
+		soal.Kategori = "SKALA_GAYA_PEKERJAAN"
+
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Uuid = listResultSoal[i].Uuid
+
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Sp3 = ""
+
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PG"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+	return listSoal, nil
+}
+
 func (*repo) GetSoalGayaBelajar(token string, demo bool) ([]*entity.SoalSession, error) {
 	var listSoal = []*entity.SoalSession{}
 	var listResultSoal []struct {
@@ -2403,6 +2562,110 @@ func (*repo) GetSoalTesModeKerja(token string, demo bool) ([]*entity.SoalSession
 					a.pilihan_d, 
 					a.pilihan_e
 				from soal_mode_kerja as a 
+					order by urutan`).Scan(&listResultSoal)
+	}
+	for i := 0; i < len(listResultSoal); i++ {
+		var pertanyaan = ""
+		pertanyaan = html.UnescapeString(listResultSoal[i].Soal)
+		pertanyaan = strings.ReplaceAll(pertanyaan, "&hellip;", "")
+
+		var pilihan = []*entity.PilihanJawaban{}
+
+		if listResultSoal[i].PilihanA != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanA, 1)
+			tmp.Value = "A"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanB != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanB, 1)
+			tmp.Value = "B"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanC != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanC, 1)
+			tmp.Value = "C"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanD != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanD, 1)
+			tmp.Value = "D"
+			pilihan = append(pilihan, &tmp)
+		}
+		if listResultSoal[i].PilihanE != "" {
+			var tmp = entity.PilihanJawaban{}
+			tmp.Text = helper.GetPilihanFromTagDot(listResultSoal[i].PilihanE, 1)
+			tmp.Value = "E"
+			pilihan = append(pilihan, &tmp)
+		}
+
+		var soal = entity.SoalSession{}
+		soal.Token = token
+		soal.Nomor = fmt.Sprintf("%02d", listResultSoal[i].Urutan)
+		soal.Kategori = "TES_MODE_KERJA"
+
+		soal.MaxSikap = 0
+		soal.MinSikap = 0
+		soal.Gambar = ""
+		soal.Uuid = listResultSoal[i].Uuid
+
+		soal.Sn1 = ""
+		soal.Sn2 = ""
+		soal.Sn3 = ""
+		soal.Sp1 = ""
+		soal.Sp2 = ""
+		soal.Section = ""
+		soal.Sp3 = ""
+
+		soal.Pernyataan = pertanyaan
+		soal.Pilihan = pilihan
+		soal.Petunjuk = ""
+		soal.Mode = "PP"
+		soal.PernyataanMulti = []*entity.ItemSoalMulti{}
+		listSoal = append(listSoal, &soal)
+	}
+	return listSoal, nil
+}
+
+func (*repo) GetSoalTesModeKerjaEng(token string, demo bool) ([]*entity.SoalSession, error) {
+	var listSoal = []*entity.SoalSession{}
+	var listResultSoal []struct {
+		Urutan   int32  `json:"urutan"`
+		Uuid     string `json:"uuid"`
+		Soal     string `json:"soal"`
+		PilihanA string `json:"pilihan_a"`
+		PilihanB string `json:"pilihan_b"`
+		PilihanC string `json:"pilihan_c"`
+		PilihanD string `json:"pilihan_d"`
+		PilihanE string `json:"pilihan_e"`
+	}
+
+	if demo {
+		db.Raw(`select 
+				a.urutan,
+				a.soal, 
+				a.uuid,
+				a.pilihan_a,
+				a.pilihan_b, 
+				a.pilihan_c, 
+				a.pilihan_d, 
+				a.pilihan_e
+				from soal_mode_kerja_eng as a 
+				order by urutan limit 3`).Scan(&listResultSoal)
+	} else {
+		db.Raw(`select 
+					a.urutan,
+					a.soal, 
+					a.uuid,
+					a.pilihan_a,
+					a.pilihan_b, 
+					a.pilihan_c, 
+					a.pilihan_d, 
+					a.pilihan_e
+				from soal_mode_kerja_eng as a 
 					order by urutan`).Scan(&listResultSoal)
 	}
 	for i := 0; i < len(listResultSoal); i++ {

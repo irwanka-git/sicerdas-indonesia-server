@@ -294,6 +294,12 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 			currentList, _ := soalSessionRepo.GetSoalTipologiJung(token, false)
 			listSoal = append(listSoal, currentList...)
 		}
+
+		//pola: /soal-tipologi-jung
+		if splitSoal[1] == "soal-tipologi-jung-eng" {
+			currentList, _ := soalSessionRepo.GetSoalTipologiJungEng(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
 		//pola: /soal-tipologi-jung-demo
 		if splitSoal[1] == "soal-tipologi-jung-demo" {
 			currentList, _ := soalSessionRepo.GetSoalTipologiJung(token, true)
@@ -414,6 +420,11 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 			currentList, _ := soalSessionRepo.GetSoalGayaPekerjaan(token, true)
 			listSoal = append(listSoal, currentList...)
 		}
+		//english
+		if splitSoal[1] == "soal-gaya-pekerjaan-eng" {
+			currentList, _ := soalSessionRepo.GetSoalGayaPekerjaanEng(token, false)
+			listSoal = append(listSoal, currentList...)
+		}
 
 		//pola: /soal-gaya-belajar
 		//pola: /soal-gaya-belajar-demo
@@ -493,6 +504,12 @@ func (*repo) GetAllSoalSessionQuiz(token string) ([]*entity.SoalSession, error) 
 		}
 		if splitSoal[1] == "soal-tes-mode-kerja-demo" {
 			currentList, _ := soalSessionRepo.GetSoalTesModeKerja(token, true)
+			listSoal = append(listSoal, currentList...)
+		}
+
+		//english
+		if splitSoal[1] == "soal-tes-mode-kerja-eng" {
+			currentList, _ := soalSessionRepo.GetSoalTesModeKerjaEng(token, false)
 			listSoal = append(listSoal, currentList...)
 		}
 
