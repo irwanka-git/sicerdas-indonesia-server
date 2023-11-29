@@ -1,0 +1,18 @@
+<div class="box-header">
+    <div class="bg-green-muda box-title ">
+        <b>TES MINAT INDONESIA&nbsp;&nbsp;</b>
+    </div> 
+    <div class="bg-canvas box-subtitle ">
+        <b>Disusun Berdasarkan urutan Minat Kerja / Industri</b>
+    </div>
+</div>
+<div class="box-content">
+    <table width="100%" cellpadding="0" cellspacing="5">
+            {{range $index,$minat := .skoring.minat }}
+            <tr>
+                <td class="cell-icon text-center bg-green-muda" width="10%">{{inc $index}}</td>
+                <td class="cell-info-compact bg-row text-justify" width="90%"><b>{{$minat.Minat}}</b> - {{$minat.Keterangan}}</td>
+            </tr>
+            {{end}}
+    </table> 
+</div>
