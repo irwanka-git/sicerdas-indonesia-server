@@ -659,6 +659,75 @@ Route::group(["middleware"=>['auth.login','auth.menu']], function(){
 		Route::get('/dt', 'SoalWLBController@datatable');
 	});
 
+	//soal english v2
+	Route::group(['prefix'=>'soal-minat-ilmu-alam-eng'], function(){
+		Route::get('/', 'SoalMinatIlmuAlamEngController@index');
+		Route::get('/dt', 'SoalMinatIlmuAlamEngController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalMinatIlmuAlamEngController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalMinatIlmuAlamEngController@get_data');
+		Route::post('/insert', 'SoalMinatIlmuAlamEngController@submit_insert');
+		Route::post('/update', 'SoalMinatIlmuAlamEngController@submit_update');
+		Route::post('/delete', 'SoalMinatIlmuAlamEngController@submit_delete');
+		Route::post('/upload-gambar', 'UploadController@upload_gambar');
+	});
+	
+	//soal-minat-ilmu-sosial-eng
+	Route::group(['prefix'=>'soal-minat-ilmu-sosial-eng'], function(){
+		Route::get('/', 'SoalMinatIlmuSosialEngController@index');
+		Route::get('/dt', 'SoalMinatIlmuSosialEngController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalMinatIlmuSosialEngController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalMinatIlmuSosialEngController@get_data');
+		Route::post('/insert', 'SoalMinatIlmuSosialEngController@submit_insert');
+		Route::post('/update', 'SoalMinatIlmuSosialEngController@submit_update');
+		Route::post('/delete', 'SoalMinatIlmuSosialEngController@submit_delete');
+		Route::post('/upload-gambar', 'UploadController@upload_gambar');
+	});
+
+	//skala-kecerdasan-majemuk
+	Route::group(['prefix'=>'soal-kecerdasan-majemuk-eng'], function(){
+		Route::get('/', 'SoalKecerdasanMajemukEng@index');
+		Route::get('/dt', 'SoalKecerdasanMajemukEng@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalKecerdasanMajemukEng@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalKecerdasanMajemukEng@get_data');
+		Route::post('/insert', 'SoalKecerdasanMajemukEng@submit_insert');
+		Route::post('/update', 'SoalKecerdasanMajemukEng@submit_update');
+		Route::post('/delete', 'SoalKecerdasanMajemukEng@submit_delete');
+	});
+
+	//soal-skala-peminatan-sma-eng
+	Route::group(['prefix'=>'soal-peminatan-sma-eng'], function(){
+		Route::get('/', 'SoalPeminatanSMAEngController@index');
+		Route::get('/dt', 'SoalPeminatanSMAEngController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalPeminatanSMAEngController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalPeminatanSMAEngController@get_data');
+		Route::post('/insert', 'SoalPeminatanSMAEngController@submit_insert');
+		Route::post('/update', 'SoalPeminatanSMAEngController@submit_update');
+		Route::post('/delete', 'SoalPeminatanSMAEngController@submit_delete');
+	});
+
+	//soal-sikap-pelajaran-sma-eng
+	Route::group(['prefix'=>'soal-sikap-pelajaran-sma-eng'], function(){
+		Route::get('/', 'SoalSikapPelajaranSMAEngController@index');
+		Route::get('/dt', 'SoalSikapPelajaranSMAEngController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalSikapPelajaranSMAEngController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalSikapPelajaranSMAEngController@get_data');
+		Route::post('/insert', 'SoalSikapPelajaranSMAEngController@submit_insert');
+		Route::post('/update', 'SoalSikapPelajaranSMAEngController@submit_update');
+		Route::post('/delete', 'SoalSikapPelajaranSMAEngController@submit_delete');
+	});
+
+	//soal-sikap-pelajaran-kuliah-eng
+	Route::group(['prefix'=>'soal-sikap-pelajaran-kuliah-eng'], function(){
+		Route::get('/', 'SoalSikapPelajaranKuliahEngController@index');
+		Route::get('/dt', 'SoalSikapPelajaranKuliahEngController@datatable');
+		Route::get('/lihat-soal/{uuid}', 'SoalSikapPelajaranKuliahEngController@view_soal');
+		Route::get('/get-data/{uuid}', 'SoalSikapPelajaranKuliahEngController@get_data');
+		Route::post('/insert', 'SoalSikapPelajaranKuliahEngController@submit_insert');
+		Route::post('/update', 'SoalSikapPelajaranKuliahEngController@submit_update');
+		Route::post('/delete', 'SoalSikapPelajaranKuliahEngController@submit_delete');
+	});
+
+
 });
 
 //ROUTER INFORMASI
