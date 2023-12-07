@@ -10,6 +10,9 @@ Route::get('/get-random-key', function () {
 Route::group(['prefix'=>'landing'], function(){
 	Route::get('/', 'LandingPageController@index');
 });
+Route::group(['prefix'=>'landing-detil'], function(){
+	Route::get('/{uuid}', 'LandingPageController@detil_paket');
+});
 
 
 Route::get('/phpid', function () {

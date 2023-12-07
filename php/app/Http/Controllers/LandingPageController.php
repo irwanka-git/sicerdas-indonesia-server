@@ -17,6 +17,11 @@ class LandingPageController extends Controller
     	 return view('landing.index', compact('pagetitle'));
     }
 
-    
+    function detil_paket($uuid){
+        $paket = DB::table('tarif_paket')->where('uuid', $uuid)->first();
+        $sesi = DB::table('tarif_paket_rinci')->where('id_tarif', $paket->id_tarif)->get();
+        return view('landing.detil', compact('paket','sesi'));
+    }
+        
 }
  
