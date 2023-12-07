@@ -45,7 +45,7 @@ class ManajemenTarifController extends Controller
         }
 
          $sql_union = "select  
-         a.uuid, a.id_tarif, a.nama_tarif, a.kode, a.tarif
+         a.uuid, a.id_tarif, a.nama_tarif, a.kode, a.tarif, a.deskripsi, a.tujuan
             from tarif_paket as a
                 where a.id_tarif > 0 
             $filter  ";
@@ -56,6 +56,8 @@ class ManajemenTarifController extends Controller
                         'nama_tarif',
                         'kode',
                         'tarif',
+                        'deskripsi',
+                        'tujuan',
                         'uuid',
                     ]);
 
@@ -104,6 +106,8 @@ class ManajemenTarifController extends Controller
                 "nama_tarif"=>trim($r->nama_tarif),
                 "tarif"=>(int)trim($r->tarif),
                 "kode"=>strtoupper(trim($r->kode)), 
+                "deskripsi"=>trim($r->deskripsi),
+                "tujuan"=>trim($r->tujuan),
 	    		"uuid"=>$uuid,
             );
 
@@ -126,6 +130,8 @@ class ManajemenTarifController extends Controller
 	    	$record = array(                                              
                 "nama_tarif"=>trim($r->nama_tarif),
                 "tarif"=>(int)trim($r->tarif),
+                "deskripsi"=>trim($r->deskripsi),
+                "tujuan"=>trim($r->tujuan),
                 "kode"=>strtoupper(trim($r->kode)),  
             );
 

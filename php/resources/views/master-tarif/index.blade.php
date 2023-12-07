@@ -38,9 +38,11 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 					<thead>
 						<tr>							
 							<th width="5%">ID</th>
-							<th width="45%">Nama Paket</th>
-							<th width="20%">Tarif</th>
-							<th width="15%">Kode</th>
+							<th width="20%">Nama Paket</th>
+							<th width="10%">Tarif</th>
+							<th width="10%">Kode</th>
+							<th width="25%">Deskripsi</th>
+							<th width="30%">Tujuan</th>
 							@if(ucu() || ucd())
 							<th width="10%">Actions</th>
 							@endif
@@ -67,6 +69,8 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 		{{ Form::bsTextField('Nama Tarif / Paket','nama_tarif','',true,'md-8') }} 
 		{{ Form::bsNumeric('Tarif (Rp)','tarif','',true,'md-8') }} 
 		{{ Form::bsTextField('Kode (3 Digit)','kode','',true,'md-8') }} 
+		{{ Form::bsTextArea('Deskripsi','deskripsi','',true,'md-8') }} 
+		{{ Form::bsTextArea('Tujuan','tujuan','',true,'md-8') }} 
 	{{Html::mCloseSubmitLG('Simpan')}}
 {{ Form::bsClose()}}
 @endif
@@ -79,6 +83,8 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 		{{ Form::bsTextField('Nama Tarif / Paket','nama_tarif','',true,'md-8') }} 
 		{{ Form::bsNumeric('Tarif (Rp)','tarif','',true,'md-8') }} 
 		{{ Form::bsTextField('Kode (3 Digit)','kode','',true,'md-8') }} 
+		{{ Form::bsTextArea('Deskripsi','deskripsi','',true,'md-8') }} 
+		{{ Form::bsTextArea('Tujuan','tujuan','',true,'md-8') }} 
 		{{ Form::bsHidden('uuid','') }}
 	{{Html::mCloseSubmitLG('Simpan')}}
 {{ Form::bsClose()}}
@@ -114,6 +120,8 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 				{data: 'nama_tarif',name: "nama_tarif",orderable: false,searchable: false,sClass: ""},
 				{data: 'tarif',name: "tarif",orderable: false,searchable: false,sClass: ""},
 				{data: 'kode',name: "kode",orderable: false,searchable: false,sClass: "text-center"},
+				{data: 'deskripsi',name: "deskripsi",orderable: false,searchable: false,sClass: "text-left"},
+				{data: 'tujuan',name: "tujuan",orderable: false,searchable: false,sClass: "text-left"},
 				@if(ucu() || ucd())
 				{data: 'action',orderable: false,searchable: false,sClass: "text-center"},
 				@endif
@@ -205,6 +213,8 @@ $list_jenis = get_list_enum_values('quiz_sesi','jenis');
 					$('#form-edit #nama_tarif').val(respon.data.nama_tarif);
 					$('#form-edit #tarif').val(respon.data.tarif);
 					$('#form-edit #kode').val(respon.data.kode);
+					$('#form-edit #deskripsi').val(respon.data.deskripsi);
+					$('#form-edit #tujuan').val(respon.data.tujuan);
 					$('#form-edit #uuid').val(respon.data.uuid);
 					enableButton("#form-edit button[type=submit]");
 				} else {
