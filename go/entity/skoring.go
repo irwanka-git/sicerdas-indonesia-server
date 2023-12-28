@@ -552,18 +552,20 @@ type SkorGayaBelajar struct {
 }
 
 type SkorKejiwaanDewasa struct {
-	IDUser           int32 `gorm:"column:id_user;primaryKey" json:"id_user"`
-	IDQuiz           int32 `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
-	SkorDepresi      int32 `gorm:"column:skor_depresi" json:"skor_depresi"`
-	SkorKecemasan    int32 `gorm:"column:skor_kecemasan" json:"skor_kecemasan"`
-	SkorManipulatif  int32 `gorm:"column:skor_manipulatif" json:"skor_manipulatif"`
-	SkorParanoid     int32 `gorm:"column:skor_paranoid" json:"skor_paranoid"`
-	SkorPsikopat     int32 `gorm:"column:skor_psikopat" json:"skor_psikopat"`
-	SkorScizopernia  int32 `gorm:"column:skor_scizopernia" json:"skor_scizopernia"`
-	SkorHisteria     int32 `gorm:"column:skor_histeria" json:"skor_histeria"`
-	SkorHipokratis   int32 `gorm:"column:skor_hipokratis" json:"skor_hipokratis"`
-	SkorHipomania    int32 `gorm:"column:skor_hipomania" json:"skor_hipomania"`
-	SkorImpulsif     int32 `gorm:"column:skor_impulsif" json:"skor_impulsif"`
+	IDUser int32 `gorm:"column:id_user;primaryKey" json:"id_user"`
+	IDQuiz int32 `gorm:"column:id_quiz;primaryKey" json:"id_quiz"`
+
+	SkorDepresi     int32 `gorm:"column:skor_depresi" json:"skor_depresi"`
+	SkorKecemasan   int32 `gorm:"column:skor_kecemasan" json:"skor_kecemasan"`
+	SkorManipulatif int32 `gorm:"column:skor_manipulatif" json:"skor_manipulatif"`
+	SkorParanoid    int32 `gorm:"column:skor_paranoid" json:"skor_paranoid"`
+	SkorPsikopat    int32 `gorm:"column:skor_psikopat" json:"skor_psikopat"`
+	SkorScizopernia int32 `gorm:"column:skor_scizopernia" json:"skor_scizopernia"`
+	SkorHisteria    int32 `gorm:"column:skor_histeria" json:"skor_histeria"`
+	SkorHipokondria int32 `gorm:"column:skor_hipokondria" json:"skor_hipokondria"`
+	SkorHipomania   int32 `gorm:"column:skor_hipomania" json:"skor_hipomania"`
+	SkorIntroversi  int32 `gorm:"column:skor_introversi" json:"skor_introversi"`
+
 	NilaiDepresi     int32 `gorm:"column:nilai_depresi" json:"nilai_depresi"`
 	NilaiKecemasan   int32 `gorm:"column:nilai_kecemasan" json:"nilai_kecemasan"`
 	NilaiManipulatif int32 `gorm:"column:nilai_manipulatif" json:"nilai_manipulatif"`
@@ -571,9 +573,9 @@ type SkorKejiwaanDewasa struct {
 	NilaiPsikopat    int32 `gorm:"column:nilai_psikopat" json:"nilai_psikopat"`
 	NilaiScizopernia int32 `gorm:"column:nilai_scizopernia" json:"nilai_scizopernia"`
 	NilaiHisteria    int32 `gorm:"column:nilai_histeria" json:"nilai_histeria"`
-	NilaiHipokratis  int32 `gorm:"column:nilai_hipokratis" json:"nilai_hipokratis"`
+	NilaiHipokondria int32 `gorm:"column:nilai_hipokondria" json:"nilai_hipokondria"`
 	NilaiHipomania   int32 `gorm:"column:nilai_hipomania" json:"nilai_hipomania"`
-	NilaiImpulsif    int32 `gorm:"column:nilai_impulsif" json:"nilai_impulsif"`
+	NilaiIntroversi  int32 `gorm:"column:nilai_introversi" json:"nilai_introversi"`
 }
 
 type SkorHitungNilaiFieldSkoring struct {
